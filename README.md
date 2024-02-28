@@ -1,2 +1,3 @@
 # future-bitcoin-cash
-placeholder
+
+Placeholder or flipstarter archive for futurebitcoin.cash
