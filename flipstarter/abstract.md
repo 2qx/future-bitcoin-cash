@@ -1,5 +1,3 @@
-![banner](/static/campaigns/photo/social_preview.png "Banner")
-
 This campaign is to fund a Bitcoin Cash Futures "app". 
 
 The app will allow anyone to lock their BCH as a fungible token (redeemable for BCH after a specific block time) with a mechanism to provide some small incentive for doing so. 

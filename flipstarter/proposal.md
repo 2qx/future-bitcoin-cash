@@ -10,6 +10,8 @@ The "Futures" app will allow anyone to create, validate, or audit a Futures Vaul
 
 The app aims to establish a market rate between those who want some small interest on their coins, and those who want less Bitcoin Cash liquidity in the marketplace. 
 
+![banner](/static/campaigns/photo/social_preview.png "Banner")
+
 ## Meet the On-Chain Contracts
 
 ### Futures Vault
@@ -67,7 +69,7 @@ So although Bob's 330k sat lulz may not seem like a lot, as a rate of return, it
 
 Bob's coupon would be a "pre-bate" or prepaid incentive, verifiable on-chain and enforced by network rules. The person placing a coin for a future token would collect the coupon as a discount up front. In the case of a 330k sat coupon, the person collecting the coupon would only need to place 99.6M sats to unlock a future instead of a full 100M sats.
 
-## Implementation 
+## Implementation (Deliverables)
 
 The "app" may either be a wallet enabled webapp, or a Electron Cash plugin (weighted-voting in the comments of the sidebar). 
 
@@ -79,7 +81,7 @@ Tooling to airdrop coupons in various strategies (bulk, in steps, over time).
 
 Automated tooling will be created to mint 2.1 quadrillion fungible tokens (one for each BCH sat) to fund a Vault, and validate the total supply held or issued by a random Vault contract. Each Vault contract is specific to one expiration block time, and the token receipt tracking redemptions. 
 
-Contracts will be audited CashScript contracts translated into BitcoinScript by the cashc compiler.
+Contracts will be **audited** CashScript contracts translated into BitcoinScript by the cashc compiler. An auditor has been engaged and has tentatively agreed to accept payment in futures tokens.
 
 Fungible tokens may (obviously) be traded on a DEX once released from the vault, but as previously mentioned, exchange fees may add considerable cost.
 
@@ -116,7 +118,7 @@ However:
 * It is not a stablecoin nor fiat-like hedging instrument.
 * No provision will be made to later turn it into a "stable" coin with hand waving.
 
-The idea exists outside the context where values are declared or dictated by a central bank.  Without a fiat dollar amount attached, some people can't "get it", and they may be vocal about not "getting it"―and that's okay. The side bar is a great place to express or obtain from expressing values.
+The idea exists outside the context where values are declared or dictated by a central bank.  Without a fiat dollar amount attached, some people can't "get it", and they may be vocal about not "getting it"―and that's okay. The side bar is a great place to express or abstain from expressing values.
 
 The goal of the app is annualized returns and/or surfacing levers in the market that aren't typically available to individuals. Part of this design is to also omit certain levers actors have for controlling markets. 
 
