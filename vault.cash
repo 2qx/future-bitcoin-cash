@@ -1,33 +1,55 @@
 pragma cashscript ^0.10.0;
 
+// [WIP] 2024-03-01
+
 // Future BCH fungible token vault
 //
-//      Inputs: 00-covenant
-//      Outputs: 00-covenant
+//  Flow
+//
+//  inputs              outputs
+//  [0] contract    ->  [0] contract
+//  [1] userPkh     =>  [1] userPkh
+//  [2] coupons?    ^
 //
 
 contract FutureVault(int locktime, bytes tokenCategory) {
 
     function placeOrRedeem(bool isRedeem) {
 
-        //  Flow
-        //  00 contract    ->  00 contract
-        //  01 userPkh     =>  01 userPkh
-        //  02 coupons     ^
-
         // enforce BIP65 timelocks and the direction of the swap 
-        if(isRedeem){
+
+        // Is Placement
+        if(!isRedeem){
+          // Check this is the correct token and not a random token
+          require(tx.inputs[0].tokenCategory == tokenCategory);
+          
+          // The user input may not contain tokens in placement
+          require(tx.inputs[1].tokenAmount == 0);
+
+          // Check the user isn't taking more tokens than value placed
+          require(tx.inputs[0].tokenAmount <= tx.outputs[0].value);
+        } 
+        // else redeem
+        else{
+
           // tokens may be redeemed in any amount after the future has matured
           require(tx.time >= locktime);
+
+          // Check this is the correct token and not a random token
           require(tx.inputs[1].tokenCategory == tokenCategory);
-        } else{
-          // otherwise, only whole coins may be "placed" or locked
-          // And the token id must match a pre-configured token
-          require(tx.inputs[0].tokenAmount == 100000000);
-          require(tx.inputs[0].tokenCategory == tokenCategory);
-          require(tx.inputs[1].value == 100000000);
-          require(tx.outputs[1].tokenCategory == tokenCategory);
+
+          // Check the transaction took no tokens from the contract
+          require(tx.inputs[0].tokenAmount == 0);
+
+          // Check the user isn't taking more sats than tokens placed
+          require(tx.inputs[0].value >= tx.outputs[0].tokenAmount);
+          
         }
+
+
+        // Make sure this contract is the the first output, 
+        // and by extension from the next require, the first input
+        require(tx.outputs[0].lockingBytecode == new LockingBytecodeP2SH(hash160(this.activeBytecode)));
 
         // Enforce that this contract lives on
         require(
@@ -45,5 +67,6 @@ contract FutureVault(int locktime, bytes tokenCategory) {
           tx.outputs[this.activeInputIndex].value,
          "summation mismatch"
          );
+;
     }
 }

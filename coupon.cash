@@ -1,24 +1,29 @@
 pragma cashscript ^0.10.0;
 
-// Restrict output of any utxo to a preconfigured address
+// [WIP] 2024-03-01
 
-// TODO: assure transaction is a real vault placement to 
-// prevent malicious burning of coupons by simple sending them
-// at the vault without a placement. 
+// Allow anyone to use an unspent output in a transactoin.
+// Given:
+//  - The zeroth output is to a preconfigured address, 
+//  - The zeroth output value matches a predefined amount.
+//  - There are no more than three inputs
+//
+// This contract is designed to run as the third input
+//   for a transaction. This logic only pertains to 
+//   coupon spending. It's not suffecent to secure 
+//   a complete transaction.
 
 contract Coupon(
   // Locking bytecode the coupon will be applied to
-  bytes destinationLockingBytecode
+  bytes destinationLockingBytecode,
+
+  // Amount required as first output to claim the coupon.
+  int descretAmount
 ){
   function apply() {
-    // Require all utxos be spent atomically
-    require(tx.inputs.length == 1);
-    require(tx.outputs.length == 1);
 
-    // assure at the entire amount minus a transaction fee
-    // goes to the intended output 
-    int appliedAmount = tx.inputs[0].value - 1500;
-    require(tx.outputs[0].value >= appliedAmount);
+    // assure at the entire amount sent to the contract exceeds some threshold
+    require(tx.outputs[0].value == descretAmount);
 
     // Check that the first output 
     // sends to the intended recipient. 
@@ -26,5 +31,10 @@ contract Coupon(
       tx.outputs[0].lockingBytecode 
       == destinationLockingBytecode
     );
+
+    // This contract may be spent in a transaction with exactly three inputs
+    require(tx.inputs.length == 3);
+
+
   }
 }
