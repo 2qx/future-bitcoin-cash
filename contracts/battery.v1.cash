@@ -1,0 +1,129 @@
+pragma cashscript ^0.10.0;
+
+// [WIP] 2024-04-01
+
+// A Battery of Gantries to deploy Vaults.
+//                   
+
+contract Battery(
+
+    // power of 10 for shortest expiry series, 
+    //   i.e. 10^3, every 1000 blocks, weeklies 
+    int start, 
+
+    // power of 10 for longest expiry series
+    //   i.e. 10^6, every 1,000,000 blocks, 20.8 years
+    int end,
+
+    // starting block height
+    int startTime,
+
+    // sha256 hash of gantry unlocking bytecode 
+    bytes gantryUnlockingBytecode,
+
+    // sha256 hash of vault unlocking bytecode 
+    bytes vaultUnlockingBytecode,
+
+    // 
+    int allowance
+    ) {
+
+    function execute(){
+
+
+        // If this is pure BCH UTXO
+        if (tx.inputs[this.activeInputIndex].tokenCategory == 0x) { 
+            //
+            // Only the output carrying the Gantry minting NFT is pertinent. 
+            //
+         }
+        // Else check whether the UTXO is a valid Battery instance.
+        else {
+
+            // We allow only 1 input, creator must provide enough BCH 
+            // when they make the Battery UTXO.
+            require(tx.inputs.length == 1);
+        
+
+            int step = int(tx.inputs[0].nftCommitment);
+            int step2 = int(tx.inputs[0].nftCommitment);
+            console.log(step, "step");
+            console.log(step2, "step2");
+            
+            bool gantryInRange = within(step, start, end);
+            if(gantryInRange){
+                    // Minting NFT must be passed on
+                    // to outputs[0] in any case.
+                    require(
+                        tx.inputs[0].tokenCategory
+                        == tx.outputs[1].tokenCategory
+                    );
+
+                    // Battery NFT must be passed on
+                    // to outputs[0] in any case.
+                    require(
+                        tx.inputs[0].lockingBytecode
+                        == tx.outputs[1].lockingBytecode
+                    );
+
+                    // Minting NFT commitment MUST increase magnitude by 10.
+                    require(
+                        bytes4(step * 10) == tx.outputs[1].nftCommitment
+                    );
+
+                    // Get the redeem bytecode of the gantry instance
+                    bytes gantryRedeemBytecode = tx.inputs[0].tokenCategory +  // This tokenCategory
+                                                bytes4(step) + // stepBytes
+                                                vaultUnlockingBytecode +
+                                                gantryUnlockingBytecode;    
+
+                    require(
+                        0xa914 + sha256(gantryRedeemBytecode) + 0x87
+                        == tx.outputs[1].lockingBytecode
+                    );
+
+
+                    bytes gantryCategory, bytes gantryCapability = tx.outputs[1].tokenCategory.split(32);
+                    bytes batteryCategory, bytes batteryCapability = tx.inputs[0].tokenCategory.split(32);
+
+                    // assure a minting token is sent
+                    require(batteryCapability == 0x02);
+
+                    // assure a minting token is sent
+                    require(gantryCapability == 0x02);
+
+                    // Require the Gantry category to match the Battery.
+                    require(batteryCategory == gantryCategory);
+
+
+            }else{
+                // burn minting NFT
+            }
+            require((tx.inputs[0].value - (tx.outputs[0].value + tx.outputs[1].value)) < allowance);
+            require(tx.time >= int(startTime));
+        }
+    }
+}
+
+// A Battery makes a series of Gantries at different powers of 10 that go on to create Futures Vaults at various intervals.
+//
+// Given a minting NFT with the data 0xA0000000, 
+// mint a sequence of NFTs with minting capibility
+// sending those NFTs to the corresponting Gantry 
+//
+//  execute():
+//
+//  inputs                           outputs
+//  [0] Battery + NFT 0xA0000000     ->  [0] Gantary02 + NFT* 0x64000000<startTime>
+//                                   =>  [1] Battery   + NFT  0x64000000
+//
+//  [0] Battery + NFT 0x64000000     ->  [0] Gantary03 + NFT* 0xE8030000<startTime>
+//                                   =>  [1] Battery   + NFT  0xE8030000
+//
+//  ... 10270000 10e5
+//  ... A0860100 10e6
+//  ...
+//
+//  [0] Battery + NFT 0x<end>        ->  [0] Battery   + NFT  0x6a // burn NFT, sats are unencumbered.
+//
+//         

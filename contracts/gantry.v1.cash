@@ -1,0 +1,104 @@
+pragma cashscript ^0.10.0;
+
+// [WIP] 2024-04-05
+//
+// [ ] Require the minting baton in the input
+// [ ] Get the current step increment for the chain of futures
+// [ ] Get the current vault locktime to be printed.
+//
+//   either
+// [ ] Mint FTs, 
+// [ ] send them off to a Vault
+//   or
+// [ ] skip every 10th print.
+//
+// [ ] increment locktime height value stored on NFT baton
+// [ ] assure NFT baton is returned
+//
+// // The Gantry baton NFT commentment carries the highest locktime printed for the chain
+//
+//  Gantry i/o Flow:
+//
+//  Inputs              Outputs
+//  [0] NFT mintBaton   ->  [0] FTs Vault
+//  [1] topup-sats?     =>  [1] NFT mintBaton
+//
+//  
+//  ... but skip every 10th token print
+//  [0] NFT mintBaton   =>  [1] NFT mintBaton
+//
+
+
+contract Gantry(
+    bytes tokenCategory, 
+    bytes stepBytes, 
+    bytes vaultUnlockingBytecode
+    ) {
+
+    function execute(){
+
+        // verify minting baton is correct
+        require(
+            tx.inputs[0].tokenCategory
+            == tokenCategory
+        );
+        int step = int(stepBytes);
+
+        // check step
+        //   mint Fts
+        int locktime = int(tx.inputs[0].nftCommitment);
+
+        int baton = -1;
+        // if not a 10th step, mint tokens
+        if((locktime/step)%10!=0){
+            // Send FTs onward to vault
+            require(
+                tx.outputs[0].tokenCategory 
+                == tx.inputs[0].outpointTransactionHash
+                );
+            require(tx.outputs[0].tokenAmount == 2100000000000000);
+           
+            // Get the redeem bytecode of the vault instance
+            bytes vaultRedeemBytecode = 
+                bytes(locktime) +     // locktime
+                tx.inputs[0].tokenCategory +   // category
+                vaultUnlockingBytecode;    
+
+            // verify p2sh32 vault address
+            require(
+                0xa914 + sha256(vaultRedeemBytecode) + 0x87
+                == tx.outputs[0].lockingBytecode
+            );
+            baton = 1;
+            
+        }else{
+            // Send FTs onward to vault
+            require(tx.outputs[0].tokenCategory == 0x);
+            require(tx.outputs[0].tokenAmount == 0);
+            baton = 0;
+        }
+        
+        
+        // Height stored in Minting NFT commitment MUST be incremented by <step>.
+        require(
+            bytes(int(tx.inputs[0].nftCommitment)+step) == tx.outputs[baton].nftCommitment
+        );
+        
+        // Return Minting NFT baton
+        // to outputs[0] in any case.
+        require(
+            tx.inputs[0].tokenCategory
+            == tx.outputs[baton].tokenCategory
+        );
+
+
+        // Gantry covenant must be passed on
+        // to outputs[0] in any case.
+        require(
+            tx.inputs[0].lockingBytecode
+            == tx.outputs[baton].lockingBytecode
+        );
+
+        
+    }
+}

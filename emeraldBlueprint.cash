@@ -1,0 +1,133 @@
+pragma cashscript ^0.8.0;
+
+// Emerald DAO Blueprint v2.1.0
+
+// Unlocking Data
+//   - Signature of sha256 of genesis categoryID concatenated with
+//     outputs 0, 1, and 2 locking bytecode
+
+// Genesis TX Form
+//   - Inputs
+//     - 00: this
+//   - Outputs
+//     - 00: BCMR authchain recipient
+//     - 01: DAO Vault
+//     - 02: OP_RETURN...
+//     - [03: Executor fee recipient]
+
+contract Blueprint(
+    pubkey designerPubkey,
+    int dustLimit,
+    int feeAllowance,
+    int executorFee
+) {
+    function Genesis(
+        datasig designerSignature,
+        bytes vaultRedeemBytecode,
+        int safeboxHashPosition,
+        bytes safeboxRedeemBytecode
+    ) {
+        // Output 00 MUST NOT have a token in any case.
+        require(tx.outputs[0].tokenCategory == 0x);
+
+        // If underfunded then require clean-up of polluting UTXO
+        int minFunding = executorFee + feeAllowance + dustLimit * 2;
+        if (tx.inputs[this.activeInputIndex].value < minFunding) {
+            // Allow only 1 non-token output.
+            require(tx.outputs.length == 1);
+        }
+        // Else verify Emerald DAO instance initialization (genesis)
+        else {
+            // We allow only 1 input, creator must provide
+            // enough BCH when he makes the Blueprint UTXO.
+            require(tx.inputs.length == 1);
+
+            // Verify designer's signature of:
+            // sha256(categoryID + output0 + output1 + output2)
+            bytes sigHash
+                = sha256(
+                    tx.inputs[0].outpointTransactionHash
+                    + tx.outputs[0].lockingBytecode
+                    + tx.outputs[1].lockingBytecode
+                    + tx.outputs[2].lockingBytecode
+                );
+            require(checkDataSig(designerSignature, sigHash, designerPubkey));
+
+            // Integrity check (P2SH20 form)
+            // Verify provided vaultRedeemBytecode matches
+            // the lockingBytecode on output 01.
+            require(
+                0xa914 + hash160(vaultRedeemBytecode) + 0x87
+                == tx.outputs[1].lockingBytecode
+            );
+            // Verify hash256 of provided safeboxRedeemBytecode
+            // matches what's embedded in the vaultRedeemBytecode
+            require(
+                hash160(safeboxRedeemBytecode) ==
+                vaultRedeemBytecode.split(safeboxHashPosition)[1].split(20)[0]
+            );
+
+            // Output 00: BCMR authchain
+
+            // If OP_RETURN then value must be 0
+            if (tx.outputs[0].lockingBytecode.split(1)[0] == 0x6a) {
+                require(tx.outputs[0].value == 0);
+            }
+            // Else must have dustLimit amount
+            else {
+                require(tx.outputs[0].value == dustLimit);
+            }
+
+            // Note: locking bytecode is signed for by designer
+
+            // Output 01: DAO Vault
+
+            // Check value
+            require(
+                tx.outputs[1].value
+                >= tx.inputs[0].value
+                    - feeAllowance - tx.outputs[0].value - executorFee
+            );
+            // Check NFT category & capability
+            bytes genCategory, bytes genCapability
+                = tx.outputs[1].tokenCategory.split(32);
+            require(genCategory == tx.inputs[0].outpointTransactionHash);
+            require(genCapability == 0x02);
+            // Check NFT mint counter initialization
+            require(tx.outputs[1].nftCommitment == bytes2(0));
+            // Check no FT
+            require(tx.outputs[1].tokenAmount == 0);
+            // Note: locking bytecode is signed for by designer
+
+            // Output 02: OP_RETURN
+
+            // Check value
+            require(tx.outputs[2].value == 0);
+            // Check no token
+            require(tx.outputs[2].tokenCategory == 0x);
+            // Note: locking bytecode is signed for by designer,
+            // and here we only require it to start with OP_RETURN.
+            require(tx.outputs[2].lockingBytecode.split(1)[0] == 0x6a);
+
+            // Output 03: Executor fee
+
+            // Is there something left?
+            if (
+                tx.inputs[0].value
+                    - feeAllowance - tx.outputs[0].value - tx.outputs[1].value
+                >= dustLimit
+            ) {
+                // Allow 4 outputs so executor can take the extra
+                require(tx.outputs.length == 4);
+
+                // Check no token
+                require(tx.outputs[3].tokenCategory == 0x);
+            }
+            else {
+                // Not enough BCH left for executor fee,
+                // require exactly 3 outputs,
+                require(tx.outputs.length == 3);
+            }
+        }
+    }
+}

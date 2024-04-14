@@ -12,6 +12,10 @@ pragma cashscript ^0.10.0;
 //   for a transaction. This logic only pertains to 
 //   coupon spending. It's not suffecent to secure 
 //   a complete transaction.
+//
+// If used as a template in a different context, the destination
+// MUST assure funds cannot be withdrawn immediately 
+// in the same transaction
 
 contract Coupon(
   // Locking bytecode the coupon will be applied to

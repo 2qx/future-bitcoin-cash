@@ -1,0 +1,15 @@
+.idea
+.DS_Store
+.vscode
+.env
+.env.testnet
+.env.mainnet
+node_modules
+*.log
+*.d.ts
+*.js.map
+coverage
+dist
+dist-test
+*.yarn
+*.yarnrc.yml

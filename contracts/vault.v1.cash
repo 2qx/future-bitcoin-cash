@@ -4,37 +4,24 @@ pragma cashscript ^0.10.0;
 
 // Future BCH fungible token vault
 //
-//  Flow
+//  Flow:
 //
 //  inputs              outputs
 //  [0] contract    ->  [0] contract
 //  [1] userPkh     =>  [1] userPkh
-//  [2] coupons?    ^
+//  [2] coupon?     ^
 //
 
-contract FutureVault(int locktime, bytes tokenCategory) {
+contract Vault(int locktime, bytes tokenCategory) {
 
     function placeOrRedeem(bool isRedeem) {
 
+        // If Is Redeem
         // enforce BIP65 timelocks and the direction of the swap 
-
-        // Is Placement
-        if(!isRedeem){
-          // Check this is the correct token and not a random token
-          require(tx.inputs[0].tokenCategory == tokenCategory);
-          
-          // The user input may not contain tokens in placement
-          require(tx.inputs[1].tokenAmount == 0);
-
-          // Check the user isn't taking more tokens than value placed
-          require(tx.inputs[0].tokenAmount <= tx.outputs[0].value);
-        } 
-        // else redeem
-        else{
-
-          // tokens may be redeemed in any amount after the future has matured
+        // tokens may be redeemed in any amount after the future has matured
+        int deltaToken = tx.inputs[0].tokenAmount - tx.outputs[0].tokenAmount;
+        if(isRedeem){
           require(tx.time >= locktime);
-
           // Check this is the correct token and not a random token
           require(tx.inputs[1].tokenCategory == tokenCategory);
 
@@ -42,14 +29,24 @@ contract FutureVault(int locktime, bytes tokenCategory) {
           require(tx.inputs[0].tokenAmount == 0);
 
           // Check the user isn't taking more sats than tokens placed
-          require(tx.inputs[0].value >= tx.outputs[0].tokenAmount);
+          require(tx.inputs[0].value >= deltaToken);
+        } 
+        // else Placement
+        else{
+          // Check this is the correct token and not a random token
+          require(tx.inputs[0].tokenCategory == tokenCategory);
+          
+          // The user input may not contain tokens in placement
+          require(tx.inputs[1].tokenAmount == 0);
+
+          // Check the user isn't taking more tokens than value placed
+          require(deltaToken <= tx.outputs[0].value);
           
         }
 
-
         // Make sure this contract is the the first output, 
         // and by extension from the next require, the first input
-        require(tx.outputs[0].lockingBytecode == new LockingBytecodeP2SH(hash160(this.activeBytecode)));
+        require(tx.outputs[0].lockingBytecode == new LockingBytecodeP2SH32(hash256(this.activeBytecode)));
 
         // Enforce that this contract lives on
         require(
@@ -67,6 +64,5 @@ contract FutureVault(int locktime, bytes tokenCategory) {
           tx.outputs[this.activeInputIndex].value,
          "summation mismatch"
          );
-;
     }
 }
