@@ -19,7 +19,7 @@ function updateArtifacts() {
 function updateArtifact(cashFile, compiler) {
   let artifact = compiler(cashFile);
   let tsFile = cashFile.replace(".cash", ".ts");
-  console.log(tsFile);
+  console.log(tsFile, " ", artifact.debug.bytecode.length/2, " bytes");
   try {
     fs.writeFileSync(
       tsFile,

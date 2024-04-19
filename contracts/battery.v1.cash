@@ -4,6 +4,28 @@ pragma cashscript ^0.10.0;
 
 // A Battery of Gantries to deploy Vaults.
 //                   
+// A Battery makes a series of Gantries at different powers of 10 that go on to create Futures Vaults at various intervals.
+//
+// Given a minting NFT with the data 0xA0000000, 
+// mint a sequence of NFTs with minting capibility
+// sending those NFTs to the corresponting Gantry 
+//
+//  execute():
+//
+//  inputs                           outputs
+//  [0] Battery + NFT 0xA0000000     ->  [0] Gantary02 + NFT* 0x64000000<startTime>
+//                                   =>  [1] Battery   + NFT  0x64000000
+//
+//  [0] Battery + NFT 0x64000000     ->  [0] Gantary03 + NFT* 0xE8030000<startTime>
+//                                   =>  [1] Battery   + NFT  0xE8030000
+//
+//  ... 10270000 10e5
+//  ... A0860100 10e6
+//  ...
+//
+//  [0] Battery + NFT 0x<end>        ->  [0] Battery   + NFT  0x6a // burn NFT, sats are unencumbered.
+//
+// 
 
 contract Battery(
 
@@ -45,6 +67,8 @@ contract Battery(
             require(tx.inputs.length == 1);
         
 
+            // There is something fishy going on here with the log stack
+            // and the new debug tools. re-test behavior after rkalis' patch.
             int step = int(tx.inputs[0].nftCommitment);
             int step2 = int(tx.inputs[0].nftCommitment);
             console.log(step, "step");
@@ -105,25 +129,4 @@ contract Battery(
     }
 }
 
-// A Battery makes a series of Gantries at different powers of 10 that go on to create Futures Vaults at various intervals.
-//
-// Given a minting NFT with the data 0xA0000000, 
-// mint a sequence of NFTs with minting capibility
-// sending those NFTs to the corresponting Gantry 
-//
-//  execute():
-//
-//  inputs                           outputs
-//  [0] Battery + NFT 0xA0000000     ->  [0] Gantary02 + NFT* 0x64000000<startTime>
-//                                   =>  [1] Battery   + NFT  0x64000000
-//
-//  [0] Battery + NFT 0x64000000     ->  [0] Gantary03 + NFT* 0xE8030000<startTime>
-//                                   =>  [1] Battery   + NFT  0xE8030000
-//
-//  ... 10270000 10e5
-//  ... A0860100 10e6
-//  ...
-//
-//  [0] Battery + NFT 0x<end>        ->  [0] Battery   + NFT  0x6a // burn NFT, sats are unencumbered.
-//
-//         
+        

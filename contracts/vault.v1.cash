@@ -1,6 +1,6 @@
 pragma cashscript ^0.10.0;
 
-// [WIP] 2024-03-01
+// [WIP] 2024-04-17
 
 // Future BCH fungible token vault
 //
@@ -12,7 +12,7 @@ pragma cashscript ^0.10.0;
 //  [2] coupon?     ^
 //
 
-contract Vault(int locktime, bytes tokenCategory) {
+contract Vault(bytes4 locktime, bytes32 tokenCategory) {
 
     function placeOrRedeem(bool isRedeem) {
 
@@ -21,7 +21,7 @@ contract Vault(int locktime, bytes tokenCategory) {
         // tokens may be redeemed in any amount after the future has matured
         int deltaToken = tx.inputs[0].tokenAmount - tx.outputs[0].tokenAmount;
         if(isRedeem){
-          require(tx.time >= locktime);
+          require(tx.time >= int(locktime));
           // Check this is the correct token and not a random token
           require(tx.inputs[1].tokenCategory == tokenCategory);
 
@@ -40,7 +40,7 @@ contract Vault(int locktime, bytes tokenCategory) {
           require(tx.inputs[1].tokenAmount == 0);
 
           // Check the user isn't taking more tokens than value placed
-          require(deltaToken <= tx.outputs[0].value);
+          require(tx.outputs[0].value >= deltaToken);
           
         }
 
@@ -52,8 +52,7 @@ contract Vault(int locktime, bytes tokenCategory) {
         require(
           tx.outputs[this.activeInputIndex].lockingBytecode 
           == 
-          tx.inputs[this.activeInputIndex].lockingBytecode, 
-          "locking bytecode index mismatch"
+          tx.inputs[this.activeInputIndex].lockingBytecode
           );
 
         require(
@@ -61,8 +60,10 @@ contract Vault(int locktime, bytes tokenCategory) {
           tx.inputs[this.activeInputIndex].value 
           == 
           tx.outputs[this.activeInputIndex].tokenAmount + 
-          tx.outputs[this.activeInputIndex].value,
-         "summation mismatch"
+          tx.outputs[this.activeInputIndex].value
          );
     }
+
+    // shard or split
+    // 
 }

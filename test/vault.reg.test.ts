@@ -46,7 +46,7 @@ describe(`TimeLock Tests`, () => {
         let guessTokenId = (await alice.getUtxos())[0].txid
         const genesisResponse = await alice.tokenGenesis({
             cashaddr: alice.getTokenDepositAddress()!,      // token UTXO recipient, if not specified will default to sender's address
-            amount: 21000000000000n,        // fungible token amount
+            amount: 2100000000000000n,        // fungible token amount
             commitment: "abcd",             // NFT Commitment message
             value: 1000,                    // Satoshi value
         });
@@ -56,10 +56,7 @@ describe(`TimeLock Tests`, () => {
         expect(tokenId).toBe(guessTokenId)
 
         let blockHeight = (await alice.provider?.getBlockHeight())
-        let lock = cashAddressToLockingBytecode(bob.getDepositAddress());
-        if (typeof lock === "string") throw lock;
-        let bytecode = lock.bytecode;
-        let executorAllowance = 1200n;
+        
         let locktime = BigInt(blockHeight! + 10)
         let contract = new Contract(
             v1 as Artifact,
@@ -73,7 +70,7 @@ describe(`TimeLock Tests`, () => {
                 cashaddr: contract.tokenAddress,
                 value: 10000,
                 tokenId: tokenId,
-                amount: 21000000000000n
+                amount: 2100000000000000n
             }),
         ]);
         // fund the contract
@@ -87,13 +84,7 @@ describe(`TimeLock Tests`, () => {
         let bobUtxos = await provider.getUtxos(bob.getTokenDepositAddress());
         let contractUtxos = await contract.getUtxos();
 
-        await mine({
-            cashaddr: "bchreg:ppt0dzpt8xmt9h2apv9r60cydmy9k0jkfg4atpnp2f",
-            blocks: 10,
-        });
 
-
-        let aliceStartingBalance = (await alice.getBalance('sats'))
         let contractUtxo = contractUtxos[0];
         let aliceUtxo = aliceUtxos[0];
         let bobUtxo = bobUtxos[0];
@@ -142,8 +133,9 @@ describe(`TimeLock Tests`, () => {
 
 
         await mine({
+            /* cspell:disable-next-line */
             cashaddr: "bchreg:ppt0dzpt8xmt9h2apv9r60cydmy9k0jkfg4atpnp2f",
-            blocks: 1,
+            blocks: 10,
         });
 
         // console.log((await alice.getTokenBalance(tokenId)))

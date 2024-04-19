@@ -25,7 +25,7 @@ pragma cashscript ^0.10.0;
 //
 //  
 //  ... but skip every 10th token print
-//  [0] NFT mintBaton   =>  [1] NFT mintBaton
+//  [0] NFT mintBaton   =>  [0] NFT mintBaton
 //
 
 
@@ -37,11 +37,7 @@ contract Gantry(
 
     function execute(){
 
-        // verify minting baton is correct
-        require(
-            tx.inputs[0].tokenCategory
-            == tokenCategory
-        );
+
         int step = int(stepBytes);
 
         // check step
@@ -60,25 +56,26 @@ contract Gantry(
            
             // Get the redeem bytecode of the vault instance
             bytes vaultRedeemBytecode = 
-                bytes(locktime) +     // locktime
-                tx.inputs[0].tokenCategory +   // category
+                0x20 + tx.inputs[0].outpointTransactionHash +   // new fungible category
+                0x04 + bytes4(locktime) +     // locktime
                 vaultUnlockingBytecode;    
 
             // verify p2sh32 vault address
             require(
-                0xa914 + sha256(vaultRedeemBytecode) + 0x87
+                0xaa20 + hash256(vaultRedeemBytecode) + 0x87
                 == tx.outputs[0].lockingBytecode
             );
             baton = 1;
             
         }else{
-            // Send FTs onward to vault
-            require(tx.outputs[0].tokenCategory == 0x);
+            // simply return the NFT baton without minting FTs
             require(tx.outputs[0].tokenAmount == 0);
             baton = 0;
         }
         
-        
+        // 6a 46 42 43 48 04 <locktime>
+        // OP_RETURN FBCH <locktime>
+
         // Height stored in Minting NFT commitment MUST be incremented by <step>.
         require(
             bytes(int(tx.inputs[0].nftCommitment)+step) == tx.outputs[baton].nftCommitment
@@ -91,7 +88,6 @@ contract Gantry(
             == tx.outputs[baton].tokenCategory
         );
 
-
         // Gantry covenant must be passed on
         // to outputs[0] in any case.
         require(
@@ -99,6 +95,11 @@ contract Gantry(
             == tx.outputs[baton].lockingBytecode
         );
 
+        // verify minting baton is correct
+        require(
+            tx.inputs[0].tokenCategory
+            == tokenCategory
+        );
         
     }
 }

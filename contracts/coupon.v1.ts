@@ -27,7 +27,7 @@ export const artifact = {
   },
   "compiler": {
     "name": "cashc",
-    "version": "0.10.0-next.3"
+    "version": "0.10.0-next.4"
   },
-  "updatedAt": "2024-04-14T00:25:46.254Z"
+  "updatedAt": "2024-04-19T18:30:44.523Z"
 }

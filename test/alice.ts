@@ -8,7 +8,7 @@ import {
     deriveSeedFromBip39Mnemonic
 } from '@bitauth/libauth';
 
-// Generate entropy from BIP39 mnemonic phrase and initialise a root HD-wallet node
+// Generate entropy from BIP39 mnemonic phrase and initialize a root HD-wallet node
 const seed = deriveSeedFromBip39Mnemonic('CashScript Examples');
 const rootNode = deriveHdPrivateNodeFromSeed(seed, true);
 const baseDerivationPath = "m/44'/145'/0'/0";
