@@ -8,45 +8,36 @@ pragma cashscript ^0.10.0;
 //
 //  inputs              outputs
 //  [0] contract    ->  [0] contract
-//  [1] userPkh     =>  [1] userPkh
-//  [2] coupon?     ^
+//  [1] coupon?     =>  [1] userPkh
+//  [2] .. userPkh     ^
 //
 
 contract Vault(bytes4 locktime, bytes32 tokenCategory) {
 
-    function placeOrRedeem(bool isRedeem) {
-
-        // If Is Redeem
-        // enforce BIP65 timelocks and the direction of the swap 
+    function swap() {
+        
+        // If tokens are being redeemed to the vault
         // tokens may be redeemed in any amount after the future has matured
-        int deltaToken = tx.inputs[0].tokenAmount - tx.outputs[0].tokenAmount;
-        if(isRedeem){
-          require(tx.time >= int(locktime));
-          // Check this is the correct token and not a random token
-          require(tx.inputs[1].tokenCategory == tokenCategory);
+        bool tokensRedeemed = (tx.outputs[this.activeInputIndex].tokenAmount - tx.inputs[this.activeInputIndex].tokenAmount) > 0;
+        bool toVault = tx.outputs[this.activeInputIndex].lockingBytecode == new LockingBytecodeP2SH32(hash256(this.activeBytecode));
 
-          // Check the transaction took no tokens from the contract
-          require(tx.inputs[0].tokenAmount == 0);
-
-          // Check the user isn't taking more sats than tokens placed
-          require(tx.inputs[0].value >= deltaToken);
+        if(tokensRedeemed && toVault){
+          
+            // enforce BIP65 timelocks and the direction of the swap 
+            require(tx.time >= int(locktime));
+            require(tx.outputs[this.activeInputIndex].tokenCategory == tokenCategory);
         } 
-        // else Placement
-        else{
-          // Check this is the correct token and not a random token
-          require(tx.inputs[0].tokenCategory == tokenCategory);
-          
-          // The user input may not contain tokens in placement
-          require(tx.inputs[1].tokenAmount == 0);
 
-          // Check the user isn't taking more tokens than value placed
-          require(tx.outputs[0].value >= deltaToken);
-          
-        }
-
-        // Make sure this contract is the the first output, 
-        // and by extension from the next require, the first input
-        require(tx.outputs[0].lockingBytecode == new LockingBytecodeP2SH32(hash256(this.activeBytecode)));
+        // 
+        // Inspired by wrapped.cash
+        // Dagur Valberg 2023
+        // License: MIT
+        //
+        require(
+          tx.inputs[this.activeInputIndex].tokenCategory 
+          == 
+          tx.outputs[this.activeInputIndex].tokenCategory
+          );
 
         // Enforce that this contract lives on
         require(

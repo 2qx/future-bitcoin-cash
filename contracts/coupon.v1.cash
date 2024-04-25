@@ -1,44 +1,49 @@
 pragma cashscript ^0.10.0;
 
-// [WIP] 2024-03-01
+// [WIP] 2024-04-23
 
-// Allow anyone to use an unspent output in a transactoin.
-// Given:
-//  - The zeroth output is to a preconfigured address, 
-//  - The zeroth output value matches a predefined amount.
-//  - There are no more than three inputs
+// Coupon: 
 //
-// This contract is designed to run as the third input
-//   for a transaction. This logic only pertains to 
-//   coupon spending. It's not suffecent to secure 
-//   a complete transaction.
+// - apply() by spending at least <amount> on <lock>
 //
-// If used as a template in a different context, the destination
-// MUST assure funds cannot be withdrawn immediately 
-// in the same transaction
+// Allow anyone to use an unspent output (utxo) in a transaction ...
+//
+// ... given:
+//
+// [ ] the zeroth output value exceeds a predefined amount 
+// [ ] the zeroth output is to a predefined address
+// [ ] the coupon must be appied last
+//
+// Note: this contract is designed to run as part of an integrated
+// multi-contract system. It's not in itself sufficient to assure 
+// an advisory doesn't claim all coupons instantly for no cost.
+//
+// ... If there is no time or monetary cost to spend every coupon, 
+// it should be expected that they will all be cleaned at once.
+//
 
 contract Coupon(
-  // Locking bytecode the coupon will be applied to
-  bytes destinationLockingBytecode,
 
-  // Amount required as first output to claim the coupon.
-  int descretAmount
+  // Minnimum spent to claim the coupon.
+  int amount,
+  
+  // Destination for the zeroth (constraining) output.
+  bytes lock
+
 ){
+
   function apply() {
+    
+    // assure at the minium amount is sent as the first output
+    require(tx.outputs[0].value >= amount);
 
-    // assure at the entire amount sent to the contract exceeds some threshold
-    require(tx.outputs[0].value == descretAmount);
-
-    // Check that the first output 
-    // sends to the intended recipient. 
-    require(
-      tx.outputs[0].lockingBytecode 
-      == destinationLockingBytecode
-    );
-
-    // This contract may be spent in a transaction with exactly three inputs
-    require(tx.inputs.length == 3);
-
+    // Check that the first output sends to the intended recipient. 
+    require(tx.outputs[0].lockingBytecode == lock);
+  
+    // The coupon must be spent as the last input, 
+    //   therefore only coupon may be spent at a time.
+    require(this.activeInputIndex+1 == (tx.inputs.length));
 
   }
+
 }

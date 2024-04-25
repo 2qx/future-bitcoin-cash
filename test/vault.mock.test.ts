@@ -5,18 +5,27 @@ import { Contract, MockNetworkProvider,
     TransactionBuilder,
     randomUtxo, randomToken } from 'cashscript';
 import 'cashscript/dist/test/JestExtensions.js';
+import { 
+  hexToBin,
+  numberToBinUint32LEClamped
+ } from '@bitauth/libauth';
+
+const to32LE = numberToBinUint32LEClamped;
+
 
 describe('test example contract functions', () => {
   it('should place sats and receive fungible tokens', async () => {
     const provider = new MockNetworkProvider();
     const transactionBuilder = new TransactionBuilder({ provider });
 
-    let locktime = 200n;
+    let locktime = 200;
+    // convert locktime to LE Byte4
+    let locktimeBytes = to32LE(locktime);
 
     let tokens = randomToken({
         amount:70_000n
     })
-    const contract = new Contract(artifact, [locktime, tokens.category], { provider });
+    const contract = new Contract(artifact, [locktimeBytes, tokens.category], { provider });
     
 
     provider.addUtxo(contract.address, randomUtxo({
@@ -30,7 +39,7 @@ describe('test example contract functions', () => {
     const aliceUtxos = await provider.getUtxos(aliceAddress);
 
     transactionBuilder.addInputs([
-        { ...contractUtxos[0], unlocker: contract.unlock.placeOrRedeem(false) },
+        { ...contractUtxos[0], unlocker: contract.unlock.swap() },
         { ...aliceUtxos[0], unlocker: aliceTemplate.unlockP2PKH() },
       ]);
     

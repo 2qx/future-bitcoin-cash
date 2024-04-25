@@ -1,22 +1,22 @@
 pragma cashscript ^0.10.0;
 
-// [WIP] 2024-04-01
+// [WIP] 2024-04-23
 
 // A Battery of Gantries to deploy Vaults.
 //                   
 // A Battery makes a series of Gantries at different powers of 10 that go on to create Futures Vaults at various intervals.
 //
 // Given a minting NFT with the data 0xA0000000, 
-// mint a sequence of NFTs with minting capibility
+// mint a sequence of NFTs with minting capability
 // sending those NFTs to the corresponting Gantry 
 //
 //  execute():
 //
 //  inputs                           outputs
-//  [0] Battery + NFT 0xA0000000     ->  [0] Gantary02 + NFT* 0x64000000<startTime>
+//  [0] Battery + NFT 0xA0000000     ->  [0] Gantry02  + NFT* 0x64000000<startTime>
 //                                   =>  [1] Battery   + NFT  0x64000000
 //
-//  [0] Battery + NFT 0x64000000     ->  [0] Gantary03 + NFT* 0xE8030000<startTime>
+//  [0] Battery + NFT 0x64000000     ->  [0] Gantry03  + NFT* 0xE8030000<startTime>
 //                                   =>  [1] Battery   + NFT  0xE8030000
 //
 //  ... 10270000 10e5
@@ -29,11 +29,10 @@ pragma cashscript ^0.10.0;
 
 contract Battery(
 
-    // power of 10 for shortest expiry series, 
-    //   i.e. 10^3, every 1000 blocks, weeklies 
-    int start, 
+    // 
+    // int start, // is set in NFT mint.
 
-    // power of 10 for longest expiry series
+    // final step increment of longest gantry interval for expiry series
     //   i.e. 10^6, every 1,000,000 blocks, 20.8 years
     int end,
 
@@ -46,86 +45,78 @@ contract Battery(
     // sha256 hash of vault unlocking bytecode 
     bytes vaultUnlockingBytecode,
 
-    // 
-    int allowance
     ) {
 
     function execute(){
 
-
-        // If this is pure BCH UTXO
-        if (tx.inputs[this.activeInputIndex].tokenCategory == 0x) { 
-            //
-            // Only the output carrying the Gantry minting NFT is pertinent. 
-            //
-         }
-        // Else check whether the UTXO is a valid Battery instance.
-        else {
-
-            // We allow only 1 input, creator must provide enough BCH 
-            // when they make the Battery UTXO.
-            require(tx.inputs.length == 1);
+        require(tx.time >= int(startTime));
         
+        // We allow only 1 input, creator must provide enough BCH 
+        // when they make the Battery UTXO.
+        require(tx.inputs.length == 1);
+    
 
-            // There is something fishy going on here with the log stack
-            // and the new debug tools. re-test behavior after rkalis' patch.
-            int step = int(tx.inputs[0].nftCommitment);
-            int step2 = int(tx.inputs[0].nftCommitment);
-            console.log(step, "step");
-            console.log(step2, "step2");
-            
-            bool gantryInRange = within(step, start, end);
-            if(gantryInRange){
-                    // Minting NFT must be passed on
-                    // to outputs[0] in any case.
-                    require(
-                        tx.inputs[0].tokenCategory
-                        == tx.outputs[1].tokenCategory
-                    );
+        // There is something fishy going on here with the log stack
+        // and the new debug tools. re-test behavior after rkalis' patch.
+        bytes4 stepBytes = bytes4(tx.inputs[0].nftCommitment);
+        int step = int(tx.inputs[0].nftCommitment);
 
-                    // Battery NFT must be passed on
-                    // to outputs[0] in any case.
-                    require(
-                        tx.inputs[0].lockingBytecode
-                        == tx.outputs[1].lockingBytecode
-                    );
+        // Get the redeem bytecode of the gantry instance
+        bytes gantryRedeemBytecode = bytes(vaultUnlockingBytecode.length) + vaultUnlockingBytecode +
+                                     0x04 + stepBytes                   +  // stepBytes
+                                     0x20 + tx.inputs[0].tokenCategory.split(32)[0]  +  // This tokenCategory
+                                     gantryUnlockingBytecode;    
 
-                    // Minting NFT commitment MUST increase magnitude by 10.
-                    require(
-                        bytes4(step * 10) == tx.outputs[1].nftCommitment
-                    );
+        require(
+            0xaa20 + hash256(gantryRedeemBytecode) + 0x87
+            == tx.outputs[0].lockingBytecode
+        );
 
-                    // Get the redeem bytecode of the gantry instance
-                    bytes gantryRedeemBytecode = tx.inputs[0].tokenCategory +  // This tokenCategory
-                                                bytes4(step) + // stepBytes
-                                                vaultUnlockingBytecode +
-                                                gantryUnlockingBytecode;    
+        bytes batteryCategory, bytes batteryCapability = tx.inputs[0].tokenCategory.split(32);
 
-                    require(
-                        0xa914 + sha256(gantryRedeemBytecode) + 0x87
-                        == tx.outputs[1].lockingBytecode
-                    );
+        // assure a mutable token is set
+        require(batteryCapability == 0x02);
 
+        bytes gantryCategory, bytes gantryCapability = tx.outputs[0].tokenCategory.split(32);
+        // assure a minting token is set
+        require(int(gantryCapability) == 0);
 
-                    bytes gantryCategory, bytes gantryCapability = tx.outputs[1].tokenCategory.split(32);
-                    bytes batteryCategory, bytes batteryCapability = tx.inputs[0].tokenCategory.split(32);
+        // Require the Gantry category to match the Battery.
+        require(batteryCategory == gantryCategory);
 
-                    // assure a minting token is sent
-                    require(batteryCapability == 0x02);
+        require((tx.inputs[0].value - (tx.outputs[0].value + tx.outputs[1].value)) < 1000);
+        
+        if(step < end) {
 
-                    // assure a minting token is sent
-                    require(gantryCapability == 0x02);
+            // Minting NFT commitment MUST increase magnitude by 10.
+            require(
+                bytes4(step * 10) == tx.outputs[1].nftCommitment
+            );
 
-                    // Require the Gantry category to match the Battery.
-                    require(batteryCategory == gantryCategory);
-
-
-            }else{
-                // burn minting NFT
-            }
-            require((tx.inputs[0].value - (tx.outputs[0].value + tx.outputs[1].value)) < allowance);
-            require(tx.time >= int(startTime));
+            // Minting NFT must be passed on
+            // to outputs[0] in any case.
+            require(
+                tx.inputs[0].tokenCategory
+                == tx.outputs[1].tokenCategory
+            );
+        
+            // Battery NFT must be passed on
+            // to outputs[1] in any case.
+            require(
+                tx.inputs[0].lockingBytecode
+                == tx.outputs[1].lockingBytecode
+            );
+        }else{
+            // Battery NFT must be passed on
+            // to outputs[0] in any case.
+            require(
+                tx.outputs[0].lockingBytecode == 0x6a
+            );
+            // Burn minting baton NFT
+            require(tx.inputs[0].tokenCategory == tx.outputs[0].tokenCategory);
         }
+            
+        
     }
 }
 

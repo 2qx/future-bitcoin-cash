@@ -1,8 +1,7 @@
 import type { Artifact } from "cashscript";
 import {
-    binToHex,
-    hexToBin,
-    cashAddressToLockingBytecode
+    swapEndianness,
+    numberToBinUint32LEClamped
 } from "@bitauth/libauth";
 import {
     ElectrumCluster,
@@ -18,6 +17,8 @@ import {
 import { RegTestWallet, TokenSendRequest, mine } from "mainnet-js";
 import { artifact as v1 } from "../contracts/vault.v1.js";
 import { getAnAliceWallet } from "./aliceWalletTest.js";
+
+const to32LE = numberToBinUint32LEClamped;
 
 const DUST_UTXO_THRESHOLD = 546n;
 
@@ -45,22 +46,25 @@ describe(`TimeLock Tests`, () => {
 
         let guessTokenId = (await alice.getUtxos())[0].txid
         const genesisResponse = await alice.tokenGenesis({
-            cashaddr: alice.getTokenDepositAddress()!,      // token UTXO recipient, if not specified will default to sender's address
+            // token UTXO recipient, if not specified will default to sender's address
+            cashaddr: alice.getTokenDepositAddress()!,      
             amount: 2100000000000000n,        // fungible token amount
             commitment: "abcd",             // NFT Commitment message
             value: 1000,                    // Satoshi value
         });
 
         const tokenId = genesisResponse.tokenIds![0];
-        const tokenIdUnRev = binToHex(hexToBin(genesisResponse.tokenIds![0]).reverse());
+        const tokenIdUnRev = swapEndianness(genesisResponse.tokenIds![0]);
         expect(tokenId).toBe(guessTokenId)
 
         let blockHeight = (await alice.provider?.getBlockHeight())
         
-        let locktime = BigInt(blockHeight! + 10)
+        let locktime = blockHeight! + 10
+        // convert locktime to LE Byte4
+        let locktimeBytes = to32LE(locktime);
         let contract = new Contract(
             v1 as Artifact,
-            [locktime, tokenIdUnRev],
+            [locktimeBytes, tokenIdUnRev],
             { provider: provider, addressType: 'p2sh32' }
         );
 
@@ -91,7 +95,7 @@ describe(`TimeLock Tests`, () => {
 
         let aliceUtxoBalance = aliceUtxo.satoshis
         transactionBuilder.addInputs([
-            { ...contractUtxo, unlocker: contract.unlock.placeOrRedeem(false) },
+            { ...contractUtxo, unlocker: contract.unlock.swap() },
             { ...aliceUtxo, unlocker: aliceTemplate.unlockP2PKH() },
             { ...bobUtxo, unlocker: bobTemplate.unlockP2PKH() },
         ]);
