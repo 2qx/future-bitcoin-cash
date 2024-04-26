@@ -2,13 +2,14 @@ import { artifact } from '../contracts/gantry.v1.js';
 import { artifact as vaultArtifact } from '../contracts/vault.v1.js';
 import { Contract, MockNetworkProvider, randomUtxo, randomNFT } from 'cashscript';
 import { scriptToBytecode } from "@cashscript/utils";
-import { binToHex, 
-    cashAddressToLockingBytecode, 
-    isPayToScriptHash32, 
+import {
+    binToHex,
+    cashAddressToLockingBytecode,
+    isPayToScriptHash32,
     hexToBin,
     numberToBinUint32LEClamped,
     swapEndianness
- } from "@bitauth/libauth";
+} from "@bitauth/libauth";
 import 'cashscript/dist/test/JestExtensions.js';
 
 
@@ -80,7 +81,7 @@ describe('test example contract functions', () => {
 
         provider.addUtxo(contract.tokenAddress, randomUtxo({
             txid: txId,
-            satoshis: i0,
+            satoshis: 100000n,
             vout: 0,
             token: baton,
         }));
@@ -91,23 +92,28 @@ describe('test example contract functions', () => {
             .execute()
             .from(utxo)
             .withoutTokenChange()
+            .withoutChange()
             .to(
                 [
-                    {
-                        to: vault.tokenAddress,
-                        amount: 5000n,
-                        token: {
-                            amount: 2100000000000000n,
-                            category: utxo.txid
-                        }
-                    },
                     {
                         to: contract.tokenAddress,
                         amount: o1,
                         token: updatedBaton
-                    }
+                    },
+                    { to: vault.tokenAddress, amount: 1000n, token: { amount: 300000000000000n, category: utxo.txid } },// 1
+                    { to: vault.tokenAddress, amount: 1000n, token: { amount: 300000000000000n, category: utxo.txid } },// 2
+                    { to: vault.tokenAddress, amount: 1000n, token: { amount: 300000000000000n, category: utxo.txid } },// 3
+                    { to: vault.tokenAddress, amount: 1000n, token: { amount: 300000000000000n, category: utxo.txid } },// 4
+                    { to: vault.tokenAddress, amount: 1000n, token: { amount: 300000000000000n, category: utxo.txid } },// 5
+                    { to: vault.tokenAddress, amount: 1000n, token: { amount: 300000000000000n, category: utxo.txid } },// 6
+                    { to: vault.tokenAddress, amount: 1000n, token: { amount: 300000000000000n, category: utxo.txid } },// 7
+
                 ]
-            );
+            ).withOpReturn([
+                "0x46424348",
+                "0x6e000000",
+            ]);
+
         await expect(transaction.send()).resolves.not.toThrow();
     });
 });

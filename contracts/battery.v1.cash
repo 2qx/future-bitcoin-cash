@@ -2,26 +2,29 @@ pragma cashscript ^0.10.0;
 
 // [WIP] 2024-04-23
 
-// A Battery of Gantries to deploy Vaults.
-//                   
-// A Battery makes a series of Gantries at different powers of 10 that go on to create Futures Vaults at various intervals.
+// Battery - Spawn an array of vault deploying gantries from a single utxo.
 //
-// Given a minting NFT with the data 0xA0000000, 
+// From: Future Bitcoin Cash
+//
+// Author: 2qx <2qx_in_the_future@small.neomailbox.ch>
+//
+// A Battery releases a series of Gantries at different powers of 10 that 
+// go on to create Futures Vaults on those respective intervals.
+//
+// Given a minting NFT with the commitment containing a power of 10, 
 // mint a sequence of NFTs with minting capability
-// sending those NFTs to the corresponting Gantry 
+// sending mutable batons NFTs to the corresponting Gantry.
 //
 //  execute():
 //
 //  inputs                           outputs
-//  [0] Battery + NFT 0xA0000000     ->  [0] Gantry02  + NFT* 0x64000000<startTime>
-//                                   =>  [1] Battery   + NFT  0x64000000
+//  [0] Battery + NFT 0x40420F00     ->  [0] Battery   + NFT  0xA0860100
+//                                   =>  [1] Gantryᴇ6  + NFT* <startTime>
 //
-//  [0] Battery + NFT 0x64000000     ->  [0] Gantry03  + NFT* 0xE8030000<startTime>
-//                                   =>  [1] Battery   + NFT  0xE8030000
+//  [0] Battery + NFT 0xA0860100     ->  [0] Battery   + NFT  0x10270000
+//                                   =>  [1] Gantryᴇ5  + NFT* <startTime>
 //
-//  ... 10270000 10e5
-//  ... A0860100 10e6
-//  ...
+//  ... 0x10270000 ᴇ4 ... 0xE8030000 ᴇ3 ... 0x64000000 ᴇ2
 //
 //  [0] Battery + NFT 0x<end>        ->  [0] Battery   + NFT  0x6a // burn NFT, sats are unencumbered.
 //
@@ -30,19 +33,18 @@ pragma cashscript ^0.10.0;
 contract Battery(
 
     // 
-    // int start, // is set in NFT mint.
+    // The highest series power of 10 is set in the minting NFT baton commitment.
 
-    // final step increment of longest gantry interval for expiry series
-    //   i.e. 10^6, every 1,000,000 blocks, 20.8 years
+    // The end is the lowest power to print a series for
     int end,
 
-    // starting block height
+    // Starting block height (approximate)
     int startTime,
 
-    // sha256 hash of gantry unlocking bytecode 
+    // Unlocking bytecode of the gantry contracts
     bytes gantryUnlockingBytecode,
 
-    // sha256 hash of vault unlocking bytecode 
+    // Unlocking bytecode of the vault contracts
     bytes vaultUnlockingBytecode,
 
     ) {
@@ -55,67 +57,50 @@ contract Battery(
         // when they make the Battery UTXO.
         require(tx.inputs.length == 1);
     
-
-        // There is something fishy going on here with the log stack
-        // and the new debug tools. re-test behavior after rkalis' patch.
+        // Get the commitment 
         bytes4 stepBytes = bytes4(tx.inputs[0].nftCommitment);
         int step = int(tx.inputs[0].nftCommitment);
 
+        // Set the gantry commitment to a block on increment in the near future.
+        bytes4 gantryStart = bytes4(startTime - (startTime % step) + step);
+        require(tx.outputs[1].nftCommitment == gantryStart);
+
         // Get the redeem bytecode of the gantry instance
         bytes gantryRedeemBytecode = bytes(vaultUnlockingBytecode.length) + vaultUnlockingBytecode +
-                                     0x04 + stepBytes                   +  // stepBytes
+                                     0x04 + stepBytes                                +  // stepBytes
                                      0x20 + tx.inputs[0].tokenCategory.split(32)[0]  +  // This tokenCategory
                                      gantryUnlockingBytecode;    
 
         require(
+            // The second output is the gantry lockingBytecode
             0xaa20 + hash256(gantryRedeemBytecode) + 0x87
-            == tx.outputs[0].lockingBytecode
+            == tx.outputs[1].lockingBytecode
         );
 
-        bytes batteryCategory, bytes batteryCapability = tx.inputs[0].tokenCategory.split(32);
+        bytes gantryCategory, bytes gantryCapability = tx.outputs[1].tokenCategory.split(32);
 
-        // assure a mutable token is set
-        require(batteryCapability == 0x02);
-
-        bytes gantryCategory, bytes gantryCapability = tx.outputs[0].tokenCategory.split(32);
-        // assure a minting token is set
+        // Assure the gantry baton is a non-minting NFT
         require(int(gantryCapability) == 0);
+        
+        // Assure the gantry category matches the battery category
+        require(gantryCategory == tx.inputs[0].tokenCategory.split(32)[0]);
 
-        // Require the Gantry category to match the Battery.
-        require(batteryCategory == gantryCategory);
-
+        // Prevent all the value from being cleared off
         require((tx.inputs[0].value - (tx.outputs[0].value + tx.outputs[1].value)) < 1000);
         
-        if(step < end) {
+        if(step > end) {
 
-            // Minting NFT commitment MUST increase magnitude by 10.
-            require(
-                bytes4(step * 10) == tx.outputs[1].nftCommitment
-            );
-
-            // Minting NFT must be passed on
-            // to outputs[0] in any case.
-            require(
-                tx.inputs[0].tokenCategory
-                == tx.outputs[1].tokenCategory
-            );
-        
-            // Battery NFT must be passed on
-            // to outputs[1] in any case.
-            require(
-                tx.inputs[0].lockingBytecode
-                == tx.outputs[1].lockingBytecode
-            );
-        }else{
-            // Battery NFT must be passed on
-            // to outputs[0] in any case.
-            require(
-                tx.outputs[0].lockingBytecode == 0x6a
-            );
-            // Burn minting baton NFT
+            // Increment the baton by an order of magnitude
+            require(bytes4(step / 10) == tx.outputs[0].nftCommitment);
+            // then pass it 
             require(tx.inputs[0].tokenCategory == tx.outputs[0].tokenCategory);
+            require(tx.inputs[0].lockingBytecode == tx.outputs[0].lockingBytecode);
+
+        } else {
+            // Burn the minting baton
+            require(tx.inputs[0].tokenCategory == tx.outputs[0].tokenCategory);
+            require(tx.outputs[0].lockingBytecode == 0x6a);
         }
-            
         
     }
 }

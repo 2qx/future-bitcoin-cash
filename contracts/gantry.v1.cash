@@ -1,105 +1,134 @@
 pragma cashscript ^0.10.0;
 
-// [WIP] 2024-04-23
+//
+// Gantry - Create vault contracts with fungible tokens in a uniform way. 
+//
+// From: Future Bitcoin Cash
+//
+// Author: 2qx <2qx_in_the_future@small.neomailbox.ch>
+//
+// NFT commentment stores the next series locktime in 32-bit LE
 //
 // [ ] Require the minting baton in the input
 // [ ] Get the current step increment for the chain of futures
 // [ ] Get the current vault locktime to be printed.
 //
 //   either
-// [ ] Mint FTs, 
+// [ ] Mint an array of FT utxos, 
 // [ ] send them off to a Vault
+//
 //   or
 // [ ] skip every 10th print.
 //
 // [ ] increment locktime height value stored on NFT baton
 // [ ] assure NFT baton is returned
 //
-// // The Gantry baton NFT commentment carries the highest locktime printed for the chain
 //
 //  Gantry i/o Flow:
 //
 //  Inputs              Outputs
-//  [0] NFT mintBaton   ->  [0] FTs Vault
-//  [1] topup-sats?     =>  [1] NFT mintBaton
-//
+//  [0] NFT mintBaton   ->  [0] NFT mintBaton
+//  [1] topup sats?     =>  [1] FTs Vault
+//                          [2] FTs Vault
+//                          [3] FTs Vault
+//                          [4] FTs Vault
+//                          [5] FTs Vault
+//                          [6] FTs Vault
+//                          [7] FTs Vault
+//                          [8] OP_RETURN FBCH <locktime>
+//                          
 //  
-//  ... but skip every 10th token print
+//  ... but skip every 10th token print, 
+//   which will be printed by the gantry of the next order.
 //  [0] NFT mintBaton   =>  [0] NFT mintBaton
 //
 
 
 contract Gantry(
     bytes32 tokenCategory, 
-    bytes stepBytes, 
+    bytes4 stepBytes, 
     bytes vaultUnlockingBytecode
     ) {
 
     function execute(){
+        
+        // Gantry covenant must be passed on
+        // in first outputs[0] in any case.
+        require(tx.inputs[0].lockingBytecode == tx.outputs[0].lockingBytecode);
 
+        // Verify mutable NFT baton is correct
+        require(tx.inputs[0].tokenCategory.split(32)[0] == tokenCategory);
+
+        // Return mutable NFT baton
+        // to outputs[0] in any case.
+        require(tx.inputs[0].tokenCategory == tx.outputs[0].tokenCategory);
+        
+        // simply return the NFT baton without minting FTs
+        require(tx.outputs[0].tokenAmount == 0);
 
         int step = int(stepBytes);
+        int locktime = int(bytes4(tx.inputs[0].nftCommitment));
 
-        // check step
-        //   mint Fts
-        int locktime = int(tx.inputs[0].nftCommitment);
+        // Height stored in mutable NFT commitment MUST be incremented by <step>.
+        require(tx.outputs[0].nftCommitment == bytes4(locktime+step));
 
-        int batonOutputIdx = -1;
         // if not a 10th step, mint tokens
-        if((locktime/step)%10!=0){
-            // Send FTs onward to vault
-            require(
-                tx.outputs[0].tokenCategory 
-                == tx.inputs[0].outpointTransactionHash
-                );
-            require(tx.outputs[0].tokenAmount == 2100000000000000);
-           
+        if((locktime/step)%10==0){ 
+            require(tx.outputs.length == 1);
+        } else {
             // Get the redeem bytecode of the vault instance
-            bytes vaultRedeemBytecode = 
+            bytes theVault = 
                 0x20 + tx.inputs[0].outpointTransactionHash +   // new fungible category
                 0x04 + bytes4(tx.inputs[0].nftCommitment) +     // locktime
                 vaultUnlockingBytecode;    
 
-            // verify p2sh32 vault address
-            require(
-                0xaa20 + hash256(vaultRedeemBytecode) + 0x87
-                == tx.outputs[0].lockingBytecode
-            );
-            batonOutputIdx = 1;
-            
-        }else{
-            // simply return the NFT baton without minting FTs
-            require(tx.outputs[0].tokenAmount == 0);
-            batonOutputIdx = 0;
-        }
-        
-        // 6a 46 42 43 48 04 <locktime>
-        // OP_RETURN FBCH <locktime>
+            bytes vaultLockingBytecode = 0xaa20 + hash256(theVault) + 0x87;
 
-        // Height stored in mutable NFT commitment MUST be incremented by <step>.
-        require(
-            bytes4(int(tx.inputs[0].nftCommitment)+step) == tx.outputs[batonOutputIdx].nftCommitment
-        );
-        
-        // Return mutable NFT baton
-        // to outputs[0] in any case.
-        require(
-            tx.inputs[0].tokenCategory
-            == tx.outputs[batonOutputIdx].tokenCategory
-        );
+            // shard out tokens across seven UTXOs
+            require(tx.outputs[1].lockingBytecode == vaultLockingBytecode);       
+            require(tx.outputs[1].tokenCategory == tx.inputs[0].outpointTransactionHash);
+            require(tx.outputs[1].tokenAmount == 300000000000000);     
 
-        // Gantry covenant must be passed on
-        // to outputs[0] in any case.
-        require(
-            tx.inputs[0].lockingBytecode
-            == tx.outputs[batonOutputIdx].lockingBytecode
-        );
+            require(tx.outputs[2].lockingBytecode == vaultLockingBytecode);       
+            require(tx.outputs[2].tokenCategory == tx.inputs[0].outpointTransactionHash);
+            require(tx.outputs[2].tokenAmount == 300000000000000);  
 
-        // verify mutable NFT baton is correct
-        require(
-            tx.inputs[0].tokenCategory
-            == tokenCategory
-        );
+            require(tx.outputs[3].lockingBytecode == vaultLockingBytecode);       
+            require(tx.outputs[3].tokenCategory == tx.inputs[0].outpointTransactionHash);
+            require(tx.outputs[3].tokenAmount == 300000000000000);  
+
+            require(tx.outputs[4].lockingBytecode == vaultLockingBytecode);       
+            require(tx.outputs[4].tokenCategory == tx.inputs[0].outpointTransactionHash);
+            require(tx.outputs[4].tokenAmount == 300000000000000);  
+
+            require(tx.outputs[5].lockingBytecode == vaultLockingBytecode);       
+            require(tx.outputs[5].tokenCategory == tx.inputs[0].outpointTransactionHash);
+            require(tx.outputs[5].tokenAmount == 300000000000000);  
+
+            require(tx.outputs[6].lockingBytecode == vaultLockingBytecode);       
+            require(tx.outputs[6].tokenCategory == tx.inputs[0].outpointTransactionHash);
+            require(tx.outputs[6].tokenAmount == 300000000000000);  
+
+            require(tx.outputs[7].lockingBytecode == vaultLockingBytecode);       
+            require(tx.outputs[7].tokenCategory == tx.inputs[0].outpointTransactionHash);
+            require(tx.outputs[7].tokenAmount == 300000000000000);  
+
+            // Tag this FT mint for indexers 
+            //
+            // 6a              OP_RETURN
+            // 04 46 42 43 48  FBCH
+            // 04 90 05 10 00  <locktime>
+            bytes announcement = new LockingBytecodeNullData([
+                0x46424348,
+                bytes(tx.inputs[0].nftCommitment.split(4)[0])
+                ]);
+            require(tx.outputs[8].lockingBytecode == announcement);
+
+            // Is this check necessary if the op_return is used?
+            require(tx.outputs[8].value == 0);
+            require(int(tx.outputs.length) == 9);  
+
+        }     
         
     }
 }

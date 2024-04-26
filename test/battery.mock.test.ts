@@ -11,15 +11,13 @@ describe('test example contract functions', () => {
   it('should allow execution of a battery contract', async () => {
     const provider = new MockNetworkProvider();
 
-    let step = 100
-    // convert locktime to LE Byte4
-    let stepBytes = to32LE(step);
+
 
 
     let baton = randomNFT({
       amount: 0n,
       nft: {
-        commitment: "64000000", // 100
+        commitment: binToHex(to32LE(1000000)), // 1,000,000
         capability: "minting"
       },
     })
@@ -28,7 +26,7 @@ describe('test example contract functions', () => {
       amount: 0n,
       category: baton.category,
       nft: {
-        commitment: '64000000', // 100
+        commitment: binToHex(to32LE(1000000)), // 1,000,000
         capability: 'none'
       }
     })
@@ -37,7 +35,7 @@ describe('test example contract functions', () => {
       amount: 0n,
       category: baton.category,
       nft: {
-        commitment: 'e8030000', // 1000
+        commitment: binToHex(to32LE(100000)), // 100,000
         capability: 'minting'
       }
     })
@@ -56,31 +54,35 @@ describe('test example contract functions', () => {
       { provider }
     )
 
+    let step = 1000000;
+    // convert locktime to LE Byte4
+    let stepBytes = to32LE(step);
     const gantry = new Contract(gantryArtifact, [batonReverse, stepBytes, vault.bytecode.slice(76)], { provider });
-    const contract = new Contract(artifact, [10000n, 11n, gantry.bytecode.slice(-184), vault.bytecode.slice(76)], { provider });
+    const contract = new Contract(artifact, [99n, 10001n, gantry.bytecode.slice(188), vault.bytecode.slice(76)], { provider });
+
 
     provider.addUtxo(contract.address, randomUtxo({
-      satoshis: 10000n,
+      satoshis: 1000100n,
       token: baton,
     }));
     let utxo = (await provider.getUtxos(contract.address))[0]
 
-
     let transaction = contract.functions
       .execute()
       .from(utxo)
-      .withTime(100)
+      .withTime(10003)
       .to(
         [
-          {
-            to: gantry.tokenAddress,
-            amount: 2000n,
-            token: gantryBaton
-          },
+
           {
             to: contract.tokenAddress,
             amount: 7400n,
             token: batteryBaton
+          },
+          {
+            to: gantry.tokenAddress,
+            amount: 1000n,
+            token: gantryBaton
           }
         ]
       );
