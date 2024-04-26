@@ -118,15 +118,7 @@ describe(`TimeLock Tests`, () => {
             }
         }
 
-        // console.log("tokenId: ", tokenId)
-        // console.log(contractUtxo.token?.category!)
-        
-        // console.log("i1 token amount: ", aliceUtxo.token?.amount)
-        // console.log("i0 <= o0: ", contractUtxo.token?.amount!-contractOutput.token.amount, "<=", contractOutput.amount )
-
-        // console.log("0 balance: ", contractUtxo.satoshis + contractUtxo.token?.amount!, "==", contractOutput.amount + contractOutput.token.amount)
-        // console.log("1 balance: ",aliceUtxo.satoshis + BigInt(aliceUtxo.token?.amount ? aliceUtxo.token?.amount : 0n), "==", aliceOutput.amount + BigInt(aliceOutput.token.amount))
-
+ 
         transactionBuilder.addOutputs([
             contractOutput,
             aliceOutput,

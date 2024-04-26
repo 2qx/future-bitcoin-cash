@@ -113,7 +113,7 @@ describe('test example contract functions', () => {
                 "0x46424348",
                 "0x6e000000",
             ]);
-
+            console.log(transaction.debug())
         await expect(transaction.send()).resolves.not.toThrow();
     });
 });
