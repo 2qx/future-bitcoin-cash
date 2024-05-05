@@ -1,7 +1,7 @@
 import { artifact } from '../contracts/battery.v1.js';
 import { artifact as gantryArtifact } from '../contracts/gantry.v1.js';
 import { artifact as vaultArtifact } from '../contracts/vault.v1.js';
-import { Contract, MockNetworkProvider, randomUtxo, randomNFT } from 'cashscript';
+import { Contract, MockNetworkProvider, randomUtxo, randomNFT, FailedTransactionError } from 'cashscript';
 import { binToHex, hexToBin, numberToBinUint32LEClamped, swapEndianness } from "@bitauth/libauth";
 import 'cashscript/dist/test/JestExtensions.js';
 
@@ -58,8 +58,7 @@ describe('test example contract functions', () => {
     // convert locktime to LE Byte4
     let stepBytes = to32LE(step);
     const gantry = new Contract(gantryArtifact, [batonReverse, stepBytes, vault.bytecode.slice(76)], { provider });
-    const contract = new Contract(artifact, [99n, 10001n, gantry.bytecode.slice(188), vault.bytecode.slice(76)], { provider });
-
+    const contract = new Contract(artifact, [99n, 10001n, gantry.bytecode.slice(194), vault.bytecode.slice(76)], { provider });
 
     provider.addUtxo(contract.address, randomUtxo({
       satoshis: 1000100n,
@@ -76,7 +75,7 @@ describe('test example contract functions', () => {
 
           {
             to: contract.tokenAddress,
-            amount: 7400n,
+            amount: 998200n,
             token: batteryBaton
           },
           {
@@ -87,6 +86,6 @@ describe('test example contract functions', () => {
         ]
       );
 
-    await expect(transaction.send()).resolves.not.toThrow();
+      await expect(transaction.send()).rejects.toThrow(FailedTransactionError);
   });
 });

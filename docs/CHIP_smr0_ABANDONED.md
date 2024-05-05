@@ -1,10 +1,6 @@
+# SUPERSEDED ~~CHIP-2024-04-SMP:  Short Metadata Protocol~~
 
-
-
-
-# Short Metadata Registry -  Specification
-
-        Title: Short Metadata Registry
+        Title: Short Metadata Protocol
         Type: Standards
         Layer: Applications
         Maintainer: 2qx 
@@ -33,26 +29,27 @@ Token Metadata can be recorded by the zeroth-descendant transaction chain of a m
 
 Prunable data-carrier outputs messages have proved very useful for similar problems. The following scheme is proposed:
 
-    0x6a SMR0 <0x00> <ticker> <identifier> <decimals>
-    0x6a SMR0 <0x01> <name> <rtl?>
-    0x6a SMR0 <0x02> <icon>
-    0x6a SMR0 <0x03> <web>
+    0x6a SMP <version> <0x00> <ticker> <identifier> <decimals>
+    0x6a SMP <version> <0x01> <name> <rtl?>
+    0x6a SMP <version> <0x02> <icon>
+    0x6a SMP <version> <0x03> <web>
 
-with each record is give in PushByte notation (`<length data>`),
+with every record is give in PushBytes notation (`<length data>`),
 
 Where: 
 
 |                | fields                                                                               |
 | -------------: | ------------------------------------------------------------------------------------------- |
-|   `0x53524D30` | The four byte protocol identifier (SMR0)                                                    |
-|          `<i>` | Selector indicating the type of record `0x00`-`0x04`                                            |
+|     `0x534D50` | Short Message Protocol identifier (SMP)                                                     |
+|    `<version>` | Protocol version                                                                            |
+|          `<i>` | Selector indicating the type of record `0x00`-`0x04`                                        |
 |     `<ticker>` | The ticker in ASCII                                                                         |
 | `<enumerator>` | A unique number, (Script Number encoded)                                                    |
 |   `<decimals>` | The number of decimals to display (0-19)                                                    |
-|      `<name?>` | Name (utf8)  [optional]                                                                     |
-|       `<rtl?>` | Attempt to display name right-to-left [optional]                                            |
-|      `<icon?>` | Icon URI [per BCMR Specs](https://cashtokens.org/docs/bcmr/chip#uri-identifiers) [optional] |
-|       `<web?>` | Website [per BCMR Specs](https://cashtokens.org/docs/bcmr/chip#uri-identifiers) [optional]  |
+|      `<name?>` | Name (utf8)  (optional)                                                                     |
+|       `<rtl?>` | Attempt to display name right-to-left (optional)                                            |
+|      `<icon?>` | Icon URI [per BCMR Specs](https://cashtokens.org/docs/bcmr/chip#uri-identifiers) (optional) |
+|       `<web?>` | Website [per BCMR Specs](https://cashtokens.org/docs/bcmr/chip#uri-identifiers) (optional)  |
 
 Base records are denoted with a zero selector `0x00`.
 

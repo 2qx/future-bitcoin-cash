@@ -116,11 +116,16 @@ contract Gantry(
             // Tag this FT mint for indexers 
             //
             // 6a              OP_RETURN
+            // 04 46 42 43 48  SMP0
+            // 02 10 00        minted ticker from input 0
             // 04 46 42 43 48  FBCH
             // 04 90 05 10 00  <locktime>
             bytes announcement = new LockingBytecodeNullData([
-                0x46424348,
-                bytes(tx.inputs[0].nftCommitment.split(4)[0])
+                bytes('SMP0'),
+                0x1000,
+                bytes('FBCH'),
+                tx.inputs[0].nftCommitment,
+                0x08
                 ]);
             require(tx.outputs[8].lockingBytecode == announcement);
 

@@ -36,6 +36,5 @@ export const artifact = {
   "compiler": {
     "name": "cashc",
     "version": "0.10.0-next.4"
-  },
-  "updatedAt": "2024-04-26T01:07:56.406Z"
+  }
 }

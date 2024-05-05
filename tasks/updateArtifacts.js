@@ -18,6 +18,7 @@ function updateArtifacts() {
 
 function updateArtifact(cashFile, compiler) {
   let artifact = compiler(cashFile);
+  delete artifact.updatedAt
   let tsFile = cashFile.replace(".cash", ".ts");
   console.log(tsFile, " ", artifact.debug.bytecode.length/2, " bytes");
   try {

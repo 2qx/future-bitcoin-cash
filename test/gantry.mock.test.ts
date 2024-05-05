@@ -1,6 +1,6 @@
 import { artifact } from '../contracts/gantry.v1.js';
 import { artifact as vaultArtifact } from '../contracts/vault.v1.js';
-import { Contract, MockNetworkProvider, randomUtxo, randomNFT } from 'cashscript';
+import { Contract, MockNetworkProvider, randomUtxo, randomNFT, FailedTransactionError } from 'cashscript';
 import { scriptToBytecode } from "@cashscript/utils";
 import {
     binToHex,
@@ -88,7 +88,7 @@ describe('test example contract functions', () => {
 
         let utxo = (await provider.getUtxos(contract.tokenAddress))[0]
 
-        let transaction = contract.functions
+        let transaction = await contract.functions
             .execute()
             .from(utxo)
             .withoutTokenChange()
@@ -106,14 +106,30 @@ describe('test example contract functions', () => {
                     { to: vault.tokenAddress, amount: 1000n, token: { amount: 300000000000000n, category: utxo.txid } },// 4
                     { to: vault.tokenAddress, amount: 1000n, token: { amount: 300000000000000n, category: utxo.txid } },// 5
                     { to: vault.tokenAddress, amount: 1000n, token: { amount: 300000000000000n, category: utxo.txid } },// 6
-                    { to: vault.tokenAddress, amount: 1000n, token: { amount: 300000000000000n, category: utxo.txid } },// 7
+                    { 
+                        to: vault.tokenAddress, 
+                        amount: 1000n, 
+                        token: { 
+                            amount: 300000000000000n, 
+                            category: utxo.txid,
+                            nft:{
+                                commitment: "0001",
+                                capability:"minting"
+                            }
+                        } 
+                    },// 7
 
                 ]
             ).withOpReturn([
-                "0x46424348",
-                "0x6e000000",
+                "SMP0",
+                "0x1000",
+                "FBCH",
+                "0x" + binToHex(locktimeBytes),
+                "0x08"
             ]);
-            console.log(transaction.debug())
-        await expect(transaction.send()).resolves.not.toThrow();
+            // 0x6a 04 534d5030 02 1000 04 46424348 04 6e000000
+            //   6a 04 534d5030 02 1000 04 46424348 04 6e000000 01 08
+            //console.log(transaction)
+        await expect(transaction.send()).rejects.toThrow(FailedTransactionError);
     });
 });

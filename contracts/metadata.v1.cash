@@ -1,0 +1,24 @@
+pragma cashscript ^0.10.0;
+
+
+contract metadata() {
+    function test01() {
+        bytes fungible = new LockingBytecodeNullData([
+            0x534D5030,
+            0x1000,
+            bytes('tBCH'),
+            bytes('test BCH')
+        ]);
+        require(tx.outputs[1].lockingBytecode == fungible);
+
+        bytes tokenCommitment = new LockingBytecodeNullData([
+            0x534D5030,
+            0x1000,
+            bytes('tBCH'),
+            tx.inputs[0].nftCommitment,
+            0x08
+        ]);
+        require(tx.outputs[2].lockingBytecode == tokenCommitment);
+    }
+}
+
