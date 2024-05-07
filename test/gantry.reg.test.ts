@@ -7,10 +7,8 @@ import {
 } from "electrum-cash";
 import { RegTestWallet, TokenSendRequest, NFTCapability } from "mainnet-js";
 import { Contract, ElectrumNetworkProvider, randomUtxo, randomNFT, FailedTransactionError } from 'cashscript';
-import { scriptToBytecode } from "@cashscript/utils";
 import {
     binToHex,
-    cashAddressToLockingBytecode,
     numberToBinUint32LEClamped,
     swapEndianness
 } from "@bitauth/libauth";
@@ -42,9 +40,6 @@ describe('test example contract functions', () => {
         // bytes vaultUnlockingBytecode
 
         // The nft commitment carries the current locktime
-
-        let i0 = 9999n;
-        let o0 = 1000n;
         let o1 = 4001n;
 
 
@@ -162,16 +157,18 @@ describe('test example contract functions', () => {
                     },// 7
 
                 ]
-            ).withOpReturn([
+            )
+            //
+            // 6a 04 534d5030 02 1000 04 46424348 04 6e000000 01 08
+            .withOpReturn([
                 "SMP0",
                 "0x1000",
                 "FBCH",
                 "0x" + binToHex(locktimeBytes),
                 "0x08"
             ]).send();
-        // 0x6a 04 534d5030 02 1000 04 46424348 04 6e000000
-        //   6a 04 534d5030 02 1000 04 46424348 04 6e000000 01 08
-        
+
+        console.log((await transaction).outputs)
         expect(transaction).resolves.not.toThrow();
     });
 });

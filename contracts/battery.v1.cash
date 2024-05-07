@@ -61,34 +61,34 @@ contract Battery(
         bytes4 stepBytes = bytes4(tx.inputs[0].nftCommitment);
         int step = int(tx.inputs[0].nftCommitment);
 
-        // Set the gantry commitment to a block on increment in the near future.
-        bytes4 gantryStart = bytes4(startTime - (startTime % step) + step);
-        require(tx.outputs[1].nftCommitment == gantryStart);
-
-        // Get the redeem bytecode of the gantry instance
-        bytes gantryRedeemBytecode = bytes(vaultUnlockingBytecode.length) + vaultUnlockingBytecode +
-                                     0x04 + stepBytes                                +  // stepBytes
-                                     0x20 + tx.inputs[0].tokenCategory.split(32)[0]  +  // This tokenCategory
-                                     gantryUnlockingBytecode;    
-
-        require(
-            // The second output is the gantry lockingBytecode
-            0xaa20 + hash256(gantryRedeemBytecode) + 0x87
-            == tx.outputs[1].lockingBytecode
-        );
-
-        bytes gantryCategory, bytes gantryCapability = tx.outputs[1].tokenCategory.split(32);
-
-        // Assure the gantry baton is a non-minting NFT
-        require(int(gantryCapability) == 0);
-        
-        // Assure the gantry category matches the battery category
-        require(gantryCategory == tx.inputs[0].tokenCategory.split(32)[0]);
-
-        // Prevent all the value from being cleared off
-        require((tx.inputs[0].value - (tx.outputs[0].value + tx.outputs[1].value)) < 1000);
-        
         if(step > end) {
+
+            // Set the gantry commitment to a block on increment in the near future.
+            bytes4 gantryStart = bytes4(startTime - (startTime % step) + step);
+            require(tx.outputs[1].nftCommitment == gantryStart);
+
+            // Get the redeem bytecode of the gantry instance
+            bytes gantryRedeemBytecode = bytes(vaultUnlockingBytecode.length) + vaultUnlockingBytecode +
+                                        0x04 + stepBytes                                +  // stepBytes
+                                        0x20 + tx.inputs[0].tokenCategory.split(32)[0]  +  // This tokenCategory
+                                        gantryUnlockingBytecode;    
+
+            require(
+                // The second output is the gantry lockingBytecode
+                0xaa20 + hash256(gantryRedeemBytecode) + 0x87
+                == tx.outputs[1].lockingBytecode
+            );
+
+            bytes gantryCategory, bytes gantryCapability = tx.outputs[1].tokenCategory.split(32);
+
+            // Assure the gantry baton is a non-minting NFT
+            require(int(gantryCapability) == 0);
+            
+            // Assure the gantry category matches the battery category
+            require(gantryCategory == tx.inputs[0].tokenCategory.split(32)[0]);
+
+            // Prevent all the value from being cleared off
+            require((tx.inputs[0].value - (tx.outputs[0].value + tx.outputs[1].value)) < 1000);
 
             // Increment the baton by an order of magnitude
             require(bytes4(step / 10) == tx.outputs[0].nftCommitment);
@@ -97,9 +97,10 @@ contract Battery(
             require(tx.inputs[0].lockingBytecode == tx.outputs[0].lockingBytecode);
 
         } else {
-            // Burn the minting baton
-            require(tx.inputs[0].tokenCategory == tx.outputs[0].tokenCategory);
+            // Burn the minting baton, allow value to be taken
             require(tx.outputs[0].lockingBytecode == 0x6a);
+            require(tx.outputs[1].tokenCategory == 0x);
+            require(tx.outputs.length==2);
         }
         
     }
