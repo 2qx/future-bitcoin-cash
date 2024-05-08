@@ -69,8 +69,7 @@ contract Battery(
 
             // Get the redeem bytecode of the gantry instance
             bytes gantryRedeemBytecode = bytes(vaultUnlockingBytecode.length) + vaultUnlockingBytecode +
-                                        0x04 + stepBytes                                +  // stepBytes
-                                        0x20 + tx.inputs[0].tokenCategory.split(32)[0]  +  // This tokenCategory
+                                        0x04 + stepBytes                      +  // stepBytes
                                         gantryUnlockingBytecode;    
 
             require(

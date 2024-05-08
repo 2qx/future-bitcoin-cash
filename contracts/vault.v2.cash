@@ -8,7 +8,6 @@ pragma cashscript ^0.10.0;
 //
 //     If redeeming tokens for coins in the vault: 
 // [ ]   enforce the timelock is met.
-// [ ]   enforce the token category matches.
 //
 // [ ] Assure the utxo token category matches that of the output.
 // [ ] Assure the the utxo and output lock match per in the transaction.
@@ -22,29 +21,14 @@ pragma cashscript ^0.10.0;
 //  [2] coupon?     -^
 //
 
-contract Vault(bytes4 locktime, bytes32 tokenCategory) {
+contract Vault(bytes4 locktime) {
 
     function swap() {
-
-        require(2 == tx.version);
         
-        // If tokens are being redeemed to the vault
-        // tokens may be redeemed in any amount after the future has matured
-        bool tokensRedeemed = (
-          tx.outputs[this.activeInputIndex].tokenAmount 
-          - tx.inputs[this.activeInputIndex].tokenAmount
-          ) > 0;
-        bool toVault = tx.outputs[this.activeInputIndex].lockingBytecode 
-                 == new LockingBytecodeP2SH32(hash256(this.activeBytecode));
-
-        // Restrict redemption unil after locktime
-        if(toVault && tokensRedeemed){
-          
+        // If tokens are flowing back into this contract
+        if(tx.outputs[this.activeInputIndex].tokenAmount > tx.inputs[this.activeInputIndex].tokenAmount){
             // enforce a BIP65 timelock 
             require(tx.time >= int(locktime));
-
-            // of the correct category.
-            require(tx.outputs[this.activeInputIndex].tokenCategory == tokenCategory);
         } 
 
         // 

@@ -3,7 +3,7 @@ import fs from "fs";
 import { compileFile } from "cashc";
 
 function updateArtifacts() {
-  glob("contracts/**.v1.cash", function (err, files) {
+  glob("contracts/**.v[1-2].cash", function (err, files) {
     if (err) {
       console.log(err);
     }

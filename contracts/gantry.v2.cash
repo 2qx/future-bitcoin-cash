@@ -45,7 +45,6 @@ pragma cashscript ^0.10.0;
 
 
 contract Gantry(
-    bytes32 tokenCategory, 
     bytes4 stepBytes, 
     bytes vaultUnlockingBytecode
     ) {
@@ -56,9 +55,6 @@ contract Gantry(
         // in first outputs[0] in any case.
         require(tx.inputs[0].lockingBytecode == tx.outputs[0].lockingBytecode);
 
-        // Verify mutable NFT baton is correct
-        require(tx.inputs[0].tokenCategory.split(32)[0] == tokenCategory);
-
         // Return mutable NFT baton
         // to outputs[0] in any case.
         require(tx.inputs[0].tokenCategory == tx.outputs[0].tokenCategory);
@@ -67,7 +63,7 @@ contract Gantry(
         require(tx.outputs[0].tokenAmount == 0);
 
         int step = int(stepBytes);
-        int locktime = int(bytes4(tx.inputs[0].nftCommitment));
+        int locktime = int(tx.inputs[0].nftCommitment);
 
         // Height stored in mutable NFT commitment MUST be incremented by <step>.
         require(tx.outputs[0].nftCommitment == bytes4(locktime+step));
@@ -78,7 +74,6 @@ contract Gantry(
         } else {
             // Get the redeem bytecode of the vault instance
             bytes theVault = 
-                0x20 + tx.inputs[0].outpointTransactionHash +   // new fungible category
                 0x04 + bytes4(tx.inputs[0].nftCommitment) +     // locktime
                 vaultUnlockingBytecode;    
 
