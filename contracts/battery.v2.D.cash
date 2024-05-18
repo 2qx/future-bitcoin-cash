@@ -1,8 +1,8 @@
 pragma cashscript ^0.10.0;
 
-// [WIP] 2024-04-23
+// [WIP] 2024-05-18
 
-// Battery - Spawn an array of vault deploying gantries from a single utxo.
+// DETERMISTIC(?) Battery - Spawn an array of vault deploying gantries from a single utxo.
 //
 // From: Future Bitcoin Cash
 //
@@ -56,15 +56,12 @@ contract Battery(
         // We allow only 1 input, creator must provide enough BCH 
         // when they make the Battery UTXO.
         require(tx.inputs.length == 1);
-    
+        require(tx.outputs.length == 2);
+
         // Get the commitment 
         int step = int(tx.inputs[0].nftCommitment);
 
-        if(step > end) {
-
-            // Set the gantry commitment to a block on increment in the near future.
-            bytes4 gantryStart = bytes4(startTime - (startTime % step) + step);
-            require(tx.outputs[1].nftCommitment == gantryStart);
+        if(step < end) {
 
             // Get the redeem bytecode of the gantry instance
             bytes gantryRedeemBytecode = bytes(vaultUnlockingBytecode.length) + vaultUnlockingBytecode +
@@ -77,6 +74,15 @@ contract Battery(
                 == tx.outputs[1].lockingBytecode
             );
 
+            // Fund the gantry in full
+            require(tx.outputs[1].value == (tx.inputs[0].value*9/10) - 1000);   
+
+
+            // Set the gantry commitment to a block on increment in the near future.
+            bytes4 gantryStart = bytes4(startTime - (startTime % step) + step);
+            require(tx.outputs[1].nftCommitment == gantryStart);
+            require(tx.outputs[1].tokenAmount == 0);  
+
             bytes gantryCategory, bytes gantryCapability = tx.outputs[1].tokenCategory.split(32);
 
             // Assure the gantry baton is a non-minting NFT
@@ -85,14 +91,21 @@ contract Battery(
             // Assure the gantry category matches the battery category
             require(gantryCategory == tx.inputs[0].tokenCategory.split(32)[0]);
 
-            // Prevent all the value from being cleared off
-            require((tx.inputs[0].value - (tx.outputs[0].value + tx.outputs[1].value)) < 1000);
+
+            // then pass the baton back 
+            require(tx.outputs[0].lockingBytecode == tx.inputs[0].lockingBytecode);
+
+            // with exaclty one 10th the value
+            require(tx.outputs[0].value == tx.inputs[0].value/10);
+
+            require(tx.outputs[0].tokenCategory == tx.inputs[0].tokenCategory);
+            require(tx.outputs[0].tokenAmount == 0);  
 
             // Increment the baton by an order of magnitude
-            require(bytes4(step / 10) == tx.outputs[0].nftCommitment);
-            // then pass it 
-            require(tx.inputs[0].tokenCategory == tx.outputs[0].tokenCategory);
-            require(tx.inputs[0].lockingBytecode == tx.outputs[0].lockingBytecode);
+            require(tx.outputs[0].nftCommitment == bytes4(step * 10)); 
+
+
+
 
         } else {
             // Burn the minting baton, allow value to be taken
@@ -100,7 +113,8 @@ contract Battery(
 
             // The output gleening sats cannot have an NFT
             require(tx.outputs[1].tokenCategory == 0x);
-            require(tx.outputs.length==2);
+
+            // The balance is free
         }
         
     }

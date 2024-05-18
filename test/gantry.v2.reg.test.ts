@@ -77,12 +77,12 @@ describe('test example contract functions', () => {
         const tokenIdUnRev = swapEndianness(batonResponse.tokenIds![0]);
         // const tokenIdUnRev = batonResponse.tokenIds![0];
         
-        let locktime = 110;
+        let locktime = 110n;
         // convert locktime to LE Byte4
-        let locktimeBytes = to32LE(locktime);
+        let locktimeBytes = to32LE(Number(locktime));
         const tmpVault = new Contract(
             vaultArtifact,
-            [locktimeBytes],
+            [locktime],
             { provider }
         )
 
@@ -112,7 +112,7 @@ describe('test example contract functions', () => {
 
         const vault = new Contract(
             vaultArtifact,
-            [locktimeBytes],
+            [locktime],
             { provider }
         )
 

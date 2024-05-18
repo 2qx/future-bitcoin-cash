@@ -29,14 +29,7 @@ pragma cashscript ^0.10.0;
 //  Inputs              Outputs
 //  [0] NFT mintBaton   ->  [0] NFT mintBaton
 //  [1] topup sats?     =>  [1] FTs Vault
-//                          [2] FTs Vault
-//                          [3] FTs Vault
-//                          [4] FTs Vault
-//                          [5] FTs Vault
-//                          [6] FTs Vault
-//                          [7] FTs Vault
-//                          [8] OP_RETURN SMP0 1000 FBCH <locktime>
-//                          
+//                          [2] OP_RETURN SMP0 1000 FBCH <locktime>
 //  
 //  ... but skip every 10th token print, 
 //   which will be printed by the gantry of the next order.
@@ -50,23 +43,24 @@ contract Gantry(
     ) {
 
     function execute(){
-        
-        // Gantry covenant must be passed on
-        // in first outputs[0] in any case.
-        require(tx.inputs[0].lockingBytecode == tx.outputs[0].lockingBytecode);
 
-        // Return mutable NFT baton
-        // to outputs[0] in any case.
-        require(tx.inputs[0].tokenCategory == tx.outputs[0].tokenCategory);
-        
+        // Gantry covenant and the associated NFT baton must be spent as index 0
+        // input and passed on to index 0 output, funded with some dust BCH in order
+        // to avoid griefing by someone with access to hashrate
+        require(this.activeInputIndex == 0);
+        require(tx.inputs[this.activeInputIndex].lockingBytecode == tx.outputs[this.activeInputIndex].lockingBytecode);
+        require(tx.inputs[this.activeInputIndex].tokenCategory == tx.outputs[this.activeInputIndex].tokenCategory);
+        require(tx.outputs[this.activeInputIndex].value > 1000);
+
         // simply return the NFT baton without minting FTs
         require(tx.outputs[0].tokenAmount == 0);
 
         int step = int(stepBytes);
-        int locktime = int(tx.inputs[0].nftCommitment);
+        int locktime = int(tx.inputs[this.activeInputIndex].nftCommitment);
 
         // Height stored in mutable NFT commitment MUST be incremented by <step>.
-        require(tx.outputs[0].nftCommitment == bytes4(locktime+step));
+        // Where both timelock and step are given in block height.
+        require(tx.outputs[this.activeInputIndex].nftCommitment == bytes4(locktime+step));
 
         // if not a 10th step, mint tokens
         if((locktime/step)%10==0){ 
@@ -79,34 +73,21 @@ contract Gantry(
 
             bytes vaultLockingBytecode = 0xaa20 + hash256(theVault) + 0x87;
 
-            // shard out tokens across seven UTXOs
+            // Verify creation of exactly three Vault genesis output
             require(tx.outputs[1].lockingBytecode == vaultLockingBytecode);       
             require(tx.outputs[1].tokenCategory == tx.inputs[0].outpointTransactionHash);
-            require(tx.outputs[1].tokenAmount == 300000000000000);     
+            require(tx.outputs[1].tokenAmount == 700000000000000);     
+            require(tx.outputs[1].value > 1000);
 
-            require(tx.outputs[2].lockingBytecode == vaultLockingBytecode);       
-            require(tx.outputs[2].tokenCategory == tx.inputs[0].outpointTransactionHash);
-            require(tx.outputs[2].tokenAmount == 300000000000000);  
+            // require(tx.outputs[2].lockingBytecode == vaultLockingBytecode);       
+            // require(tx.outputs[2].tokenCategory == tx.inputs[0].outpointTransactionHash);
+            // require(tx.outputs[2].tokenAmount == 700000000000000);     
+            // require(tx.outputs[2].value > 1000);
 
-            require(tx.outputs[3].lockingBytecode == vaultLockingBytecode);       
-            require(tx.outputs[3].tokenCategory == tx.inputs[0].outpointTransactionHash);
-            require(tx.outputs[3].tokenAmount == 300000000000000);  
-
-            require(tx.outputs[4].lockingBytecode == vaultLockingBytecode);       
-            require(tx.outputs[4].tokenCategory == tx.inputs[0].outpointTransactionHash);
-            require(tx.outputs[4].tokenAmount == 300000000000000);  
-
-            require(tx.outputs[5].lockingBytecode == vaultLockingBytecode);       
-            require(tx.outputs[5].tokenCategory == tx.inputs[0].outpointTransactionHash);
-            require(tx.outputs[5].tokenAmount == 300000000000000);  
-
-            require(tx.outputs[6].lockingBytecode == vaultLockingBytecode);       
-            require(tx.outputs[6].tokenCategory == tx.inputs[0].outpointTransactionHash);
-            require(tx.outputs[6].tokenAmount == 300000000000000);  
-
-            require(tx.outputs[7].lockingBytecode == vaultLockingBytecode);       
-            require(tx.outputs[7].tokenCategory == tx.inputs[0].outpointTransactionHash);
-            require(tx.outputs[7].tokenAmount == 300000000000000);  
+            // require(tx.outputs[3].lockingBytecode == vaultLockingBytecode);       
+            // require(tx.outputs[3].tokenCategory == tx.inputs[0].outpointTransactionHash);
+            // require(tx.outputs[3].tokenAmount == 700000000000000);     
+            // require(tx.outputs[3].value > 1000);           
 
             // Tag this FT mint for indexers 
             //
@@ -115,18 +96,14 @@ contract Gantry(
             // 02 10 00        minted ticker from input 0
             // 04 46 42 43 48  FBCH
             // 04 90 05 10 00  <locktime>
-            bytes announcement = new LockingBytecodeNullData([
-                bytes('SMP0'),
-                0x1000,
-                bytes('FBCH'),
-                tx.inputs[0].nftCommitment,
-                0x08
-                ]);
-            require(tx.outputs[8].lockingBytecode == announcement);
+            // 01 08           decimals
+            bytes announcement = 0x6a0446424348021000044642434804 + tx.inputs[0].nftCommitment + 0x0108;
+            require(tx.outputs[4].lockingBytecode == announcement);
+            require(tx.outputs[4].tokenCategory == 0x);
+            require(tx.outputs[4].value == 0);
 
-            // Is this check necessary if the op_return is used?
-            require(tx.outputs[8].value == 0);
-            require(int(tx.outputs.length) == 9);  
+            // Ensure no other outputs can be created
+            require(tx.outputs.length == 5);  
 
         }     
         

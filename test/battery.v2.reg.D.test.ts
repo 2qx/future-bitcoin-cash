@@ -1,6 +1,6 @@
-import { artifact } from '../contracts/battery.v1.js';
-import { artifact as gantryArtifact } from '../contracts/gantry.v1.js';
-import { artifact as vaultArtifact } from '../contracts/vault.v1.js';
+import { artifact } from '../contracts/battery.v2.D.js';
+import { artifact as gantryArtifact } from '../contracts/gantry.v2.D.js';
+import { artifact as vaultArtifact } from '../contracts/vault.v2.js';
 import {
     ElectrumCluster,
     ClusterOrder,
@@ -34,9 +34,9 @@ describe('test example contract functions', () => {
 
         let provider = new ElectrumNetworkProvider("regtest", regTest, false);
 
-        const alice = await getAnAliceWallet(2_000_000)
+        const alice = await getAnAliceWallet(100_000_000)
 
-        let step = 1000000;
+        let step = 100;
         // convert locktime to LE Byte4
         let stepBytes = to32LE(step);
 
@@ -57,27 +57,19 @@ describe('test example contract functions', () => {
 
         let batonReverse = swapEndianness(baton.category);
 
-        let locktime = 110;
-        // convert locktime to LE Byte4
-        let locktimeBytes = to32LE(locktime);
-        const vault = new Contract(
-            vaultArtifact,
-            [
-                locktimeBytes,
-                batonReverse
-            ],
-            { provider }
-        )
+        let locktime = 110n;
 
-
-        let tmpGantry = new Contract(gantryArtifact, [batonReverse, stepBytes, vault.bytecode.slice(76)], { provider });
-        const contract = new Contract(artifact, [99n, 200n, tmpGantry.bytecode.slice(194), vault.bytecode.slice(76)], { provider });
+        const vault = new Contract(vaultArtifact,[locktime],{ provider })
+        let vaultBytecode = vault.bytecode.slice(10)
+        let tmpGantry = new Contract(gantryArtifact, [stepBytes, vaultBytecode], { provider });
+        let gantryBytecode = tmpGantry.bytecode.slice(10+vaultBytecode.length+2)
+        const contract = new Contract(artifact, [99n, 200n, gantryBytecode, vaultBytecode], { provider });
 
         // fund the contract
         await alice.send([
             new TokenSendRequest({
                 cashaddr: contract.tokenAddress,
-                value: 1000000,
+                value: 100000000,
                 tokenId: baton.category,
                 capability: NFTCapability.minting,
                 commitment: binToHex(stepBytes)
@@ -89,7 +81,8 @@ describe('test example contract functions', () => {
         while (step > 99) {
 
             let stepBytes = to32LE(step);
-            let gantry = new Contract(gantryArtifact, [batonReverse, stepBytes, vault.bytecode.slice(76)], { provider });
+            console.log(step, " ", binToHex(stepBytes))
+            let gantry = new Contract(gantryArtifact, [stepBytes, vaultBytecode], { provider });
             let utxo = (await provider.getUtxos(contract.tokenAddress))[0]
             let nextExpiration = currentTime - (currentTime % step) + step;
             let transaction = contract.functions
@@ -101,19 +94,19 @@ describe('test example contract functions', () => {
 
                         {
                             to: contract.tokenAddress,
-                            amount: utxo.satoshis - 1900n,
+                            amount: (utxo.satoshis/10n) ,
                             token: randomNFT({
                                 amount: 0n,
                                 category: baton.category,
                                 nft: {
-                                    commitment: binToHex(to32LE(step / 10)),
+                                    commitment: binToHex(to32LE(step * 10)),
                                     capability: 'minting'
                                 }
                             })
                         },
                         {
                             to: gantry.tokenAddress,
-                            amount: 1000n,
+                            amount: (utxo.satoshis*9n/10n)-1000n,
                             token: randomNFT({
                                 amount: 0n,
                                 category: baton.category,
@@ -126,7 +119,7 @@ describe('test example contract functions', () => {
                     ]
                 ).send();
             await expect(transaction).resolves.not.toThrow();
-            step /= 10;
+            step *= 10;
 
         }
 

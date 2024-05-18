@@ -1,5 +1,9 @@
 pragma cashscript ^0.10.0;
 
+// Junk contract - testing implementation of metadata protocol. 
+//
+// For testing purposes ONLY.
+//
 
 contract metadata() {
     function test01() {
