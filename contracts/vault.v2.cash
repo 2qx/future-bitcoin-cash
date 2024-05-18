@@ -21,18 +21,18 @@ pragma cashscript ^0.10.0;
 //  [2] coupon?     -^
 //
 
-contract Vault(bytes4 locktime) {
+contract Vault(int locktime) {
 
     function swap() {
         
         // If tokens are flowing back into this contract
         if(tx.outputs[this.activeInputIndex].tokenAmount > tx.inputs[this.activeInputIndex].tokenAmount){
             // enforce a BIP65 timelock 
-            require(tx.time >= int(locktime));
+            require(tx.time >= locktime);
         } 
 
         // 
-        // Inspired by wrapped.cash c.Nov 2023
+        // Inspired by wrapped.cash c. Nov 2023
         // Author: Dagur Valberg Johannsson <dagurval@pvv.ntnu.no> 
         // License: MIT
         //

@@ -59,7 +59,7 @@ describe('test example contract functions', () => {
         const vault = new Contract(
             vaultArtifact,
             [
-                locktimeBytes
+                BigInt(locktime)
             ],
             { provider }
         )

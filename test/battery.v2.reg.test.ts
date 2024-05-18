@@ -6,12 +6,10 @@ import {
     ClusterOrder,
     ElectrumTransport,
 } from "electrum-cash";
-import { RegTestWallet, TokenSendRequest, NFTCapability } from "mainnet-js";
-import { Contract, randomUtxo, randomNFT, FailedTransactionError, ElectrumNetworkProvider } from 'cashscript';
+import { TokenSendRequest, NFTCapability } from "mainnet-js";
+import { Contract, randomNFT, ElectrumNetworkProvider } from 'cashscript';
 import {
-    binToHex, hexToBin,
-    cashAssemblyToBin,
-    lockingBytecodeToCashAddress, numberToBinUint32LEClamped, swapEndianness
+    binToHex, hexToBin, numberToBinUint32LEClamped, swapEndianness
 } from "@bitauth/libauth";
 
 import { getAnAliceWallet } from "./aliceWalletTest.js";
@@ -57,11 +55,9 @@ describe('test example contract functions', () => {
 
         let batonReverse = swapEndianness(baton.category);
 
-        let locktime = 110;
-        // convert locktime to LE Byte4
-        let locktimeBytes = to32LE(locktime);
+        let locktime = 110n;
 
-        const vault = new Contract(vaultArtifact,[locktimeBytes],{ provider })
+        const vault = new Contract(vaultArtifact,[locktime],{ provider })
         let vaultBytecode = vault.bytecode.slice(10)
         let tmpGantry = new Contract(gantryArtifact, [stepBytes, vaultBytecode], { provider });
         let gantryBytecode = tmpGantry.bytecode.slice(10+vaultBytecode.length+2)

@@ -71,15 +71,13 @@ describe('test example contract functions', () => {
 
             hash = binToHex(hash256(signedTx))
         }
-        console.log(hash)
         await alice.submitTransaction(signedTx)
         let batonResponse = await alice.tokenGenesis({
-            commitment: binToHex(stepBytes),             // NFT Commitment message
-            capability: NFTCapability.minting, // NFT capability
-            value: 100000,                     // Satoshi value
+            commitment: binToHex(stepBytes),            // NFT Commitment message
+            capability: NFTCapability.minting,          // NFT capability
+            value: 100000,                              // Satoshi value
         })
 
-        console.log(batonResponse.tokenIds![0])
         let baton = randomNFT({
             amount: 0n,
             category: batonResponse.tokenIds![0],
@@ -124,7 +122,6 @@ describe('test example contract functions', () => {
         while (step > 99) {
 
             let stepBytes = to32LE(step);
-            console.log(step, " ", binToHex(stepBytes))
             let gantry = new Contract(gantryArtifact, [batonReverse, stepBytes, vault.bytecode.slice(76)], { provider });
             let utxo = (await provider.getUtxos(contract.tokenAddress))[0]
             let nextExpiration = currentTime - (currentTime % step) + step;

@@ -168,7 +168,6 @@ describe('test example contract functions', () => {
                 "0x08"
             ]).send();
 
-        console.log((await transaction).outputs)
         expect(transaction).resolves.not.toThrow();
     });
 });

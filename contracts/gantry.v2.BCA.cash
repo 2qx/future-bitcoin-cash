@@ -1,0 +1,54 @@
+pragma cashscript ^0.10.0;
+
+contract Gantry(
+    int step, 
+    bytes vaultUnlockingBytecode
+    ) {
+    function execute(){
+        // Gantry covenant and the associated NFT baton must be spent as index 0
+        // input and passed on to index 0 output, funded with some dust BCH in order
+        // to avoid griefing by someone with access to hashrate
+        require(this.activeInputIndex == 0);
+        require(tx.inputs[this.activeInputIndex].lockingBytecode == tx.outputs[this.activeInputIndex].lockingBytecode);
+        require(tx.inputs[this.activeInputIndex].tokenCategory == tx.outputs[this.activeInputIndex].tokenCategory);
+        require(tx.outputs[this.activeInputIndex].value > 800);
+
+        // Read a bytes4 LE commitment and convert to script number
+        int locktime = int(tx.inputs[this.activeInputIndex].nftCommitment);
+
+        // Locktime stored in mutable NFT commitment MUST be incremented by <step>
+        // and stored as bytes4 LE uint again.
+        require(tx.outputs[this.activeInputIndex].nftCommitment == bytes4(locktime+step));
+
+        // Every 10th step, skip creating Vault and just increment the commitment
+        if((locktime/step)%10==0){ 
+            require(tx.outputs.length == 1);
+        } else {
+            // Construct redeem bytecode for the Vault instance being created
+            bytes theVault = 
+                bytes(bytes(locktime).length) + bytes4(locktime) +     // locktime
+                vaultUnlockingBytecode;
+            // Construct P2SH32 locking bytecode from redeem bytecode
+            bytes vaultLockingBytecode = 0xaa20 + hash256(theVault) + 0x87;
+
+            // Verify creation of exactly one Vault genesis output
+            require(tx.outputs[1].lockingBytecode == vaultLockingBytecode);       
+            require(tx.outputs[1].tokenCategory == tx.inputs[0].outpointTransactionHash);
+            require(tx.outputs[1].tokenAmount == 2100000000000000);     
+            require(tx.outputs[1].value > 800);
+
+            // Tag this FT mint for indexers 
+            //
+            // 6a              OP_RETURN
+            // 04 46 42 43 48  <'FBCH'>
+            // 04 90 05 10 00  <locktime>
+            bytes announcement = 0x6a044642434804 + tx.inputs[this.activeInputIndex].nftCommitment;
+            require(tx.outputs[2].lockingBytecode == announcement);
+            require(tx.outputs[2].tokenCategory == 0x);
+            require(tx.outputs[2].value == 0);
+
+            // Ensure no other outputs can be created
+            require(tx.outputs.length == 3);
+        }           
+    }
+}

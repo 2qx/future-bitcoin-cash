@@ -1,0 +1,52 @@
+contract Vault(int locktime) {
+
+    function swap() {
+
+        // redeemsDisabled state can either be passed on or irreversibly switched
+        // to enabled after locktime expires.
+        bytes redeemsDisabled = tx.inputs[this.activeInputIndex].nftCommitment;
+        if (redeemsDisabled != 0x && tx.outputs[this.activeInputIndex].nftCommitment == 0x) {
+            // If attempting to enable redeems, the TX must satisfy locktime
+            require(tx.time >= locktime);
+        } else {
+            // Else, just pass it on as it is
+            require(tx.outputs[this.activeInputIndex].nftCommitment == redeemsDisabled);
+        }
+
+        // Mint or redeem, depending on this Vault's NFT state
+        int tokensRedeemed = tx.outputs[this.activeInputIndex].tokenAmount -
+            tx.inputs[this.activeInputIndex].tokenAmount;
+        if (redeemsDisabled != 0x) {
+            require(tokensRedeemed < 0);
+        } else {
+            require(tokensRedeemed > 0);
+        }
+
+        // 
+        // Inspired by wrapped.cash c.Nov 2023
+        // Author: Dagur Valberg Johannsson <dagurval@pvv.ntnu.no> 
+        // License: MIT
+        //
+        require(
+          tx.inputs[this.activeInputIndex].tokenCategory 
+          == 
+          tx.outputs[this.activeInputIndex].tokenCategory
+          );
+
+        // Enforce that this contract lives on
+        require(
+          tx.outputs[this.activeInputIndex].lockingBytecode 
+          == 
+          tx.inputs[this.activeInputIndex].lockingBytecode
+          );
+
+        require(
+          tx.inputs[this.activeInputIndex].tokenAmount + 
+          tx.inputs[this.activeInputIndex].value 
+          == 
+          tx.outputs[this.activeInputIndex].tokenAmount + 
+          tx.outputs[this.activeInputIndex].value
+         );
+    }
+
+}
