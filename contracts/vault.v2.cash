@@ -59,7 +59,6 @@ contract Vault(int locktime) {
           tx.outputs[this.activeInputIndex].tokenAmount + 
           tx.outputs[this.activeInputIndex].value
          );
-         require(tx.outputs[this.activeInputIndex].value >= 800);
     }
 
 }
