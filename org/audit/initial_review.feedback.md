@@ -36,9 +36,9 @@ The following changes were suggested and adopted:
 
 ## Operational Cost Considerations
 
-On contract size optimizations, the Battery may result in a half dozen transactions for the whole system, the Gantries may produce one transaction every 16 hours (or once per week) so the fixed system transaction fees seem trivial.
+On contract size optimizations, the Battery may result in a half dozen transactions for the whole system, the Gantries may produce one transaction every 16 hours (or, alternatively, once per week) so the fixed system transaction fees seem trivial.
 
-However, in contrast, the totality of Vault and Coupon fees will end up being significant **variable** costs of the system. For this reason the size of unlocking code has been minimized to the furthest extent possible:
+However, in contrast, the totality of Vault and Coupon fees will end up being significant **per use** costs of the system. For this reason the size of unlocking code has been minimized to the furthest extent possible:
 
 
 | Contract  | Unlocking Script |
@@ -61,4 +61,4 @@ So the cheapest Vault and Coupon contracts should mean more money for savers, an
 
 The Coupon contracts offer a discount to anyone spending a minium amount of BCH as the first output on a specific contract, as long as the coupon is the last input, i.e. limit one per transaction.
 
-As such, there is no logic specific to CashTokens or the Vault system in the Coupons and the template could be used to incentivize any number of activities, provided there is some inherent cost (i.e. time) associated with the transaction or it's outputs.
+As such, there is no logic specific to CashTokens or the Vault system in the Coupons and the template could be used to incentivize any number of activities, provided there is some inherent cost (i.e. money & time) associated with the transaction or it's outputs.
