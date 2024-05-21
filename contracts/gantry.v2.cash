@@ -76,18 +76,38 @@ contract Gantry(
             // Verify creation of exactly three Vault genesis outputs
             require(tx.outputs[1].lockingBytecode == vaultLockingBytecode);       
             require(tx.outputs[1].tokenCategory == tx.inputs[0].outpointTransactionHash);
-            require(tx.outputs[1].tokenAmount == 700000000000000);     
+            require(tx.outputs[1].tokenAmount == 300000000000000);     
             require(tx.outputs[1].value >= 1000);
 
             require(tx.outputs[2].lockingBytecode == vaultLockingBytecode);       
             require(tx.outputs[2].tokenCategory == tx.inputs[0].outpointTransactionHash);
-            require(tx.outputs[2].tokenAmount == 700000000000000);     
+            require(tx.outputs[2].tokenAmount == 300000000000000);     
             require(tx.outputs[2].value >= 1000);
 
             require(tx.outputs[3].lockingBytecode == vaultLockingBytecode);       
             require(tx.outputs[3].tokenCategory == tx.inputs[0].outpointTransactionHash);
-            require(tx.outputs[3].tokenAmount == 700000000000000);     
+            require(tx.outputs[3].tokenAmount == 300000000000000);     
             require(tx.outputs[3].value >= 1000);           
+
+            require(tx.outputs[4].lockingBytecode == vaultLockingBytecode);       
+            require(tx.outputs[4].tokenCategory == tx.inputs[0].outpointTransactionHash);
+            require(tx.outputs[4].tokenAmount == 300000000000000);     
+            require(tx.outputs[4].value >= 1000);
+
+            require(tx.outputs[5].lockingBytecode == vaultLockingBytecode);       
+            require(tx.outputs[5].tokenCategory == tx.inputs[0].outpointTransactionHash);
+            require(tx.outputs[5].tokenAmount == 300000000000000);     
+            require(tx.outputs[5].value >= 1000);
+
+            require(tx.outputs[6].lockingBytecode == vaultLockingBytecode);       
+            require(tx.outputs[6].tokenCategory == tx.inputs[0].outpointTransactionHash);
+            require(tx.outputs[6].tokenAmount == 300000000000000);     
+            require(tx.outputs[6].value >= 1000);   
+
+            require(tx.outputs[7].lockingBytecode == vaultLockingBytecode);       
+            require(tx.outputs[7].tokenCategory == tx.inputs[0].outpointTransactionHash);
+            require(tx.outputs[7].tokenAmount == 300000000000000);     
+            require(tx.outputs[7].value >= 1000);
 
             // Tag FT metadata for indexers 
             //
@@ -98,12 +118,12 @@ contract Gantry(
             // 04 90 05 10 00  <locktime> (4-byte LE)
             // 01 08           decimals
             bytes announcement = 0x6a04534d5030021000044642434804 + tx.inputs[0].nftCommitment + 0x0108;
-            require(tx.outputs[4].lockingBytecode == announcement);
-            require(tx.outputs[4].tokenCategory == 0x);
-            require(tx.outputs[4].value == 0);
+            require(tx.outputs[8].lockingBytecode == announcement);
+            require(tx.outputs[8].tokenCategory == 0x);
+            require(tx.outputs[8].value == 0);
 
             // Ensure no other outputs can be created
-            require(tx.outputs.length == 5);  
+            require(tx.outputs.length == 9);  
 
         }     
         

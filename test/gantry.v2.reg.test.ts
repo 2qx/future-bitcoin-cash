@@ -125,10 +125,13 @@ describe('test example contract functions', () => {
                         amount: o1,
                         token: updatedBaton
                     },
-                    { to: vault.tokenAddress, amount: 1000n, token: { amount: 700000000000000n, category: utxo.txid } }, // 1
-                    { to: vault.tokenAddress, amount: 1000n, token: { amount: 700000000000000n, category: utxo.txid } }, // 2
-                    { to: vault.tokenAddress, amount: 1000n, token: { amount: 700000000000000n, category: utxo.txid } }, // 3
-
+                    { to: vault.tokenAddress, amount: 1000n, token: { amount: BigInt(3e14), category: utxo.txid } }, // 1
+                    { to: vault.tokenAddress, amount: 1000n, token: { amount: BigInt(3e14), category: utxo.txid } }, // 2
+                    { to: vault.tokenAddress, amount: 1000n, token: { amount: BigInt(3e14), category: utxo.txid } }, // 3
+                    { to: vault.tokenAddress, amount: 1000n, token: { amount: BigInt(3e14), category: utxo.txid } }, // 4
+                    { to: vault.tokenAddress, amount: 1000n, token: { amount: BigInt(3e14), category: utxo.txid } }, // 5
+                    { to: vault.tokenAddress, amount: 1000n, token: { amount: BigInt(3e14), category: utxo.txid } }, // 6
+                    { to: vault.tokenAddress, amount: 1000n, token: { amount: BigInt(3e14), category: utxo.txid } }, // 7
                 ]
             )
             //
