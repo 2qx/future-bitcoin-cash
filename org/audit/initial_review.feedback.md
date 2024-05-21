@@ -1,9 +1,10 @@
+This document is to summarize discussions and feedback from the initial audit, as well as, clarify some aspects of expected system operation.
+
 ## Scope
 
 As mentioned by "the auditor", the Audit is primarily focused on the Vault and Gantry contracts.
 
 The Battery contract should complete operations before any user funds are placed in the system. And new Coupon contracts may upgraded or deployed at anytime without affecting funds in the Vaults.
-
 
 ## Adopted suggestions from Initial Review 
 
