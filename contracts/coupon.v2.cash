@@ -38,11 +38,11 @@ contract Coupon(
 
   function apply() {
     
-    // Check that the first output is the contract of interest. 
-    require(tx.inputs[0].lockingBytecode == lock);
-
     // assure at the minium amount is sent to the intended contract
     require((tx.outputs[0].value - tx.inputs[0].value) >= amount);
+
+    // Check that the first output is the contract of interest. 
+    require(tx.inputs[0].lockingBytecode == lock);
   
     // The coupon must be spent as the last input, 
     //   therefore only coupon may be spent at a time.
