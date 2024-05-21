@@ -55,8 +55,7 @@ contract Gantry(
         require(tx.inputs[this.activeInputIndex].lockingBytecode == tx.outputs[this.activeInputIndex].lockingBytecode);
         require(tx.inputs[this.activeInputIndex].tokenCategory == tx.outputs[this.activeInputIndex].tokenCategory);
         require(tx.outputs[this.activeInputIndex].value > 1000);
-        require(tx.outputs[this.activeInputIndex].tokenAmount == 0);
-
+        
         int locktime = int(tx.inputs[this.activeInputIndex].nftCommitment);
 
         // Height stored in mutable NFT commitment MUST be incremented by <step>.

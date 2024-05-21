@@ -31,18 +31,18 @@ contract Coupon(
   // Minimum spent (sats) to claim each coupon utxo.
   int amount,
   
-  // Contract holding the logic.
+  // Destination for the zeroth (constraining) output.
   bytes lock
 
 ){
 
   function apply() {
     
-    // Check that the first output is the contract of interest. 
-    require(tx.inputs[0].lockingBytecode == lock);
+    // assure at the minium amount is sent as the first output
+    require(tx.outputs[0].value >= amount);
 
-    // assure at the minium amount is sent to the intended contract
-    require((tx.outputs[0].value - tx.inputs[0].value) >= amount);
+    // Check that the first output sends to the intended recipient. 
+    require(tx.outputs[0].lockingBytecode == lock);
   
     // The coupon must be spent as the last input, 
     //   therefore only coupon may be spent at a time.
