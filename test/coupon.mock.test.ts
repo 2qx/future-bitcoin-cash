@@ -1,5 +1,5 @@
 
-import { artifact } from '../contracts/coupon.v1.js';
+import { artifact } from '../contracts/coupon.v2.js';
 import { aliceAddress, aliceTemplate } from './alice.js';
 import { Contract, MockNetworkProvider, 
     TransactionBuilder, randomUtxo } from 'cashscript';

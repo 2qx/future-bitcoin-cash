@@ -19,7 +19,7 @@ import {
     SignatureTemplate
 } from "cashscript";
 import { RegTestWallet, SendRequest, mine } from "mainnet-js";
-import { artifact as v1 } from "../contracts/coupon.v1.js";
+import { artifact as v1 } from "../contracts/coupon.v2.js";
 import { getAnAliceWallet } from "./aliceWalletTest.js";
 
 const to32LE = numberToBinUint32LEClamped;
