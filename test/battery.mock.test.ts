@@ -1,6 +1,6 @@
-import { artifact } from '../contracts/battery.v1.js';
-import { artifact as gantryArtifact } from '../contracts/gantry.v1.js';
-import { artifact as vaultArtifact } from '../contracts/vault.v1.js';
+import { artifact } from '../contracts/battery.v2.js';
+import { artifact as gantryArtifact } from '../contracts/gantry.v2.js';
+import { artifact as vaultArtifact } from '../contracts/vault.v2.js';
 import { Contract, MockNetworkProvider, randomUtxo, randomNFT, FailedTransactionError } from 'cashscript';
 import { binToHex, hexToBin, numberToBinUint32LEClamped, swapEndianness } from "@bitauth/libauth";
 import 'cashscript/dist/test/JestExtensions.js';
@@ -11,16 +11,13 @@ describe('test example contract functions', () => {
   it('should allow execution of a battery contract', async () => {
     const provider = new MockNetworkProvider();
 
-
-
-
     let baton = randomNFT({
       amount: 0n,
       nft: {
         commitment: binToHex(to32LE(1000000)), // 1,000,000
         capability: "minting"
       },
-    })
+    });
 
     let gantryBaton = randomNFT({
       amount: 0n,
@@ -29,7 +26,7 @@ describe('test example contract functions', () => {
         commitment: binToHex(to32LE(1000000)), // 1,000,000
         capability: 'none'
       }
-    })
+    });
 
     let batteryBaton = randomNFT({
       amount: 0n,
@@ -38,27 +35,17 @@ describe('test example contract functions', () => {
         commitment: binToHex(to32LE(100000)), // 100,000
         capability: 'minting'
       }
-    })
+    });
 
-    let batonReverse = swapEndianness(baton.category);
-
-    let locktime = 110;
-    // convert locktime to LE Byte4
-    let locktimeBytes = to32LE(locktime);
-    const vault = new Contract(
-      vaultArtifact,
-      [
-        locktimeBytes,
-        batonReverse
-      ],
-      { provider }
-    )
-
-    let step = 1000000;
-    // convert locktime to LE Byte4
-    let stepBytes = to32LE(step);
-    const gantry = new Contract(gantryArtifact, [batonReverse, stepBytes, vault.bytecode.slice(76)], { provider });
-    const contract = new Contract(artifact, [99n, 10001n, gantry.bytecode.slice(194), vault.bytecode.slice(76)], { provider });
+    let locktime = 110n;
+    let step = 1000000n;
+    
+    const vault = new Contract(vaultArtifact,[locktime],{ provider })
+    let vaultBytecode = vault.bytecode.slice(4)
+    let gantry = new Contract(gantryArtifact, [step, vaultBytecode], { provider });
+    let gantryBytecode = gantry.bytecode.slice(8 + vaultBytecode.length + 2)
+    const contract = new Contract(artifact, [99n, 10001n, gantryBytecode, vaultBytecode], { provider });
+    
 
     provider.addUtxo(contract.address, randomUtxo({
       satoshis: 1000100n,

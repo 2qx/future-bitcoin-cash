@@ -1,0 +1,51 @@
+contract Vault(int locktime, int maxSupply) {
+
+    function SwapOrTerminate() {
+
+        // redeemsDisabled state stored in the commitment can either be
+        // passed on or irreversibly switched to enabled after locktime expires.
+        bytes redeemsDisabled = tx.inputs[this.activeInputIndex].nftCommitment;
+        if (redeemsDisabled != 0x &&
+            tx.outputs[this.activeInputIndex].nftCommitment == 0x
+        ) {
+            // If attempting to enable redeems, the TX must satisfy locktime
+            require(tx.time >= locktime);
+        } else {
+            // Else, just pass it on as it is
+            require(tx.outputs[this.activeInputIndex].nftCommitment ==
+                redeemsDisabled);
+        }
+
+        // Mint, redeem, or terminate, depending on baton state.
+        if (redeemsDisabled == 0x &&
+            tx.inputs[this.activeInputIndex].tokenAmount == maxSupply
+        ) {
+            // If all tokens have been returned *after* expiry, then
+            // this Vault instance can be cleaned up.
+            require(tx.outputs[this.activeInputIndex].lockingBytecode == 0x6a);
+        } else {
+            // Enforce mint or redeem, depending on commitment state
+            int tokensRedeemed = tx.outputs[this.activeInputIndex].tokenAmount -
+                tx.inputs[this.activeInputIndex].tokenAmount;
+            if (redeemsDisabled != 0x) {
+                require(tokensRedeemed < 0);
+            } else {
+                require(tokensRedeemed > 0);
+            }
+
+            // Pass on the contract
+            require(tx.outputs[this.activeInputIndex].lockingBytecode ==
+                tx.inputs[this.activeInputIndex].lockingBytecode);
+
+            // Pass on the correct balance
+            require(tx.inputs[this.activeInputIndex].tokenAmount +
+                tx.inputs[this.activeInputIndex].value == 
+                tx.outputs[this.activeInputIndex].tokenAmount + 
+                tx.outputs[this.activeInputIndex].value);
+        }
+
+        // Token category and capability must be passed on in any case.
+        require(tx.inputs[this.activeInputIndex].tokenCategory ==
+            tx.outputs[this.activeInputIndex].tokenCategory);
+    }
+}

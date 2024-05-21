@@ -1,6 +1,6 @@
-import { artifact } from '../contracts/battery.v1.js';
-import { artifact as gantryArtifact } from '../contracts/gantry.v1.js';
-import { artifact as vaultArtifact } from '../contracts/vault.v1.js';
+import { artifact } from '../contracts/battery.v2.js';
+import { artifact as gantryArtifact } from '../contracts/gantry.v2.js';
+import { artifact as vaultArtifact } from '../contracts/vault.v2.js';
 import {
     ElectrumCluster,
     ClusterOrder,
@@ -38,9 +38,9 @@ describe('test example contract functions', () => {
 
         const alice = await getAnAliceWallet(2_010_000)
 
-        let step = 1000000;
+        let step = 1000000n;
         // convert locktime to LE Byte4
-        let stepBytes = to32LE(step);
+        let stepBytes = to32LE(Number(step));
         let unsigned = await alice.send(
             [
                 {
@@ -55,7 +55,7 @@ describe('test example contract functions', () => {
         let hash = ""
         const vanity = "f0"
         let signedTx = hexToBin("")
-        while (hash.slice(0,vanity.length) !== vanity) {
+        while (hash.slice(0, vanity.length) !== vanity) {
             unsigned = await alice.send(
                 [
                     {
@@ -87,23 +87,16 @@ describe('test example contract functions', () => {
             }
         })
 
-        let batonReverse = swapEndianness(baton.category);
-
-        let locktime = 110;
-        // convert locktime to LE Byte4
-        let locktimeBytes = to32LE(locktime);
+        let locktime = 110n;
         const vault = new Contract(
             vaultArtifact,
-            [
-                locktimeBytes,
-                batonReverse
-            ],
+            [locktime],
             { provider }
         )
-
-
-        let tmpGantry = new Contract(gantryArtifact, [batonReverse, stepBytes, vault.bytecode.slice(76)], { provider });
-        const contract = new Contract(artifact, [99n, 200n, tmpGantry.bytecode.slice(194), vault.bytecode.slice(76)], { provider });
+        let vaultBytecode = vault.bytecode.slice(4)
+        let tmpGantry = new Contract(gantryArtifact, [step, vaultBytecode], { provider });
+        let gantryBytecode = tmpGantry.bytecode.slice(8 + vaultBytecode.length + 2)
+        const contract = new Contract(artifact, [99n, 200n, gantryBytecode, vaultBytecode], { provider });
 
         // fund the contract
         let tx = await alice.send([
@@ -114,17 +107,15 @@ describe('test example contract functions', () => {
                 capability: NFTCapability.minting,
                 commitment: binToHex(stepBytes)
             }),
-
         ]);
 
         let currentTime = await provider.getBlockHeight()
 
-        while (step > 99) {
+        while (step > 99n) {
 
-            let stepBytes = to32LE(step);
-            let gantry = new Contract(gantryArtifact, [batonReverse, stepBytes, vault.bytecode.slice(76)], { provider });
+            let gantry = new Contract(gantryArtifact, [step, vaultBytecode], { provider });
             let utxo = (await provider.getUtxos(contract.tokenAddress))[0]
-            let nextExpiration = currentTime - (currentTime % step) + step;
+            let nextExpiration = currentTime - (currentTime % Number(step)) + Number(step);
             let transaction = contract.functions
                 .execute()
                 .from(utxo)
@@ -139,7 +130,7 @@ describe('test example contract functions', () => {
                                 amount: 0n,
                                 category: baton.category,
                                 nft: {
-                                    commitment: binToHex(to32LE(step / 10)),
+                                    commitment: binToHex(to32LE(Number(step) / 10)),
                                     capability: 'minting'
                                 }
                             })
@@ -159,12 +150,12 @@ describe('test example contract functions', () => {
                     ]
                 ).send();
             await expect(transaction).resolves.not.toThrow();
-            step /= 10;
+            step /= 10n;
 
         }
 
         let utxo = (await provider.getUtxos(contract.tokenAddress))[0]
-        let nextExpiration = currentTime - (currentTime % step) + step;
+        let nextExpiration = currentTime - (currentTime % Number(step)) + Number(step);
         let transaction = contract.functions
             .execute()
             .from(utxo)

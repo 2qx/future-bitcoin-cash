@@ -47,26 +47,19 @@ describe('test example contract functions', () => {
 
         let catReversed = swapEndianness(baton.category);
 
-        let step = 10
-        // convert locktime to LE Byte4
-        let stepBytes = to32LE(step);
+        let step = 10n
 
         let txId = "24faf3f715e35a5bc7efa383135b1a55249e0cc2bf2512972e3b7ba5cfa08742"
-        const tokenIdUnRev = swapEndianness(txId);
-        let locktime = 110;
-        // convert locktime to LE Byte4
-        let locktimeBytes = to32LE(locktime);
+        let locktime = 110n;
         const vault = new Contract(
             vaultArtifact,
-            [
-                BigInt(locktime)
-            ],
+            [locktime],
             { provider }
         )
         const contract = new Contract(
             artifact,
             [
-                stepBytes, // 10
+                step, // 10
                 vault.bytecode.slice(76)
             ],
             { provider }
@@ -119,7 +112,7 @@ describe('test example contract functions', () => {
                 "SMP0",
                 "0x1000",
                 "FBCH",
-                "0x" + binToHex(locktimeBytes),
+                "0x" + binToHex(to32LE(Number(locktime))),
                 "0x08"
             ]);
             // 0x6a 04 534d5030 02 1000 04 46424348 04 6e000000

@@ -15,7 +15,7 @@ import {
     SignatureTemplate
 } from "cashscript";
 import { RegTestWallet, TokenSendRequest, mine } from "mainnet-js";
-import { artifact as v1 } from "../contracts/vault.v1.js";
+import { artifact as v1 } from "../contracts/vault.v2.js";
 import { getAnAliceWallet } from "./aliceWalletTest.js";
 
 const to32LE = numberToBinUint32LEClamped;
@@ -59,12 +59,12 @@ describe(`TimeLock Tests`, () => {
 
         let blockHeight = (await alice.provider?.getBlockHeight())
         
-        let locktime = blockHeight! + 10
+        let locktime = BigInt(blockHeight!) + 10n
         // convert locktime to LE Byte4
-        let locktimeBytes = to32LE(locktime);
+        //let locktimeBytes = to32LE(locktime);
         let contract = new Contract(
             v1 as Artifact,
-            [locktimeBytes, tokenIdUnRev],
+            [locktime],
             { provider: provider, addressType: 'p2sh32' }
         );
 

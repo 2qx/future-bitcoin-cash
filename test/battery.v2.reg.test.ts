@@ -9,7 +9,7 @@ import {
 import { TokenSendRequest, NFTCapability } from "mainnet-js";
 import { Contract, randomNFT, ElectrumNetworkProvider } from 'cashscript';
 import {
-    binToHex, hexToBin, numberToBinUint32LEClamped, swapEndianness
+    binToHex, hexToBin, numberToBinUint32LEClamped
 } from "@bitauth/libauth";
 
 import { getAnAliceWallet } from "./aliceWalletTest.js";
@@ -32,16 +32,16 @@ describe('test example contract functions', () => {
 
         let provider = new ElectrumNetworkProvider("regtest", regTest, false);
 
-        const alice = await getAnAliceWallet(2_000_000)
+        const alice = await getAnAliceWallet(2_010_000)
 
-        let step = 1000000;
+        let step = 1000000n;
         // convert locktime to LE Byte4
-        let stepBytes = to32LE(step);
+        let stepBytes = to32LE(Number(step));
 
         let batonResponse = await alice.tokenGenesis({
             commitment: binToHex(stepBytes),             // NFT Commitment message
-            capability: NFTCapability.minting, // NFT capability
-            value: 100000,                     // Satoshi value
+            capability: NFTCapability.minting,           // NFT capability
+            value: 100000,                               // Satoshi value
         })
 
         let baton = randomNFT({
@@ -53,14 +53,11 @@ describe('test example contract functions', () => {
             }
         })
 
-        let batonReverse = swapEndianness(baton.category);
-
         let locktime = 110n;
-
         const vault = new Contract(vaultArtifact,[locktime],{ provider })
-        let vaultBytecode = vault.bytecode.slice(10)
-        let tmpGantry = new Contract(gantryArtifact, [stepBytes, vaultBytecode], { provider });
-        let gantryBytecode = tmpGantry.bytecode.slice(10+vaultBytecode.length+2)
+        let vaultBytecode = vault.bytecode.slice(4)
+        let tmpGantry = new Contract(gantryArtifact, [step, vaultBytecode], { provider });
+        let gantryBytecode = tmpGantry.bytecode.slice(8 + vaultBytecode.length + 2)
         const contract = new Contract(artifact, [99n, 200n, gantryBytecode, vaultBytecode], { provider });
 
         // fund the contract
@@ -76,13 +73,11 @@ describe('test example contract functions', () => {
 
         let currentTime = await provider.getBlockHeight()
 
-        while (step > 99) {
+        while (step > 99n) {
 
-            let stepBytes = to32LE(step);
-            console.log(step, " ", binToHex(stepBytes))
-            let gantry = new Contract(gantryArtifact, [stepBytes, vaultBytecode], { provider });
+            let gantry = new Contract(gantryArtifact, [step, vaultBytecode], { provider });
             let utxo = (await provider.getUtxos(contract.tokenAddress))[0]
-            let nextExpiration = currentTime - (currentTime % step) + step;
+            let nextExpiration = currentTime - (currentTime % Number(step)) + Number(step);
             let transaction = contract.functions
                 .execute()
                 .from(utxo)
@@ -97,7 +92,7 @@ describe('test example contract functions', () => {
                                 amount: 0n,
                                 category: baton.category,
                                 nft: {
-                                    commitment: binToHex(to32LE(step / 10)),
+                                    commitment: binToHex(to32LE(Number(step) / 10)),
                                     capability: 'minting'
                                 }
                             })
@@ -117,12 +112,12 @@ describe('test example contract functions', () => {
                     ]
                 ).send();
             await expect(transaction).resolves.not.toThrow();
-            step /= 10;
+            step /= 10n;
 
         }
 
         let utxo = (await provider.getUtxos(contract.tokenAddress))[0]
-        let nextExpiration = currentTime - (currentTime % step) + step;
+        let nextExpiration = currentTime - (currentTime % Number(step)) + Number(step);
         let transaction = contract.functions
             .execute()
             .from(utxo)

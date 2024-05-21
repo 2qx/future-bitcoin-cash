@@ -2,6 +2,8 @@ pragma cashscript ^0.10.0;
 
 // Vault - Store coins locked for tokens until maturation date. 
 //
+// [Alpha] 2024-05-20
+//
 // From: Future Bitcoin Cash
 //
 // Author: 2qx <2qx_in_the_future@small.neomailbox.ch>
@@ -13,7 +15,6 @@ pragma cashscript ^0.10.0;
 // [ ] Assure the the utxo and output lock match per in the transaction.
 // [ ] Assure an equal amounts of coins are exchanged for tokens
 //
-// [WIP] 2024-04-25
 //
 //  inputs              outputs
 //  [0] contract    ->  [0] contract
@@ -27,9 +28,11 @@ contract Vault(int locktime) {
         
         // If tokens are flowing back into this contract
         if(tx.outputs[this.activeInputIndex].tokenAmount > tx.inputs[this.activeInputIndex].tokenAmount){
-            // enforce a BIP65 timelock 
+            // Enforce a BIP65 timelock 
+            // Note, intended for use with block height based locks 
+            // (where:  locktime < 500M).
             require(tx.time >= locktime);
-        } 
+        }
 
         // 
         // Inspired by wrapped.cash c. Nov 2023
@@ -56,6 +59,7 @@ contract Vault(int locktime) {
           tx.outputs[this.activeInputIndex].tokenAmount + 
           tx.outputs[this.activeInputIndex].value
          );
+         require(tx.outputs[this.activeInputIndex].value >= 800);
     }
 
 }

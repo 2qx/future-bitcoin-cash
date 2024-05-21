@@ -69,17 +69,9 @@ describe('test example contract functions', () => {
         })
 
 
-        let step = 10
-        // convert locktime to LE Byte4
-        let stepBytes = to32LE(step);
-        let txId = "0000000000000000000000000000000000000000bf2512972e3b7ba5cfa08742"
+        let step = 10n
 
-        const tokenIdUnRev = swapEndianness(batonResponse.tokenIds![0]);
-        // const tokenIdUnRev = batonResponse.tokenIds![0];
-        
         let locktime = 110n;
-        // convert locktime to LE Byte4
-        let locktimeBytes = to32LE(Number(locktime));
         const tmpVault = new Contract(
             vaultArtifact,
             [locktime],
@@ -89,8 +81,8 @@ describe('test example contract functions', () => {
         const contract = new Contract(
             artifact,
             [
-                stepBytes, // 10
-                tmpVault.bytecode.slice(10)
+                step, // 10
+                tmpVault.bytecode.slice(4)
             ],
             { provider }
         );
@@ -133,24 +125,9 @@ describe('test example contract functions', () => {
                         amount: o1,
                         token: updatedBaton
                     },
-                    { to: vault.tokenAddress, amount: 1000n, token: { amount: 300000000000000n, category: utxo.txid } }, // 1
-                    { to: vault.tokenAddress, amount: 1000n, token: { amount: 300000000000000n, category: utxo.txid } }, // 2
-                    { to: vault.tokenAddress, amount: 1000n, token: { amount: 300000000000000n, category: utxo.txid } }, // 3
-                    { to: vault.tokenAddress, amount: 1000n, token: { amount: 300000000000000n, category: utxo.txid } }, // 4
-                    { to: vault.tokenAddress, amount: 1000n, token: { amount: 300000000000000n, category: utxo.txid } }, // 5
-                    { to: vault.tokenAddress, amount: 1000n, token: { amount: 300000000000000n, category: utxo.txid } }, // 6
-                    {
-                        to: vault.tokenAddress,
-                        amount: 1000n,
-                        token: {
-                            amount: 300000000000000n,
-                            category: utxo.txid,
-                            nft: {
-                                commitment: "",
-                                capability: "none"
-                            }
-                        }
-                    },// 7
+                    { to: vault.tokenAddress, amount: 1000n, token: { amount: 700000000000000n, category: utxo.txid } }, // 1
+                    { to: vault.tokenAddress, amount: 1000n, token: { amount: 700000000000000n, category: utxo.txid } }, // 2
+                    { to: vault.tokenAddress, amount: 1000n, token: { amount: 700000000000000n, category: utxo.txid } }, // 3
 
                 ]
             )
@@ -160,11 +137,11 @@ describe('test example contract functions', () => {
                 "SMP0",
                 "0x1000",
                 "FBCH",
-                "0x" + binToHex(locktimeBytes),
+                "0x" + binToHex(to32LE(Number(locktime))),
                 "0x08"
             ]).send();
 
-        //console.log((await transaction).outputs)
+        expect((await transaction).outputs.length).toBe(5);
         expect(transaction).resolves.not.toThrow();
     });
 });

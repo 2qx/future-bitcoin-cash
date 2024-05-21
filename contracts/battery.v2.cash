@@ -1,8 +1,8 @@
 pragma cashscript ^0.10.0;
 
-// [WIP] 2024-04-23
-
 // Battery - Spawn an array of vault deploying gantries from a single utxo.
+//
+// [Alpha] 2024-05-20
 //
 // From: Future Bitcoin Cash
 //
@@ -32,8 +32,8 @@ pragma cashscript ^0.10.0;
 
 contract Battery(
 
-    // 
-    // The highest series power of 10 is set in the minting NFT baton commitment.
+    // The highest series power of 10 is set by the minting NFT baton commitment.
+    // bytes4 start
 
     // The end is the lowest power to print a series for
     int end,
@@ -68,8 +68,8 @@ contract Battery(
 
             // Get the redeem bytecode of the gantry instance
             bytes gantryRedeemBytecode = bytes(vaultUnlockingBytecode.length) + vaultUnlockingBytecode +
-                                        0x04 + bytes4(step)                      +  // stepBytes
-                                        gantryUnlockingBytecode;    
+                                         bytes(bytes(step).length)            + bytes(step)            +  // step
+                                         gantryUnlockingBytecode;    
 
             require(
                 // The second output is the gantry lockingBytecode
@@ -80,7 +80,7 @@ contract Battery(
             bytes gantryCategory, bytes gantryCapability = tx.outputs[1].tokenCategory.split(32);
 
             // Assure the gantry baton is a non-minting NFT
-            require(gantryCapability == 0x0);
+            require(gantryCapability == 0x);
             
             // Assure the gantry category matches the battery category
             require(gantryCategory == tx.inputs[0].tokenCategory.split(32)[0]);

@@ -1,0 +1,42 @@
+contract Vault(int locktime, int maxSupply) {
+
+    function SwapOrTerminate() {
+
+        if (tx.outputs[this.activeInputIndex].lockingBytecode == 0x6a) {
+
+            // If the vault is being terminated then
+            // locktime must be expired...
+            require(tx.time >= locktime);
+            // ...and the exact amount of tokens returned to
+            // the Vault instance which is getting burned.
+            require(tx.outputs[this.activeInputIndex].tokenAmount ==
+                maxSupply);
+
+        } else {
+
+            // If tokens are being redeemed to the vault
+            // tokens may be redeemed in any amount after the future has matured
+            bool tokensRedeemed = (
+            tx.outputs[this.activeInputIndex].tokenAmount 
+            - tx.inputs[this.activeInputIndex].tokenAmount
+            ) > 0;
+
+            // Restrict redemption unil after locktime
+            if(tokensRedeemed){
+                // enforce a BIP65 timelock 
+                require(tx.time >= locktime);
+            } 
+
+            // Pass on the contract and bch+token balance
+            require(tx.outputs[this.activeInputIndex].lockingBytecode == 
+                tx.inputs[this.activeInputIndex].lockingBytecode);
+            require(tx.inputs[this.activeInputIndex].tokenAmount +
+                tx.inputs[this.activeInputIndex].value == 
+                tx.outputs[this.activeInputIndex].tokenAmount + 
+                tx.outputs[this.activeInputIndex].value);
+        }
+        // Pass on the token category & capability in any case
+        require(tx.inputs[this.activeInputIndex].tokenCategory ==
+            tx.outputs[this.activeInputIndex].tokenCategory);
+    }
+}

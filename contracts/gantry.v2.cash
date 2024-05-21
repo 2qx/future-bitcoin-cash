@@ -3,6 +3,8 @@ pragma cashscript ^0.10.0;
 //
 // Gantry - Create vault contracts with fungible tokens in a uniform way. 
 //
+// [Alpha] 2024-05-20
+//
 // From: Future Bitcoin Cash
 //
 // Author: 2qx <2qx_in_the_future@small.neomailbox.ch>
@@ -29,7 +31,9 @@ pragma cashscript ^0.10.0;
 //  Inputs              Outputs
 //  [0] NFT mintBaton   ->  [0] NFT mintBaton
 //  [1] topup sats?     =>  [1] FTs Vault
-//                          [2] OP_RETURN SMP0 1000 FBCH <locktime>
+//                      =>  [2] FTs Vault
+//                      =>  [3] FTs Vault
+//                          [4] OP_RETURN SMP0 1000 FBCH <locktime> 08
 //  
 //  ... but skip every 10th token print, 
 //   which will be printed by the gantry of the next order.
@@ -38,7 +42,7 @@ pragma cashscript ^0.10.0;
 
 
 contract Gantry(
-    bytes4 stepBytes, 
+    int step, 
     bytes vaultUnlockingBytecode
     ) {
 
@@ -51,11 +55,8 @@ contract Gantry(
         require(tx.inputs[this.activeInputIndex].lockingBytecode == tx.outputs[this.activeInputIndex].lockingBytecode);
         require(tx.inputs[this.activeInputIndex].tokenCategory == tx.outputs[this.activeInputIndex].tokenCategory);
         require(tx.outputs[this.activeInputIndex].value > 1000);
+        require(tx.outputs[this.activeInputIndex].tokenAmount == 0);
 
-        // simply return the NFT baton without minting FTs
-        require(tx.outputs[0].tokenAmount == 0);
-
-        int step = int(stepBytes);
         int locktime = int(tx.inputs[this.activeInputIndex].nftCommitment);
 
         // Height stored in mutable NFT commitment MUST be incremented by <step>.
@@ -68,36 +69,36 @@ contract Gantry(
         } else {
             // Get the redeem bytecode of the vault instance
             bytes theVault = 
-                0x04 + bytes4(tx.inputs[0].nftCommitment) +     // locktime
+                bytes(bytes(locktime).length) + bytes(locktime) +     // locktime
                 vaultUnlockingBytecode;    
 
             bytes vaultLockingBytecode = 0xaa20 + hash256(theVault) + 0x87;
 
-            // Verify creation of exactly three Vault genesis output
+            // Verify creation of exactly three Vault genesis outputs
             require(tx.outputs[1].lockingBytecode == vaultLockingBytecode);       
             require(tx.outputs[1].tokenCategory == tx.inputs[0].outpointTransactionHash);
             require(tx.outputs[1].tokenAmount == 700000000000000);     
-            require(tx.outputs[1].value > 1000);
+            require(tx.outputs[1].value >= 1000);
 
-            // require(tx.outputs[2].lockingBytecode == vaultLockingBytecode);       
-            // require(tx.outputs[2].tokenCategory == tx.inputs[0].outpointTransactionHash);
-            // require(tx.outputs[2].tokenAmount == 700000000000000);     
-            // require(tx.outputs[2].value > 1000);
+            require(tx.outputs[2].lockingBytecode == vaultLockingBytecode);       
+            require(tx.outputs[2].tokenCategory == tx.inputs[0].outpointTransactionHash);
+            require(tx.outputs[2].tokenAmount == 700000000000000);     
+            require(tx.outputs[2].value >= 1000);
 
-            // require(tx.outputs[3].lockingBytecode == vaultLockingBytecode);       
-            // require(tx.outputs[3].tokenCategory == tx.inputs[0].outpointTransactionHash);
-            // require(tx.outputs[3].tokenAmount == 700000000000000);     
-            // require(tx.outputs[3].value > 1000);           
+            require(tx.outputs[3].lockingBytecode == vaultLockingBytecode);       
+            require(tx.outputs[3].tokenCategory == tx.inputs[0].outpointTransactionHash);
+            require(tx.outputs[3].tokenAmount == 700000000000000);     
+            require(tx.outputs[3].value >= 1000);           
 
-            // Tag this FT mint for indexers 
+            // Tag FT metadata for indexers 
             //
             // 6a              OP_RETURN
-            // 04 46 42 43 48  SMP0
-            // 02 10 00        minted ticker from input 0
+            // 04 53 4d 50 30  SMP0
+            // 02 10 00        Minted ticker from input 0
             // 04 46 42 43 48  FBCH
-            // 04 90 05 10 00  <locktime>
+            // 04 90 05 10 00  <locktime> (4-byte LE)
             // 01 08           decimals
-            bytes announcement = 0x6a0446424348021000044642434804 + tx.inputs[0].nftCommitment + 0x0108;
+            bytes announcement = 0x6a04534d5030021000044642434804 + tx.inputs[0].nftCommitment + 0x0108;
             require(tx.outputs[4].lockingBytecode == announcement);
             require(tx.outputs[4].tokenCategory == 0x);
             require(tx.outputs[4].value == 0);
