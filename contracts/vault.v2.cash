@@ -2,7 +2,7 @@ pragma cashscript ^0.10.0;
 
 // Vault - Store coins locked for tokens until maturation date. 
 //
-// [Alpha] 2024-05-20
+// [Alpha] 2024-05-21
 //
 // From: Future Bitcoin Cash
 //

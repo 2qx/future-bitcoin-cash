@@ -3,7 +3,7 @@ pragma cashscript ^0.10.0;
 //
 // Gantry - Create vault contracts with fungible tokens in a uniform way. 
 //
-// [Alpha] 2024-05-20
+// [Alpha] 2024-05-21
 //
 // From: Future Bitcoin Cash
 //
@@ -33,7 +33,11 @@ pragma cashscript ^0.10.0;
 //  [1] topup sats?     =>  [1] FTs Vault
 //                      =>  [2] FTs Vault
 //                      =>  [3] FTs Vault
-//                          [4] OP_RETURN SMP0 1000 FBCH <locktime> 08
+//                      =>  [4] FTs Vault
+//                      =>  [5] FTs Vault
+//                      =>  [6] FTs Vault
+//                      =>  [7] FTs Vault
+//                          [8] OP_RETURN SMP0 1000 FBCH <locktime> 08
 //  
 //  ... but skip every 10th token print, 
 //   which will be printed by the gantry of the next order.

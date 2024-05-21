@@ -2,7 +2,7 @@ pragma cashscript ^0.10.0;
 
 // Coupon - apply* utxo coupons by spending at least <amount> on <lock>
 //
-// [Alpha] 2024-05-20
+// [Alpha] 2024-05-21
 //
 // From: Future Bitcoin Cash
 //
@@ -12,7 +12,7 @@ pragma cashscript ^0.10.0;
 //
 // ... given:
 //
-// [ ] the zeroth output value exceeds a predefined amount 
+// [ ] the zeroth inflow value exceeds a predefined amount 
 // [ ] the zeroth output is to a predefined address
 // [ ] the coupon must be applied as the last input
 //
@@ -27,13 +27,11 @@ pragma cashscript ^0.10.0;
 //
 
 contract Coupon(
-
   // Minimum spent (sats) to claim each coupon utxo.
   int amount,
   
   // Contract holding the logic.
   bytes lock
-
 ){
 
   function apply() {
@@ -47,7 +45,6 @@ contract Coupon(
     // The coupon must be spent as the last input, 
     //   therefore only coupon may be spent at a time.
     require(this.activeInputIndex+1 == tx.inputs.length);
-
   }
 
 }

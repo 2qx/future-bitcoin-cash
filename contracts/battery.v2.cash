@@ -2,7 +2,7 @@ pragma cashscript ^0.10.0;
 
 // Battery - Spawn an array of vault deploying gantries from a single utxo.
 //
-// [Alpha] 2024-05-20
+// [Alpha] 2024-05-21
 //
 // From: Future Bitcoin Cash
 //
