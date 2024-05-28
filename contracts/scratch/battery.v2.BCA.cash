@@ -1,35 +1,3 @@
-pragma cashscript ^0.10.0;
-
-// Battery - Spawn an array of vault deploying gantries from a single utxo.
-//
-// [Alpha] 2024-05-25
-//
-// From: Future Bitcoin Cash
-//
-// Author: 2qx <2qx_in_the_future@small.neomailbox.ch>
-//
-// A Battery releases a series of Gantries at different powers of 10 that 
-// go on to create Futures Vaults on those respective intervals.
-//
-// Given a minting NFT with the commitment containing a power of 10, 
-// mint a sequence of NFTs with minting capability
-// sending mutable batons NFTs to the corresponting Gantry.
-//
-//  execute():
-//
-//  inputs                           outputs
-//  [0] Battery + NFT 0x40420F00 10ᴇ6 ->  [0] Battery    + NFT  0xA0860100
-//                                    =>  [1] Gantry10ᴇ6 + NFT* <startTime>
-//
-//  [0] Battery + NFT 0xA0860100 10ᴇ5 ->  [0] Battery    + NFT  0x10270000
-//                                    =>  [1] Gantry10ᴇ5 + NFT* <startTime>
-//
-//  ... 0x10270000 10ᴇ4 ... 0xE8030000 10ᴇ3 ... 0x64000000 10ᴇ2
-//
-//  [0] Battery + NFT 0x<end>        ->  [0] Battery   + NFT  0x // burn NFT, sats are unencumbered.
-//
-// 
-
 contract Battery(
 
     // Correct contract initialization will have minting NFT's commitment
@@ -67,7 +35,7 @@ contract Battery(
         // Construct the full redeem bytecode for the Gantry instance
         bytes gantryRedeemBytecode =
             bytes(vaultReedemBytecodeTail.length) + vaultReedemBytecodeTail +
-            bytes(bytes(step).length)             + bytes(step)   + 
+            0x04 + stepBytes +
             gantryReedemBytecodeTail;
 
         require(

@@ -1,57 +1,8 @@
-pragma cashscript ^0.10.0;
-
-//
-// Gantry - Create vault contracts with fungible tokens in a uniform way. 
-//
-// [Alpha] 2024-05-21
-//
-// From: Future Bitcoin Cash
-//
-// Author: 2qx <2qx_in_the_future@small.neomailbox.ch>
-//
-// NFT commentment stores the next series locktime in 32-bit LE
-//
-// [ ] Require the minting baton in the input
-// [ ] Get the current step increment for the chain of futures
-// [ ] Get the current vault locktime to be printed.
-//
-//   either
-// [ ] Mint an array of FT utxos, 
-// [ ] send them off to a Vault
-//
-//   or
-// [ ] skip every 10th print.
-//
-// [ ] increment locktime height value stored on NFT baton
-// [ ] assure NFT baton is returned
-//
-//
-//  Gantry i/o Flow:
-//
-//  Inputs              Outputs
-//  [0] NFT mintBaton   ->  [0] NFT mintBaton
-//  [1] topup sats?     =>  [1] FTs Vault
-//                      =>  [2] FTs Vault
-//                      =>  [3] FTs Vault
-//                      =>  [4] FTs Vault
-//                      =>  [5] FTs Vault
-//                      =>  [6] FTs Vault
-//                      =>  [7] FTs Vault
-//                          [8] OP_RETURN SMP0 1000 FBCH <locktime> 08
-//  
-//  ... but skip every 10th token print, 
-//   which will be printed by the gantry of the next order.
-//  [0] NFT mintBaton   =>  [0] NFT mintBaton
-//
-
-
 contract Gantry(
     int step, 
     bytes vaultUnlockingBytecode
-    ) {
-
+) {
     function execute() {
-
         // Gantry covenant and the associated NFT baton must be spent as index 0
         // input and passed on to index 0 output, funded with some dust BCH in order
         // to avoid griefing by someone with access to hashrate
@@ -62,12 +13,24 @@ contract Gantry(
             tx.outputs[this.activeInputIndex].tokenCategory);
         require(tx.outputs[this.activeInputIndex].value > 800);
 
+        // Read a bytes4 LE commitment and convert to script number
         int locktime = int(tx.inputs[this.activeInputIndex].nftCommitment);
+
+        // Allow time-skip in case Vault to be minted has already expired
+        if (locktime <= tx.locktime) {
+            locktime = (tx.locktime / step + 1) * step;
+        }
+
+        int nextLocktime = locktime + step;
+
+        // Prevent the spender from rolling over from height-based timelock
+        // to timestamp-based timelock.
+        require(nextLocktime < 500000000);
 
         // Locktime stored in mutable NFT commitment MUST be incremented by <step>
         // and stored as bytes4 LE uint again.
         require(tx.outputs[this.activeInputIndex].nftCommitment ==
-            bytes4(locktime + step));
+            bytes4(nextLocktime));
 
         // Every 10th step, skip creating Vault and just increment the commitment
         if((locktime / step) % 10 == 0) { 
@@ -81,73 +44,70 @@ contract Gantry(
             bytes vaultLockingBytecode = 0xaa20 + hash256(theVault) + 0x87;
 
             // Verify creation of Vault genesis outputs
+
+            // [1]
             require(tx.outputs[1].lockingBytecode == vaultLockingBytecode);
             require(tx.outputs[1].tokenCategory == tx.inputs[0].outpointTransactionHash);
             require(tx.outputs[1].nftCommitment == 0x);
             require(tx.outputs[1].tokenAmount == 2100000000000000);
-            require(tx.outputs[1].value == 1000);
+            require(tx.outputs[1].value > 800);
 
+            // [2]
             require(tx.outputs[2].lockingBytecode == vaultLockingBytecode);       
             require(tx.outputs[2].tokenCategory == tx.inputs[0].outpointTransactionHash);
             require(tx.outputs[2].nftCommitment == 0x);
-            require(tx.outputs[2].tokenAmount == tx.outputs[1].tokenAmount);     
-            require(tx.outputs[2].value == 1000);
+            require(tx.outputs[2].tokenAmount == 2100000000000000);     
+            require(tx.outputs[2].value > 800);
 
+            // [3]
             require(tx.outputs[3].lockingBytecode == vaultLockingBytecode);       
             require(tx.outputs[3].tokenCategory == tx.inputs[0].outpointTransactionHash);
             require(tx.outputs[3].nftCommitment == 0x);
-            require(tx.outputs[3].tokenAmount == tx.outputs[1].tokenAmount);     
-            require(tx.outputs[3].value == 1000);
+            require(tx.outputs[3].tokenAmount == 2100000000000000);     
+            require(tx.outputs[3].value > 800);
 
+            // [4]
             require(tx.outputs[4].lockingBytecode == vaultLockingBytecode);       
             require(tx.outputs[4].tokenCategory == tx.inputs[0].outpointTransactionHash);
             require(tx.outputs[4].nftCommitment == 0x);
-            require(tx.outputs[4].tokenAmount == tx.outputs[1].tokenAmount);     
-            require(tx.outputs[4].value == 1000);
+            require(tx.outputs[4].tokenAmount == 2100000000000000);     
+            require(tx.outputs[4].value > 800);
 
+            // [5]
             require(tx.outputs[5].lockingBytecode == vaultLockingBytecode);       
             require(tx.outputs[5].tokenCategory == tx.inputs[0].outpointTransactionHash);
             require(tx.outputs[5].nftCommitment == 0x);
-            require(tx.outputs[5].tokenAmount == tx.outputs[1].tokenAmount);     
-            require(tx.outputs[5].value == 1000);
+            require(tx.outputs[5].tokenAmount == 2100000000000000);     
+            require(tx.outputs[5].value > 800);
 
+            // [6]
             require(tx.outputs[6].lockingBytecode == vaultLockingBytecode);       
             require(tx.outputs[6].tokenCategory == tx.inputs[0].outpointTransactionHash);
             require(tx.outputs[6].nftCommitment == 0x);
-            require(tx.outputs[6].tokenAmount == tx.outputs[1].tokenAmount);     
-            require(tx.outputs[6].value == 1000);
+            require(tx.outputs[6].tokenAmount == 2100000000000000);     
+            require(tx.outputs[6].value > 800);
 
+            // [7]
             require(tx.outputs[7].lockingBytecode == vaultLockingBytecode);       
             require(tx.outputs[7].tokenCategory == tx.inputs[0].outpointTransactionHash);
             require(tx.outputs[7].nftCommitment == 0x);
-            require(tx.outputs[7].tokenAmount == tx.outputs[1].tokenAmount);     
-            require(tx.outputs[7].value == 1000);
+            require(tx.outputs[7].tokenAmount == 2100000000000000);     
+            require(tx.outputs[7].value > 800);
 
-            require(tx.outputs[8].lockingBytecode == vaultLockingBytecode);       
-            require(tx.outputs[8].tokenCategory == tx.inputs[0].outpointTransactionHash);
-            require(tx.outputs[8].nftCommitment == 0x);
-            require(tx.outputs[8].tokenAmount == tx.outputs[1].tokenAmount);     
-            require(tx.outputs[8].value == 1000);
-
-            // Tag FT metadata for indexers 
+            // Tag this FT mint for indexers 
             //
             // 6a              OP_RETURN
-            // 04 53 4d 50 30  SMP0
-            // 02 10 00        Genesis/ticker; from input 0
-            // 04 46 42 43 48  FBCH
-            // 03 90 05 10     <locktime>
-            // 01 08           Decimal seperator
-            bytes announcement =  0x6a04534d50300210000446424348 +
-                                  bytes(bytes(locktime).length) +  bytes(locktime) +
-                                  0x0108;
-            require(tx.outputs[9].lockingBytecode == announcement);
-            require(tx.outputs[9].tokenCategory == 0x);
-            require(tx.outputs[9].value == 0);
+            // 04 46 42 43 48  <'FBCH'>
+            // 04 90 05 10 00  <locktime>
+            bytes announcement = 
+                0x6a044642434804 + 
+                tx.inputs[this.activeInputIndex].nftCommitment;
+            require(tx.outputs[8].lockingBytecode == announcement);
+            require(tx.outputs[8].tokenCategory == 0x);
+            require(tx.outputs[8].value == 0);
 
             // Ensure no other outputs can be created
-            require(tx.outputs.length == 10);  
-
-        }     
-        
+            require(tx.outputs.length == 9);
+        }           
     }
 }

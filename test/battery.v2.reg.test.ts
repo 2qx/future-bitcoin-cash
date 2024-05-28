@@ -58,7 +58,7 @@ describe('test example contract functions', () => {
         let vaultBytecode = vault.bytecode.slice(4)
         let tmpGantry = new Contract(gantryArtifact, [step, vaultBytecode], { provider });
         let gantryBytecode = tmpGantry.bytecode.slice(8 + vaultBytecode.length + 2)
-        const contract = new Contract(artifact, [99n, 200n, gantryBytecode, vaultBytecode], { provider });
+        const contract = new Contract(artifact, [100n, 200n, gantryBytecode, vaultBytecode], { provider });
 
         // fund the contract
         await alice.send([
@@ -73,7 +73,7 @@ describe('test example contract functions', () => {
 
         let currentTime = await provider.getBlockHeight()
 
-        while (step > 99n) {
+        while (step > 100n) {
 
             let gantry = new Contract(gantryArtifact, [step, vaultBytecode], { provider });
             let utxo = (await provider.getUtxos(contract.tokenAddress))[0]
@@ -84,10 +84,9 @@ describe('test example contract functions', () => {
                 .withTime(210)
                 .to(
                     [
-
                         {
                             to: contract.tokenAddress,
-                            amount: utxo.satoshis - 1900n,
+                            amount: utxo.satoshis - 1500n,
                             token: randomNFT({
                                 amount: 0n,
                                 category: baton.category,
@@ -99,13 +98,13 @@ describe('test example contract functions', () => {
                         },
                         {
                             to: gantry.tokenAddress,
-                            amount: 1000n,
+                            amount: 800n,
                             token: randomNFT({
                                 amount: 0n,
                                 category: baton.category,
                                 nft: {
                                     commitment: binToHex(to32LE(nextExpiration)),
-                                    capability: 'none'
+                                    capability: 'mutable'
                                 }
                             })
                         }
@@ -117,26 +116,32 @@ describe('test example contract functions', () => {
         }
 
         let utxo = (await provider.getUtxos(contract.tokenAddress))[0]
+        let gantry = new Contract(gantryArtifact, [step, vaultBytecode], { provider });
         let nextExpiration = currentTime - (currentTime % Number(step)) + Number(step);
         let transaction = contract.functions
-            .execute()
-            .from(utxo)
-            .withTime(210)
-            .to(
-                [{
-                    //@ts-ignore
-                    to: hexToBin("6a"),
-                    amount: utxo.satoshis - 1900n,
-                    token: randomNFT({
-                        amount: 0n,
-                        category: baton.category,
-                        nft: {
-                            commitment: binToHex(to32LE(nextExpiration)),
-                            capability: 'none'
+                .execute()
+                .from(utxo)
+                .withTime(210)
+                .to(
+                    [
+                        {
+                            to: contract.address,
+                            amount: utxo.satoshis - 1500n
+                        },
+                        {
+                            to: gantry.tokenAddress,
+                            amount: 800n,
+                            token: randomNFT({
+                                amount: 0n,
+                                category: baton.category,
+                                nft: {
+                                    commitment: binToHex(to32LE(nextExpiration)),
+                                    capability: 'mutable'
+                                }
+                            })
                         }
-                    })
-                }]
-            ).send();
+                    ]
+                ).send();
         await expect(transaction).resolves.not.toThrow();
 
     });

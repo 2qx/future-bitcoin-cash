@@ -42,7 +42,7 @@ contract Coupon(
     require(tx.outputs[0].value >= amount);
 
     // Check that the first output sends to the intended recipient. 
-    require(tx.outputs[0].lockingBytecode == lock);
+    require(tx.inputs[0].lockingBytecode == lock);
   
     // The coupon must be spent as the last input, 
     //   therefore only coupon may be spent at a time.

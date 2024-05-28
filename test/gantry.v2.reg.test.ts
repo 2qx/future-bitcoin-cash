@@ -10,13 +10,11 @@ import { Contract, ElectrumNetworkProvider, randomUtxo, randomNFT, FailedTransac
 import {
     binToHex,
     cashAddressToLockingBytecode,
-    numberToBinUint32LEClamped,
-    swapEndianness
+    bigIntToVmNumber
 } from "@bitauth/libauth";
 import 'cashscript/dist/test/JestExtensions.js';
 import { getAnAliceWallet } from "./aliceWalletTest.js";
 
-const to32LE = numberToBinUint32LEClamped;
 
 
 describe('test example contract functions', () => {
@@ -93,12 +91,12 @@ describe('test example contract functions', () => {
             new TokenSendRequest({
                 cashaddr: contract.tokenAddress,
                 value: 100000,
-                tokenId:  baton.category,
+                tokenId: baton.category,
                 capability: NFTCapability.mutable,
                 commitment: "6e000000"
             }),
         ]);
-        
+
         let utxo = (await provider.getUtxos(contract.tokenAddress))[0]
 
 
@@ -125,13 +123,14 @@ describe('test example contract functions', () => {
                         amount: o1,
                         token: updatedBaton
                     },
-                    { to: vault.tokenAddress, amount: 1000n, token: { amount: BigInt(3e14), category: utxo.txid } }, // 1
-                    { to: vault.tokenAddress, amount: 1000n, token: { amount: BigInt(3e14), category: utxo.txid } }, // 2
-                    { to: vault.tokenAddress, amount: 1000n, token: { amount: BigInt(3e14), category: utxo.txid } }, // 3
-                    { to: vault.tokenAddress, amount: 1000n, token: { amount: BigInt(3e14), category: utxo.txid } }, // 4
-                    { to: vault.tokenAddress, amount: 1000n, token: { amount: BigInt(3e14), category: utxo.txid } }, // 5
-                    { to: vault.tokenAddress, amount: 1000n, token: { amount: BigInt(3e14), category: utxo.txid } }, // 6
-                    { to: vault.tokenAddress, amount: 1000n, token: { amount: BigInt(3e14), category: utxo.txid } }, // 7
+                    { to: vault.tokenAddress, amount: 1000n, token: { amount: BigInt(21e14), category: utxo.txid } }, // 1
+                    { to: vault.tokenAddress, amount: 1000n, token: { amount: BigInt(21e14), category: utxo.txid } }, // 2
+                    { to: vault.tokenAddress, amount: 1000n, token: { amount: BigInt(21e14), category: utxo.txid } }, // 3
+                    { to: vault.tokenAddress, amount: 1000n, token: { amount: BigInt(21e14), category: utxo.txid } }, // 4
+                    { to: vault.tokenAddress, amount: 1000n, token: { amount: BigInt(21e14), category: utxo.txid } }, // 5
+                    { to: vault.tokenAddress, amount: 1000n, token: { amount: BigInt(21e14), category: utxo.txid } }, // 6
+                    { to: vault.tokenAddress, amount: 1000n, token: { amount: BigInt(21e14), category: utxo.txid } }, // 7
+                    { to: vault.tokenAddress, amount: 1000n, token: { amount: BigInt(21e14), category: utxo.txid } }, // 8
                 ]
             )
             //
@@ -140,11 +139,12 @@ describe('test example contract functions', () => {
                 "SMP0",
                 "0x1000",
                 "FBCH",
-                "0x" + binToHex(to32LE(Number(locktime))),
+                "0x" + binToHex(bigIntToVmNumber(locktime)),
                 "0x08"
             ]).send();
 
-        expect((await transaction).outputs.length).toBe(5);
+        expect(binToHex((await transaction).outputs.slice(-1)[0].lockingBytecode)).toMatch("6a04534d50300210000446424348016e0108");
+        expect((await transaction).outputs.length).toBe(10);
         expect(transaction).resolves.not.toThrow();
     });
 });

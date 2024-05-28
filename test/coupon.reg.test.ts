@@ -48,12 +48,13 @@ describe(`Coupon Tests`, () => {
         const charlie = await RegTestWallet.newRandom();
 
         const charlieTemplate = new SignatureTemplate(charlie.privateKey!)
+        const shopTemplate = new SignatureTemplate(shop.privateKey!)
 
         let lock = cashAddressToLockingBytecode(shop.getDepositAddress());
         if (typeof lock == "string") throw lock
         lock
 
-        const contract = new Contract(v1, [55_000n, lock.bytecode], { provider });
+        const contract = new Contract(v1, [50_000n, lock.bytecode], { provider });
 
         await alice.send([
             new SendRequest({
@@ -77,6 +78,11 @@ describe(`Coupon Tests`, () => {
                 unit: 'sats'
             }),
             new SendRequest({
+                cashaddr: shop.getDepositAddress(),
+                value: 1000,
+                unit: 'sats'
+            }),
+            new SendRequest({
                 cashaddr: charlie.getDepositAddress(),
                 value: 1044,
                 unit: 'sats'
@@ -85,22 +91,22 @@ describe(`Coupon Tests`, () => {
 
         const contractUtxos = await provider.getUtxos(contract.address);
         const charlieUtxos = await provider.getUtxos(charlie.getDepositAddress());
+        const shopUtxos = await provider.getUtxos(shop.getDepositAddress());
 
         transactionBuilder.addInputs([
+            { ...shopUtxos[0], unlocker: shopTemplate.unlockP2PKH() },
             { ...charlieUtxos[0], unlocker: charlieTemplate.unlockP2PKH() },
-            { ...charlieUtxos[1], unlocker: charlieTemplate.unlockP2PKH() },
             { ...contractUtxos[0], unlocker: contract.unlock.apply() },
         ]);
 
         transactionBuilder.addOutputs([
-            { to: shop.getDepositAddress(), amount: 55_000n },
+            { to: shop.getDepositAddress(), amount: 51_000n },
         ]);
-        let debug = transactionBuilder.build()
-        let tx = transactionBuilder.build()
+
         let transaction = transactionBuilder.send()
 
         await expect(transaction).resolves.not.toThrow();
-        expect((await transaction).outputs[0]!.valueSatoshis).toBe(55_000n)
+        expect((await transaction).outputs[0]!.valueSatoshis).toBe(51_000n)
     });
 
     test("Should fail if coupon isn't third", async () => {

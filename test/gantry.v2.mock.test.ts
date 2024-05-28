@@ -4,13 +4,10 @@ import { Contract, MockNetworkProvider, randomUtxo, randomNFT, FailedTransaction
 import { scriptToBytecode } from "@cashscript/utils";
 import {
     binToHex,
-    numberToBinUint32LEClamped,
+    bigIntToVmNumber,
     swapEndianness
 } from "@bitauth/libauth";
 import 'cashscript/dist/test/JestExtensions.js';
-
-
-const to32LE = numberToBinUint32LEClamped;
 
 
 describe('test example contract functions', () => {
@@ -44,8 +41,6 @@ describe('test example contract functions', () => {
                 capability: 'mutable'
             }
         })
-
-        let catReversed = swapEndianness(baton.category);
 
         let step = 10n
 
@@ -88,31 +83,21 @@ describe('test example contract functions', () => {
                         amount: o1,
                         token: updatedBaton
                     },
-                    { to: vault.tokenAddress, amount: 1000n, token: { amount: 300000000000000n, category: utxo.txid } },// 1
-                    { to: vault.tokenAddress, amount: 1000n, token: { amount: 300000000000000n, category: utxo.txid } },// 2
-                    { to: vault.tokenAddress, amount: 1000n, token: { amount: 300000000000000n, category: utxo.txid } },// 3
-                    { to: vault.tokenAddress, amount: 1000n, token: { amount: 300000000000000n, category: utxo.txid } },// 4
-                    { to: vault.tokenAddress, amount: 1000n, token: { amount: 300000000000000n, category: utxo.txid } },// 5
-                    { to: vault.tokenAddress, amount: 1000n, token: { amount: 300000000000000n, category: utxo.txid } },// 6
-                    { 
-                        to: vault.tokenAddress, 
-                        amount: 1000n, 
-                        token: { 
-                            amount: 300000000000000n, 
-                            category: utxo.txid,
-                            nft:{
-                                commitment: "0001",
-                                capability:"minting"
-                            }
-                        } 
-                    },// 7
+                    { to: vault.tokenAddress, amount: 1000n, token: { amount: BigInt(21e14), category: utxo.txid } },// 1
+                    { to: vault.tokenAddress, amount: 1000n, token: { amount: BigInt(21e14), category: utxo.txid } },// 2
+                    { to: vault.tokenAddress, amount: 1000n, token: { amount: BigInt(21e14), category: utxo.txid } },// 3
+                    { to: vault.tokenAddress, amount: 1000n, token: { amount: BigInt(21e14), category: utxo.txid } },// 4
+                    { to: vault.tokenAddress, amount: 1000n, token: { amount: BigInt(21e14), category: utxo.txid } },// 1
+                    { to: vault.tokenAddress, amount: 1000n, token: { amount: BigInt(21e14), category: utxo.txid } },// 2
+                    { to: vault.tokenAddress, amount: 1000n, token: { amount: BigInt(21e14), category: utxo.txid } },// 3
+                    { to: vault.tokenAddress, amount: 1000n, token: { amount: BigInt(21e14), category: utxo.txid } },// 4
 
                 ]
             ).withOpReturn([
                 "SMP0",
                 "0x1000",
                 "FBCH",
-                "0x" + binToHex(to32LE(Number(locktime))),
+                "0x" + binToHex(bigIntToVmNumber(locktime)),
                 "0x08"
             ]);
             // 0x6a 04 534d5030 02 1000 04 46424348 04 6e000000
