@@ -2,7 +2,7 @@ pragma cashscript ^0.10.0;
 
 // Coupon - apply* utxo coupons by spending at least <amount> on <lock>
 //
-// [Alpha] 2024-05-21
+// [beta] 2024-05-29
 //
 // From: Future Bitcoin Cash
 //
@@ -13,14 +13,18 @@ pragma cashscript ^0.10.0;
 // ... given:
 //
 // [ ] the zeroth inflow value exceeds a predefined amount 
-// [ ] the zeroth output is to a predefined address
+// [ ] the zeroth input is to a predefined address
 // [ ] the coupon must be applied as the last input
 //
 // * Limit one per transaction.
 //
-// Note: this contract is designed to run as part of an integrated
+// Note: This contract is designed to run as part of an integrated
 // multi-contract system. It's not in itself sufficient to assure 
 // an advisory doesn't claim all coupons instantly for no cost.
+//
+// Also note: This instance is designed where the `lock`, or destination, 
+// is the first input and output. If the locks isn't spendable, or not the first
+// input, coupons will no be redeemable.
 //
 // ... If there is no time or monetary cost to spend every coupon, 
 // it should be expected that they will all be cleaned at once.

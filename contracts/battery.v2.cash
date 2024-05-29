@@ -2,13 +2,13 @@ pragma cashscript ^0.10.0;
 
 // Battery - Spawn an array of vault deploying gantries from a single utxo.
 //
-// [Alpha] 2024-05-25
+// [Beta] 2024-05-29
 //
 // From: Future Bitcoin Cash
 //
 // Author: 2qx <2qx_in_the_future@small.neomailbox.ch>
 //
-// A Battery releases a series of Gantries at different powers of 10 that 
+// A Battery releases a series of Gantries at small powers of 10 that 
 // go on to create Futures Vaults on those respective intervals.
 //
 // Given a minting NFT with the commitment containing a power of 10, 
@@ -26,17 +26,18 @@ pragma cashscript ^0.10.0;
 //
 //  ... 0x10270000 10ᴇ4 ... 0xE8030000 10ᴇ3 ... 0x64000000 10ᴇ2
 //
-//  [0] Battery + NFT 0x<end>        ->  [0] Battery   + NFT  0x // burn NFT, sats are unencumbered.
+//  [0] Battery + NFT 0x<end>        ->  [0]  Burn NFT, sats are unencumbered.
+//                                       [1]  Gantry10ᴇ2 + NFT* <startTime>
 //
 // 
 
 contract Battery(
 
     // Correct contract initialization will have minting NFT's commitment
-    // set to bytes4(step), which will be the step set for 1st minted gantry,
+    // set to <step> from the NFT commitment, which will be the step set for 1st minted gantry,
     // and will then get decremented for the next one until end step is reached.
 
-    // The end is the lowest step to create a Gantry for.
+    // The end is the smallest power of 10 to create a Gantry for.
     int endStep,
 
     // Base time from which to calculate each Gantry's starting point, e.g.:

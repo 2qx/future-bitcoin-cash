@@ -1,0 +1,29 @@
+{
+  "campaign": {
+    "campaign_id": 1,
+    "title": "Bitcoin Cash Futures Tokens",
+    "track_name": "https://github.com/users/2qx/projects/2/views/1",
+    "default_language": "en",
+    "available_languages": "en",
+    "track_url": "https://github.com/users/2qx/projects/2/views/1",
+    "social_preview": "/static/campaigns/photo/social_preview.png",
+    "starts": 1709182800,
+    "expires": 1711684800,
+    "fullfillment_id": 1,
+    "fullfillment_timestamp": 1711639235,
+    "fullfillment_transaction": "0b6c6f0a0b1ac5c3a5e681f009cf523364a1a733dc197642173d32b9a6b7ef43"
+  },
+  "recipients": [
+    {
+      "recipient_id": 1,
+      "recipient_satoshis": 6000000000,
+      "user_id": 1,
+      "campaign_id": 1,
+      "user_url": "https://github.com/2qx/2qx/",
+      "user_image": "/static/campaigns/photo/avatar-0.png",
+      "user_alias": "2qx#72497; 🦇",
+      "user_address": "bitcoincash:qqad5sy4jml3f6vcp246dulsex04xp48wq23d35rqe",
+      "data_signature": null
+    }
+  ]
+}
