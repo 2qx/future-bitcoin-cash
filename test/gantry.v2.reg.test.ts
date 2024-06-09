@@ -9,7 +9,6 @@ import { RegTestWallet, TokenSendRequest, NFTCapability } from "mainnet-js";
 import { Contract, ElectrumNetworkProvider, randomUtxo, randomNFT, FailedTransactionError } from 'cashscript';
 import {
     binToHex,
-    cashAddressToLockingBytecode,
     bigIntToVmNumber
 } from "@bitauth/libauth";
 import 'cashscript/dist/test/JestExtensions.js';
@@ -147,4 +146,8 @@ describe('test example contract functions', () => {
         expect((await transaction).outputs.length).toBe(10);
         expect(transaction).resolves.not.toThrow();
     });
+
+
+
+    
 });

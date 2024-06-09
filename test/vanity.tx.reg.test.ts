@@ -9,11 +9,9 @@ import {
 import { RegTestWallet, TokenSendRequest, NFTCapability, OpReturnData } from "mainnet-js";
 import { Contract, randomUtxo, randomNFT, FailedTransactionError, ElectrumNetworkProvider } from 'cashscript';
 import {
-    binToHex, hexToBin,
-    cashAssemblyToBin,
-    lockingBytecodeToCashAddress, numberToBinUint32LEClamped, swapEndianness,
-    hash256,
-    decodeTransaction
+    binToHex, hexToBin, 
+    numberToBinUint32LEClamped,
+    hash256
 } from "@bitauth/libauth";
 
 import { getAnAliceWallet } from "./aliceWalletTest.js";

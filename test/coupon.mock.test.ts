@@ -4,8 +4,8 @@ import { aliceAddress, aliceTemplate } from './alice.js';
 import { Contract, MockNetworkProvider, 
     TransactionBuilder, randomUtxo } from 'cashscript';
 import 'cashscript/dist/test/JestExtensions.js';
-import { hexToBin, numberToBinUint32LEClamped, cashAddressToLockingBytecode } from '@bitauth/libauth';
-const to32LE = numberToBinUint32LEClamped;
+import { cashAddressToLockingBytecode } from '@bitauth/libauth';
+
 
 describe('test coupon contract functions', () => {
   it('should spend coupon to/from p2pkh address', async () => {

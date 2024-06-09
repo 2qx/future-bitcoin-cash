@@ -1,0 +1,101 @@
+{
+    "$schema": "https://ide.bitauth.com/authentication-template-v0.schema.json",
+    "description": "Imported from cashscript",
+    "name": "Coupon",
+    "entities": {
+      "parameters": {
+        "description": "Contract creation and function parameters",
+        "name": "parameters",
+        "scripts": [
+          "lock",
+          "unlock_lock"
+        ],
+        "variables": {
+          "function_index": {
+            "description": "Script function index to execute",
+            "name": "function_index",
+            "type": "WalletData"
+          },
+          "lock": {
+            "description": "\"lock\" parameter of this contract",
+            "name": "lock",
+            "type": "WalletData"
+          },
+          "amount": {
+            "description": "\"amount\" parameter of this contract",
+            "name": "amount",
+            "type": "WalletData"
+          }
+        }
+      }
+    },
+    "scenarios": {
+      "evaluate_function": {
+        "data": {
+          "bytecode": {
+            "function_index": "0",
+            "lock": "0x76a914f317402468d108895158c0dc814e0611d6980d5288ac",
+            "amount": "0xd8d600"
+          },
+          "currentBlockHeight": 2,
+          "currentBlockTime": 1717615842,
+          "keys": {
+            "privateKeys": {}
+          }
+        },
+        "description": "An example evaluation where this script execution passes.",
+        "name": "Evaluate",
+        "transaction": {
+          "inputs": [
+            {
+              "outpointIndex": 0,
+              "outpointTransactionHash": "d196e12d90ba829b54db3dd31d40edea31faeaa676a984ac025a584de992afc9",
+              "sequenceNumber": 4294967294,
+              "unlockingBytecode": [
+                "slot"
+              ]
+            }
+          ],
+          "locktime": 10003,
+          "outputs": [
+            {
+              "lockingBytecode": {},
+              "valueSatoshis": 999
+            },
+            {
+              "lockingBytecode": {},
+              "valueSatoshis": 3817
+            }
+          ],
+          "version": 2
+        },
+        "sourceOutputs": [
+          {
+            "lockingBytecode": [
+              "slot"
+            ],
+            "valueSatoshis": 5000
+          }
+        ]
+      }
+    },
+    "scripts": {
+      "unlock_lock": {
+        "passes": [
+          "evaluate_function"
+        ],
+        "name": "unlock",
+        "script": "// \"apply\" function parameters\n// none\n",
+        "unlocks": "lock"
+      },
+      "lock": {
+        "lockingType": "p2sh20",
+        "name": "lock",
+        "script": "// \"Coupon\" contract constructor parameters\n// lockingbytecode of destiation holding the logic.\n<lock> // bytes25\n// Minimum spent (sats) to claim each coupon utxo.\n<amount> // int\n\n// assure at the minium amount is sent to the intended contract\nOP_0 OP_OUTPUTVALUE OP_0 OP_UTXOVALUE OP_SUB OP_1 OP_ROLL OP_GREATERTHANOREQUAL OP_VERIFY\n\n// Check that the Coupon is interacting with an existing Vault instance\nOP_0 OP_UTXOBYTECODE OP_1 OP_ROLL OP_EQUAL OP_VERIFY\n\n// The coupon must be spent as the last input,\n//   therefore only coupon may be spent at a time.\nOP_INPUTINDEX OP_1 OP_ADD OP_TXINPUTCOUNT OP_NUMEQUAL"
+      }
+    },
+    "supported": [
+      "BCH_SPEC"
+    ],
+    "version": 0
+  }

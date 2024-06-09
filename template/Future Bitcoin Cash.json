@@ -1,0 +1,183 @@
+{
+  "version": "0.1",
+  "name": "Future Bitcoin Cash",
+  "description": "This demonstrates Future Bitcoin Cash Contracts. There are actually some other very neat contracts FBCH is using in Production to mint tokens, for simplicity, those aren't included here.\n\n\nThis implementation is hacked together for demonstration. In future, I'll probably write tests for the Coupon Flow, etc, but wanted to keep it simple for now.",
+  "contracts": [
+    {
+      "name": "Vault",
+      "source": "pragma cashscript ^0.9.2;\n\n// Vault - Store coins locked for tokens until maturation date. \n//\n// [Beta] 2024-05-29\n//\n// From: Future Bitcoin Cash\n//\n// Author: 2qx <2qx_in_the_future@small.neomailbox.ch>\n//\n//     If redeeming tokens for coins in the vault: \n// [ ]   enforce the timelock is met.\n//\n// [ ] Assure the utxo token category matches that of the output.\n// [ ] Assure the the utxo and output lock match per in the transaction.\n// [ ] Assure an equal amounts of coins are exchanged for tokens\n//\n//\n//  inputs              outputs\n//  [0] contract    ->  [0] contract\n//  [1] userPkh     =>  [1] userPkh\n//  [2] coupon?     -^\n//\n\ncontract Vault(int locktime) {\n\n    function swap() {\n        \n        // If tokens are flowing back into this contract\n        if(tx.outputs[this.activeInputIndex].tokenAmount > tx.inputs[this.activeInputIndex].tokenAmount){\n            // Enforce a BIP65 timelock \n            // Note, intended for use with block height based locks \n            // (where:  locktime < 500M).\n            require(tx.time >= locktime);\n        }\n\n        // \n        // Inspired by wrapped.cash c. Nov 2023\n        // Author: Dagur Valberg Johannsson <dagurval@pvv.ntnu.no> \n        // License: MIT\n        //\n        require(\n          tx.inputs[this.activeInputIndex].tokenCategory \n          == \n          tx.outputs[this.activeInputIndex].tokenCategory\n          );\n\n        // Enforce that this contract lives on\n        require(\n          tx.outputs[this.activeInputIndex].lockingBytecode \n          == \n          tx.inputs[this.activeInputIndex].lockingBytecode\n          );\n\n        require(\n          tx.inputs[this.activeInputIndex].tokenAmount + \n          tx.inputs[this.activeInputIndex].value \n          == \n          tx.outputs[this.activeInputIndex].tokenAmount + \n          tx.outputs[this.activeInputIndex].value\n         );\n    }\n\n}\n",
+      "artifact": {
+        "contractName": "Vault",
+        "constructorInputs": [
+          {
+            "name": "locktime",
+            "type": "int"
+          }
+        ],
+        "abi": [
+          {
+            "name": "swap",
+            "inputs": []
+          }
+        ],
+        "bytecode": "OP_INPUTINDEX OP_OUTPUTTOKENAMOUNT OP_INPUTINDEX OP_UTXOTOKENAMOUNT OP_GREATERTHAN OP_IF OP_DUP OP_CHECKLOCKTIMEVERIFY OP_DROP OP_ENDIF OP_INPUTINDEX OP_UTXOTOKENCATEGORY OP_INPUTINDEX OP_OUTPUTTOKENCATEGORY OP_EQUALVERIFY OP_INPUTINDEX OP_OUTPUTBYTECODE OP_INPUTINDEX OP_UTXOBYTECODE OP_EQUALVERIFY OP_INPUTINDEX OP_UTXOTOKENAMOUNT OP_INPUTINDEX OP_UTXOVALUE OP_ADD OP_INPUTINDEX OP_OUTPUTTOKENAMOUNT OP_INPUTINDEX OP_OUTPUTVALUE OP_ADD OP_NUMEQUAL OP_NIP",
+        "source": "pragma cashscript ^0.9.2;\n\n// Vault - Store coins locked for tokens until maturation date. \n//\n// [Beta] 2024-05-29\n//\n// From: Future Bitcoin Cash\n//\n// Author: 2qx <2qx_in_the_future@small.neomailbox.ch>\n//\n//     If redeeming tokens for coins in the vault: \n// [ ]   enforce the timelock is met.\n//\n// [ ] Assure the utxo token category matches that of the output.\n// [ ] Assure the the utxo and output lock match per in the transaction.\n// [ ] Assure an equal amounts of coins are exchanged for tokens\n//\n//\n//  inputs              outputs\n//  [0] contract    ->  [0] contract\n//  [1] userPkh     =>  [1] userPkh\n//  [2] coupon?     -^\n//\n\ncontract Vault(int locktime) {\n\n    function swap() {\n        \n        // If tokens are flowing back into this contract\n        if(tx.outputs[this.activeInputIndex].tokenAmount > tx.inputs[this.activeInputIndex].tokenAmount){\n            // Enforce a BIP65 timelock \n            // Note, intended for use with block height based locks \n            // (where:  locktime < 500M).\n            require(tx.time >= locktime);\n        }\n\n        // \n        // Inspired by wrapped.cash c. Nov 2023\n        // Author: Dagur Valberg Johannsson <dagurval@pvv.ntnu.no> \n        // License: MIT\n        //\n        require(\n          tx.inputs[this.activeInputIndex].tokenCategory \n          == \n          tx.outputs[this.activeInputIndex].tokenCategory\n          );\n\n        // Enforce that this contract lives on\n        require(\n          tx.outputs[this.activeInputIndex].lockingBytecode \n          == \n          tx.inputs[this.activeInputIndex].lockingBytecode\n          );\n\n        require(\n          tx.inputs[this.activeInputIndex].tokenAmount + \n          tx.inputs[this.activeInputIndex].value \n          == \n          tx.outputs[this.activeInputIndex].tokenAmount + \n          tx.outputs[this.activeInputIndex].value\n         );\n    }\n\n}\n",
+        "compiler": {
+          "name": "cashc",
+          "version": "0.9.2"
+        },
+        "updatedAt": "2024-05-31T19:21:42.905Z"
+      }
+    },
+    {
+      "name": "Coupon",
+      "source": "pragma cashscript ^0.9.2;\n\n// Coupon - apply* utxo coupons by spending at least <amount> on <lock>\n//\n// [beta] 2024-05-29\n//\n// From: Future Bitcoin Cash\n//\n// Author: 2qx <2qx_in_the_future@small.neomailbox.ch>\n//\n// Allow anyone to use an unspent output (utxo) in a transaction ...\n//\n// ... given:\n//\n// [ ] the zeroth inflow value exceeds a predefined amount \n// [ ] the zeroth input is to a predefined address\n// [ ] the coupon must be applied as the last input\n//\n// * Limit one per transaction.\n//\n// Note: This contract is designed to run as part of an integrated\n// multi-contract system. It's not in itself sufficient to assure \n// an advisory doesn't claim all coupons instantly for no cost.\n//\n// Also note: This instance is designed where the `lock`, or destination, \n// is the first input and output. If the locks isn't spendable, or not the first\n// input, coupons will no be redeemable.\n//\n// ... If there is no time or monetary cost to spend every coupon, \n// it should be expected that they will all be cleaned at once.\n//\n\ncontract Coupon(\n  // Minimum spent (sats) to claim each coupon utxo.\n  int amount,\n  \n  // Contract holding the logic.\n  bytes lock\n){\n\n  function apply() {\n    \n    // assure at the minium amount is sent to the intended contract\n    require((tx.outputs[0].value - tx.inputs[0].value) >= amount);\n    \n    // Check that the Coupon is interacting with an existing Vault instance \n    require(tx.inputs[0].lockingBytecode == lock);\n    \n    // The coupon must be spent as the last input, \n    //   therefore only coupon may be spent at a time.\n    require(this.activeInputIndex+1 == tx.inputs.length);\n  }\n\n}\n",
+      "artifact": {
+        "contractName": "Coupon",
+        "constructorInputs": [
+          {
+            "name": "amount",
+            "type": "int"
+          },
+          {
+            "name": "lock",
+            "type": "bytes"
+          }
+        ],
+        "abi": [
+          {
+            "name": "apply",
+            "inputs": []
+          }
+        ],
+        "bytecode": "OP_0 OP_OUTPUTVALUE OP_0 OP_UTXOVALUE OP_SUB OP_LESSTHANOREQUAL OP_VERIFY OP_0 OP_UTXOBYTECODE OP_EQUALVERIFY OP_INPUTINDEX OP_1ADD OP_TXINPUTCOUNT OP_NUMEQUAL",
+        "source": "pragma cashscript ^0.9.2;\n\n// Coupon - apply* utxo coupons by spending at least <amount> on <lock>\n//\n// [beta] 2024-05-29\n//\n// From: Future Bitcoin Cash\n//\n// Author: 2qx <2qx_in_the_future@small.neomailbox.ch>\n//\n// Allow anyone to use an unspent output (utxo) in a transaction ...\n//\n// ... given:\n//\n// [ ] the zeroth inflow value exceeds a predefined amount \n// [ ] the zeroth input is to a predefined address\n// [ ] the coupon must be applied as the last input\n//\n// * Limit one per transaction.\n//\n// Note: This contract is designed to run as part of an integrated\n// multi-contract system. It's not in itself sufficient to assure \n// an advisory doesn't claim all coupons instantly for no cost.\n//\n// Also note: This instance is designed where the `lock`, or destination, \n// is the first input and output. If the locks isn't spendable, or not the first\n// input, coupons will no be redeemable.\n//\n// ... If there is no time or monetary cost to spend every coupon, \n// it should be expected that they will all be cleaned at once.\n//\n\ncontract Coupon(\n  // Minimum spent (sats) to claim each coupon utxo.\n  int amount,\n  \n  // Contract holding the logic.\n  bytes lock\n){\n\n  function apply() {\n    \n    // assure at the minium amount is sent to the intended contract\n    require((tx.outputs[0].value - tx.inputs[0].value) >= amount);\n    \n    // Check that the Coupon is interacting with an existing Vault instance \n    require(tx.inputs[0].lockingBytecode == lock);\n    \n    // The coupon must be spent as the last input, \n    //   therefore only coupon may be spent at a time.\n    require(this.activeInputIndex+1 == tx.inputs.length);\n  }\n\n}\n",
+        "compiler": {
+          "name": "cashc",
+          "version": "0.9.2"
+        },
+        "updatedAt": "2024-05-31T19:21:42.906Z"
+      }
+    }
+  ],
+  "template": {
+    "options": "// This template will \"merge\" into the generated template.\n// Recommended approach for getting started is to:\n// 1. Make this a bare minimal JS Object (i.e. \"{ }\")\n// 2. Click Generate Template\n// 3. Copy and paste the scripts you need to add \"Signer Variables\" for and suffix them with some value\n//    (I suffix with \".wallet\" to indicate this version of the script is modified for the wallet to sign but you can use whatever you like).\n// Click the Help button near the top right for further explanation.\n{\n  \"entities\": {\n    \"common\": {\n      \"name\": \"Common\",\n      \"variables\": {\n        \"user\": {\n          \"name\": \"User's Wallet\",\n          \"type\": \"Key\"\n        }\n      }\n    }\n  },\n  \"scripts\": {\n    // This script is used to lock a P2PKH to the sandboxed Keypair. It is used to create a Category Genesis Output.\n    \"sandbox_p2pkh.lock.wallet\": {\n      \"lockingType\": \"standard\",\n      \"name\": \"P2PKH Lock\",\n      \"script\": \"OP_DUP\\nOP_HASH160 <$(<user.public_key> OP_HASH160\\n)> OP_EQUALVERIFY\\nOP_CHECKSIG\"\n    },\n    // This script unlocks the output above (so that we can use it to mint tokens).\n    \"sandbox_p2pkh.unlock.wallet\": {\n      \"name\": \"Unlock\",\n      \"script\": \"<user.schnorr_signature.all_outputs>\\n<user.public_key>\",\n      \"unlocks\": \"sandbox_p2pkh.lock.wallet\"\n    },\n    // This script is dangerous as it allows any arbitrary script to be executed.\n    // In future, there will be an \"actions\" object in this template that replace our standalone \"tests\".\n    // Actions will contain multiple transaction shapes that are executed by CashRPC in one call.\n    // This prevents scripts like this from being executed directly and ensures they can only be executed within the context of a corresponding unlock.\n    \"payout.locking_bytecode\": {\n      \"name\": \"Payout\",\n      \"script\": \"$(<payout_bytecode>)\"\n    },\n  }\n}",
+    "template": {
+      "$schema": "https://ide.bitauth.com/authentication-template-v0.schema.json",
+      "name": "Future Bitcoin Cash",
+      "description": "This demonstrates Future Bitcoin Cash Contracts. There are actually some other very neat contracts FBCH is using in Production to simulate multi-threading but, for simplicity, I haven't included those here.\n\nTo use:\n\n1. Execute the \"Create Campaign\" test in Wallet Connect.\n2. Copy the first transaction's hash (token genesis) into all of the \"Pledge to Campaign\" and \"Pledge Again\" Category ID fields.\n3. Copy the second transaction's hash (contract) into \"Pledge to Campaign\"'s \"outpointTransactionHash\" and execute it.\n4. Copy the resulting Transaction Hash into \"Pledge Again\"'s \"outpointTransactionHash and execute it.\n5. Copy the resulting Transaction Hash into \"Payout\"'s \"outpointTransactionHash\" and execute it.\n\nThis implementation is hacked together for demonstration. In future, I'll probably write tests for the Refund Flow, etc, but wanted to keep it simple for now.\n\nAlso note that this demonstrates how Token Genesis transactions can be used (see the \"Create Campaign\" test).",
+      "entities": {
+        "common": {
+          "name": "Common",
+          "variables": {
+            "locktime": {
+              "name": "Locktime",
+              "type": "AddressData",
+              "description": "number"
+            },
+            "amount": {
+              "name": "Amount",
+              "type": "AddressData",
+              "description": "number"
+            },
+            "lock": {
+              "name": "Lock",
+              "type": "AddressData"
+            },
+            "user": {
+              "name": "User's Wallet",
+              "type": "Key"
+            }
+          }
+        }
+      },
+      "scripts": {
+        "vault.bytecode": {
+          "script": "OP_INPUTINDEX\nOP_OUTPUTTOKENAMOUNT\nOP_INPUTINDEX\nOP_UTXOTOKENAMOUNT\nOP_GREATERTHAN\nOP_IF\nOP_DUP\nOP_CHECKLOCKTIMEVERIFY\nOP_DROP\nOP_ENDIF\nOP_INPUTINDEX\nOP_UTXOTOKENCATEGORY\nOP_INPUTINDEX\nOP_OUTPUTTOKENCATEGORY\nOP_EQUALVERIFY\nOP_INPUTINDEX\nOP_OUTPUTBYTECODE\nOP_INPUTINDEX\nOP_UTXOBYTECODE\nOP_EQUALVERIFY\nOP_INPUTINDEX\nOP_UTXOTOKENAMOUNT\nOP_INPUTINDEX\nOP_UTXOVALUE\nOP_ADD\nOP_INPUTINDEX\nOP_OUTPUTTOKENAMOUNT\nOP_INPUTINDEX\nOP_OUTPUTVALUE\nOP_ADD\nOP_NUMEQUAL\nOP_NIP"
+        },
+        "vault.lock": {
+          "name": "Vault.lock",
+          "script": "<locktime>\n$(<vault.bytecode>)",
+          "lockingType": "p2sh32"
+        },
+        "vault.unlock.swap": {
+          "name": "Vault - Swap",
+          "script": "",
+          "unlocks": "vault.lock"
+        },
+        "coupon.bytecode": {
+          "script": "OP_0\nOP_OUTPUTVALUE\nOP_0\nOP_UTXOVALUE\nOP_SUB\nOP_LESSTHANOREQUAL\nOP_VERIFY\nOP_0\nOP_UTXOBYTECODE\nOP_EQUALVERIFY\nOP_INPUTINDEX\nOP_1ADD\nOP_TXINPUTCOUNT\nOP_NUMEQUAL"
+        },
+        "coupon.lock": {
+          "name": "Coupon.lock",
+          "script": "<lock>\n<amount>\n$(<coupon.bytecode>)",
+          "lockingType": "p2sh32"
+        },
+        "coupon.unlock.apply": {
+          "name": "Coupon - Apply",
+          "script": "",
+          "unlocks": "coupon.lock"
+        },
+        "sandbox_p2pkh.lock.wallet": {
+          "lockingType": "standard",
+          "name": "P2PKH Lock",
+          "script": "OP_DUP\nOP_HASH160 <$(<user.public_key> OP_HASH160\n)> OP_EQUALVERIFY\nOP_CHECKSIG"
+        },
+        "sandbox_p2pkh.unlock.wallet": {
+          "name": "Unlock",
+          "script": "<user.schnorr_signature.all_outputs>\n<user.public_key>",
+          "unlocks": "sandbox_p2pkh.lock.wallet"
+        },
+        "payout.locking_bytecode": {
+          "name": "Payout",
+          "script": "$(<payout_bytecode>)"
+        }
+      },
+      "supported": [
+        "BCH_2022_05"
+      ],
+      "version": 0
+    }
+  },
+  "signer": {
+    "chains": [
+      "bch:bchtest"
+    ],
+    "methods": [
+      "bch_signTransaction_V0",
+      "bch_getTokens_V0",
+      "wc_authRequest",
+      "bch_signMessage_V0",
+      "bch_getChangeLockingBytecode_V0"
+    ],
+    "events": [
+      "balancesChanged"
+    ],
+    "allowedTokens": [
+      "*"
+    ],
+    "template": ""
+  },
+  "tests": [
+    {
+      "name": "Swap BCH for FBCH",
+      "description": "Example Sign Transaction",
+      "method": "bch_signTransaction_V0",
+      "payload": "[\n  {\n    // We use the key \"User\" (represents the wallet) that we defined in our custom template.  \n    \"signerKey\": \"user\",\n    \"userPrompt\": \"Swap BCH for FBCH\",\n    \"transaction\": {\n      \"outputs\": [\n        {\n          // This script is a P2PKH lock (defined in our template) using the Sandboxed Private Key.\n          \"script\": \"sandbox_p2pkh.lock.wallet\",\n          \"valueSatoshis\": 1000\n        }\n      ]\n    }\n  },\n  // Second request is to create the Vault Contract.\n  {\n    \"signerKey\": \"user\",\n    \"userPrompt\": \"Lock BCH for FBCH\",\n    \"transaction\": {\n      \"inputs\": [\n        {\n          \"script\": \"vault.unlock.swap\",\n          \"outpointTransactionHash\": \"0xa408d3e90560cb2cb452239499fa59cb90c252a32dd83ce6aa5e49adc341d66c\",\n          \"outpointIndex\": 0,\n          \"data\": {\n            \"locktime\": 203000,\n          }\n        },\n        {\n          \"script\": \"sandbox_p2pkh.unlock.wallet\",\n          \"outpointTransactionHash\": \"<0.transactionHash>\",\n          \"outpointIndex\": 0\n        }\n      ],\n      \"outputs\": [\n        {\n          \"script\": \"vault.lock\",\n          \"data\": {\n            // 100_000 sats\n            \"locktime\": 203000,\n          },\n          \"valueSatoshis\": 6000,\n          \"token\": {\n            \"category\": \"0x4fe0c3cb3a956303ca2623dff5606ec007d28a675a21316755070503e08373f5\",\n            \"amount\": 2095000\n          }\n        },\n        {\n          \"valueSatoshis\": 1000,\n          \"token\": {\n            // We use the 1st transaction hash from our Create Campaign\" response (as this is the Token Genesis, thus the CategoryID).\n            \"category\": \"0x4fe0c3cb3a956303ca2623dff5606ec007d28a675a21316755070503e08373f5\",\n            \"amount\": 5000\n          }\n        }\n      ]\n    }\n  }\n]",
+      "response": "[\n  {\n    \"transactionHash\": \"<Uint8Array: 0xb0e971a2b2ba7bc268adb25657ff83b1b6e52c05759eca4f754faf43e625a888>\",\n    \"transaction\": {\n      \"inputs\": [\n        {\n          \"outpointIndex\": 1,\n          \"outpointTransactionHash\": \"<Uint8Array: 0x436ebc87830c77771efa755497521bbffb245c48276deb3e7b75883981723394>\",\n          \"sequenceNumber\": 0,\n          \"unlockingBytecode\": \"<Uint8Array: 0x41260c48b9037bba6772ad8f7548beca0ff96481d7b028d3072c5575d4f78be96020c4943a1da0b9754fcb2c88c2edfd51f3e13152640d8874d77fb5bb3c4ce2b3412103e8496f980f6b42f10b878c8a4a77e644e4e96bc1fa1784c457f8da293c1b598f>\"\n        }\n      ],\n      \"locktime\": 0,\n      \"outputs\": [\n        {\n          \"lockingBytecode\": \"<Uint8Array: 0x76a914a2f0e44dcea7421191d2e6c6e20407f90928a4e988ac>\",\n          \"valueSatoshis\": \"<bigint: 1000n>\",\n          \"resolvedVariables\": {}\n        },\n        {\n          \"lockingBytecode\": \"<Uint8Array: 0x76a914d17e109578465c7e31650cbb5aaca00ae7370ae488ac>\",\n          \"valueSatoshis\": \"<bigint: 33956n>\"\n        }\n      ],\n      \"version\": 2\n    },\n    \"sourceOutputs\": [\n      {\n        \"lockingBytecode\": \"<Uint8Array: 0x76a914d17e109578465c7e31650cbb5aaca00ae7370ae488ac>\",\n        \"valueSatoshis\": \"<bigint: 35179n>\"\n      }\n    ]\n  },\n  {\n    \"transactionHash\": \"<Uint8Array: 0x1a9d69c50b1e13622b98b2dab6753b892ee0ed2030dc1f1ce75679a92eaaf59f>\",\n    \"transaction\": {\n      \"inputs\": [\n        {\n          \"outpointIndex\": 0,\n          \"outpointTransactionHash\": \"<Uint8Array: 0xa408d3e90560cb2cb452239499fa59cb90c252a32dd83ce6aa5e49adc341d66c>\",\n          \"sequenceNumber\": 0,\n          \"unlockingBytecode\": \"<Uint8Array: 0x2403f81803c0d3c0d0a06376b17568c0cec0d188c0cdc0c788c0d0c0c693c0d3c0cc939c77>\"\n        },\n        {\n          \"outpointIndex\": 0,\n          \"outpointTransactionHash\": \"<Uint8Array: 0xb0e971a2b2ba7bc268adb25657ff83b1b6e52c05759eca4f754faf43e625a888>\",\n          \"sequenceNumber\": 0,\n          \"unlockingBytecode\": \"<Uint8Array: 0x4151519c17d71a028e61484766d6e68f7c91a67fae4c8f300815c0104b31306a8c9aab626fb8e363e3f3c9dde85f08d8991cee851ce6edd78051aa8352cdc0a68f412103c820a2ec23fd9a94ae969d4831e9dc23ba9af9507e9df36d965211f5365e0656>\"\n        },\n        {\n          \"outpointIndex\": 1,\n          \"outpointTransactionHash\": \"<Uint8Array: 0xb0e971a2b2ba7bc268adb25657ff83b1b6e52c05759eca4f754faf43e625a888>\",\n          \"sequenceNumber\": 0,\n          \"unlockingBytecode\": \"<Uint8Array: 0x41fce130f515a1ef78dbad06dbfc81467e7f52bf192ae562ce1265cb1ba58cf948ef392b9a94de7c1f1d52bea3f09458a4f6b72423ce277a59eb425db93a50e510412103e8496f980f6b42f10b878c8a4a77e644e4e96bc1fa1784c457f8da293c1b598f>\"\n        }\n      ],\n      \"locktime\": 0,\n      \"outputs\": [\n        {\n          \"lockingBytecode\": \"<Uint8Array: 0xaa20a971d85b4362c3bdf17b3065e1112b05f7e01121c298bb7d3bcdc6bb28d5317387>\",\n          \"token\": {\n            \"category\": \"<Uint8Array: 0x4fe0c3cb3a956303ca2623dff5606ec007d28a675a21316755070503e08373f5>\",\n            \"amount\": \"<bigint: 2095000n>\"\n          },\n          \"valueSatoshis\": \"<bigint: 6000n>\",\n          \"resolvedVariables\": {\n            \"vault.bytecode\": \"<Uint8Array: 0xc0d3c0d0a06376b17568c0cec0d188c0cdc0c788c0d0c0c693c0d3c0cc939c77>\"\n          }\n        },\n        {\n          \"lockingBytecode\": \"<Uint8Array: 0x76a914d17e109578465c7e31650cbb5aaca00ae7370ae488ac>\",\n          \"token\": {\n            \"category\": \"<Uint8Array: 0x4fe0c3cb3a956303ca2623dff5606ec007d28a675a21316755070503e08373f5>\",\n            \"amount\": \"<bigint: 5000n>\"\n          },\n          \"valueSatoshis\": \"<bigint: 1000n>\"\n        },\n        {\n          \"lockingBytecode\": \"<Uint8Array: 0x76a914d17e109578465c7e31650cbb5aaca00ae7370ae488ac>\",\n          \"token\": {\n            \"category\": \"<Uint8Array: 0x4fe0c3cb3a956303ca2623dff5606ec007d28a675a21316755070503e08373f5>\",\n            \"amount\": \"<bigint: 0n>\"\n          },\n          \"valueSatoshis\": \"<bigint: 1000n>\"\n        },\n        {\n          \"lockingBytecode\": \"<Uint8Array: 0x76a914d17e109578465c7e31650cbb5aaca00ae7370ae488ac>\",\n          \"valueSatoshis\": \"<bigint: 27360n>\"\n        }\n      ],\n      \"version\": 2\n    },\n    \"sourceOutputs\": [\n      {\n        \"lockingBytecode\": \"<Uint8Array: 0xaa20a971d85b4362c3bdf17b3065e1112b05f7e01121c298bb7d3bcdc6bb28d5317387>\",\n        \"valueSatoshis\": \"<bigint: 1000n>\",\n        \"token\": {\n          \"amount\": \"<bigint: 2100000n>\",\n          \"category\": \"<Uint8Array: 0x4fe0c3cb3a956303ca2623dff5606ec007d28a675a21316755070503e08373f5>\"\n        }\n      },\n      {\n        \"lockingBytecode\": \"<Uint8Array: 0x76a914a2f0e44dcea7421191d2e6c6e20407f90928a4e988ac>\",\n        \"valueSatoshis\": \"<bigint: 1000n>\"\n      },\n      {\n        \"lockingBytecode\": \"<Uint8Array: 0x76a914d17e109578465c7e31650cbb5aaca00ae7370ae488ac>\",\n        \"valueSatoshis\": \"<bigint: 33956n>\"\n      }\n    ]\n  }\n]"
+    },
+    {
+      "name": "Redeem FBCH",
+      "description": "Example Sign Transaction",
+      "method": "bch_signTransaction_V0",
+      "payload": "[\n  {\n    // We use the key \"User\" (represents the wallet) that we defined in our custom template.  \n    \"signerKey\": \"user\",\n    \"userPrompt\": \"Swap BCH for FBCH\",\n    \"transaction\": {\n      \"outputs\": [\n        {\n          // This script is a P2PKH lock (defined in our template) using the Sandboxed Private Key.\n          \"script\": \"sandbox_p2pkh.lock.wallet\",\n          \"valueSatoshis\": 1000\n        }\n      ]\n    }\n  },\n  // Second request is to create the Vault Contract.\n  {\n    \"signerKey\": \"user\",\n    \"userPrompt\": \"Lock BCH for FBCH\",\n    \"transaction\": {\n      \"locktime\":203000,\n      \"inputs\": [\n        {\n          \"script\": \"vault.unlock.swap\",\n          \"outpointTransactionHash\": \"0x1a9d69c50b1e13622b98b2dab6753b892ee0ed2030dc1f1ce75679a92eaaf59f\",\n          \"outpointIndex\": 0,\n          \"data\": {\n            \"locktime\": 203000,\n          }\n        },\n        {\n          \"script\": \"sandbox_p2pkh.unlock.wallet\",\n          \"outpointTransactionHash\": \"<0.transactionHash>\",\n          \"outpointIndex\": 0,\n          \"token\": {\n            // We use the 1st transaction hash from our Create Campaign\" response (as this is the Token Genesis, thus the CategoryID).\n            \"category\": \"0x4fe0c3cb3a956303ca2623dff5606ec007d28a675a21316755070503e08373f5\",\n            \"amount\": 5000\n          }\n        }\n      ],\n      \"outputs\": [\n        {\n          \"script\": \"vault.lock\",\n          \"data\": {\n            // 100_000 sats\n            \"locktime\": 203000,\n          },\n          \"valueSatoshis\": 1000,\n          \"token\": {\n            \"category\": \"0x4fe0c3cb3a956303ca2623dff5606ec007d28a675a21316755070503e08373f5\",\n            \"amount\": 2100000\n          }\n        },\n        {\n          \"valueSatoshis\": 5000,\n          \"token\": {\n            // We use the 1st transaction hash from our Create Campaign\" response (as this is the Token Genesis, thus the CategoryID).\n            \"category\": \"0x4fe0c3cb3a956303ca2623dff5606ec007d28a675a21316755070503e08373f5\",\n            \"amount\": 0\n          }\n        }\n      ]\n    }\n  }\n]",
+      "response": "[\n  {\n    \"transactionHash\": \"<Uint8Array: 0xa31ffc4f0725b19cef9fb73fcdd0bb9f46a1603325a060805e1dc2957521f80e>\",\n    \"transaction\": {\n      \"inputs\": [\n        {\n          \"outpointIndex\": 1,\n          \"outpointTransactionHash\": \"<Uint8Array: 0xd4bc38a5563d5f2e6ce26f07e349ef4d24834c5798be6a6feb79e15cbf88b1e1>\",\n          \"sequenceNumber\": 0,\n          \"unlockingBytecode\": \"<Uint8Array: 0x415e2ab7209b931cefee8fe532842546c694a5f0b84052a2a930045cbbf697388cbdafbcd695bf9d88ab949b5b6e943cc1f9575c7e1159c986cfce39c4b91469bd412103e8496f980f6b42f10b878c8a4a77e644e4e96bc1fa1784c457f8da293c1b598f>\"\n        }\n      ],\n      \"locktime\": 0,\n      \"outputs\": [\n        {\n          \"lockingBytecode\": \"<Uint8Array: 0x76a914a2f0e44dcea7421191d2e6c6e20407f90928a4e988ac>\",\n          \"valueSatoshis\": \"<bigint: 1000n>\",\n          \"resolvedVariables\": {}\n        },\n        {\n          \"lockingBytecode\": \"<Uint8Array: 0x76a914d17e109578465c7e31650cbb5aaca00ae7370ae488ac>\",\n          \"valueSatoshis\": \"<bigint: 40121n>\"\n        }\n      ],\n      \"version\": 2\n    },\n    \"sourceOutputs\": [\n      {\n        \"lockingBytecode\": \"<Uint8Array: 0x76a914d17e109578465c7e31650cbb5aaca00ae7370ae488ac>\",\n        \"valueSatoshis\": \"<bigint: 41344n>\"\n      }\n    ]\n  },\n  {\n    \"transactionHash\": \"<Uint8Array: 0xbf684340b5b6f49e583b7de170ff553c9ea9e5f2856aa7ab006f06fd430202fe>\",\n    \"transaction\": {\n      \"inputs\": [\n        {\n          \"outpointIndex\": 0,\n          \"outpointTransactionHash\": \"<Uint8Array: 0x1a9d69c50b1e13622b98b2dab6753b892ee0ed2030dc1f1ce75679a92eaaf59f>\",\n          \"sequenceNumber\": 0,\n          \"unlockingBytecode\": \"<Uint8Array: 0x2403f81803c0d3c0d0a06376b17568c0cec0d188c0cdc0c788c0d0c0c693c0d3c0cc939c77>\"\n        },\n        {\n          \"outpointIndex\": 0,\n          \"outpointTransactionHash\": \"<Uint8Array: 0xa31ffc4f0725b19cef9fb73fcdd0bb9f46a1603325a060805e1dc2957521f80e>\",\n          \"sequenceNumber\": 0,\n          \"unlockingBytecode\": \"<Uint8Array: 0x4176b183e5d364b4667c514e0577b626863f73a4f32370570efdc6cbf10e6ea3047b232c905506f6bedf9ab003ab733a2b0485bc49c700f55d69f185bcc3b74c88412103c820a2ec23fd9a94ae969d4831e9dc23ba9af9507e9df36d965211f5365e0656>\"\n        },\n        {\n          \"outpointIndex\": 1,\n          \"outpointTransactionHash\": \"<Uint8Array: 0x1a9d69c50b1e13622b98b2dab6753b892ee0ed2030dc1f1ce75679a92eaaf59f>\",\n          \"unlockingBytecode\": \"<Uint8Array: 0x41e85ad48943d836cc92f432509bfdc1e5e6cc1665b4006275199355219bc2ee57df9d727a423acc7a8f0eb388e665750d8d052db1352e38a1c2f0cdcb10b1635c412103e8496f980f6b42f10b878c8a4a77e644e4e96bc1fa1784c457f8da293c1b598f>\"\n        }\n      ],\n      \"locktime\": 203000,\n      \"outputs\": [\n        {\n          \"lockingBytecode\": \"<Uint8Array: 0xaa20a971d85b4362c3bdf17b3065e1112b05f7e01121c298bb7d3bcdc6bb28d5317387>\",\n          \"token\": {\n            \"category\": \"<Uint8Array: 0x4fe0c3cb3a956303ca2623dff5606ec007d28a675a21316755070503e08373f5>\",\n            \"amount\": \"<bigint: 2100000n>\"\n          },\n          \"valueSatoshis\": \"<bigint: 1000n>\",\n          \"resolvedVariables\": {\n            \"vault.bytecode\": \"<Uint8Array: 0xc0d3c0d0a06376b17568c0cec0d188c0cdc0c788c0d0c0c693c0d3c0cc939c77>\"\n          }\n        },\n        {\n          \"lockingBytecode\": \"<Uint8Array: 0x76a914d17e109578465c7e31650cbb5aaca00ae7370ae488ac>\",\n          \"token\": {\n            \"category\": \"<Uint8Array: 0x4fe0c3cb3a956303ca2623dff5606ec007d28a675a21316755070503e08373f5>\",\n            \"amount\": \"<bigint: 0n>\"\n          },\n          \"valueSatoshis\": \"<bigint: 5000n>\"\n        },\n        {\n          \"lockingBytecode\": \"<Uint8Array: 0x76a914d17e109578465c7e31650cbb5aaca00ae7370ae488ac>\",\n          \"token\": {\n            \"category\": \"<Uint8Array: 0x4fe0c3cb3a956303ca2623dff5606ec007d28a675a21316755070503e08373f5>\",\n            \"amount\": \"<bigint: 0n>\"\n          },\n          \"valueSatoshis\": \"<bigint: 1000n>\"\n        }\n      ],\n      \"version\": 2\n    },\n    \"sourceOutputs\": [\n      {\n        \"lockingBytecode\": \"<Uint8Array: 0xaa20a971d85b4362c3bdf17b3065e1112b05f7e01121c298bb7d3bcdc6bb28d5317387>\",\n        \"valueSatoshis\": \"<bigint: 6000n>\",\n        \"token\": {\n          \"amount\": \"<bigint: 2095000n>\",\n          \"category\": \"<Uint8Array: 0x4fe0c3cb3a956303ca2623dff5606ec007d28a675a21316755070503e08373f5>\"\n        }\n      },\n      {\n        \"lockingBytecode\": \"<Uint8Array: 0x76a914a2f0e44dcea7421191d2e6c6e20407f90928a4e988ac>\",\n        \"valueSatoshis\": \"<bigint: 1000n>\"\n      },\n      {\n        \"lockingBytecode\": \"<Uint8Array: 0x76a914d17e109578465c7e31650cbb5aaca00ae7370ae488ac>\",\n        \"valueSatoshis\": \"<bigint: 1000n>\",\n        \"token\": {\n          \"amount\": \"<bigint: 5000n>\",\n          \"category\": \"<Uint8Array: 0x4fe0c3cb3a956303ca2623dff5606ec007d28a675a21316755070503e08373f5>\"\n        }\n      }\n    ]\n  }\n]"
+    },
+    {
+      "name": "Swap with Coupon",
+      "description": "Example Sign Transaction",
+      "method": "bch_signTransaction_V0",
+      "payload": "[\n  {\n    // We use the key \"User\" (represents the wallet) that we defined in our custom template.  \n    \"signerKey\": \"user\",\n    \"userPrompt\": \"Swap BCH for FBCH\",\n    \"transaction\": {\n      \"outputs\": [\n        {\n          // This script is a P2PKH lock (defined in our template) using the Sandboxed Private Key.\n          \"script\": \"sandbox_p2pkh.lock.wallet\",\n          \"valueSatoshis\": 1000\n        }\n      ]\n    }\n  },\n  // Second request is to create the Vault Contract.\n  {\n    \"signerKey\": \"user\",\n    \"userPrompt\": \"Lock BCH for FBCH\",\n    \"transaction\": {\n      \"inputs\": [\n        {\n          \"script\": \"vault.unlock.swap\",\n          \"outpointTransactionHash\": \"0x1a9d69c50b1e13622b98b2dab6753b892ee0ed2030dc1f1ce75679a92eaaf59f\",\n          \"outpointIndex\": 0,\n          \"data\": {\n            \"locktime\": 203000,\n          }\n        },\n        {\n          \"script\": \"sandbox_p2pkh.unlock.wallet\",\n          \"outpointTransactionHash\": \"<0.transactionHash>\",\n          \"outpointIndex\": 0,\n          \"valueSatoshis\": 35000\n        },\n        {\n          \"script\": \"coupon.unlock.apply\",\n          \"outpointTransactionHash\": \"0x98dcbac71adee7f2bf2521f343884f39581b55fda80ccc764c7aec43d15e7027\",\n          \"outpointIndex\": 0,\n          \"data\": {\n            \"amount\": 1000,\n            \"lock\": \"0xaa20a971d85b4362c3bdf17b3065e1112b05f7e01121c298bb7d3bcdc6bb28d5317387\"\n          }\n        },\n      ],\n      \"outputs\": [\n        {\n          \"script\": \"vault.lock\",\n          \"data\": {\n            // 100_000 sats\n            \"locktime\": 203000,\n          },\n          \"valueSatoshis\": 11000,\n          \"token\": {\n            \"category\": \"0x4fe0c3cb3a956303ca2623dff5606ec007d28a675a21316755070503e08373f5\",\n            \"amount\": 2090000\n          }\n        },\n        {\n          \"valueSatoshis\": 1000,\n          \"token\": {\n            \"category\": \"0x4fe0c3cb3a956303ca2623dff5606ec007d28a675a21316755070503e08373f5\",\n            \"amount\": 5000\n          }\n        }\n      ]\n    }\n  }\n]"
+    }
+  ]
+}

@@ -1,8 +1,4 @@
-import type { Artifact } from "cashscript";
 import {
-    binToHex,
-    hexToBin,
-    swapEndianness,
     numberToBinUint32LEClamped,
     cashAddressToLockingBytecode
 } from "@bitauth/libauth";
@@ -184,5 +180,60 @@ describe(`Coupon Tests`, () => {
         const txPromise = transactionBuilder.send()
         await expect(txPromise).rejects.toThrow(FailedRequireError);
         
+    });
+
+
+    test("Cat the bitauthUrl", async () => {
+
+        let regTest = new ElectrumCluster(
+            "CashScript Application",
+            "1.4.1",
+            1,
+            1,
+            ClusterOrder.PRIORITY,
+            2000
+        );
+        regTest.addServer("127.0.0.1", 60003, ElectrumTransport.WS.Scheme, false);
+
+        let provider = new ElectrumNetworkProvider("regtest", regTest, false);
+
+        const transactionBuilder = new TransactionBuilder({ provider });
+        const alice = await getAnAliceWallet(500_000)
+        const shop = await RegTestWallet.newRandom();
+        const charlie = await RegTestWallet.newRandom();
+
+        const charlieTemplate = new SignatureTemplate(charlie.privateKey!)
+
+        let lock = cashAddressToLockingBytecode(shop.getDepositAddress());
+        if (typeof lock == "string") throw lock
+        lock
+
+        const contract = new Contract(v1, [55_000n, lock.bytecode], { provider });
+
+        await alice.send([
+            new SendRequest({
+                cashaddr: contract.address,
+                value: 5000,
+                unit: 'sats'
+            })
+        ])
+
+        let contractUtxos = await contract.getUtxos();
+        let contractUtxo = contractUtxos[0];
+
+        let url = await contract.functions.apply()
+        .from(contractUtxo)
+        .withTime(10003)
+        .to(
+          [
+  
+            {
+              to: contract.tokenAddress,
+              amount: 999n,
+            }
+          ]
+        ).bitauthUri();
+        console.log(url)
+
     });
 });

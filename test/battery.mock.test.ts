@@ -2,7 +2,7 @@ import { artifact } from '../contracts/battery.v2.js';
 import { artifact as gantryArtifact } from '../contracts/gantry.v2.js';
 import { artifact as vaultArtifact } from '../contracts/vault.v2.js';
 import { Contract, MockNetworkProvider, randomUtxo, randomNFT, FailedTransactionError } from 'cashscript';
-import { binToHex, hexToBin, numberToBinUint32LEClamped, swapEndianness } from "@bitauth/libauth";
+import { binToHex, numberToBinUint32LEClamped } from "@bitauth/libauth";
 import 'cashscript/dist/test/JestExtensions.js';
 
 const to32LE = numberToBinUint32LEClamped;

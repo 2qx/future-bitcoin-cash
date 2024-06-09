@@ -1,0 +1,107 @@
+{
+    "$schema": "https://ide.bitauth.com/authentication-template-v0.schema.json",
+    "description": "Imported from cashscript",
+    "name": "Vault",
+    "entities": {
+      "parameters": {
+        "description": "Contract creation and function parameters",
+        "name": "parameters",
+        "scripts": [
+          "lock",
+          "unlock_lock"
+        ],
+        "variables": {
+          "function_index": {
+            "description": "Script function index to execute",
+            "name": "function_index",
+            "type": "WalletData"
+          },
+          "locktime": {
+            "description": "\"locktime\" parameter of this contract",
+            "name": "locktime",
+            "type": "WalletData"
+          }
+        }
+      }
+    },
+    "scenarios": {
+      "evaluate_function": {
+        "data": {
+          "bytecode": {
+            "function_index": "0",
+            "locktime": "0xe100"
+          },
+          "currentBlockHeight": 2,
+          "currentBlockTime": 1717611322,
+          "keys": {
+            "privateKeys": {}
+          }
+        },
+        "description": "An example evaluation where this script execution passes.",
+        "name": "Evaluate",
+        "transaction": {
+          "inputs": [
+            {
+              "outpointIndex": 0,
+              "outpointTransactionHash": "a080feb4669dc521ae4914fc300e1e98c316f40ba0ddace20fc34722f39b4ee8",
+              "sequenceNumber": 4294967294,
+              "unlockingBytecode": [
+                "slot"
+              ]
+            }
+          ],
+          "locktime": 10003,
+          "outputs": [
+            {
+              "lockingBytecode": {},
+              "valueSatoshis": 999
+            },
+            {
+              "lockingBytecode": {},
+              "token": {
+                "amount": "2100000000000000",
+                "category": "49cce211db65e0712634eab7d0d12a01d4f6d5f9c11dbc5cb9623ca888b674bb"
+              },
+              "valueSatoshis": 1000
+            },
+            {
+              "lockingBytecode": {},
+              "valueSatoshis": 7739
+            }
+          ],
+          "version": 2
+        },
+        "sourceOutputs": [
+          {
+            "lockingBytecode": [
+              "slot"
+            ],
+            "valueSatoshis": 10000,
+            "token": {
+              "amount": "2100000000000000",
+              "category": "49cce211db65e0712634eab7d0d12a01d4f6d5f9c11dbc5cb9623ca888b674bb"
+            }
+          }
+        ]
+      }
+    },
+    "scripts": {
+      "unlock_lock": {
+        "passes": [
+          "evaluate_function"
+        ],
+        "name": "unlock",
+        "script": "// \"swap\" function parameters\n// none\n",
+        "unlocks": "lock"
+      },
+      "lock": {
+        "lockingType": "p2sh20",
+        "name": "lock",
+        "script": "<locktime> \nOP_INPUTINDEX OP_OUTPUTTOKENAMOUNT OP_INPUTINDEX OP_UTXOTOKENAMOUNT OP_GREATERTHAN \nOP_IF \n  OP_0 OP_PICK OP_CHECKLOCKTIMEVERIFY OP_DROP\nOP_ENDIF \nOP_INPUTINDEX OP_UTXOTOKENCATEGORY OP_INPUTINDEX OP_OUTPUTTOKENCATEGORY OP_EQUAL OP_VERIFY \nOP_INPUTINDEX OP_OUTPUTBYTECODE OP_INPUTINDEX OP_UTXOBYTECODE OP_EQUAL OP_VERIFY\nOP_INPUTINDEX OP_UTXOTOKENAMOUNT OP_INPUTINDEX OP_UTXOVALUE OP_ADD\n  OP_INPUTINDEX OP_OUTPUTTOKENAMOUNT OP_INPUTINDEX OP_OUTPUTVALUE OP_ADD OP_NUMEQUAL\nOP_NIP"
+      }
+    },
+    "supported": [
+      "BCH_SPEC"
+    ],
+    "version": 0
+  }

@@ -1,9 +1,8 @@
 pragma cashscript ^0.10.0;
 
-//
 // Gantry - Create vault contracts with fungible tokens in a uniform way. 
 //
-// [Beta] 2024-05-29
+// 2024-06-05
 //
 // From: Future Bitcoin Cash
 //

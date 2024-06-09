@@ -1,7 +1,6 @@
 import type { Artifact } from "cashscript";
 import {
     swapEndianness,
-    numberToBinUint32LEClamped
 } from "@bitauth/libauth";
 import {
     ElectrumCluster,
@@ -15,14 +14,104 @@ import {
     SignatureTemplate
 } from "cashscript";
 import { RegTestWallet, TokenSendRequest, mine } from "mainnet-js";
-import { artifact as v1 } from "../contracts/vault.v2.js";
+import { artifact as v2 } from "../contracts/vault.v2.js";
 import { getAnAliceWallet } from "./aliceWalletTest.js";
 
-const to32LE = numberToBinUint32LEClamped;
-
-const DUST_UTXO_THRESHOLD = 546n;
-
 describe(`TimeLock Tests`, () => {
+
+    test("Should not pay before time is met, but should pay at time", async () => {
+
+        let regTest = new ElectrumCluster(
+            "CashScript Application",
+            "1.4.1",
+            1,
+            1,
+            ClusterOrder.PRIORITY,
+            2000
+        );
+        regTest.addServer("127.0.0.1", 60003, ElectrumTransport.WS.Scheme, false);
+        
+        const alice = await getAnAliceWallet(2_010_000)
+
+        let provider = new ElectrumNetworkProvider("regtest", regTest, false);
+
+        const transactionBuilder = new TransactionBuilder({ provider });
+        const bob = await RegTestWallet.newRandom();
+        const aliceTemplate = new SignatureTemplate(alice.privateKey!)
+        const bobTemplate = new SignatureTemplate(bob.privateKey!)
+
+        let guessTokenId = (await alice.getUtxos())[0].txid
+        const genesisResponse = await alice.tokenGenesis({
+            // token UTXO recipient, if not specified will default to sender's address
+            cashaddr: alice.getTokenDepositAddress()!,      
+            amount: 2100000000000000n,        // fungible token amount
+            commitment: "abcd",             // NFT Commitment message
+            value: 1000,                    // Satoshi value
+        });
+
+        const tokenId = genesisResponse.tokenIds![0];
+        const tokenIdUnRev = swapEndianness(genesisResponse.tokenIds![0]);
+        expect(tokenId).toBe(guessTokenId)
+
+        let blockHeight = (await alice.provider?.getBlockHeight())
+        
+        let locktime = BigInt(blockHeight!) + 10n
+        // convert locktime to LE Byte4
+        //let locktimeBytes = to32LE(locktime);
+        let contract = new Contract(
+            v2 as Artifact,
+            [locktime],
+            { provider: provider, addressType: 'p2sh32' }
+        );
+
+        // fund the contract
+        await alice.send([
+            new TokenSendRequest({
+                cashaddr: contract.tokenAddress,
+                value: 10000,
+                tokenId: tokenId,
+                amount: 2100000000000000n
+            }),
+        ]);
+        // fund the contract
+        await alice.send({
+            cashaddr: bob.getDepositAddress(),
+            unit: "satoshis",
+            value: 1000,
+        });
+        expect(await contract.getBalance()).toEqual(10000n);
+        let aliceUtxos = await provider.getUtxos(alice.getTokenDepositAddress());
+        let bobUtxos = await provider.getUtxos(bob.getTokenDepositAddress());
+        let contractUtxos = await contract.getUtxos();
+
+
+        let contractUtxo = contractUtxos[0];
+        let aliceUtxo = aliceUtxos[0];
+
+        let aliceUtxoBalance = aliceUtxo.satoshis
+        let url = await contract.functions.swap()
+        .from(contractUtxo)
+        .withTime(10003)
+        .to(
+          [
+  
+            {
+              to: contract.tokenAddress,
+              amount: 999n,
+            }
+          ]
+        ).bitauthUri();
+
+        
+        console.log(url)
+
+        // console.log((await alice.getTokenBalance(tokenId)))
+        // console.log((await alice.getUtxos()))
+
+        // console.log(transaction)
+
+    });
+
 
     test("Should not pay before time is met, but should pay at time", async () => {
 
@@ -63,7 +152,7 @@ describe(`TimeLock Tests`, () => {
         // convert locktime to LE Byte4
         //let locktimeBytes = to32LE(locktime);
         let contract = new Contract(
-            v1 as Artifact,
+            v2 as Artifact,
             [locktime],
             { provider: provider, addressType: 'p2sh32' }
         );

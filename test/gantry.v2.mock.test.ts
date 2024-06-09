@@ -4,8 +4,7 @@ import { Contract, MockNetworkProvider, randomUtxo, randomNFT, FailedTransaction
 import { scriptToBytecode } from "@cashscript/utils";
 import {
     binToHex,
-    bigIntToVmNumber,
-    swapEndianness
+    bigIntToVmNumber
 } from "@bitauth/libauth";
 import 'cashscript/dist/test/JestExtensions.js';
 
@@ -55,7 +54,7 @@ describe('test example contract functions', () => {
             artifact,
             [
                 step, // 10
-                vault.bytecode.slice(76)
+                vault.bytecode.slice(4)
             ],
             { provider }
         );
@@ -99,10 +98,10 @@ describe('test example contract functions', () => {
                 "FBCH",
                 "0x" + binToHex(bigIntToVmNumber(locktime)),
                 "0x08"
-            ]);
-            // 0x6a 04 534d5030 02 1000 04 46424348 04 6e000000
-            //   6a 04 534d5030 02 1000 04 46424348 04 6e000000 01 08
-            //console.log(transaction)
-        await expect(transaction.send()).rejects.toThrow(FailedTransactionError);
+            ]).send();
+        // 0x6a 04 534d5030 02 1000 04 46424348 04 6e000000
+        //   6a 04 534d5030 02 1000 04 46424348 04 6e000000 01 08
+        console.log(await transaction)
+        await expect(transaction).rejects.toThrow(FailedTransactionError);
     });
 });

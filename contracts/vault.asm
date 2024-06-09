@@ -1,0 +1,17 @@
+<locktime> 
+// If tokens are flowing back into this contract
+OP_INPUTINDEX OP_OUTPUTTOKENAMOUNT OP_INPUTINDEX OP_UTXOTOKENAMOUNT OP_GREATERTHAN OP_IF 
+// Enforce a BIP65 timelock 
+// Note, intended for use with block height based locks 
+// (where:  locktime < 500M).
+  OP_0 OP_PICK OP_CHECKLOCKTIMEVERIFY OP_DROP
+OP_ENDIF 
+// ensure the token in and out matches
+OP_INPUTINDEX OP_UTXOTOKENCATEGORY OP_INPUTINDEX OP_OUTPUTTOKENCATEGORY OP_EQUAL OP_VERIFY 
+// ensure the input matches the destination
+OP_INPUTINDEX OP_OUTPUTBYTECODE OP_INPUTINDEX OP_UTXOBYTECODE OP_EQUAL OP_VERIFY
+// ensure the sum of sats and tokens in 
+// matches the sum of sats and tokens out.
+OP_INPUTINDEX OP_UTXOTOKENAMOUNT OP_INPUTINDEX OP_UTXOVALUE OP_ADD
+  OP_INPUTINDEX OP_OUTPUTTOKENAMOUNT OP_INPUTINDEX OP_OUTPUTVALUE OP_ADD OP_NUMEQUAL
+OP_NIP

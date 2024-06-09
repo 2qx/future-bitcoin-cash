@@ -1,0 +1,181 @@
+{
+  "$schema": "https://ide.bitauth.com/authentication-template-v0.schema.json",
+  "description": "Imported from cashscript",
+  "name": "Gantry",
+  "entities": {
+    "parameters": {
+      "description": "Contract creation and function parameters",
+      "name": "parameters",
+      "scripts": [
+        "lock",
+        "unlock_lock"
+      ],
+      "variables": {
+        "function_index": {
+          "description": "Script function index to execute",
+          "name": "function_index",
+          "type": "WalletData"
+        },
+        "vault_unlocking_bytecode": {
+          "description": "\"vaultUnlockingBytecode\" parameter of this contract",
+          "name": "vaultUnlockingBytecode",
+          "type": "WalletData"
+        },
+        "step": {
+          "description": "\"step\" parameter of this contract",
+          "name": "step",
+          "type": "WalletData"
+        }
+      }
+    }
+  },
+  "scenarios": {
+    "evaluate_function": {
+      "data": {
+        "bytecode": {
+          "function_index": "0",
+          "vault_unlocking_bytecode": "0xc0d3c0d0a06376b17568c0cec0d188c0cdc0c788c0d0c0c693c0d3c0cc939c77",
+          "step": "0x0a"
+        },
+        "currentBlockHeight": 2,
+        "currentBlockTime": 1717609987,
+        "keys": {
+          "privateKeys": {}
+        }
+      },
+      "description": "An example evaluation where this script execution passes.",
+      "name": "Evaluate",
+      "transaction": {
+        "inputs": [
+          {
+            "outpointIndex": 0,
+            "outpointTransactionHash": "24faf3f715e35a5bc7efa383135b1a55249e0cc2bf2512972e3b7ba5cfa08742",
+            "sequenceNumber": 4294967294,
+            "unlockingBytecode": [
+              "slot"
+            ]
+          }
+        ],
+        "locktime": 133700,
+        "outputs": [
+          {
+            "lockingBytecode": {},
+            "token": {
+              "amount": "0",
+              "category": "32a9b70663255a6211a47194b84a78538b8a31ef81a97c142d0eefb023e1eef1",
+              "nft": {
+                "capability": "mutable",
+                "commitment": "78000000"
+              }
+            },
+            "valueSatoshis": 4001
+          },
+          {
+            "lockingBytecode": "aa20bd9a077af4d09d28bd00226137e6ae639b3988a4d4f15eb0527cc499ed52a6b487",
+            "token": {
+              "amount": "2100000000000000",
+              "category": "24faf3f715e35a5bc7efa383135b1a55249e0cc2bf2512972e3b7ba5cfa08742"
+            },
+            "valueSatoshis": 1000
+          },
+          {
+            "lockingBytecode": "aa20bd9a077af4d09d28bd00226137e6ae639b3988a4d4f15eb0527cc499ed52a6b487",
+            "token": {
+              "amount": "2100000000000000",
+              "category": "24faf3f715e35a5bc7efa383135b1a55249e0cc2bf2512972e3b7ba5cfa08742"
+            },
+            "valueSatoshis": 1000
+          },
+          {
+            "lockingBytecode": "aa20bd9a077af4d09d28bd00226137e6ae639b3988a4d4f15eb0527cc499ed52a6b487",
+            "token": {
+              "amount": "2100000000000000",
+              "category": "24faf3f715e35a5bc7efa383135b1a55249e0cc2bf2512972e3b7ba5cfa08742"
+            },
+            "valueSatoshis": 1000
+          },
+          {
+            "lockingBytecode": "aa20bd9a077af4d09d28bd00226137e6ae639b3988a4d4f15eb0527cc499ed52a6b487",
+            "token": {
+              "amount": "2100000000000000",
+              "category": "24faf3f715e35a5bc7efa383135b1a55249e0cc2bf2512972e3b7ba5cfa08742"
+            },
+            "valueSatoshis": 1000
+          },
+          {
+            "lockingBytecode": "aa20bd9a077af4d09d28bd00226137e6ae639b3988a4d4f15eb0527cc499ed52a6b487",
+            "token": {
+              "amount": "2100000000000000",
+              "category": "24faf3f715e35a5bc7efa383135b1a55249e0cc2bf2512972e3b7ba5cfa08742"
+            },
+            "valueSatoshis": 1000
+          },
+          {
+            "lockingBytecode": "aa20bd9a077af4d09d28bd00226137e6ae639b3988a4d4f15eb0527cc499ed52a6b487",
+            "token": {
+              "amount": "2100000000000000",
+              "category": "24faf3f715e35a5bc7efa383135b1a55249e0cc2bf2512972e3b7ba5cfa08742"
+            },
+            "valueSatoshis": 1000
+          },
+          {
+            "lockingBytecode": "aa20bd9a077af4d09d28bd00226137e6ae639b3988a4d4f15eb0527cc499ed52a6b487",
+            "token": {
+              "amount": "2100000000000000",
+              "category": "24faf3f715e35a5bc7efa383135b1a55249e0cc2bf2512972e3b7ba5cfa08742"
+            },
+            "valueSatoshis": 1000
+          },
+          {
+            "lockingBytecode": "aa20bd9a077af4d09d28bd00226137e6ae639b3988a4d4f15eb0527cc499ed52a6b487",
+            "token": {
+              "amount": "2100000000000000",
+              "category": "24faf3f715e35a5bc7efa383135b1a55249e0cc2bf2512972e3b7ba5cfa08742"
+            },
+            "valueSatoshis": 1000
+          },
+          {
+            "lockingBytecode": "6a04534d50300210000446424348016e0108",
+            "valueSatoshis": 0
+          }
+        ],
+        "version": 2
+      },
+      "sourceOutputs": [
+        {
+          "lockingBytecode": [
+            "slot"
+          ],
+          "valueSatoshis": 100000,
+          "token": {
+            "amount": "0",
+            "category": "32a9b70663255a6211a47194b84a78538b8a31ef81a97c142d0eefb023e1eef1",
+            "nft": {
+              "capability": "mutable",
+              "commitment": "6e000000"
+            }
+          }
+        }
+      ]
+    }
+  },
+  "scripts": {
+    "unlock_lock": {
+      "passes": [
+        "evaluate_function"
+      ],
+      "name": "unlock",
+      "script": "// \"execute\" function parameters\n// none\n",
+      "unlocks": "lock"
+    },
+    "lock": {
+      "lockingType": "p2sh20",
+      "name": "lock",
+      "script": "<vault_unlocking_bytecode> \n<step>                                                            \nOP_INPUTINDEX OP_0 OP_NUMEQUAL OP_VERIFY                                  \nOP_INPUTINDEX OP_UTXOBYTECODE                                             \nOP_INPUTINDEX OP_OUTPUTBYTECODE OP_EQUAL OP_VERIFY                        \nOP_INPUTINDEX OP_UTXOTOKENCATEGORY                                        \nOP_INPUTINDEX OP_OUTPUTTOKENCATEGORY OP_EQUAL OP_VERIFY                   \nOP_INPUTINDEX OP_OUTPUTVALUE <0x2003> OP_GREATERTHAN OP_VERIFY            \nOP_INPUTINDEX OP_UTXOTOKENCOMMITMENT OP_BIN2NUM                           \nOP_INPUTINDEX OP_OUTPUTTOKENCOMMITMENT                                    \nOP_1 OP_PICK OP_3 OP_PICK OP_ADD OP_4 OP_NUM2BIN OP_EQUAL OP_VERIFY       \nOP_0 OP_PICK OP_2 OP_ROLL OP_DIV OP_10 OP_MOD OP_0 OP_NUMEQUAL OP_IF      \nOP_TXOUTPUTCOUNT OP_1 OP_NUMEQUAL OP_VERIFY                               \nOP_ELSE                                                                   \nOP_0 OP_PICK OP_SIZE OP_NIP OP_1 OP_PICK OP_CAT                           \nOP_2 OP_PICK OP_CAT                                                       \n<0xaa20> OP_1 OP_PICK OP_HASH256 OP_CAT <0x87> OP_CAT                     \nOP_1 OP_OUTPUTBYTECODE OP_1 OP_PICK OP_EQUAL OP_VERIFY                    \nOP_1 OP_OUTPUTTOKENCATEGORY OP_0 OP_OUTPOINTTXHASH OP_EQUAL OP_VERIFY     \nOP_1 OP_OUTPUTTOKENCOMMITMENT OP_0 OP_EQUAL OP_VERIFY                     \nOP_1 OP_OUTPUTTOKENAMOUNT <0x0040075af07507> OP_NUMEQUAL OP_VERIFY        \nOP_1 OP_OUTPUTVALUE <0xe803> OP_NUMEQUAL OP_VERIFY                        \nOP_2 OP_OUTPUTBYTECODE OP_1 OP_PICK OP_EQUAL OP_VERIFY                    \nOP_2 OP_OUTPUTTOKENCATEGORY OP_0 OP_OUTPOINTTXHASH OP_EQUAL OP_VERIFY     \nOP_2 OP_OUTPUTTOKENCOMMITMENT OP_0 OP_EQUAL OP_VERIFY                     \nOP_2 OP_OUTPUTTOKENAMOUNT OP_1 OP_OUTPUTTOKENAMOUNT OP_NUMEQUAL OP_VERIFY \nOP_2 OP_OUTPUTVALUE <0xe803> OP_NUMEQUAL OP_VERIFY                        \nOP_3 OP_OUTPUTBYTECODE OP_1 OP_PICK OP_EQUAL OP_VERIFY                    \nOP_3 OP_OUTPUTTOKENCATEGORY OP_0 OP_OUTPOINTTXHASH OP_EQUAL OP_VERIFY     \nOP_3 OP_OUTPUTTOKENCOMMITMENT OP_0 OP_EQUAL OP_VERIFY                     \nOP_3 OP_OUTPUTTOKENAMOUNT OP_1 OP_OUTPUTTOKENAMOUNT OP_NUMEQUAL OP_VERIFY \nOP_3 OP_OUTPUTVALUE <0xe803> OP_NUMEQUAL OP_VERIFY                        \nOP_4 OP_OUTPUTBYTECODE OP_1 OP_PICK OP_EQUAL OP_VERIFY                    \nOP_4 OP_OUTPUTTOKENCATEGORY OP_0 OP_OUTPOINTTXHASH OP_EQUAL OP_VERIFY     \nOP_4 OP_OUTPUTTOKENCOMMITMENT OP_0 OP_EQUAL OP_VERIFY                     \nOP_4 OP_OUTPUTTOKENAMOUNT OP_1 OP_OUTPUTTOKENAMOUNT OP_NUMEQUAL OP_VERIFY \nOP_4 OP_OUTPUTVALUE <0xe803> OP_NUMEQUAL OP_VERIFY                        \nOP_5 OP_OUTPUTBYTECODE OP_1 OP_PICK OP_EQUAL OP_VERIFY                    \nOP_5 OP_OUTPUTTOKENCATEGORY OP_0 OP_OUTPOINTTXHASH OP_EQUAL OP_VERIFY     \nOP_5 OP_OUTPUTTOKENCOMMITMENT OP_0 OP_EQUAL OP_VERIFY                     \nOP_5 OP_OUTPUTTOKENAMOUNT OP_1 OP_OUTPUTTOKENAMOUNT OP_NUMEQUAL OP_VERIFY \nOP_5 OP_OUTPUTVALUE <0xe803> OP_NUMEQUAL OP_VERIFY                        \nOP_6 OP_OUTPUTBYTECODE OP_1 OP_PICK OP_EQUAL OP_VERIFY                    \nOP_6 OP_OUTPUTTOKENCATEGORY OP_0 OP_OUTPOINTTXHASH OP_EQUAL OP_VERIFY     \nOP_6 OP_OUTPUTTOKENCOMMITMENT OP_0 OP_EQUAL OP_VERIFY                     \nOP_6 OP_OUTPUTTOKENAMOUNT OP_1 OP_OUTPUTTOKENAMOUNT OP_NUMEQUAL OP_VERIFY \nOP_6 OP_OUTPUTVALUE <0xe803> OP_NUMEQUAL OP_VERIFY                        \nOP_7 OP_OUTPUTBYTECODE OP_1 OP_PICK OP_EQUAL OP_VERIFY                    \nOP_7 OP_OUTPUTTOKENCATEGORY OP_0 OP_OUTPOINTTXHASH OP_EQUAL OP_VERIFY     \nOP_7 OP_OUTPUTTOKENCOMMITMENT OP_0 OP_EQUAL OP_VERIFY                     \nOP_7 OP_OUTPUTTOKENAMOUNT OP_1 OP_OUTPUTTOKENAMOUNT OP_NUMEQUAL OP_VERIFY \nOP_7 OP_OUTPUTVALUE <0xe803> OP_NUMEQUAL OP_VERIFY                        \nOP_8 OP_OUTPUTBYTECODE OP_1 OP_PICK OP_EQUAL OP_VERIFY                    \nOP_8 OP_OUTPUTTOKENCATEGORY OP_0 OP_OUTPOINTTXHASH OP_EQUAL OP_VERIFY     \nOP_8 OP_OUTPUTTOKENCOMMITMENT OP_0 OP_EQUAL OP_VERIFY                     \nOP_8 OP_OUTPUTTOKENAMOUNT OP_1 OP_OUTPUTTOKENAMOUNT OP_NUMEQUAL OP_VERIFY \nOP_8 OP_OUTPUTVALUE <0xe803> OP_NUMEQUAL OP_VERIFY                        \n<0x6a04534d50300210000446424348>                                          \nOP_3 OP_PICK OP_SIZE OP_NIP OP_CAT OP_3 OP_PICK OP_CAT                    \n<0x0108> OP_CAT                                                           \nOP_9 OP_OUTPUTBYTECODE OP_1 OP_PICK OP_EQUAL OP_VERIFY                    \nOP_9 OP_OUTPUTTOKENCATEGORY OP_0 OP_EQUAL OP_VERIFY                       \nOP_9 OP_OUTPUTVALUE OP_0 OP_NUMEQUAL OP_VERIFY                            \nOP_TXOUTPUTCOUNT OP_10 OP_NUMEQUAL OP_VERIFY                              \nOP_DROP OP_DROP OP_DROP OP_ENDIF                                          \nOP_1 OP_NIP OP_NIP                                                        "
+    }
+  },
+  "supported": [
+    "BCH_SPEC"
+  ],
+  "version": 0
+}
