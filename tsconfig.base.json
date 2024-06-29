@@ -1,0 +1,19 @@
+{
+    "compilerOptions": {
+      "target": "esnext",
+      "allowJs": true,
+      "declaration": true,
+      "lib": ["es2020", "dom"],
+      "types": ["node", "jest"],
+      "sourceMap": true,
+      "strict": true,
+      "strictPropertyInitialization": false,
+      "experimentalDecorators": true,
+      "moduleResolution": "node",
+      "esModuleInterop": true,
+      "skipLibCheck": true,
+      "allowSyntheticDefaultImports": true
+    },
+    "exclude": ["node_modules", "dist"]
+  }
+  

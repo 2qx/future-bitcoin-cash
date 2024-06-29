@@ -1,12 +1,30 @@
 {
-  "extends": "./tsconfig.build.json",
-
   "compilerOptions": {
-    "outDir": "./dist",
-  },
+    "target": "esnext",
+    "lib": ["DOM", "DOM.Iterable", "ESNext"],
+    "module": "esnext",
+    "skipLibCheck": true,
+    "noImplicitAny": false,
+    "allowJs": true,
+    "noErrorTruncation": true,
 
-  "include": [
-    "src/**/*",
-    "tasks/**/*",
-  ],
+    /* Bundler mode */
+    "moduleResolution": "bundler",
+    "esModuleInterop": true,
+    "allowImportingTsExtensions": false,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": false,
+
+    /* Linting */
+    "noUncheckedIndexedAccess": true,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    "noFallthroughCasesInSwitch": true,
+
+    "declaration": true,
+    "composite": true,
+    "sourceMap": true,
+    "declarationMap": true,
+  },
 }

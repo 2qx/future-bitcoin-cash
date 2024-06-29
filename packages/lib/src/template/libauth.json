@@ -1,0 +1,170 @@
+{
+    "$schema": "https://ide.bitauth.com/authentication-template-v0.schema.json",
+    "description": "This template demonstrates a Future Bitcoin Cash Vault operation with coupons",
+    "name": "FBCH: Future Bitcoin Cash Vault",
+    "entities": {
+      "covenant": {
+        "description": "An entity that holds settings \"owned\" by the covenant.",
+        "name": "Covenant",
+        "variables": {
+          "traded_token_category_id": {
+            "description": "The token category ID of the fungible token locked by the Vault.",
+            "name": "Series Token Category ID",
+            "type": "AddressData"
+          },
+          "vault_locktime": {
+            "description": "\"locktime\" parameter of the vault contract",
+            "name": "vault_locktime",
+            "type": "WalletData"
+          },
+          "function_index": {
+            "description": "Script function index to execute",
+            "name": "function_index",
+            "type": "WalletData"
+          },
+          "coupon_lock": {
+            "description": "\"lock\" parameter of the vault contract",
+            "name": "lock",
+            "type": "WalletData"
+          },
+          "coupon_amount": {
+            "description": "\"amount\" parameter of the coupon contract",
+            "name": "amount",
+            "type": "WalletData"
+          }
+        }
+      },
+      "user": {
+        "description": "",
+        "name": "User",
+        "variables": {
+          "user_key": {
+            "description": "",
+            "name": "User's Key",
+            "type": "Key"
+          }
+        }
+      }
+    },
+    "scenarios": {
+      "base": {
+        "data": {
+          "bytecode": {
+            "traded_token_category_id": "0xdeadbeefbeefbeefbeefbeefbeefbeefbeefbeefbeefbeefbeefbeefbeefdead",
+            "vault_locktime": "0xe100",
+            "coupon_amount": "0x5f5e100"
+          }
+        },
+        "description": "",
+        "name": "Base Scenario",
+        "transaction": {
+          "locktime": 1657230420
+        }
+      },
+      "place_with_coupon": {
+        "extends": "base",
+        "data": {
+          "bytecode": {
+            "function_index": "0",
+            "vault_locktime": "0xe100",
+            "coupon_amount": "0x5f5e100",
+            "coupon_lock": "0x76a914f317402468d108895158c0dc814e0611d6980d5288ac"
+          },
+          "currentBlockHeight": 203000,
+          "currentBlockTime": 1717611322,
+          "keys": {
+            "privateKeys": {}
+          }
+        },
+        "description": "An example evaluation where this script execution passes.",
+        "name": "Evaluate",
+        "transaction": {
+          "inputs": [
+            {
+              "outpointIndex": 0,
+              "outpointTransactionHash": "a080feb4669dc521ae4914fc300e1e98c316f40ba0ddace20fc34722f39b4ee8",
+              "sequenceNumber": 4294967294,
+              "unlockingBytecode": [
+                "slot"
+              ]
+            }
+          ],
+          "locktime": 10003,
+          "outputs": [
+            {
+              "lockingBytecode": {},
+              "valueSatoshis": 999
+            },
+            {
+              "lockingBytecode": {},
+              "token": {
+                "amount": "2100000000000000",
+                "category": "49cce211db65e0712634eab7d0d12a01d4f6d5f9c11dbc5cb9623ca888b674bb"
+              },
+              "valueSatoshis": 1000
+            },
+            {
+              "lockingBytecode": {},
+              "valueSatoshis": 7739
+            }
+          ],
+          "version": 2
+        },
+        "sourceOutputs": [
+          {
+            "lockingBytecode": [
+              "slot"
+            ],
+            "valueSatoshis": 10000,
+            "token": {
+              "amount": "2100000000000000",
+              "category": "49cce211db65e0712634eab7d0d12a01d4f6d5f9c11dbc5cb9623ca888b674bb"
+            }
+          }
+        ]
+      }
+      
+    },
+    "scripts": {
+      "unlock_vault": {
+        "passes": [
+          "place_with_coupon"
+        ],
+        "name": "Unlock Vault",
+        "script": "// \"swap\" function parameters\n// none\n",
+        "unlocks": "vault"
+      },
+      "unlock_coupon": {
+        "passes": [
+          "place_with_coupon"
+        ],
+        "name": "Unlock Coupon",
+        "script": "// \"swap\" function parameters\n// none\n",
+        "unlocks": "coupon"
+      },
+      "vault": {
+        "lockingType": "p2sh20",
+        "name": "Vault",
+        "script": "<vault_locktime> \nOP_INPUTINDEX OP_OUTPUTTOKENAMOUNT OP_INPUTINDEX OP_UTXOTOKENAMOUNT OP_GREATERTHAN \nOP_IF \n  OP_0 OP_PICK OP_CHECKLOCKTIMEVERIFY OP_DROP\nOP_ENDIF \nOP_INPUTINDEX OP_UTXOTOKENCATEGORY OP_INPUTINDEX OP_OUTPUTTOKENCATEGORY OP_EQUAL OP_VERIFY \nOP_INPUTINDEX OP_OUTPUTBYTECODE OP_INPUTINDEX OP_UTXOBYTECODE OP_EQUAL OP_VERIFY\nOP_INPUTINDEX OP_UTXOTOKENAMOUNT OP_INPUTINDEX OP_UTXOVALUE OP_ADD\n  OP_INPUTINDEX OP_OUTPUTTOKENAMOUNT OP_INPUTINDEX OP_OUTPUTVALUE OP_ADD OP_NUMEQUAL\nOP_NIP"
+      },
+      "coupon": {
+        "lockingType": "p2sh20",
+        "name": "Coupon",
+        "script": "// \"Coupon\" contract constructor parameters\n// lockingbytecode of destination holding the logic.\n<coupon_lock> // bytes25\n// Minimum spent (sats) to claim each coupon utxo.\n<coupon_amount> // int\n\n// assure at the minium amount is sent to the intended contract\nOP_0 OP_OUTPUTVALUE OP_0 OP_UTXOVALUE OP_SUB OP_1 OP_ROLL OP_GREATERTHANOREQUAL OP_VERIFY\n\n// Check that the Coupon is interacting with an existing Vault instance\nOP_0 OP_UTXOBYTECODE OP_1 OP_ROLL OP_EQUAL OP_VERIFY\n\n// The coupon must be spent as the last input,\n//   therefore only coupon may be spent at a time.\nOP_INPUTINDEX OP_1 OP_ADD OP_TXINPUTCOUNT OP_NUMEQUAL"
+      },
+      "p2pkh": {
+        "lockingType": "standard",
+        "name": "P2PKH",
+        "script": "OP_DUP\nOP_HASH160 <$(<user_key.public_key> OP_HASH160\n)> OP_EQUALVERIFY\nOP_CHECKSIG"
+      },
+      "p2pkh_unlock": {
+        "name": "Unlock P2PKH",
+        "script": "<user_key.schnorr_signature.all_outputs>\n<user_key.public_key>",
+        "unlocks": "p2pkh"
+      }
+    },
+    "supported": [
+      "BCH_SPEC"
+    ],
+    "version": 0
+  }
