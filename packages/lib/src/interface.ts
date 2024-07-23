@@ -1,15 +1,23 @@
-import { Transaction } from "@bitauth/libauth";
+import { Transaction,
+    Input,
+    Output } from "@bitauth/libauth";
+
+
 
 export interface SwapState {
     placement: number;
     locktime: number;
     vault: UtxoI;
-    wallet: UtxoI[];
+    wallet: SourceOutput[];
     coupons?: UtxoI[];
     chain?: Transaction[];
 }
 
 const literal = <L extends string>(l: L): L => l;
+
+
+export type SourceOutput = Input & Output;
+
 
 export interface UtxoI {
     txid: string;
@@ -18,6 +26,12 @@ export interface UtxoI {
     height?: number;
     coinbase?: boolean;
     token?: TokenI;
+}
+
+
+export interface SendRequest{
+    cashaddr: string;
+    value: number;
 }
 
 export interface TokenI {

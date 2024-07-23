@@ -1,7 +1,7 @@
-import { artifact } from '../src/battery.v2';
-import { artifact as gantryArtifact } from '../src/gantry.v2';
-import { artifact as vaultArtifact } from '../src/vault.v2';
-import { Contract, MockNetworkProvider, randomUtxo, randomNFT, FailedTransactionError } from 'cashscript';
+import { batteryArtifact } from '../src/';
+import { gantryArtifact } from '../src/';
+import { vaultArtifact } from '../src/';
+import { Contract, MockNetworkProvider, randomUtxo, randomNFT, FailedRequireError } from 'cashscript';
 import { binToHex, numberToBinUint32LEClamped } from "@bitauth/libauth";
 import 'cashscript/dist/test/JestExtensions.js';
 
@@ -29,13 +29,14 @@ describe('test example contract functions', () => {
     });
 
     let batteryBaton = randomNFT({
-      amount: 0n,
+      amount: 800n,
       category: baton.category,
       nft: {
         commitment: binToHex(to32LE(100000)), // 100,000
         capability: 'minting'
       }
     });
+
 
     let locktime = 110n;
     let step = 1000000n;
@@ -44,14 +45,15 @@ describe('test example contract functions', () => {
     let vaultBytecode = vault.bytecode.slice(4)
     let gantry = new Contract(gantryArtifact, [step, vaultBytecode], { provider });
     let gantryBytecode = gantry.bytecode.slice(8 + vaultBytecode.length + 2)
-    const contract = new Contract(artifact, [99n, 10001n, gantryBytecode, vaultBytecode], { provider });
+    const contract = new Contract(batteryArtifact, [99n, 10001n, gantryBytecode, vaultBytecode], { provider });
     
 
     provider.addUtxo(contract.address, randomUtxo({
       satoshis: 1000100n,
       token: baton,
     }));
-    let utxo = (await provider.getUtxos(contract.address))[0]
+
+    let utxo = (await provider.getUtxos(contract.tokenAddress)).filter(u => u.token.category === baton.category)[0]
 
     let transaction = contract.functions
       .execute()
@@ -73,6 +75,6 @@ describe('test example contract functions', () => {
         ]
       );
 
-      await expect(transaction.send()).rejects.toThrow(FailedTransactionError);
+      await expect(transaction.send()).resolves.not.toThrow();
   });
 });

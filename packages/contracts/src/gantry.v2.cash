@@ -122,29 +122,20 @@ contract Gantry(
             require(tx.outputs[7].tokenAmount == tx.outputs[1].tokenAmount);     
             require(tx.outputs[7].value == 1000);
 
-            require(tx.outputs[8].lockingBytecode == vaultLockingBytecode);       
-            require(tx.outputs[8].tokenCategory == tx.inputs[0].outpointTransactionHash);
-            require(tx.outputs[8].nftCommitment == 0x);
-            require(tx.outputs[8].tokenAmount == tx.outputs[1].tokenAmount);     
-            require(tx.outputs[8].value == 1000);
 
             // Tag FT metadata for indexers 
             //
             // 6a              OP_RETURN
-            // 04 53 4d 50 30  SMP0
-            // 02 10 00        Genesis/ticker; from input 0
             // 04 46 42 43 48  FBCH
             // 03 90 05 10     <locktime>
-            // 01 08           Decimal seperator
-            bytes announcement =  0x6a04534d50300210000446424348 +
-                                  bytes(bytes(locktime).length) +  bytes(locktime) +
-                                  0x0108;
-            require(tx.outputs[9].lockingBytecode == announcement);
-            require(tx.outputs[9].tokenCategory == 0x);
-            require(tx.outputs[9].value == 0);
+            bytes announcement =  0x6a0446424348 +
+                                  bytes(bytes(locktime).length) +  bytes(locktime);
+            require(tx.outputs[8].lockingBytecode == announcement);
+            require(tx.outputs[8].tokenCategory == 0x);
+            require(tx.outputs[8].value == 0);
 
             // Ensure no other outputs can be created
-            require(tx.outputs.length == 10);  
+            require(tx.outputs.length == 9);  
 
         }     
         

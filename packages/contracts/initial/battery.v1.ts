@@ -90,5 +90,5 @@ export const artifact = {
     "name": "cashc",
     "version": "0.10.0-next.6"
   },
-  "updatedAt": "2024-06-29T16:36:13.778Z"
+  "updatedAt": "2024-07-01T18:05:28.077Z"
 }

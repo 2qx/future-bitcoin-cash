@@ -1,5 +1,5 @@
 
-import { artifact } from '../src/coupon.v2';
+import { couponArtifact } from '../src/';
 import { aliceAddress, aliceTemplate } from './alice';
 import { Contract, MockNetworkProvider, 
     TransactionBuilder, randomUtxo } from 'cashscript';
@@ -17,7 +17,7 @@ describe('test coupon contract functions', () => {
     if(typeof lock == "string") throw lock
     lock
 
-    const contract = new Contract(artifact, [55_000n, lock.bytecode], { provider });
+    const contract = new Contract(couponArtifact, [55_000n, lock.bytecode], { provider });
     
     provider.addUtxo(contract.address, randomUtxo({satoshis:55_000n}));
     provider.addUtxo(aliceAddress, randomUtxo({satoshis:5_000n}));

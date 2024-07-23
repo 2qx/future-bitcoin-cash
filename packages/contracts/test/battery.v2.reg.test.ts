@@ -1,6 +1,6 @@
-import { artifact } from '../src/battery.v2';
-import { artifact as gantryArtifact } from '../src/gantry.v2';
-import { artifact as vaultArtifact } from '../src/vault.v2';
+import { batteryArtifact } from '../src/';
+import { gantryArtifact } from '../src/';
+import { vaultArtifact } from '../src/';
 import {
     ElectrumCluster,
     ClusterOrder,
@@ -15,6 +15,10 @@ import {
 import { getAnAliceWallet } from "./aliceWalletTest";
 
 const to32LE = numberToBinUint32LEClamped;
+
+function delay(time) {
+    return new Promise(resolve => setTimeout(resolve, time));
+}
 
 describe('test example contract functions', () => {
     it('should allow execution of a battery contract', async () => {
@@ -54,11 +58,11 @@ describe('test example contract functions', () => {
         })
 
         let locktime = 110n;
-        const vault = new Contract(vaultArtifact,[locktime],{ provider })
+        const vault = new Contract(vaultArtifact, [locktime], { provider })
         let vaultBytecode = vault.bytecode.slice(4)
         let tmpGantry = new Contract(gantryArtifact, [step, vaultBytecode], { provider });
         let gantryBytecode = tmpGantry.bytecode.slice(8 + vaultBytecode.length + 2)
-        const contract = new Contract(artifact, [100n, 200n, gantryBytecode, vaultBytecode], { provider });
+        const contract = new Contract(batteryArtifact, [100n, 200n, gantryBytecode, vaultBytecode], { provider });
 
         // fund the contract
         await alice.send([
@@ -70,13 +74,14 @@ describe('test example contract functions', () => {
                 commitment: binToHex(stepBytes)
             }),
         ]);
-
+        await delay(1000);
         let currentTime = await provider.getBlockHeight()
 
         while (step > 100n) {
 
             let gantry = new Contract(gantryArtifact, [step, vaultBytecode], { provider });
-            let utxo = (await provider.getUtxos(contract.tokenAddress))[0]
+            let utxos = (await provider.getUtxos(contract.tokenAddress))
+            let utxo = utxos.filter(u => u.token.category === baton.category)[0]
             let nextExpiration = currentTime - (currentTime % Number(step)) + Number(step);
             let transaction = contract.functions
                 .execute()!
@@ -110,38 +115,40 @@ describe('test example contract functions', () => {
                         }
                     ]
                 ).send();
+            await delay(1000);
             await expect(transaction).resolves.not.toThrow();
             step /= 10n;
-
         }
-
-        let utxo = (await provider.getUtxos(contract.tokenAddress))[0]!
+        await delay(1000);
+        
+        let utxo = (await provider.getUtxos(contract.tokenAddress)).filter(u => u.token.category === baton.category)[0]
         let gantry = new Contract(gantryArtifact, [step, vaultBytecode], { provider });
         let nextExpiration = currentTime - (currentTime % Number(step)) + Number(step);
         let transaction = contract.functions
-                .execute()
-                .from(utxo)
-                .withTime(210)
-                .to(
-                    [
-                        {
-                            to: contract.address,
-                            amount: utxo.satoshis - 1500n
-                        },
-                        {
-                            to: gantry.tokenAddress,
-                            amount: 800n,
-                            token: randomNFT({
-                                amount: 0n,
-                                category: baton.category,
-                                nft: {
-                                    commitment: binToHex(to32LE(nextExpiration)),
-                                    capability: 'mutable'
-                                }
-                            })
-                        }
-                    ]
-                ).send();
+            .execute()
+            .from(utxo)
+            .withTime(210)
+            .to(
+                [
+                    {
+                        to: contract.address,
+                        amount: utxo.satoshis - 1500n
+                    },
+                    {
+                        to: gantry.tokenAddress,
+                        amount: 800n,
+                        token: randomNFT({
+                            amount: 0n,
+                            category: baton.category,
+                            nft: {
+                                commitment: binToHex(to32LE(nextExpiration)),
+                                capability: 'mutable'
+                            }
+                        })
+                    }
+                ]
+            ).send();
+        await delay(1000);
         await expect(transaction).resolves.not.toThrow();
 
     });

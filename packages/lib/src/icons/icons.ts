@@ -13,7 +13,7 @@ const colorCodes = [
 ]
 
 export function getHvifIconHex(n: number, testnet = false): string {
-    const places = [... (n / 1000).toString().padStart(4, '0')].map((a, i) => Number(a))
+    const places = [... Math.floor(n / 1000).toString().padStart(4, '0')].map((a, i) => Number(a))
                         //    TestFuture                                         Future
     const letter = testnet ? "06096e4400282850542c74d03bbebb34282c303c2c2c28" : "0a0a28283428342c2c2c2c30303030342c342c3c283c";
 

@@ -1,5 +1,5 @@
-import { artifact } from '../src/gantry.v2';
-import { artifact as vaultArtifact } from '../src/vault.v2';
+import { gantryArtifact } from '../src/';
+import { vaultArtifact } from '../src/';
 import { Contract, MockNetworkProvider, randomUtxo, randomNFT, FailedTransactionError } from 'cashscript';
 import { scriptToBytecode } from "@cashscript/utils";
 import {
@@ -51,7 +51,7 @@ describe('test example contract functions', () => {
             { provider }
         )
         const contract = new Contract(
-            artifact,
+            gantryArtifact,
             [
                 step, // 10
                 vault.bytecode.slice(4)
@@ -68,7 +68,7 @@ describe('test example contract functions', () => {
             token: baton,
         }));
 
-        let utxo = (await provider.getUtxos(contract.tokenAddress))[0]
+        let utxo = (await provider.getUtxos(contract.tokenAddress)).filter(u => u.token.category === baton.category)[0]
 
         let transaction = await contract.functions
             .execute()
@@ -86,22 +86,18 @@ describe('test example contract functions', () => {
                     { to: vault.tokenAddress, amount: 1000n, token: { amount: BigInt(21e14), category: utxo.txid } },// 2
                     { to: vault.tokenAddress, amount: 1000n, token: { amount: BigInt(21e14), category: utxo.txid } },// 3
                     { to: vault.tokenAddress, amount: 1000n, token: { amount: BigInt(21e14), category: utxo.txid } },// 4
-                    { to: vault.tokenAddress, amount: 1000n, token: { amount: BigInt(21e14), category: utxo.txid } },// 1
-                    { to: vault.tokenAddress, amount: 1000n, token: { amount: BigInt(21e14), category: utxo.txid } },// 2
-                    { to: vault.tokenAddress, amount: 1000n, token: { amount: BigInt(21e14), category: utxo.txid } },// 3
-                    { to: vault.tokenAddress, amount: 1000n, token: { amount: BigInt(21e14), category: utxo.txid } },// 4
+                    { to: vault.tokenAddress, amount: 1000n, token: { amount: BigInt(21e14), category: utxo.txid } },// 5
+                    { to: vault.tokenAddress, amount: 1000n, token: { amount: BigInt(21e14), category: utxo.txid } },// 6
+                    { to: vault.tokenAddress, amount: 1000n, token: { amount: BigInt(21e14), category: utxo.txid } },// 7
 
                 ]
             ).withOpReturn([
-                "SMP0",
-                "0x1000",
                 "FBCH",
-                "0x" + binToHex(bigIntToVmNumber(locktime)),
-                "0x08"
+                "0x" + binToHex(bigIntToVmNumber(locktime))
             ]).send();
         // 0x6a 04 534d5030 02 1000 04 46424348 04 6e000000
         //   6a 04 534d5030 02 1000 04 46424348 04 6e000000 01 08
-        console.log(await transaction)
-        await expect(transaction).rejects.toThrow(FailedTransactionError);
+        //console.log(await transaction)
+        expect(transaction.outputs.length).toBe(9);
     });
 });

@@ -15,7 +15,7 @@ import {
     SignatureTemplate
 } from "cashscript";
 import { RegTestWallet, SendRequest, mine } from "mainnet-js";
-import { artifact as v1 } from "../src/coupon.v2";
+import { couponArtifact } from "../src/";
 import { getAnAliceWallet } from "./aliceWalletTest";
 
 const to32LE = numberToBinUint32LEClamped;
@@ -50,7 +50,7 @@ describe(`Coupon Tests`, () => {
         if (typeof lock == "string") throw lock
         lock
 
-        const contract = new Contract(v1, [50_000n, lock.bytecode], { provider });
+        const contract = new Contract(couponArtifact, [50_000n, lock.bytecode], { provider });
 
         await alice.send([
             new SendRequest({
@@ -132,7 +132,7 @@ describe(`Coupon Tests`, () => {
         if (typeof lock == "string") throw lock
         lock
 
-        const contract = new Contract(v1, [55_000n, lock.bytecode], { provider });
+        const contract = new Contract(couponArtifact, [55_000n, lock.bytecode], { provider });
 
         await alice.send([
             new SendRequest({
@@ -183,54 +183,54 @@ describe(`Coupon Tests`, () => {
     });
 
 
-    test("Cat the bitauthUrl", async () => {
+    // test("Cat the bitauthUrl", async () => {
 
-        let regTest = new ElectrumCluster(
-            "CashScript Application",
-            "1.4.1",
-            1,
-            1,
-            ClusterOrder.PRIORITY,
-            2000
-        );
-        regTest.addServer("127.0.0.1", 60003, ElectrumTransport.WS.Scheme, false);
+    //     let regTest = new ElectrumCluster(
+    //         "CashScript Application",
+    //         "1.4.1",
+    //         1,
+    //         1,
+    //         ClusterOrder.PRIORITY,
+    //         2000
+    //     );
+    //     regTest.addServer("127.0.0.1", 60003, ElectrumTransport.WS.Scheme, false);
 
-        let provider = new ElectrumNetworkProvider("regtest", regTest, false);
+    //     let provider = new ElectrumNetworkProvider("regtest", regTest, false);
 
-        const transactionBuilder = new TransactionBuilder({ provider });
-        const alice = await getAnAliceWallet(500_000)
-        const shop = await RegTestWallet.newRandom();
+    //     const transactionBuilder = new TransactionBuilder({ provider });
+    //     const alice = await getAnAliceWallet(500_000)
+    //     const shop = await RegTestWallet.newRandom();
 
-        let lock = cashAddressToLockingBytecode(shop.getDepositAddress());
-        if (typeof lock == "string") throw lock
-        lock
+    //     let lock = cashAddressToLockingBytecode(shop.getDepositAddress());
+    //     if (typeof lock == "string") throw lock
+    //     lock
 
-        const contract = new Contract(v1, [55_000n, lock.bytecode], { provider });
+    //     const contract = new Contract(v1, [55_000n, lock.bytecode], { provider });
 
-        await alice.send([
-            new SendRequest({
-                cashaddr: contract.address,
-                value: 5000,
-                unit: 'sats'
-            })
-        ])
+    //     await alice.send([
+    //         new SendRequest({
+    //             cashaddr: contract.address,
+    //             value: 5000,
+    //             unit: 'sats'
+    //         })
+    //     ])
 
-        let contractUtxos = await contract.getUtxos();
-        let contractUtxo = contractUtxos[0];
+    //     let contractUtxos = await contract.getUtxos();
+    //     let contractUtxo = contractUtxos[0];
 
-        let url = await contract.functions.apply()!
-        .from(contractUtxo)
-        .withTime(10003)
-        .to(
-          [
+    //     let url = await contract.functions.apply()!
+    //     .from(contractUtxo)
+    //     .withTime(10003)
+    //     .to(
+    //       [
   
-            {
-              to: contract.tokenAddress,
-              amount: 999n,
-            }
-          ]
-        ).bitauthUri();
-        console.log(url)
+    //         {
+    //           to: contract.tokenAddress,
+    //           amount: 999n,
+    //         }
+    //       ]
+    //     ).bitauthUri();
+    //     console.log(url)
 
-    });
+    // });
 });

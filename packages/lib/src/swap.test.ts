@@ -1,7 +1,7 @@
 import { binToHex, CashAddressNetworkPrefix, encodeTransactionBCH } from "@bitauth/libauth";
 import { regTx } from "./swap.vector";
 import { decodeTransaction, hexToBin } from "@bitauth/libauth";
-import { getAnAliceWallet } from "../../../script/aliceWalletTest"
+import { getAnAliceWallet } from "./test/aliceWalletTest"
 import { RegTestWallet, SendRequest, TokenSendRequest } from "mainnet-js";
 import { swap } from "./swap"
 import { Vault } from "./vault"
@@ -104,17 +104,29 @@ describe('test example contract functions', () => {
             })
         ]);
 
+        
+
+        let aliceUnsigned = await alice.send([
+            new SendRequest({
+                cashaddr: vaultAddr,
+                value: 100000000,
+                unit: 'sat'
+            }),
+        ],{buildUnsigned: true});
+
+        console.log(aliceUnsigned.sourceOutputs)
+
         let vault = await RegTestWallet.watchOnly(vaultAddr)
         let coupon = await RegTestWallet.watchOnly(couponAddr)
         let state = {
             placement: 1e8,
             locktime: 300,
-            wallet: (await alice.getUtxos()),
+            wallet: aliceUnsigned.sourceOutputs,
             vault: (await vault.getUtxos())[0],
             coupons: [(await coupon.getUtxos())[0]],
             chain: []
         }
-        console.log(state)
+        //console.log(state)
         let placement = swap(state);
         expect(binToHex(encodeTransactionBCH(placement.chain![0]!))).toBe(regTx)
         placement.chain!.map( tx => {

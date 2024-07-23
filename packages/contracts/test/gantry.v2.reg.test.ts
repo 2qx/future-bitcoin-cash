@@ -1,5 +1,5 @@
-import { artifact } from '../src/gantry.v2';
-import { artifact as vaultArtifact } from '../src/vault.v2';
+import { gantryArtifact } from '../src/';
+import { vaultArtifact } from '../src/';
 import {
     ElectrumCluster,
     ClusterOrder,
@@ -76,7 +76,7 @@ describe('test example contract functions', () => {
         )
 
         const contract = new Contract(
-            artifact,
+            gantryArtifact,
             [
                 step, // 10
                 tmpVault.bytecode.slice(4)
@@ -96,8 +96,7 @@ describe('test example contract functions', () => {
             }),
         ]);
 
-        let utxo = (await provider.getUtxos(contract.tokenAddress))[0]
-
+        let utxo = (await provider.getUtxos(contract.tokenAddress)).filter(u => u.token.category === baton.category)[0]
 
         const vault = new Contract(
             vaultArtifact,
@@ -129,25 +128,18 @@ describe('test example contract functions', () => {
                     { to: vault.tokenAddress, amount: 1000n, token: { amount: BigInt(21e14), category: utxo.txid } }, // 5
                     { to: vault.tokenAddress, amount: 1000n, token: { amount: BigInt(21e14), category: utxo.txid } }, // 6
                     { to: vault.tokenAddress, amount: 1000n, token: { amount: BigInt(21e14), category: utxo.txid } }, // 7
-                    { to: vault.tokenAddress, amount: 1000n, token: { amount: BigInt(21e14), category: utxo.txid } }, // 8
                 ]
             )
             //
             // 6a 04 534d5030 02 1000 04 46424348 04 6e000000 01 08
             .withOpReturn([
-                "SMP0",
-                "0x1000",
                 "FBCH",
-                "0x" + binToHex(bigIntToVmNumber(locktime)),
-                "0x08"
+                "0x" + binToHex(bigIntToVmNumber(locktime))
             ]).send();
-
-        expect(binToHex((await transaction).outputs.slice(-1)[0].lockingBytecode)).toMatch("6a04534d50300210000446424348016e0108");
-        expect((await transaction).outputs.length).toBe(10);
         expect(transaction).resolves.not.toThrow();
+        let tx = await transaction
+        expect(binToHex(tx.outputs.slice(-1)[0].lockingBytecode)).toMatch("6a0446424348016e");
+        expect(tx.outputs.length).toBe(9);
     });
 
-
-
-    
 });

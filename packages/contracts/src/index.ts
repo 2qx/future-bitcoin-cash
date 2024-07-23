@@ -1,11 +1,11 @@
-import { artifact as battery } from "./battery.v2";
-import { artifact as coupon } from "./coupon.v2";
-import { artifact as gantry } from "./gantry.v2";
-import { artifact as vault } from "./vault.v2";
+import { artifact as batteryArtifact } from "./battery.v2";
+import { artifact as couponArtifact } from "./coupon.v2";
+import { artifact as gantryArtifact } from "./gantry.v2";
+import { artifact as vaultArtifact } from "./vault.v2";
 
 export {
-    battery,
-    coupon,
-    gantry,
-    vault
+    batteryArtifact,
+    couponArtifact,
+    gantryArtifact,
+    vaultArtifact
 }

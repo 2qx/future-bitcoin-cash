@@ -1,41 +1,78 @@
-<script>
+<script lang="ts">
+	import { onMount } from 'svelte';
 	import { page } from '$app/stores';
-	import logo from '$lib/images/fbch.svg';
 	import github from '$lib/images/github.svg';
-	import { getHvifIconHex } from "@fbch/lib"; 
+	import { getHvifIconHex } from '@fbch/lib';
+	import { height } from '$lib/store.js';
+	import { ElectrumClient, ElectrumTransport } from 'electrum-cash';
+
+	let heightValue: number;
+
+	height.subscribe((value: any) => {
+		heightValue = value;
+	});
+
+	function updateHeight(newHeight: any) {
+		console.log(heightValue);
+		height.set(newHeight);
+	}
+
+	// Set up a callback function to handle new blocks.
+	const handleBlockNotifications = function (data: any) {
+		console.log(data);
+		if (data.height && data.height > 1) updateHeight(data.height);
+	};
+
+	onMount(async () => {
+		// Initialize an electrum client.
+		const electrum = new ElectrumClient(
+			'FBCH',
+			'1.4.1',
+			'bch.imaginary.cash',
+			ElectrumTransport.WSS.Port,
+			ElectrumTransport.WSS.Scheme
+		);
+
+		// Wait for the client to connect
+		await electrum.connect();
+		// Listen for notifications.
+		//electrum.on('blockchain.headers.subscribe', handleNotifications);
+		await electrum.subscribe(handleBlockNotifications, 'blockchain.headers.subscribe');
+	});
 </script>
 
 <header>
 	<div class="corner">
 		<a href="https://futurebitcoin.cash">
-			
-			<icon-hvif data={getHvifIconHex(897000)} alt="FBCH" />
+			{#if heightValue}
+				<icon-hvif data={getHvifIconHex(heightValue)} alt="FBCH" />
+			{/if}
 		</a>
 	</div>
-
 	<nav>
 		<svg viewBox="0 0 2 3" aria-hidden="true">
 			<path d="M0,0 L1,2 C1.5,3 1.5,3 2,3 L2,0 Z" />
 		</svg>
 		<ul>
-			<li aria-current={$page.url.pathname === '/' ? 'page' : undefined}>
-				<a href="/">Home</a>
+			<li style="font-weight: 900;" aria-current={$page.url.pathname === '/' ? 'page' : undefined}>
+				<a style="font-size: larger" href="/"><b>&#9432</b></a>
 			</li>
 			<li aria-current={$page.url.pathname === '/earn' ? 'page' : undefined}>
 				<a href="/earn">Earn</a>
 			</li>
-			<li aria-current={$page.url.pathname === '/write' ? 'page' : undefined}>
-				<a href="/write">Write</a>
-			</li>
-			<li aria-current={$page.url.pathname.startsWith('/settings') ? 'page' : undefined}>
-				<a href="/settings">Settings</a>
+			<li aria-current={$page.url.pathname === '/make' ? 'page' : undefined}>
+				<a href="/make">Make</a>
 			</li>
 		</ul>
 		<svg viewBox="0 0 2 3" aria-hidden="true">
 			<path d="M0,0 L0,3 C0.5,3 0.5,3 1,2 L2,0 Z" />
 		</svg>
 	</nav>
-
+	<div class="status">
+		{#if heightValue}
+			{heightValue.toLocaleString()} &nbsp;&nbsp; █
+		{/if}
+	</div>
 	<div class="corner">
 		<a href="https://github.com/2qx/future-bitcoin-cash">
 			<img src={github} alt="Source Code" />
@@ -47,6 +84,15 @@
 	header {
 		display: flex;
 		justify-content: space-between;
+	}
+
+	.status {
+		display: flex;
+		justify-content: center;
+		font-weight: 900;
+		font-size: small;
+		margin: auto;
+		color: rgba(255, 255, 255, 0.7);
 	}
 
 	.corner {
@@ -70,6 +116,7 @@
 
 	nav {
 		display: flex;
+		margin: auto;
 		justify-content: center;
 		--background: rgba(255, 255, 255, 0.7);
 	}

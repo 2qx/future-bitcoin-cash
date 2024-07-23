@@ -1,5 +1,5 @@
 
-import { artifact } from '../src/vault.v2';
+import { vaultArtifact } from '../src/';
 import { aliceAddress, aliceTemplate } from './alice';
 import { Contract, MockNetworkProvider, 
     TransactionBuilder,
@@ -23,7 +23,7 @@ describe('test example contract functions', () => {
     let tokens = randomToken({
         amount:70_000n
     })
-    const contract = new Contract(artifact, [locktime], { provider });
+    const contract = new Contract(vaultArtifact, [locktime], { provider });
     
 
     provider.addUtxo(contract.address, randomUtxo({

@@ -4,8 +4,7 @@ import {
     bigIntToVmNumber,
     CashAddressNetworkPrefix,
     hexToBin,
-    lockingBytecodeToCashAddress,
-    binToHex
+    lockingBytecodeToCashAddress
 } from "@bitauth/libauth";
 
 import { UtxoI } from "./interface.js"
