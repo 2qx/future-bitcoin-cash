@@ -90,18 +90,6 @@ describe('test example contract functions', () => {
                 .to(
                     [
                         {
-                            to: contract.tokenAddress,
-                            amount: utxo.satoshis - 1500n,
-                            token: randomNFT({
-                                amount: 0n,
-                                category: baton.category,
-                                nft: {
-                                    commitment: binToHex(to32LE(Number(step) / 10)),
-                                    capability: 'minting'
-                                }
-                            })
-                        },
-                        {
                             to: gantry.tokenAddress,
                             amount: 800n,
                             token: randomNFT({
@@ -110,6 +98,18 @@ describe('test example contract functions', () => {
                                 nft: {
                                     commitment: binToHex(to32LE(nextExpiration)),
                                     capability: 'mutable'
+                                }
+                            })
+                        },
+                        {
+                            to: contract.tokenAddress,
+                            amount: utxo.satoshis - 1500n,
+                            token: randomNFT({
+                                amount: 0n,
+                                category: baton.category,
+                                nft: {
+                                    commitment: binToHex(to32LE(Number(step) / 10)),
+                                    capability: 'minting'
                                 }
                             })
                         }
@@ -131,10 +131,6 @@ describe('test example contract functions', () => {
             .to(
                 [
                     {
-                        to: contract.address,
-                        amount: utxo.satoshis - 1500n
-                    },
-                    {
                         to: gantry.tokenAddress,
                         amount: 800n,
                         token: randomNFT({
@@ -145,6 +141,10 @@ describe('test example contract functions', () => {
                                 capability: 'mutable'
                             }
                         })
+                    },
+                    {
+                        to: contract.address,
+                        amount: utxo.satoshis - 1500n
                     }
                 ]
             ).send();

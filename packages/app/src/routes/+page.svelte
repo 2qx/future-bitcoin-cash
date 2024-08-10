@@ -3,7 +3,7 @@
 
 <svelte:head>
 	<title>FBCH</title>
-	<meta name="description" content="Svelte demo app" />
+	<meta name="description" content="Future Bitcoin Cash" />
 </svelte:head>
 
 <section>

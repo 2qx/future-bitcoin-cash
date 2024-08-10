@@ -118,7 +118,7 @@ describe('test example contract functions', () => {
                 [
                     {
                         to: contract.tokenAddress,
-                        amount: o1,
+                        amount: utxo.satoshis-8500n,
                         token: updatedBaton
                     },
                     { to: vault.tokenAddress, amount: 1000n, token: { amount: BigInt(21e14), category: utxo.txid } }, // 1
@@ -131,7 +131,7 @@ describe('test example contract functions', () => {
                 ]
             )
             //
-            // 6a 04 534d5030 02 1000 04 46424348 04 6e000000 01 08
+            // 6a 04 46424348 01 6e000000 
             .withOpReturn([
                 "FBCH",
                 "0x" + binToHex(bigIntToVmNumber(locktime))

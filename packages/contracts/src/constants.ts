@@ -1,0 +1,1 @@
+ export const CHIPNET_BATON = "45f68d32936f32890abcae09a003e4b2b8cbf973790ea75f11d4f24bf9ba00f0"

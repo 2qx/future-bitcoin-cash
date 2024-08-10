@@ -65,8 +65,9 @@
 </script>
 
 <svelte:head>
-	<title>Vault Series</title>
+	<title>FBCH-{time}</title>
 	<meta name="description" content="Future Vault Series" />
+	<link rel="icon" type="image/svg" href="data:image/svg+xml;utf8,{getHvifIconHex(time)}" />
 </svelte:head>
 
 <section>

@@ -27,7 +27,7 @@
 							<div>
 								{#if time}
 									<span>
-										<a href="/v/?time={time}">
+										<a href="/v/{time}">
 											<icon-hvif data={getHvifIconHex(time)} alt="FBCH" />
 										</a><b>{time.toLocaleString()}</b>
 									</span>

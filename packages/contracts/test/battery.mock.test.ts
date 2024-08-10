@@ -24,12 +24,12 @@ describe('test example contract functions', () => {
       category: baton.category,
       nft: {
         commitment: binToHex(to32LE(1000000)), // 1,000,000
-        capability: 'none'
+        capability: 'mutable'
       }
     });
 
     let batteryBaton = randomNFT({
-      amount: 800n,
+      amount: 0n,
       category: baton.category,
       nft: {
         commitment: binToHex(to32LE(100000)), // 100,000
@@ -49,7 +49,7 @@ describe('test example contract functions', () => {
     
 
     provider.addUtxo(contract.address, randomUtxo({
-      satoshis: 1000100n,
+      satoshis: 1000000n,
       token: baton,
     }));
 
@@ -59,18 +59,19 @@ describe('test example contract functions', () => {
       .execute()
       .from(utxo)
       .withTime(10003)
+      .withoutChange()
+      .withoutTokenChange()
       .to(
         [
-
-          {
-            to: contract.tokenAddress,
-            amount: 998200n,
-            token: batteryBaton
-          },
           {
             to: gantry.tokenAddress,
-            amount: 1000n,
+            amount: 800n,
             token: gantryBaton
+          },
+          {
+            to: contract.tokenAddress,
+            amount: 998201n,
+            token: batteryBaton
           }
         ]
       );

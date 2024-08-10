@@ -79,7 +79,7 @@ describe('test example contract functions', () => {
                 [
                     {
                         to: contract.tokenAddress,
-                        amount: o1,
+                        amount: utxo.satoshis-8500n,
                         token: updatedBaton
                     },
                     { to: vault.tokenAddress, amount: 1000n, token: { amount: BigInt(21e14), category: utxo.txid } },// 1

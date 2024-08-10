@@ -231,7 +231,7 @@ pragma cashscript ^0.10.0;
 //                      =>  [5] FTs Vault
 //                      =>  [6] FTs Vault
 //                      =>  [7] FTs Vault
-//                          [8] OP_RETURN SMP0 1000 FBCH <locktime> 08
+//                          [8] OP_RETURN FBCH <locktime> 08
 //  
 //  ... but skip every 10th token print, 
 //   which will be printed by the gantry of the next order.
@@ -326,14 +326,10 @@ contract Gantry(
             // Tag FT metadata for indexers 
             //
             // 6a              OP_RETURN
-            // 04 53 4d 50 30  SMP0
-            // 02 10 00        Genesis/ticker; from input 0
             // 04 46 42 43 48  FBCH
             // 03 90 05 10     <locktime>
-            // 01 08           Decimal seperator
-            bytes announcement =  0x6a04534d50300210000446424348 +
-                                  bytes(bytes(locktime).length) +  bytes(locktime) +
-                                  0x0108;
+            bytes announcement =  0x6a0446424348 +
+                                  bytes(bytes(locktime).length) +  bytes(locktime);
             require(tx.outputs[9].lockingBytecode == announcement);
             require(tx.outputs[9].tokenCategory == 0x);
             require(tx.outputs[9].value == 0);
