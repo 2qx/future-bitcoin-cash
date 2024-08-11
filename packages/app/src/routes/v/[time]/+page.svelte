@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { getHvifIconHex, getFutureBlockDate, Vault } from '@fbch/lib';
+	import { getFutureBlockDate, Vault } from '@fbch/lib';
+	import  SeriesIcon from "$lib/images/SeriesIcon.svelte"
 	import { height } from '$lib/store.js';
 	import { ElectrumClient, ElectrumTransport } from 'electrum-cash';
 
@@ -8,8 +9,12 @@
 	let couponAddress: string;
 	let vaultAddress: string;
 
+	
 	//@ts-ignore
 	let coupons;
+	//@ts-ignore
+	let threads;
+
 	let time: number;
 	if (data.time) {
 		time = Number(data.time);
@@ -25,7 +30,6 @@
 
 	// Set up a callback function to handle new blocks.
 	const handleCouponNotifications = function (data: any) {
-		console.log('coupon');
 		console.log(data);
 	};
 	// Set up a callback function to handle new blocks.
@@ -56,6 +60,13 @@
 			'blockchain.address.subscribe',
 			vaultAddress
 		);
+		const vaultResponse = await electrum.request(
+			'blockchain.address.listunspent',
+			vaultAddress,
+			'tokens_only'
+		);
+		if (vaultResponse instanceof Error) throw vaultResponse;
+		threads = vaultResponse;
 		const couponResponse = await electrum.request('blockchain.address.listunspent', couponAddress);
 		if (couponResponse instanceof Error) throw couponResponse;
 		coupons = couponResponse;
@@ -67,13 +78,15 @@
 <svelte:head>
 	<title>FBCH-{time}</title>
 	<meta name="description" content="Future Vault Series" />
-	<link rel="icon" type="image/svg" href="data:image/svg+xml;utf8,{getHvifIconHex(time)}" />
+	<link rel="icon" type="image/svg" href="/FBCH-{time}.svg" />
 </svelte:head>
 
 <section>
 	{#if time}
 		<h2>Vault {time.toLocaleString()}</h2>
-		<icon-hvif size="300" data={getHvifIconHex(time)} alt="FBCH" />
+		<SeriesIcon {time} size=300/>
+		<div class="cashaddr">{vaultAddress}</div>
+		
 		{#if heightValue}
 			<p>{getFutureBlockDate(heightValue, time).toLocaleDateString()}</p>
 
@@ -84,12 +97,14 @@
 				<p>T&#8196;-{(time - heightValue).toLocaleString()}&#8196;█</p>
 			{/if}
 		{/if}
-
+		
 		<h2>Coupons</h2>
 
-		<div class="cashaddr">{couponAddress}</div>
 		<p>100M sat placement</p>
+		<div class="cashaddr">{couponAddress}</div>
+
 		{#if coupons && coupons.length}
+			
 			<table class="couponTable">
 				<tr class="header">
 					<td>sats </td>
@@ -101,6 +116,27 @@
 						<td class="r">{c.value.toLocaleString()} </td>
 						<td class="r">{(c.value / (time - heightValue)).toFixed(1)}</td>
 						<td class="r"><i>{(c.value / (time - heightValue) / (1e6 / 52596)).toFixed(2)}%</i></td>
+					</tr>
+				{/each}
+			</table>
+			{:else}
+			<p>no coupons available</p>
+		{/if}
+		<h2>Threads</h2>
+
+
+		{#if threads && threads.length}
+			<table class="couponTable">
+				<tr class="header">
+					<td>BCH </td>
+					<td>FBCH-{time} </td>
+					<td>Token Id </td>
+				</tr>
+				{#each threads as c}
+					<tr>
+						<td class="r">{(c.value / 1e8).toFixed(2)} </td>
+						<td class="r"><i>{(c.token_data.amount / 1e8).toLocaleString()}</i></td>
+						<td class="r"><i>{c.token_data.category.substring(0, 8) + '...' + c.token_data.category.slice(-4)}</i></td>
 					</tr>
 				{/each}
 			</table>

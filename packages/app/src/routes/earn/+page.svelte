@@ -1,7 +1,7 @@
 <script lang="ts">
-	import { Vault, getHvifIconHex, getFutureBlockDate } from '@fbch/lib';
+	import { Vault, getFutureBlockDate } from '@fbch/lib';
+	import  SeriesIcon from "$lib/images/SeriesIcon.svelte";
 	import { height } from '$lib/store.js';
-
 	const series = [3, 4, 5, 6];
 
 	let heightValue: number;
@@ -14,6 +14,7 @@
 <svelte:head>
 	<title>Coupons</title>
 	<meta name="description" content="Take Coupons" />
+	<link rel="icon" type="image/svg" href="/FBCH.svg" />
 </svelte:head>
 
 <div class="text-column">
@@ -23,12 +24,13 @@
 				E{e}<br />
 				{#if heightValue}
 					<div>
-						{#each Vault.getSeriesTimes(heightValue, e) as time}
+						{#each Vault.getSeriesTimes(heightValue, e, e==6? 4: undefined) as time}
 							<div>
 								{#if time}
 									<span>
 										<a href="/v/{time}">
-											<icon-hvif data={getHvifIconHex(time)} alt="FBCH" />
+											
+											<SeriesIcon {time} size=80/>
 										</a><b>{time.toLocaleString()}</b>
 									</span>
 									{getFutureBlockDate(heightValue, time).toLocaleDateString()}
@@ -49,7 +51,7 @@
 	}
 
 	.wrapper div div {
-		margin:1em;
+		margin: 2dvw;
 	}
 
 </style>

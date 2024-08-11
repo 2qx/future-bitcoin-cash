@@ -1,4 +1,7 @@
-import { getHvifIconHex } from "./icons"
+import { getHvifIconHex, getFbchIconSvg } from "./icons"
+import * as fs from 'fs';
+
+const writeSVG = (i ) => {return fs.writeFileSync('/tmp/FBCH-' + i + ".svg", getFbchIconSvg(i));}
 
 describe('test example contract functions', () => {
     it('should get the 0 block icon', async () => {
@@ -19,5 +22,19 @@ describe('test example contract functions', () => {
         expect(test).not.toBe(genesisIcon);
     });
 
-    
+    it.skip('skip writing icons', async () => {
+        // Or        
+        for await (const n of [...Array(5).keys()]) {
+            await writeSVG(1e6+(1e6*n))
+        }
+        for await (const n of [...Array(20).keys()]) {
+            await writeSVG(9e5+(1e5*n))
+        }
+        for await (const n of [...Array(50).keys()]) {
+            await writeSVG(8.6e5+(1e4*n))
+        }
+        for await (const n of [...Array(200).keys()]) {
+            await writeSVG(8.57e5+(1e3*n))
+        }
+    })
 });

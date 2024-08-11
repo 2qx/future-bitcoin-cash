@@ -197,7 +197,7 @@ pragma cashscript ^0.10.0;
 
 // Gantry - Create vault contracts with fungible tokens in a uniform way. 
 //
-// 2024-06-05
+// 2024-08-08 
 //
 // From: Future Bitcoin Cash
 //
@@ -224,18 +224,24 @@ pragma cashscript ^0.10.0;
 //
 //  Inputs              Outputs
 //  [0] NFT mintBaton   ->  [0] NFT mintBaton
-//  [1] topup sats?     =>  [1] FTs Vault
+//                      =>  [1] FTs Vault
 //                      =>  [2] FTs Vault
 //                      =>  [3] FTs Vault
 //                      =>  [4] FTs Vault
 //                      =>  [5] FTs Vault
 //                      =>  [6] FTs Vault
 //                      =>  [7] FTs Vault
-//                          [8] OP_RETURN FBCH <locktime> 08
+//                          [8] OP_RETURN FBCH <locktime>
 //  
 //  ... but skip every 10th token print, 
 //   which will be printed by the gantry of the next order.
 //  [0] NFT mintBaton   =>  [0] NFT mintBaton
+//
+// NOTE: The production version differs from the final audit:
+// - Sats to fund the Gantry transactions are secured in the baton UTXO (line 68),
+// - Some minor optimizations were made to stay under the 201 op_code limit:
+//   - used tokenAmount as number instead of stack variable [92,98,104...]
+//   - inlined op_return tag in single line require (line 137)
 //
 
 
@@ -250,11 +256,11 @@ contract Gantry(
         // input and passed on to index 0 output, funded with some dust BCH in order
         // to avoid griefing by someone with access to hashrate
         require(this.activeInputIndex == 0);
-        require(tx.inputs[this.activeInputIndex].lockingBytecode ==
-            tx.outputs[this.activeInputIndex].lockingBytecode);
+        require(tx.inputs[this.activeInputIndex].lockingBytecode == 
+        tx.outputs[this.activeInputIndex].lockingBytecode);
         require(tx.inputs[this.activeInputIndex].tokenCategory ==
             tx.outputs[this.activeInputIndex].tokenCategory);
-        require(tx.outputs[this.activeInputIndex].value > 800);
+        require(tx.outputs[this.activeInputIndex].value == tx.inputs[this.activeInputIndex].value - 8500);
 
         int locktime = int(tx.inputs[this.activeInputIndex].nftCommitment);
 
@@ -284,58 +290,52 @@ contract Gantry(
             require(tx.outputs[2].lockingBytecode == vaultLockingBytecode);       
             require(tx.outputs[2].tokenCategory == tx.inputs[0].outpointTransactionHash);
             require(tx.outputs[2].nftCommitment == 0x);
-            require(tx.outputs[2].tokenAmount == tx.outputs[1].tokenAmount);     
+            require(tx.outputs[2].tokenAmount == 2100000000000000);     
             require(tx.outputs[2].value == 1000);
 
             require(tx.outputs[3].lockingBytecode == vaultLockingBytecode);       
             require(tx.outputs[3].tokenCategory == tx.inputs[0].outpointTransactionHash);
             require(tx.outputs[3].nftCommitment == 0x);
-            require(tx.outputs[3].tokenAmount == tx.outputs[1].tokenAmount);     
+            require(tx.outputs[3].tokenAmount == 2100000000000000);     
             require(tx.outputs[3].value == 1000);
 
             require(tx.outputs[4].lockingBytecode == vaultLockingBytecode);       
             require(tx.outputs[4].tokenCategory == tx.inputs[0].outpointTransactionHash);
             require(tx.outputs[4].nftCommitment == 0x);
-            require(tx.outputs[4].tokenAmount == tx.outputs[1].tokenAmount);     
+            require(tx.outputs[4].tokenAmount == 2100000000000000);     
             require(tx.outputs[4].value == 1000);
 
             require(tx.outputs[5].lockingBytecode == vaultLockingBytecode);       
             require(tx.outputs[5].tokenCategory == tx.inputs[0].outpointTransactionHash);
             require(tx.outputs[5].nftCommitment == 0x);
-            require(tx.outputs[5].tokenAmount == tx.outputs[1].tokenAmount);     
+            require(tx.outputs[5].tokenAmount == 2100000000000000);     
             require(tx.outputs[5].value == 1000);
 
             require(tx.outputs[6].lockingBytecode == vaultLockingBytecode);       
             require(tx.outputs[6].tokenCategory == tx.inputs[0].outpointTransactionHash);
             require(tx.outputs[6].nftCommitment == 0x);
-            require(tx.outputs[6].tokenAmount == tx.outputs[1].tokenAmount);     
+            require(tx.outputs[6].tokenAmount == 2100000000000000);     
             require(tx.outputs[6].value == 1000);
 
             require(tx.outputs[7].lockingBytecode == vaultLockingBytecode);       
             require(tx.outputs[7].tokenCategory == tx.inputs[0].outpointTransactionHash);
             require(tx.outputs[7].nftCommitment == 0x);
-            require(tx.outputs[7].tokenAmount == tx.outputs[1].tokenAmount);     
+            require(tx.outputs[7].tokenAmount == 2100000000000000);     
             require(tx.outputs[7].value == 1000);
 
-            require(tx.outputs[8].lockingBytecode == vaultLockingBytecode);       
-            require(tx.outputs[8].tokenCategory == tx.inputs[0].outpointTransactionHash);
-            require(tx.outputs[8].nftCommitment == 0x);
-            require(tx.outputs[8].tokenAmount == tx.outputs[1].tokenAmount);     
-            require(tx.outputs[8].value == 1000);
 
             // Tag FT metadata for indexers 
             //
             // 6a              OP_RETURN
             // 04 46 42 43 48  FBCH
             // 03 90 05 10     <locktime>
-            bytes announcement =  0x6a0446424348 +
-                                  bytes(bytes(locktime).length) +  bytes(locktime);
-            require(tx.outputs[9].lockingBytecode == announcement);
-            require(tx.outputs[9].tokenCategory == 0x);
-            require(tx.outputs[9].value == 0);
+            require(tx.outputs[8].lockingBytecode == 0x6a0446424348 +
+                                  bytes(bytes(locktime).length) +  bytes(locktime));
+            require(tx.outputs[8].tokenCategory == 0x);
+            require(tx.outputs[8].value == 0);
 
             // Ensure no other outputs can be created
-            require(tx.outputs.length == 10);  
+            require(tx.outputs.length == 9);  
 
         }     
         
@@ -345,14 +345,18 @@ contract Gantry(
 
 # Battery
 
-The battery deploys a fixed number of gantries, similar to the way gantries deploy vaults. It then burns the minting baton used to create the gantries minting batons.
+The battery deployed a fixed number of gantries, similar to the way gantries deploy vaults. It then burned the minting baton used to create the gantries minting batons.
 
 ```solidity
 pragma cashscript ^0.10.0;
 
 // Battery - Spawn an array of vault deploying gantries from a single utxo.
 //
-// 2024-06-05
+// 2024-08-08
+// 
+// Executed in block #858,444 on Aug 10, 2024
+// 02eb65ab5ce602b3025bc0c139cd22709983ae1acb58f476b86d6e31dd585e55
+// bitcoincash:pd3hc4smdeu4kpwyvjq645d0ts5n9wxgvp3x7gg3my65u2kkw766xxxl8wdgp
 //
 // From: Future Bitcoin Cash
 //
@@ -368,16 +372,17 @@ pragma cashscript ^0.10.0;
 //  execute():
 //
 //  inputs                           outputs
-//  [0] Battery + NFT 0x40420F00 10ᴇ6 ->  [0] Battery    + NFT  0xA0860100
-//                                    =>  [1] Gantry10ᴇ6 + NFT* <startTime>
+//  [0] Battery + NFT 0x40420F00 10ᴇ6 ->  [0] Gantry10ᴇ6 + NFT* <startTime>
+//                                    =>  [1] Battery    + NFT  0xA0860100
 //
-//  [0] Battery + NFT 0xA0860100 10ᴇ5 ->  [0] Battery    + NFT  0x10270000
-//                                    =>  [1] Gantry10ᴇ5 + NFT* <startTime>
+//  [0] Battery + NFT 0xA0860100 10ᴇ5 ->  [0] Gantry10ᴇ5 + NFT* <startTime>
+//                                    =>  [1] Battery    + NFT  0x10270000
 //
 //  ... 0x10270000 10ᴇ4 ... 0xE8030000 10ᴇ3 ... 0x64000000 10ᴇ2
 //
-//  [0] Battery + NFT 0x<end>        ->  [0]  Burn NFT, sats are unencumbered.
-//                                       [1]  Gantry10ᴇ2 + NFT* <startTime>
+//  [0] Battery + NFT 0x<end>        ->  [0]  Gantry10ᴇ2 + NFT* <startTime>
+//                                       [1]  Burn NFT, sats are unencumbered.
+//                                       
 //
 // 
 
@@ -413,7 +418,7 @@ contract Battery(
 
         // Set the gantry's starting time at correct offset from baseTime
         bytes4 gantryStart = bytes4(baseTime - (baseTime % step) + step);
-        require(tx.outputs[1].nftCommitment == gantryStart);
+        require(tx.outputs[0].nftCommitment == gantryStart);
 
         // Construct the full redeem bytecode for the Gantry instance
         bytes gantryRedeemBytecode =
@@ -422,9 +427,9 @@ contract Battery(
             gantryReedemBytecodeTail;
 
         require(
-            // The second output must have the P2SH32 of the gantry redeem bytecode
+            // The first output must have the P2SH32 of the gantry redeem bytecode
             0xaa20 + hash256(gantryRedeemBytecode) + 0x87
-            == tx.outputs[1].lockingBytecode
+            == tx.outputs[0].lockingBytecode
         );
 
         // Ensure that Gantry inherits a mutable NFT so that it may update the
@@ -432,33 +437,32 @@ contract Battery(
         bytes gantryCategory =
             tx.inputs[this.activeInputIndex].tokenCategory.split(32)[0] +
             0x01;
-        require(tx.outputs[1].tokenCategory == gantryCategory);
+        require(tx.outputs[0].tokenCategory == gantryCategory);
 
         // Exactly 2 outputs, so token state or BCH can't leak out.
         require(tx.outputs.length == 2);
 
-        // Enforce exact dust amount on the Gantry so that remainder must go
-        // back into Battery or pure BCH change at index 0.
-        require(tx.outputs[1].value == 800);
+        // Fund each gantry in a single utxo for about 100 years.
+        require(tx.outputs[0].value > 42500000000/step);
 
         // Fee allowance = 1000
-        require(tx.outputs[0].value >
-            tx.inputs[this.activeInputIndex].value -
+        require(tx.outputs[1].value >
+            tx.inputs[this.activeInputIndex].value - 42500000000/step -
             1800);
 
         if(step > endStep) {
             // Calculate and enforce next baton's step,
-            require(tx.outputs[0].nftCommitment == bytes4(step / 10));
+            require(tx.outputs[1].nftCommitment == bytes4(step / 10));
             // token category & capability (pass on minting NFT),
-            require(tx.outputs[0].tokenCategory ==
+            require(tx.outputs[1].tokenCategory ==
                 tx.inputs[this.activeInputIndex].tokenCategory);
             // and contract code.
-            require(tx.outputs[0].lockingBytecode ==
+            require(tx.outputs[1].lockingBytecode ==
                 tx.inputs[this.activeInputIndex].lockingBytecode);
         } else {
             // Burn the minting baton while allowing any remaining BCH
-            // to be extracted to output 0.
-            require(tx.outputs[0].tokenCategory == 0x);
+            // to be extracted to output 1.
+            require(tx.outputs[1].tokenCategory == 0x);
 
             // Note: output 1 still mints a Gantry in this same TX,
             // and it will be the last one to get minted.

@@ -2,7 +2,7 @@
 	import { onMount } from 'svelte';
 	import { page } from '$app/stores';
 	import github from '$lib/images/github.svg';
-	import { getHvifIconHex } from '@fbch/lib';
+	import  SeriesIcon from "$lib/images/SeriesIcon.svelte"
 	import { height } from '$lib/store.js';
 	import { ElectrumClient, ElectrumTransport } from 'electrum-cash';
 
@@ -45,7 +45,7 @@
 	<div class="corner">
 		<a href="https://futurebitcoin.cash">
 			{#if heightValue}
-				<icon-hvif data={getHvifIconHex(heightValue)} alt="FBCH" />
+			<SeriesIcon time={heightValue} size=30/>
 			{/if}
 		</a>
 	</div>

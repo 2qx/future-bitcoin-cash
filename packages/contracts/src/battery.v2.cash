@@ -2,7 +2,11 @@ pragma cashscript ^0.10.0;
 
 // Battery - Spawn an array of vault deploying gantries from a single utxo.
 //
-// 2024-06-05
+// 2024-08-08
+// 
+// Executed in block #858,444 on Aug 10, 2024
+// 02eb65ab5ce602b3025bc0c139cd22709983ae1acb58f476b86d6e31dd585e55
+// bitcoincash:pd3hc4smdeu4kpwyvjq645d0ts5n9wxgvp3x7gg3my65u2kkw766xxxl8wdgp
 //
 // From: Future Bitcoin Cash
 //
@@ -13,7 +17,7 @@ pragma cashscript ^0.10.0;
 //
 // Given a minting NFT with the commitment containing a power of 10, 
 // mint a sequence of NFTs with minting capability
-// sending mutable batons NFTs to the corresponting Gantry.
+// sending mutable batons NFTs to the corresponding Gantry.
 //
 //  execute():
 //
