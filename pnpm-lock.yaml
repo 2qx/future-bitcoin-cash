@@ -236,6 +236,13 @@ importers:
       '@fbch/contracts':
         specifier: workspace:^
         version: link:../contracts
+    devDependencies:
+      '@cashscript/utils':
+        specifier: ^0.10.0-next.4
+        version: 0.10.0-next.6
+      electrum-cash:
+        specifier: ^3.2.0
+        version: 3.2.0
 
 packages:
 
@@ -1178,7 +1185,6 @@ packages:
       ws: '*'
     dependencies:
       ws: 8.17.1
-    dev: false
 
   /@neoconfetti/svelte@1.0.0:
     resolution: {integrity: sha512-SmksyaJAdSlMa9cTidVSIqYo1qti+WTsviNDwgjNVm+KQ3DRP2Df9umDIzC4vCcpEYY+chQe0i2IKnLw03AT8Q==}
@@ -1757,7 +1763,6 @@ packages:
     resolution: {integrity: sha512-vmQSUcfalpIq0R9q7uTo2lXs6eGIpt9wtnLdMv9LVpIjCA/+ufZRozlVoVelIYixx1ugCBKDhn89vnsEGOCx9A==}
     dependencies:
       '@types/node': 18.19.39
-    dev: false
 
   /@types/yargs-parser@21.0.3:
     resolution: {integrity: sha512-I4q9QU9MQv4oEOz4tAHJtNz1cwuLxn2F3xcc2iV5WdqLPpUnj30aUuxt1mAxYTG+oe8CZMV/+6rU4S4gRDzqtQ==}
@@ -2068,7 +2073,6 @@ packages:
     resolution: {integrity: sha512-WfoBo4E/TbCX1G95XTjbWTE3X2XLG0m1Xbv2cwOtuPdyH9CZvnaA5nCt1ucjaKEgW2A5IF71hxrRhr83Je5xjA==}
     dependencies:
       tslib: 2.6.3
-    dev: false
 
   /available-typed-arrays@1.0.7:
     resolution: {integrity: sha512-wvUjBtSGN7+7SjNpq/9M2Tg350UZD3q62IFZLbRAR1bSMlCo1ZaeW+BJ+D090e4hIIZLBcTDWe4Mh4jvUDajzQ==}
@@ -2813,6 +2817,21 @@ packages:
       - bufferutil
       - supports-color
       - utf-8-validate
+
+  /electrum-cash@3.2.0:
+    resolution: {integrity: sha512-vT7oV9A1O/Chj5w4BBQg3aEBvcE6mHumiBUuOdaTB4WfqD5LPjJ9iwQ4ueJmKyf/cekcWDIqSAxrM2pMgVLXMA==}
+    dependencies:
+      '@monsterbitar/isomorphic-ws': 5.3.1(ws@8.17.1)
+      '@types/ws': 8.5.10
+      async-mutex: 0.4.1
+      debug: 4.3.5
+      lossless-json: 2.0.11
+      ws: 8.17.1
+    transitivePeerDependencies:
+      - bufferutil
+      - supports-color
+      - utf-8-validate
+    dev: true
 
   /elliptic@6.5.6:
     resolution: {integrity: sha512-mpzdtpeCLuS3BmE3pO3Cpp5bbjlOPY2Q0PgoF+Od1XZrHLYI28Xe3ossCmYCQt11FQKEYd9+PF8jymTvtWJSHQ==}
@@ -4394,7 +4413,6 @@ packages:
 
   /lossless-json@2.0.11:
     resolution: {integrity: sha512-BP0vn+NGYvzDielvBZaFain/wgeJ1hTvURCqtKvhr1SCPePdaaTanmmcplrHfEJSJOUql7hk4FHwToNJjWRY3g==}
-    dev: false
 
   /loupe@2.3.7:
     resolution: {integrity: sha512-zSMINGVYkdpYSOBmLi0D1Uo7JU9nVdQKrHxC8eYlV+9YKK9WePqAlL7lSlorG/U2Fw1w0hTBmaa/jrQ3UbPHtA==}
@@ -6386,7 +6404,6 @@ packages:
         optional: true
       utf-8-validate:
         optional: true
-    dev: false
 
   /xtend@4.0.2:
     resolution: {integrity: sha512-LKYU1iAXJXUgAXn9URjiu+MWhyUXHsvfp7mcuYm9dSUKK0/CjtrUwFAxD82/mCWbtLsGjFIad0wIsod4zrTAEQ==}
