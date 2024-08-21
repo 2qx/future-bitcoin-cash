@@ -100,20 +100,20 @@
 		{/if}
 		
 		<h2>Coupons</h2>
-
-		<p>100M sat placement</p>
-		<div class="cashaddr">{couponAddress}</div>
-
-		{#if coupons && coupons.length}
-			
+		{#if coupons}
+			{#if coupons.length>0}
 			<table class="couponTable">
 				<tr class="header">
-					<td>sats </td>
+					<td>series</td>
+					<td>placement </td>
+					<td>coupon </td>
 					<td>spb </td>
 					<td>apr </td>
 				</tr>
 				{#each coupons as c}
 					<tr>
+						<td class="r">C0</td>
+						<td class="r">1 BCH</td>
 						<td class="r">{c.value.toLocaleString()} </td>
 						<td class="r">{(c.value / (time - heightValue)).toFixed(1)}</td>
 						<td class="r"><i>{(c.value / (time - heightValue) / (1e6 / 52596)).toFixed(2)}%</i></td>
@@ -122,6 +122,9 @@
 			</table>
 			{:else}
 			<p>no coupons available</p>
+			{/if}
+			{:else}
+			<p>loading coupons...</p>
 		{/if}
 		<h2>Threads</h2>
 
@@ -141,6 +144,8 @@
 					</tr>
 				{/each}
 			</table>
+		{:else}
+		<p>loading threads...</p>
 		{/if}
 	{/if}
 </section>

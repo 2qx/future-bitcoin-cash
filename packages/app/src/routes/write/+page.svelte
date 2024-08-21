@@ -7,7 +7,7 @@
 	let s = 4;
 	let coupons = [];
 	let duplicateCoupons = 1;
-	let placement = 1
+	let placement = 1;
 	let rate = 20;
 	let totalSpend = 0;
 	let totalPlacement = 0;
@@ -18,32 +18,37 @@
 	});
 
 	function updateCoupons() {
-		let addresses = Vault.getCouponSeries(heightValue, placement*1e8, s, s == 6 ? 4 : undefined);
+		let addresses = Vault.getCouponSeries(heightValue, placement * 1e8, s, s == 6 ? 4 : undefined);
 		let times = Vault.getSeriesTimes(heightValue, s, s == 6 ? 4 : undefined);
 
-		coupons = addresses.map(function (a, i) {
-			if(((times[i] - heightValue) * rate) > 543){
-				return [
-				...Array(duplicateCoupons).fill({
-					time: times[i],
-					address: a,
-					placement: placement,
-					amount: Math.floor(((times[i] - heightValue) * rate)) / 1e8
-				})
-			];
-			}else{
-				return []
-			}
-			
-		});
-		coupons = coupons.flat();
+		coupons = addresses
+			.map(function (a, i) {
+				if ((times[i] - heightValue) * rate > 543) {
+					return [
+						...Array(duplicateCoupons).fill({
+								time: times[i],
+								address: a,
+								placement: placement,
+								amount: Math.floor((times[i] - heightValue) * rate) / 1e8
+							}
+						)
+					];
+				} else {
+					return [];
+				}
+			})
+			.flat();
+
+	
+
 		totalPlacement = coupons.reduce(function (acc, obj) {
 			return acc + obj.placement;
 		}, 0);
+
 		totalSpend = coupons.reduce(function (acc, obj) {
 			return acc + obj.amount;
 		}, 0);
-		console.log(coupons);
+		totalSpend = Math.floor(totalSpend * 1e8) / 1e8;
 	}
 
 	onMount(async () => {
@@ -59,19 +64,23 @@
 <div class="text-column">
 	<h1>Write coupons</h1>
 	<div id="control">
-		<div>
-			Coupon: <br>
-			1 BCH
-		</div>
+		<div>Placement: 1 BCH</div>
 		<div>
 			<label>
-				Rate: {rate} spb<br>
-				<input type="range" on:change={() => updateCoupons()} bind:value={rate} min="1" step="0.2" max="50" />
+				Rate: {rate} spb<br />
+				<input
+					type="range"
+					on:change={() => updateCoupons()}
+					bind:value={rate}
+					min="1"
+					step="0.2"
+					max="50"
+				/>
 			</label>
 		</div>
 		<div>
 			<label>
-				Copies: {duplicateCoupons}<br>
+				Copies: {duplicateCoupons}<br />
 				<input
 					type="range"
 					on:change={() => updateCoupons()}
@@ -81,7 +90,6 @@
 				/>
 			</label>
 		</div>
-		
 
 		<div>
 			{#each series as number}
@@ -93,8 +101,7 @@
 						bind:group={s}
 						on:change={() => updateCoupons()}
 					/>
-
-					E{number} series<br />
+					Vaults E{number} - {Math.pow(10, number)} <br />
 				</label>
 			{/each}
 		</div>
@@ -104,9 +111,9 @@
 		Incentivize locking up to {totalPlacement} BCH
 	</div>
 	<div id="total">
-		Total: {totalSpend}<br />
+		Total: {totalSpend} BCH<br />
 	</div>
-	<hr>
+	<hr />
 	<div id="mono">
 		{#each coupons as c}
 			{c.address}, {c.amount}<br />
@@ -120,7 +127,7 @@
 		flex-wrap: wrap;
 	}
 	#control div {
-		flex: 1 0 20%;
+		flex: 1 0 30%;
 		border: 1px solid black;
 		padding: 0.2em;
 	}

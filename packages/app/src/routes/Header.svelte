@@ -9,6 +9,7 @@
 	let heightValue: number;
 
 	height.subscribe((value: any) => {
+		console.log(heightValue);
 		heightValue = value;
 	});
 
