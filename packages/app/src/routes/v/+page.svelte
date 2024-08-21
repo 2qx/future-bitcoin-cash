@@ -3,7 +3,7 @@
 	import { getFutureBlockDate, Vault } from '@fbch/lib';
 	import  SeriesIcon from "$lib/images/SeriesIcon.svelte"
 	import { height } from '$lib/store.js';
-	import { ElectrumClient, ElectrumTransport } from 'electrum-cash';
+	import { ElectrumClient, ElectrumTransport } from '@electrum-cash/network';
 
 	export let data: any;
 	let couponAddress: string;

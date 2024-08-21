@@ -4,7 +4,7 @@
 	import github from '$lib/images/github.svg';
 	import  SeriesIcon from "$lib/images/SeriesIcon.svelte"
 	import { height } from '$lib/store.js';
-	import { ElectrumClient, ElectrumTransport } from 'electrum-cash';
+	import { ElectrumClient, ElectrumTransport } from '@electrum-cash/network';
 
 	let heightValue: number;
 
