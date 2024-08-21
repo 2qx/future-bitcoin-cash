@@ -1,0 +1,1072 @@
+{
+  "$schema": "https://cashtokens.org/bcmr-v2.schema.json",
+  "version": {
+    "major": 1,
+    "minor": 1,
+    "patch": 0
+  },
+  "latestRevision": "2024-04-14T00:00:17.720Z",
+  "registryIdentity": {
+    "name": "Future Bitcoin Cash Token Registry",
+    "description": "Registry for Futures fungible tokens",
+    "uris": {
+      "icon": "https://futurebitcoin.cash/FBCH.svg",
+      "web": "https://futurebitcoin.cash/",
+      "registry": "https://futurebitcoin.cash/.well-known/bitcoin-cash-metadata-registry.json",
+      "chat": "https://t.me/Future_Bitcoin_Cash",
+      "app": "https://futurebitcoin.cash/"
+    }
+  },
+  "identities": {
+    "fbc0b001313509454331f23f4b1891a8d9a284421efcc33187f1a1cdd37ccb46": {
+      "2024-08-10T00:00:00.000Z": {
+        "name": "Future Bitcoin Cash - Utility Baton",
+        "description": "A contract controlled NFT baton used to check valid FBCH fungible tokens. The initial minting baton was used to create four (4) mutable batons, then the single minting baton was burned by the battery contract. The data commitments of the four mutable batons track the current locktime being generated for the series of fungible futures tokens in the four gantry contracts. Although each series of fungible FBCH tokens has a different category id, all valid fungible FBCH tokens are minted in a transaction with the tracking baton as the sole input and first output.",
+        "token": {
+          "category": "fbc0b001313509454331f23f4b1891a8d9a284421efcc33187f1a1cdd37ccb46",
+          "symbol": "FBCH-BATON"
+        },
+        "uris": {
+          "icon": "https://futurebitcoin.cash/FBCH.svg",
+          "web": "https://futurebitcoin.cash/contracts#battery"
+        }
+      }
+    },
+    "16dac7ae826ad3913db3b1f0c1db567e3086a7591334c0fd3667ab13e51ae831": {
+      "2024-08-10T00:00:00.000Z": {
+        "name": "Future Bitcoin Cash - 858,000",
+        "description": "A fungible token redeemable for Bitcoin Cash after block 858,000",
+        "token": {
+          "category": "16dac7ae826ad3913db3b1f0c1db567e3086a7591334c0fd3667ab13e51ae831",
+          "decimals": 8,
+          "symbol": "FBCH-0858000"
+        },
+        "uris": {
+          "icon": "https://futurebitcoin.cash/FBCH-858000.svg",
+          "web": "https://futurebitcoin.cash/v?block=858000"
+        }
+      }
+    },
+    "0cc1cb6033617c83ba69e158398f7d3097ee9fc538f52075a3a2df0af206b819": {
+      "2024-08-10T00:00:00.000Z": {
+        "name": "Future Bitcoin Cash - 859,000",
+        "description": "A fungible token redeemable for Bitcoin Cash after block 859,000",
+        "token": {
+          "category": "0cc1cb6033617c83ba69e158398f7d3097ee9fc538f52075a3a2df0af206b819",
+          "decimals": 8,
+          "symbol": "FBCH-0859000"
+        },
+        "uris": {
+          "icon": "https://futurebitcoin.cash/FBCH-859000.svg",
+          "web": "https://futurebitcoin.cash/v?block=859000"
+        }
+      }
+    },
+    "ca323c19cf6fc269822c6bfdda13f5c062c67bc3a20dbe73d87c43e1b2baca95": {
+      "2024-08-10T00:00:00.000Z": {
+        "name": "Future Bitcoin Cash - 860,000",
+        "description": "A fungible token redeemable for Bitcoin Cash after block 860,000",
+        "token": {
+          "category": "ca323c19cf6fc269822c6bfdda13f5c062c67bc3a20dbe73d87c43e1b2baca95",
+          "decimals": 8,
+          "symbol": "FBCH-0860000"
+        },
+        "uris": {
+          "icon": "https://futurebitcoin.cash/FBCH-860000.svg",
+          "web": "https://futurebitcoin.cash/v?block=860000"
+        }
+      }
+    },
+    "a42742e4188780dbdc6017016e2d49803eedfe0881805d2b19bc0e93fcae96ee": {
+      "2024-08-10T00:00:00.000Z": {
+        "name": "Future Bitcoin Cash - 861,000",
+        "description": "A fungible token redeemable for Bitcoin Cash after block 861,000",
+        "token": {
+          "category": "a42742e4188780dbdc6017016e2d49803eedfe0881805d2b19bc0e93fcae96ee",
+          "decimals": 8,
+          "symbol": "FBCH-0861000"
+        },
+        "uris": {
+          "icon": "https://futurebitcoin.cash/FBCH-861000.svg",
+          "web": "https://futurebitcoin.cash/v?block=861000"
+        }
+      }
+    },
+    "bdaaf2610c0a4ae34c0d7432f39aaaa4b5467d2f8e5255018ea073e1a558a678": {
+      "2024-08-10T00:00:00.000Z": {
+        "name": "Future Bitcoin Cash - 862,000",
+        "description": "A fungible token redeemable for Bitcoin Cash after block 862,000",
+        "token": {
+          "category": "bdaaf2610c0a4ae34c0d7432f39aaaa4b5467d2f8e5255018ea073e1a558a678",
+          "decimals": 8,
+          "symbol": "FBCH-0862000"
+        },
+        "uris": {
+          "icon": "https://futurebitcoin.cash/FBCH-862000.svg",
+          "web": "https://futurebitcoin.cash/v?block=862000"
+        }
+      }
+    },
+    "89a2430a98bb92b504d6d23182d4b0d3c9455b4d9e9671aeae4b09208f1df584": {
+      "2024-08-10T00:00:00.000Z": {
+        "name": "Future Bitcoin Cash - 863,000",
+        "description": "A fungible token redeemable for Bitcoin Cash after block 863,000",
+        "token": {
+          "category": "89a2430a98bb92b504d6d23182d4b0d3c9455b4d9e9671aeae4b09208f1df584",
+          "decimals": 8,
+          "symbol": "FBCH-0863000"
+        },
+        "uris": {
+          "icon": "https://futurebitcoin.cash/FBCH-863000.svg",
+          "web": "https://futurebitcoin.cash/v?block=863000"
+        }
+      }
+    },
+    "7face04783f30345a6d48cd7747a7cabf92b6c0523f2e021c238573c691f2438": {
+      "2024-08-10T00:00:00.000Z": {
+        "name": "Future Bitcoin Cash - 864,000",
+        "description": "A fungible token redeemable for Bitcoin Cash after block 864,000",
+        "token": {
+          "category": "7face04783f30345a6d48cd7747a7cabf92b6c0523f2e021c238573c691f2438",
+          "decimals": 8,
+          "symbol": "FBCH-0864000"
+        },
+        "uris": {
+          "icon": "https://futurebitcoin.cash/FBCH-864000.svg",
+          "web": "https://futurebitcoin.cash/v?block=864000"
+        }
+      }
+    },
+    "09dabc81889bd7d1301f7e0620301460bcc0f754ab9b9838b881b72182b1d502": {
+      "2024-08-10T00:00:00.000Z": {
+        "name": "Future Bitcoin Cash - 865,000",
+        "description": "A fungible token redeemable for Bitcoin Cash after block 865,000",
+        "token": {
+          "category": "09dabc81889bd7d1301f7e0620301460bcc0f754ab9b9838b881b72182b1d502",
+          "decimals": 8,
+          "symbol": "FBCH-0865000"
+        },
+        "uris": {
+          "icon": "https://futurebitcoin.cash/FBCH-865000.svg",
+          "web": "https://futurebitcoin.cash/v?block=865000"
+        }
+      }
+    },
+    "b2a37403c5d97bf6c2e1338c054b6d73eef1543137cea85b6ab9eaeff5a43087": {
+      "2024-08-10T00:00:00.000Z": {
+        "name": "Future Bitcoin Cash - 866,000",
+        "description": "A fungible token redeemable for Bitcoin Cash after block 866,000",
+        "token": {
+          "category": "b2a37403c5d97bf6c2e1338c054b6d73eef1543137cea85b6ab9eaeff5a43087",
+          "decimals": 8,
+          "symbol": "FBCH-0866000"
+        },
+        "uris": {
+          "icon": "https://futurebitcoin.cash/FBCH-866000.svg",
+          "web": "https://futurebitcoin.cash/v?block=866000"
+        }
+      }
+    },
+    "30d336f109876e8a66a6da63ac52c807e85e2bba00204f1b010ef9cd42fd98b7": {
+      "2024-08-10T00:00:00.000Z": {
+        "name": "Future Bitcoin Cash - 867,000",
+        "description": "A fungible token redeemable for Bitcoin Cash after block 867,000",
+        "token": {
+          "category": "30d336f109876e8a66a6da63ac52c807e85e2bba00204f1b010ef9cd42fd98b7",
+          "decimals": 8,
+          "symbol": "FBCH-0867000"
+        },
+        "uris": {
+          "icon": "https://futurebitcoin.cash/FBCH-867000.svg",
+          "web": "https://futurebitcoin.cash/v?block=867000"
+        }
+      }
+    },
+    "28afff19a58a8ad529aa5631bc3576e9ab19675e541b28963b61e53055e77942": {
+      "2024-08-10T00:00:00.000Z": {
+        "name": "Future Bitcoin Cash - 868,000",
+        "description": "A fungible token redeemable for Bitcoin Cash after block 868,000",
+        "token": {
+          "category": "28afff19a58a8ad529aa5631bc3576e9ab19675e541b28963b61e53055e77942",
+          "decimals": 8,
+          "symbol": "FBCH-0868000"
+        },
+        "uris": {
+          "icon": "https://futurebitcoin.cash/FBCH-868000.svg",
+          "web": "https://futurebitcoin.cash/v?block=868000"
+        }
+      }
+    },
+    "357ce1027d7f07f6c0c8bb79ccd2e0f2d44e9f2e91a754befc66380cdbaa6449": {
+      "2024-08-10T00:00:00.000Z": {
+        "name": "Future Bitcoin Cash - 869,000",
+        "description": "A fungible token redeemable for Bitcoin Cash after block 869,000",
+        "token": {
+          "category": "357ce1027d7f07f6c0c8bb79ccd2e0f2d44e9f2e91a754befc66380cdbaa6449",
+          "decimals": 8,
+          "symbol": "FBCH-0869000"
+        },
+        "uris": {
+          "icon": "https://futurebitcoin.cash/FBCH-869000.svg",
+          "web": "https://futurebitcoin.cash/v?block=869000"
+        }
+      }
+    },
+    "d861cd6420db1e280764b846bac790cc86c1e7ea93adecb2d1c9b4289eeaa1a8": {
+      "2024-08-10T00:00:00.000Z": {
+        "name": "Future Bitcoin Cash - 870,000",
+        "description": "A fungible token redeemable for Bitcoin Cash after block 870,000",
+        "token": {
+          "category": "d861cd6420db1e280764b846bac790cc86c1e7ea93adecb2d1c9b4289eeaa1a8",
+          "decimals": 8,
+          "symbol": "FBCH-0870000"
+        },
+        "uris": {
+          "icon": "https://futurebitcoin.cash/FBCH-870000.svg",
+          "web": "https://futurebitcoin.cash/v?block=870000"
+        }
+      }
+    },
+    "08cd919b34a789bc07a37c6c68e9d15f105a36010fcb8a8bd017190fff84a6b8": {
+      "2024-08-10T00:00:00.000Z": {
+        "name": "Future Bitcoin Cash - 871,000",
+        "description": "A fungible token redeemable for Bitcoin Cash after block 871,000",
+        "token": {
+          "category": "08cd919b34a789bc07a37c6c68e9d15f105a36010fcb8a8bd017190fff84a6b8",
+          "decimals": 8,
+          "symbol": "FBCH-0871000"
+        },
+        "uris": {
+          "icon": "https://futurebitcoin.cash/FBCH-871000.svg",
+          "web": "https://futurebitcoin.cash/v?block=871000"
+        }
+      }
+    },
+    "f55d2e61aadc9519d1c0a346cbbc7766a5e871660a3c25b61eb517be200f901c": {
+      "2024-08-10T00:00:00.000Z": {
+        "name": "Future Bitcoin Cash - 872,000",
+        "description": "A fungible token redeemable for Bitcoin Cash after block 872,000",
+        "token": {
+          "category": "f55d2e61aadc9519d1c0a346cbbc7766a5e871660a3c25b61eb517be200f901c",
+          "decimals": 8,
+          "symbol": "FBCH-0872000"
+        },
+        "uris": {
+          "icon": "https://futurebitcoin.cash/FBCH-872000.svg",
+          "web": "https://futurebitcoin.cash/v?block=872000"
+        }
+      }
+    },
+    "e9c7dca6f33c7c963bbbb7f72e85d5181d76ad9eb26d8ac7e0765921e6bc7248": {
+      "2024-08-10T00:00:00.000Z": {
+        "name": "Future Bitcoin Cash - 873,000",
+        "description": "A fungible token redeemable for Bitcoin Cash after block 873,000",
+        "token": {
+          "category": "e9c7dca6f33c7c963bbbb7f72e85d5181d76ad9eb26d8ac7e0765921e6bc7248",
+          "decimals": 8,
+          "symbol": "FBCH-0873000"
+        },
+        "uris": {
+          "icon": "https://futurebitcoin.cash/FBCH-873000.svg",
+          "web": "https://futurebitcoin.cash/v?block=873000"
+        }
+      }
+    },
+    "a0055c80f357a2e14b203274cbe0f211bd25ad4032deab59dba1187397a23a0f": {
+      "2024-08-10T00:00:00.000Z": {
+        "name": "Future Bitcoin Cash - 874,000",
+        "description": "A fungible token redeemable for Bitcoin Cash after block 874,000",
+        "token": {
+          "category": "a0055c80f357a2e14b203274cbe0f211bd25ad4032deab59dba1187397a23a0f",
+          "decimals": 8,
+          "symbol": "FBCH-0874000"
+        },
+        "uris": {
+          "icon": "https://futurebitcoin.cash/FBCH-874000.svg",
+          "web": "https://futurebitcoin.cash/v?block=874000"
+        }
+      }
+    },
+    "3c1136e10ba3a3852f1ab3d1bff1727c3b9c7782a8cb84fba5706ffaccfae24c": {
+      "2024-08-10T00:00:00.000Z": {
+        "name": "Future Bitcoin Cash - 875,000",
+        "description": "A fungible token redeemable for Bitcoin Cash after block 875,000",
+        "token": {
+          "category": "3c1136e10ba3a3852f1ab3d1bff1727c3b9c7782a8cb84fba5706ffaccfae24c",
+          "decimals": 8,
+          "symbol": "FBCH-0875000"
+        },
+        "uris": {
+          "icon": "https://futurebitcoin.cash/FBCH-875000.svg",
+          "web": "https://futurebitcoin.cash/v?block=875000"
+        }
+      }
+    },
+    "cdbc9154e80320895be94b616624ea967e6121879476dd285470a297e0f94e6c": {
+      "2024-08-10T00:00:00.000Z": {
+        "name": "Future Bitcoin Cash - 876,000",
+        "description": "A fungible token redeemable for Bitcoin Cash after block 876,000",
+        "token": {
+          "category": "cdbc9154e80320895be94b616624ea967e6121879476dd285470a297e0f94e6c",
+          "decimals": 8,
+          "symbol": "FBCH-0876000"
+        },
+        "uris": {
+          "icon": "https://futurebitcoin.cash/FBCH-876000.svg",
+          "web": "https://futurebitcoin.cash/v?block=876000"
+        }
+      }
+    },
+    "5c88fbc5e0a8e828050bf83b3ebfc9b8d151c77079b4079e4f620588c2989ac1": {
+      "2024-08-10T00:00:00.000Z": {
+        "name": "Future Bitcoin Cash - 877,000",
+        "description": "A fungible token redeemable for Bitcoin Cash after block 877,000",
+        "token": {
+          "category": "5c88fbc5e0a8e828050bf83b3ebfc9b8d151c77079b4079e4f620588c2989ac1",
+          "decimals": 8,
+          "symbol": "FBCH-0877000"
+        },
+        "uris": {
+          "icon": "https://futurebitcoin.cash/FBCH-877000.svg",
+          "web": "https://futurebitcoin.cash/v?block=877000"
+        }
+      }
+    },
+    "53047c3ecccf16318a8a49376213e7695b81392c18a9a88ade84157ef3c4b793": {
+      "2024-08-10T00:00:00.000Z": {
+        "name": "Future Bitcoin Cash - 878,000",
+        "description": "A fungible token redeemable for Bitcoin Cash after block 878,000",
+        "token": {
+          "category": "53047c3ecccf16318a8a49376213e7695b81392c18a9a88ade84157ef3c4b793",
+          "decimals": 8,
+          "symbol": "FBCH-0878000"
+        },
+        "uris": {
+          "icon": "https://futurebitcoin.cash/FBCH-878000.svg",
+          "web": "https://futurebitcoin.cash/v?block=878000"
+        }
+      }
+    },
+    "b49acab285c26cfeac6cd8c3deabf8a04ed9eefd522ce5559342e526a3b35cc9": {
+      "2024-08-10T00:00:00.000Z": {
+        "name": "Future Bitcoin Cash - 879,000",
+        "description": "A fungible token redeemable for Bitcoin Cash after block 879,000",
+        "token": {
+          "category": "b49acab285c26cfeac6cd8c3deabf8a04ed9eefd522ce5559342e526a3b35cc9",
+          "decimals": 8,
+          "symbol": "FBCH-0879000"
+        },
+        "uris": {
+          "icon": "https://futurebitcoin.cash/FBCH-879000.svg",
+          "web": "https://futurebitcoin.cash/v?block=879000"
+        }
+      }
+    },
+    "812006db91178d966c52207b32b46b337e5a6c1c87196e1af36834606205a2bb": {
+      "2024-08-10T00:00:00.000Z": {
+        "name": "Future Bitcoin Cash - 880,000",
+        "description": "A fungible token redeemable for Bitcoin Cash after block 880,000",
+        "token": {
+          "category": "812006db91178d966c52207b32b46b337e5a6c1c87196e1af36834606205a2bb",
+          "decimals": 8,
+          "symbol": "FBCH-0880000"
+        },
+        "uris": {
+          "icon": "https://futurebitcoin.cash/FBCH-880000.svg",
+          "web": "https://futurebitcoin.cash/v?block=880000"
+        }
+      }
+    },
+    "31225667a83a30779e44dbb19f4251820ee4e00b13c3b5ae8d00bca2351c3981": {
+      "2024-08-10T00:00:00.000Z": {
+        "name": "Future Bitcoin Cash - 881,000",
+        "description": "A fungible token redeemable for Bitcoin Cash after block 881,000",
+        "token": {
+          "category": "31225667a83a30779e44dbb19f4251820ee4e00b13c3b5ae8d00bca2351c3981",
+          "decimals": 8,
+          "symbol": "FBCH-0881000"
+        },
+        "uris": {
+          "icon": "https://futurebitcoin.cash/FBCH-881000.svg",
+          "web": "https://futurebitcoin.cash/v?block=881000"
+        }
+      }
+    },
+    "5891be47b3b87d848678462eb65f82c3bd2e450693d5f5a6ab5b16ac3b6d8bd2": {
+      "2024-08-10T00:00:00.000Z": {
+        "name": "Future Bitcoin Cash - 882,000",
+        "description": "A fungible token redeemable for Bitcoin Cash after block 882,000",
+        "token": {
+          "category": "5891be47b3b87d848678462eb65f82c3bd2e450693d5f5a6ab5b16ac3b6d8bd2",
+          "decimals": 8,
+          "symbol": "FBCH-0882000"
+        },
+        "uris": {
+          "icon": "https://futurebitcoin.cash/FBCH-882000.svg",
+          "web": "https://futurebitcoin.cash/v?block=882000"
+        }
+      }
+    },
+    "dde1e93679e85d7c894285fc4cb95a5e717918f56ff405d9a740f2be82a301cb": {
+      "2024-08-10T00:00:00.000Z": {
+        "name": "Future Bitcoin Cash - 883,000",
+        "description": "A fungible token redeemable for Bitcoin Cash after block 883,000",
+        "token": {
+          "category": "dde1e93679e85d7c894285fc4cb95a5e717918f56ff405d9a740f2be82a301cb",
+          "decimals": 8,
+          "symbol": "FBCH-0883000"
+        },
+        "uris": {
+          "icon": "https://futurebitcoin.cash/FBCH-883000.svg",
+          "web": "https://futurebitcoin.cash/v?block=883000"
+        }
+      }
+    },
+    "68931d718e1482c0d1a4ff73daa4cd7e6a1e22ca9e66d552bcb21ae861737115": {
+      "2024-08-10T00:00:00.000Z": {
+        "name": "Future Bitcoin Cash - 884,000",
+        "description": "A fungible token redeemable for Bitcoin Cash after block 884,000",
+        "token": {
+          "category": "68931d718e1482c0d1a4ff73daa4cd7e6a1e22ca9e66d552bcb21ae861737115",
+          "decimals": 8,
+          "symbol": "FBCH-0884000"
+        },
+        "uris": {
+          "icon": "https://futurebitcoin.cash/FBCH-884000.svg",
+          "web": "https://futurebitcoin.cash/v?block=884000"
+        }
+      }
+    },
+    "019fbdca8662a1f6b617e3385c1dd903cde128d5d2d0b270015baacff1949ec0": {
+      "2024-08-10T00:00:00.000Z": {
+        "name": "Future Bitcoin Cash - 885,000",
+        "description": "A fungible token redeemable for Bitcoin Cash after block 885,000",
+        "token": {
+          "category": "019fbdca8662a1f6b617e3385c1dd903cde128d5d2d0b270015baacff1949ec0",
+          "decimals": 8,
+          "symbol": "FBCH-0885000"
+        },
+        "uris": {
+          "icon": "https://futurebitcoin.cash/FBCH-885000.svg",
+          "web": "https://futurebitcoin.cash/v?block=885000"
+        }
+      }
+    },
+    "a4d1892a9a2319c7e23933f98a926b00877556162ca64a3668182d9a388c8d27": {
+      "2024-08-10T00:00:00.000Z": {
+        "name": "Future Bitcoin Cash - 886,000",
+        "description": "A fungible token redeemable for Bitcoin Cash after block 886,000",
+        "token": {
+          "category": "a4d1892a9a2319c7e23933f98a926b00877556162ca64a3668182d9a388c8d27",
+          "decimals": 8,
+          "symbol": "FBCH-0886000"
+        },
+        "uris": {
+          "icon": "https://futurebitcoin.cash/FBCH-886000.svg",
+          "web": "https://futurebitcoin.cash/v?block=886000"
+        }
+      }
+    },
+    "e337b4468fd9a737968cd82b09dfd91884220134994949f9e8c1dc70c3471f5b": {
+      "2024-08-10T00:00:00.000Z": {
+        "name": "Future Bitcoin Cash - 887,000",
+        "description": "A fungible token redeemable for Bitcoin Cash after block 887,000",
+        "token": {
+          "category": "e337b4468fd9a737968cd82b09dfd91884220134994949f9e8c1dc70c3471f5b",
+          "decimals": 8,
+          "symbol": "FBCH-0887000"
+        },
+        "uris": {
+          "icon": "https://futurebitcoin.cash/FBCH-887000.svg",
+          "web": "https://futurebitcoin.cash/v?block=887000"
+        }
+      }
+    },
+    "8385c083c569dcceb6dff0d08b950d35822c4ccd5fa40084071346df677550b4": {
+      "2024-08-10T00:00:00.000Z": {
+        "name": "Future Bitcoin Cash - 888,000",
+        "description": "A fungible token redeemable for Bitcoin Cash after block 888,000",
+        "token": {
+          "category": "8385c083c569dcceb6dff0d08b950d35822c4ccd5fa40084071346df677550b4",
+          "decimals": 8,
+          "symbol": "FBCH-0888000"
+        },
+        "uris": {
+          "icon": "https://futurebitcoin.cash/FBCH-888000.svg",
+          "web": "https://futurebitcoin.cash/v?block=888000"
+        }
+      }
+    },
+    "55727d2dee32dca41f4d31434c28b2324b8d1e06ff26282ff451ea5329f0e153": {
+      "2024-08-10T00:00:00.000Z": {
+        "name": "Future Bitcoin Cash - 889,000",
+        "description": "A fungible token redeemable for Bitcoin Cash after block 889,000",
+        "token": {
+          "category": "55727d2dee32dca41f4d31434c28b2324b8d1e06ff26282ff451ea5329f0e153",
+          "decimals": 8,
+          "symbol": "FBCH-0889000"
+        },
+        "uris": {
+          "icon": "https://futurebitcoin.cash/FBCH-889000.svg",
+          "web": "https://futurebitcoin.cash/v?block=889000"
+        }
+      }
+    },
+    "988fd2522d329f6fc079929e86baadf9e636763b5351296d18aa199b13b4493d": {
+      "2024-08-10T00:00:00.000Z": {
+        "name": "Future Bitcoin Cash - 890,000",
+        "description": "A fungible token redeemable for Bitcoin Cash after block 890,000",
+        "token": {
+          "category": "988fd2522d329f6fc079929e86baadf9e636763b5351296d18aa199b13b4493d",
+          "decimals": 8,
+          "symbol": "FBCH-0890000"
+        },
+        "uris": {
+          "icon": "https://futurebitcoin.cash/FBCH-890000.svg",
+          "web": "https://futurebitcoin.cash/v?block=890000"
+        }
+      }
+    },
+    "5ec2629236f62393d1d3da47c764553aa7057a83ee60383225d1397573bd9f9f": {
+      "2024-08-10T00:00:00.000Z": {
+        "name": "Future Bitcoin Cash - 891,000",
+        "description": "A fungible token redeemable for Bitcoin Cash after block 891,000",
+        "token": {
+          "category": "5ec2629236f62393d1d3da47c764553aa7057a83ee60383225d1397573bd9f9f",
+          "decimals": 8,
+          "symbol": "FBCH-0891000"
+        },
+        "uris": {
+          "icon": "https://futurebitcoin.cash/FBCH-891000.svg",
+          "web": "https://futurebitcoin.cash/v?block=891000"
+        }
+      }
+    },
+    "336a642ace9290d91a1189b576236d9c8c7fffa01eea388a8b3bb635c94a6cc3": {
+      "2024-08-10T00:00:00.000Z": {
+        "name": "Future Bitcoin Cash - 892,000",
+        "description": "A fungible token redeemable for Bitcoin Cash after block 892,000",
+        "token": {
+          "category": "336a642ace9290d91a1189b576236d9c8c7fffa01eea388a8b3bb635c94a6cc3",
+          "decimals": 8,
+          "symbol": "FBCH-0892000"
+        },
+        "uris": {
+          "icon": "https://futurebitcoin.cash/FBCH-892000.svg",
+          "web": "https://futurebitcoin.cash/v?block=892000"
+        }
+      }
+    },
+    "edbbb22cda1b04ffa4741c51f35d506002d4dc5b9a36c9cb3aa3fe578303af3f": {
+      "2024-08-10T00:00:00.000Z": {
+        "name": "Future Bitcoin Cash - 893,000",
+        "description": "A fungible token redeemable for Bitcoin Cash after block 893,000",
+        "token": {
+          "category": "edbbb22cda1b04ffa4741c51f35d506002d4dc5b9a36c9cb3aa3fe578303af3f",
+          "decimals": 8,
+          "symbol": "FBCH-0893000"
+        },
+        "uris": {
+          "icon": "https://futurebitcoin.cash/FBCH-893000.svg",
+          "web": "https://futurebitcoin.cash/v?block=893000"
+        }
+      }
+    },
+    "3753b96d4a6d246c72fe5469e4e79361af59186168ffa26b89f29cf037fc0e3f": {
+      "2024-08-10T00:00:00.000Z": {
+        "name": "Future Bitcoin Cash - 894,000",
+        "description": "A fungible token redeemable for Bitcoin Cash after block 894,000",
+        "token": {
+          "category": "3753b96d4a6d246c72fe5469e4e79361af59186168ffa26b89f29cf037fc0e3f",
+          "decimals": 8,
+          "symbol": "FBCH-0894000"
+        },
+        "uris": {
+          "icon": "https://futurebitcoin.cash/FBCH-894000.svg",
+          "web": "https://futurebitcoin.cash/v?block=894000"
+        }
+      }
+    },
+    "ca95807958352f83fec68c5e0bc7ca30e211a7bdeb1801eac4573e9cbc0730a8": {
+      "2024-08-10T00:00:00.000Z": {
+        "name": "Future Bitcoin Cash - 895,000",
+        "description": "A fungible token redeemable for Bitcoin Cash after block 895,000",
+        "token": {
+          "category": "ca95807958352f83fec68c5e0bc7ca30e211a7bdeb1801eac4573e9cbc0730a8",
+          "decimals": 8,
+          "symbol": "FBCH-0895000"
+        },
+        "uris": {
+          "icon": "https://futurebitcoin.cash/FBCH-895000.svg",
+          "web": "https://futurebitcoin.cash/v?block=895000"
+        }
+      }
+    },
+    "30834fbca4bbd8e2bd5c4754395a21b2af24e7759cbc882a9df4dab1e953411a": {
+      "2024-08-10T00:00:00.000Z": {
+        "name": "Future Bitcoin Cash - 896,000",
+        "description": "A fungible token redeemable for Bitcoin Cash after block 896,000",
+        "token": {
+          "category": "30834fbca4bbd8e2bd5c4754395a21b2af24e7759cbc882a9df4dab1e953411a",
+          "decimals": 8,
+          "symbol": "FBCH-0896000"
+        },
+        "uris": {
+          "icon": "https://futurebitcoin.cash/FBCH-896000.svg",
+          "web": "https://futurebitcoin.cash/v?block=896000"
+        }
+      }
+    },
+    "78687328f1f07a5a58d9d1e70b30cbb854205520e9e1787b2460b0222f3623ff": {
+      "2024-08-10T00:00:00.000Z": {
+        "name": "Future Bitcoin Cash - 897,000",
+        "description": "A fungible token redeemable for Bitcoin Cash after block 897,000",
+        "token": {
+          "category": "78687328f1f07a5a58d9d1e70b30cbb854205520e9e1787b2460b0222f3623ff",
+          "decimals": 8,
+          "symbol": "FBCH-0897000"
+        },
+        "uris": {
+          "icon": "https://futurebitcoin.cash/FBCH-897000.svg",
+          "web": "https://futurebitcoin.cash/v?block=897000"
+        }
+      }
+    },
+    "8b97fc83485dd45ae2122f163de5897eafcdec81dbf779e4153548e24bd556ed": {
+      "2024-08-10T00:00:00.000Z": {
+        "name": "Future Bitcoin Cash - 898,000",
+        "description": "A fungible token redeemable for Bitcoin Cash after block 898,000",
+        "token": {
+          "category": "8b97fc83485dd45ae2122f163de5897eafcdec81dbf779e4153548e24bd556ed",
+          "decimals": 8,
+          "symbol": "FBCH-0898000"
+        },
+        "uris": {
+          "icon": "https://futurebitcoin.cash/FBCH-898000.svg",
+          "web": "https://futurebitcoin.cash/v?block=898000"
+        }
+      }
+    },
+    "5f1abc1bf36ea45291c0d303f9a63b5c8632687e6b1b224beb3b311fa0685812": {
+      "2024-08-10T00:00:00.000Z": {
+        "name": "Future Bitcoin Cash - 899,000",
+        "description": "A fungible token redeemable for Bitcoin Cash after block 899,000",
+        "token": {
+          "category": "5f1abc1bf36ea45291c0d303f9a63b5c8632687e6b1b224beb3b311fa0685812",
+          "decimals": 8,
+          "symbol": "FBCH-0899000"
+        },
+        "uris": {
+          "icon": "https://futurebitcoin.cash/FBCH-899000.svg",
+          "web": "https://futurebitcoin.cash/v?block=899000"
+        }
+      }
+    },
+    "4575d242087a5e8a574be521ff8eef4ac1a7ee9a012834821a1272503e2e880a": {
+      "2024-08-10T00:00:00.000Z": {
+        "name": "Future Bitcoin Cash - 900,000",
+        "description": "A fungible token redeemable for Bitcoin Cash after block 900,000",
+        "token": {
+          "category": "4575d242087a5e8a574be521ff8eef4ac1a7ee9a012834821a1272503e2e880a",
+          "decimals": 8,
+          "symbol": "FBCH-0900000"
+        },
+        "uris": {
+          "icon": "https://futurebitcoin.cash/FBCH-900000.svg",
+          "web": "https://futurebitcoin.cash/v?block=900000"
+        }
+      }
+    },
+    "9c5f32f489b49f56ebe172d5f1a2f9f0ad467d8f05c3af42d9baa1778c04598c": {
+      "2024-08-10T00:00:00.000Z": {
+        "name": "Future Bitcoin Cash - 901,000",
+        "description": "A fungible token redeemable for Bitcoin Cash after block 901,000",
+        "token": {
+          "category": "9c5f32f489b49f56ebe172d5f1a2f9f0ad467d8f05c3af42d9baa1778c04598c",
+          "decimals": 8,
+          "symbol": "FBCH-0901000"
+        },
+        "uris": {
+          "icon": "https://futurebitcoin.cash/FBCH-901000.svg",
+          "web": "https://futurebitcoin.cash/v?block=901000"
+        }
+      }
+    },
+    "ca17a6b04e5217db5783a96ff8501c37977ef6f54ad67a7496efe9105b34d897": {
+      "2024-08-10T00:00:00.000Z": {
+        "name": "Future Bitcoin Cash - 902,000",
+        "description": "A fungible token redeemable for Bitcoin Cash after block 902,000",
+        "token": {
+          "category": "ca17a6b04e5217db5783a96ff8501c37977ef6f54ad67a7496efe9105b34d897",
+          "decimals": 8,
+          "symbol": "FBCH-0902000"
+        },
+        "uris": {
+          "icon": "https://futurebitcoin.cash/FBCH-902000.svg",
+          "web": "https://futurebitcoin.cash/v?block=902000"
+        }
+      }
+    },
+    "9e405b79a5784a1b4179dba017ea01fa77c5d0b050d0852983ec2a00f88c870b": {
+      "2024-08-10T00:00:00.000Z": {
+        "name": "Future Bitcoin Cash - 903,000",
+        "description": "A fungible token redeemable for Bitcoin Cash after block 903,000",
+        "token": {
+          "category": "9e405b79a5784a1b4179dba017ea01fa77c5d0b050d0852983ec2a00f88c870b",
+          "decimals": 8,
+          "symbol": "FBCH-0903000"
+        },
+        "uris": {
+          "icon": "https://futurebitcoin.cash/FBCH-903000.svg",
+          "web": "https://futurebitcoin.cash/v?block=903000"
+        }
+      }
+    },
+    "645d0dbc137e0cfaacd8412b62884f55a0de158ef0e504b3df4058b29caf8786": {
+      "2024-08-10T00:00:00.000Z": {
+        "name": "Future Bitcoin Cash - 904,000",
+        "description": "A fungible token redeemable for Bitcoin Cash after block 904,000",
+        "token": {
+          "category": "645d0dbc137e0cfaacd8412b62884f55a0de158ef0e504b3df4058b29caf8786",
+          "decimals": 8,
+          "symbol": "FBCH-0904000"
+        },
+        "uris": {
+          "icon": "https://futurebitcoin.cash/FBCH-904000.svg",
+          "web": "https://futurebitcoin.cash/v?block=904000"
+        }
+      }
+    },
+    "bae12c5a0b11e9f85e2d1d1d07b0d1a1edf3dba0fa36e48cf73f48a69709240c": {
+      "2024-08-10T00:00:00.000Z": {
+        "name": "Future Bitcoin Cash - 905,000",
+        "description": "A fungible token redeemable for Bitcoin Cash after block 905,000",
+        "token": {
+          "category": "bae12c5a0b11e9f85e2d1d1d07b0d1a1edf3dba0fa36e48cf73f48a69709240c",
+          "decimals": 8,
+          "symbol": "FBCH-0905000"
+        },
+        "uris": {
+          "icon": "https://futurebitcoin.cash/FBCH-905000.svg",
+          "web": "https://futurebitcoin.cash/v?block=905000"
+        }
+      }
+    },
+    "448c2a2f5f871d654c7263f315a7bfb875e12f2a39b78decd35d03273acb23bf": {
+      "2024-08-10T00:00:00.000Z": {
+        "name": "Future Bitcoin Cash - 906,000",
+        "description": "A fungible token redeemable for Bitcoin Cash after block 906,000",
+        "token": {
+          "category": "448c2a2f5f871d654c7263f315a7bfb875e12f2a39b78decd35d03273acb23bf",
+          "decimals": 8,
+          "symbol": "FBCH-0906000"
+        },
+        "uris": {
+          "icon": "https://futurebitcoin.cash/FBCH-906000.svg",
+          "web": "https://futurebitcoin.cash/v?block=906000"
+        }
+      }
+    },
+    "7d28d82f8899bb1739dc2645bebf50b7c5e18c92eb6838b42aea02920d8c4cb8": {
+      "2024-08-10T00:00:00.000Z": {
+        "name": "Future Bitcoin Cash - 907,000",
+        "description": "A fungible token redeemable for Bitcoin Cash after block 907,000",
+        "token": {
+          "category": "7d28d82f8899bb1739dc2645bebf50b7c5e18c92eb6838b42aea02920d8c4cb8",
+          "decimals": 8,
+          "symbol": "FBCH-0907000"
+        },
+        "uris": {
+          "icon": "https://futurebitcoin.cash/FBCH-907000.svg",
+          "web": "https://futurebitcoin.cash/v?block=907000"
+        }
+      }
+    },
+    "567cca6bfeef85f1958bd11c022c9e41a8fa5a0d2a26e5e1405b1e70805e480d": {
+      "2024-08-10T00:00:00.000Z": {
+        "name": "Future Bitcoin Cash - 908,000",
+        "description": "A fungible token redeemable for Bitcoin Cash after block 908,000",
+        "token": {
+          "category": "567cca6bfeef85f1958bd11c022c9e41a8fa5a0d2a26e5e1405b1e70805e480d",
+          "decimals": 8,
+          "symbol": "FBCH-0908000"
+        },
+        "uris": {
+          "icon": "https://futurebitcoin.cash/FBCH-908000.svg",
+          "web": "https://futurebitcoin.cash/v?block=908000"
+        }
+      }
+    },
+    "cda41febe6abe5bd56be403792a357d5adfcfe129d960833d157db50175ea493": {
+      "2024-08-10T00:00:00.000Z": {
+        "name": "Future Bitcoin Cash - 909,000",
+        "description": "A fungible token redeemable for Bitcoin Cash after block 909,000",
+        "token": {
+          "category": "cda41febe6abe5bd56be403792a357d5adfcfe129d960833d157db50175ea493",
+          "decimals": 8,
+          "symbol": "FBCH-0909000"
+        },
+        "uris": {
+          "icon": "https://futurebitcoin.cash/FBCH-909000.svg",
+          "web": "https://futurebitcoin.cash/v?block=909000"
+        }
+      }
+    },
+    "7d83793c073bf83162a1d710fe973bfa040cefedd699dca2a6a96243ecc45ef4": {
+      "2024-08-10T00:00:00.000Z": {
+        "name": "Future Bitcoin Cash - 910,000",
+        "description": "A fungible token redeemable for Bitcoin Cash after block 910,000",
+        "token": {
+          "category": "7d83793c073bf83162a1d710fe973bfa040cefedd699dca2a6a96243ecc45ef4",
+          "decimals": 8,
+          "symbol": "FBCH-0910000"
+        },
+        "uris": {
+          "icon": "https://futurebitcoin.cash/FBCH-910000.svg",
+          "web": "https://futurebitcoin.cash/v?block=910000"
+        }
+      }
+    },
+    "13117fb7ee0827bbf577772515643dd8052a71981e6f6c4d9001ded23f214fa3": {
+      "2024-08-10T00:00:00.000Z": {
+        "name": "Future Bitcoin Cash - 920,000",
+        "description": "A fungible token redeemable for Bitcoin Cash after block 920,000",
+        "token": {
+          "category": "13117fb7ee0827bbf577772515643dd8052a71981e6f6c4d9001ded23f214fa3",
+          "decimals": 8,
+          "symbol": "FBCH-0920000"
+        },
+        "uris": {
+          "icon": "https://futurebitcoin.cash/FBCH-920000.svg",
+          "web": "https://futurebitcoin.cash/v?block=920000"
+        }
+      }
+    },
+    "bb85461930db00680ad4e93876f87463e351a9686d98448a7cb8e9d9500a2dcb": {
+      "2024-08-10T00:00:00.000Z": {
+        "name": "Future Bitcoin Cash - 930,000",
+        "description": "A fungible token redeemable for Bitcoin Cash after block 930,000",
+        "token": {
+          "category": "bb85461930db00680ad4e93876f87463e351a9686d98448a7cb8e9d9500a2dcb",
+          "decimals": 8,
+          "symbol": "FBCH-0930000"
+        },
+        "uris": {
+          "icon": "https://futurebitcoin.cash/FBCH-930000.svg",
+          "web": "https://futurebitcoin.cash/v?block=930000"
+        }
+      }
+    },
+    "f05609733ca9699b72bb17ef4dfb9bcd78603d57a2d8ec2879f2bfae1262709e": {
+      "2024-08-10T00:00:00.000Z": {
+        "name": "Future Bitcoin Cash - 940,000",
+        "description": "A fungible token redeemable for Bitcoin Cash after block 940,000",
+        "token": {
+          "category": "f05609733ca9699b72bb17ef4dfb9bcd78603d57a2d8ec2879f2bfae1262709e",
+          "decimals": 8,
+          "symbol": "FBCH-0940000"
+        },
+        "uris": {
+          "icon": "https://futurebitcoin.cash/FBCH-940000.svg",
+          "web": "https://futurebitcoin.cash/v?block=940000"
+        }
+      }
+    },
+    "14a5b06bf5203ce053a7e4101176135d09591956d488c96cf585e813ba9a2026": {
+      "2024-08-10T00:00:00.000Z": {
+        "name": "Future Bitcoin Cash - 950,000",
+        "description": "A fungible token redeemable for Bitcoin Cash after block 950,000",
+        "token": {
+          "category": "14a5b06bf5203ce053a7e4101176135d09591956d488c96cf585e813ba9a2026",
+          "decimals": 8,
+          "symbol": "FBCH-0950000"
+        },
+        "uris": {
+          "icon": "https://futurebitcoin.cash/FBCH-950000.svg",
+          "web": "https://futurebitcoin.cash/v?block=950000"
+        }
+      }
+    },
+    "29db350a88f66124229824e75b753432551f59b972b0175eb7d71e528b9073cb": {
+      "2024-08-10T00:00:00.000Z": {
+        "name": "Future Bitcoin Cash - 1,000,000",
+        "description": "A fungible token redeemable for Bitcoin Cash after block 1,000,000",
+        "token": {
+          "category": "29db350a88f66124229824e75b753432551f59b972b0175eb7d71e528b9073cb",
+          "decimals": 8,
+          "symbol": "FBCH-1000000"
+        },
+        "uris": {
+          "icon": "https://futurebitcoin.cash/FBCH-1000000.svg",
+          "web": "https://futurebitcoin.cash/v?block=1000000"
+        }
+      }
+    },
+    "889cc584b5eea00c13e48258199f066bbeb0e88b6ce65519fe2312f4cf37b40d": {
+      "2024-08-10T00:00:00.000Z": {
+        "name": "Future Bitcoin Cash - 1,100,000",
+        "description": "A fungible token redeemable for Bitcoin Cash after block 1,100,000",
+        "token": {
+          "category": "889cc584b5eea00c13e48258199f066bbeb0e88b6ce65519fe2312f4cf37b40d",
+          "decimals": 8,
+          "symbol": "FBCH-1100000"
+        },
+        "uris": {
+          "icon": "https://futurebitcoin.cash/FBCH-1100000.svg",
+          "web": "https://futurebitcoin.cash/v?block=1100000"
+        }
+      }
+    },
+    "d9d7b5d6d71a5fefaba74a25deffff74454064bbd08ddd24f3619b1d27ceff91": {
+      "2024-08-10T00:00:00.000Z": {
+        "name": "Future Bitcoin Cash - 1,200,000",
+        "description": "A fungible token redeemable for Bitcoin Cash after block 1,200,000",
+        "token": {
+          "category": "d9d7b5d6d71a5fefaba74a25deffff74454064bbd08ddd24f3619b1d27ceff91",
+          "decimals": 8,
+          "symbol": "FBCH-1200000"
+        },
+        "uris": {
+          "icon": "https://futurebitcoin.cash/FBCH-1200000.svg",
+          "web": "https://futurebitcoin.cash/v?block=1200000"
+        }
+      }
+    },
+    "fbc3b05d84ae0972ab3a2028d8980f3a597ab89fe075c1bd6129f3c890d67b0f": {
+      "2024-08-10T00:00:00.000Z": {
+        "name": "Future Bitcoin Cash - 1,300,000",
+        "description": "A fungible token redeemable for Bitcoin Cash after block 1,300,000",
+        "token": {
+          "category": "fbc3b05d84ae0972ab3a2028d8980f3a597ab89fe075c1bd6129f3c890d67b0f",
+          "decimals": 8,
+          "symbol": "FBCH-1300000"
+        },
+        "uris": {
+          "icon": "https://futurebitcoin.cash/FBCH-1300000.svg",
+          "web": "https://futurebitcoin.cash/v?block=1300000"
+        }
+      }
+    },
+    "e2170fd75867a4d0b8df24204aea8aebb33a7d699e058a6ab42f0254bca9026b": {
+      "2024-08-10T00:00:00.000Z": {
+        "name": "Future Bitcoin Cash - 1,400,000",
+        "description": "A fungible token redeemable for Bitcoin Cash after block 1,400,000",
+        "token": {
+          "category": "e2170fd75867a4d0b8df24204aea8aebb33a7d699e058a6ab42f0254bca9026b",
+          "decimals": 8,
+          "symbol": "FBCH-1400000"
+        },
+        "uris": {
+          "icon": "https://futurebitcoin.cash/FBCH-1400000.svg",
+          "web": "https://futurebitcoin.cash/v?block=1400000"
+        }
+      }
+    },
+    "e9057952ded4aad0480169d390906ac619e0d6e31614534f1dcb954e222524f1": {
+      "2024-08-10T00:00:00.000Z": {
+        "name": "Future Bitcoin Cash - 1,500,000",
+        "description": "A fungible token redeemable for Bitcoin Cash after block 1,500,000",
+        "token": {
+          "category": "e9057952ded4aad0480169d390906ac619e0d6e31614534f1dcb954e222524f1",
+          "decimals": 8,
+          "symbol": "FBCH-1500000"
+        },
+        "uris": {
+          "icon": "https://futurebitcoin.cash/FBCH-1500000.svg",
+          "web": "https://futurebitcoin.cash/v?block=1500000"
+        }
+      }
+    },
+    "08a24b2ca498845e4929a017614252ec674f48641b2119b1ae8411deb424bdf6": {
+      "2024-08-10T00:00:00.000Z": {
+        "name": "Future Bitcoin Cash - 1,600,000",
+        "description": "A fungible token redeemable for Bitcoin Cash after block 1,600,000",
+        "token": {
+          "category": "08a24b2ca498845e4929a017614252ec674f48641b2119b1ae8411deb424bdf6",
+          "decimals": 8,
+          "symbol": "FBCH-1600000"
+        },
+        "uris": {
+          "icon": "https://futurebitcoin.cash/FBCH-1600000.svg",
+          "web": "https://futurebitcoin.cash/v?block=1600000"
+        }
+      }
+    },
+    "b9fb0b7e67bb69cb4b634ddc0efe4b578eda4fc48c870b2ce398d850bf4a28da": {
+      "2024-08-10T00:00:00.000Z": {
+        "name": "Future Bitcoin Cash - 1,700,000",
+        "description": "A fungible token redeemable for Bitcoin Cash after block 1,700,000",
+        "token": {
+          "category": "b9fb0b7e67bb69cb4b634ddc0efe4b578eda4fc48c870b2ce398d850bf4a28da",
+          "decimals": 8,
+          "symbol": "FBCH-1700000"
+        },
+        "uris": {
+          "icon": "https://futurebitcoin.cash/FBCH-1700000.svg",
+          "web": "https://futurebitcoin.cash/v?block=1700000"
+        }
+      }
+    },
+    "3cf5fec8745e0dd77c5b622699d95fe9c9955583e1d97974045958a9406f6256": {
+      "2024-08-10T00:00:00.000Z": {
+        "name": "Future Bitcoin Cash - 1,800,000",
+        "description": "A fungible token redeemable for Bitcoin Cash after block 1,800,000",
+        "token": {
+          "category": "3cf5fec8745e0dd77c5b622699d95fe9c9955583e1d97974045958a9406f6256",
+          "decimals": 8,
+          "symbol": "FBCH-1800000"
+        },
+        "uris": {
+          "icon": "https://futurebitcoin.cash/FBCH-1800000.svg",
+          "web": "https://futurebitcoin.cash/v?block=1800000"
+        }
+      }
+    },
+    "edad1c825338554b83e562aab2c2b220569033a2ccbd970975f3ddda320b70e1": {
+      "2024-08-10T00:00:00.000Z": {
+        "name": "Future Bitcoin Cash - 2,000,000",
+        "description": "A fungible token redeemable for Bitcoin Cash after block 2,000,000",
+        "token": {
+          "category": "edad1c825338554b83e562aab2c2b220569033a2ccbd970975f3ddda320b70e1",
+          "decimals": 8,
+          "symbol": "FBCH-2000000"
+        },
+        "uris": {
+          "icon": "https://futurebitcoin.cash/FBCH-2000000.svg",
+          "web": "https://futurebitcoin.cash/v?block=2000000"
+        }
+      }
+    },
+    "03882c71eb1eced84a39fd392df210bb175e6a109bd0c918444b93b67ea8854a": {
+      "2024-08-10T00:00:00.000Z": {
+        "name": "Future Bitcoin Cash - 3,000,000",
+        "description": "A fungible token redeemable for Bitcoin Cash after block 3,000,000",
+        "token": {
+          "category": "03882c71eb1eced84a39fd392df210bb175e6a109bd0c918444b93b67ea8854a",
+          "decimals": 8,
+          "symbol": "FBCH-3000000"
+        },
+        "uris": {
+          "icon": "https://futurebitcoin.cash/FBCH-3000000.svg",
+          "web": "https://futurebitcoin.cash/v?block=3000000"
+        }
+      }
+    },
+    "5e296fd6ce4c63996094f4ddb22441867411a6bcbb732430ad4f4cc6b4fb3480": {
+      "2024-08-10T00:00:00.000Z": {
+        "name": "Future Bitcoin Cash - 4,000,000",
+        "description": "A fungible token redeemable for Bitcoin Cash after block 4,000,000",
+        "token": {
+          "category": "5e296fd6ce4c63996094f4ddb22441867411a6bcbb732430ad4f4cc6b4fb3480",
+          "decimals": 8,
+          "symbol": "FBCH-4000000"
+        },
+        "uris": {
+          "icon": "https://futurebitcoin.cash/FBCH-4000000.svg",
+          "web": "https://futurebitcoin.cash/v?block=4000000"
+        }
+      }
+    }
+  },
+  "license": "CC0-1.0"
+}
