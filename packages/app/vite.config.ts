@@ -38,14 +38,9 @@ export default defineConfig({
 				name: 'app',
 				globals: {
 					events: 'undefined',
-					tls: 'undefined',
-					net: 'undefined'
 				},
 
 			},
-			external: [
-				'vite-plugin-node-polyfills/shims/process'
-			],
 			context: 'window'
 		}
 	},

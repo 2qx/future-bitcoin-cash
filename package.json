@@ -41,8 +41,7 @@
     "regtest:down": "./jest/docker/stop.sh"
   },
   "dependencies": {
-    "@bitauth/libauth": "^2.1.0",
-    "@electrum-cash/network": "^3.3.0"
+    "@bitauth/libauth": "^2.1.0"
   },
   "devDependencies": {
     "@jest/globals": "^29.4.1",
@@ -61,6 +60,10 @@
     "typescript": "^5.5.2",
     "url-join": "^5.0.0"
   },
-
-  "packageManager": "pnpm@8.15.5"
+  "packageManager": "pnpm@8.15.5",
+  "pnpm": {
+    "patchedDependencies": {
+      "electrum-cash@3.2.0": "patches/electrum-cash@3.2.0.patch"
+    }
+  }
 }
