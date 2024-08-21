@@ -16,6 +16,6 @@ export function getFutureBlockDate(currentBlock: number, futureBlock: number): D
     return futureDate
 }
 
-
-
-
+export function delay(time) {
+    return new Promise(resolve => setTimeout(resolve, time));
+}

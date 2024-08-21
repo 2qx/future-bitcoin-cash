@@ -8,7 +8,6 @@
 	export let data: any;
 	let couponAddress: string;
 	let vaultAddress: string;
-
 	
 	//@ts-ignore
 	let coupons;
@@ -16,8 +15,8 @@
 	let threads;
 
 	let time: number;
-	if (data.time) {
-		time = Number(data.time);
+	if (data.block) {
+		time = Number(data.block);
 		couponAddress = Vault.getCoupon(1e8, time);
 		vaultAddress = Vault.getAddress(time);
 	}
@@ -30,11 +29,11 @@
 
 	// Set up a callback function to handle new blocks.
 	const handleCouponNotifications = function (data: any) {
-		console.log(data);
+		//console.log(data);
 	};
 	// Set up a callback function to handle new blocks.
 	const handleVaultNotifications = function (data: any) {
-		console.log(data);
+		//console.log(data);
 	};
 
 	onMount(async () => {
@@ -78,7 +77,9 @@
 <svelte:head>
 	<title>FBCH-{time}</title>
 	<meta name="description" content="Future Vault Series" />
+	{#if time > 857000}
 	<link rel="icon" type="image/svg" href="/FBCH-{time}.svg" />
+	{/if}
 </svelte:head>
 
 <section>

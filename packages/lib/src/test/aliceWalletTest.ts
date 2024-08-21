@@ -1,4 +1,4 @@
-import { RegTestWallet, UtxoI } from "mainnet-js";
+import { RegTestWallet } from "mainnet-js";
 
 
 

@@ -44,9 +44,7 @@
 <header>
 	<div class="corner">
 		<a href="https://futurebitcoin.cash">
-			{#if heightValue}
-			<SeriesIcon time={heightValue} size=30/>
-			{/if}
+			<img src="/FBCH.svg" alt="Home" />
 		</a>
 	</div>
 	<nav>
@@ -57,11 +55,11 @@
 			<li style="font-weight: 900;" aria-current={$page.url.pathname === '/' ? 'page' : undefined}>
 				<a style="font-size: larger" href="/"><b>&#9432</b></a>
 			</li>
-			<li aria-current={$page.url.pathname === '/earn' ? 'page' : undefined}>
-				<a href="/earn">Earn</a>
+			<li aria-current={$page.url.pathname === '/vaults' ? 'page' : undefined}>
+				<a href="/vaults">Vaults</a>
 			</li>
-			<li aria-current={$page.url.pathname === '/make' ? 'page' : undefined}>
-				<a href="/make">Make</a>
+			<li aria-current={$page.url.pathname === '/write' ? 'page' : undefined}>
+				<a href="/write">Write</a>
 			</li>
 		</ul>
 		<svg viewBox="0 0 2 3" aria-hidden="true">

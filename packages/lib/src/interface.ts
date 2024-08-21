@@ -2,15 +2,29 @@ import { Transaction,
     Input,
     Output } from "@bitauth/libauth";
 
-
+import { 
+    Utxo as CsUtxo, 
+    Transaction as CsTransaction, 
+    NetworkProvider  as CsNetworkProvider
+} from "cashscript";
 
 export interface SwapState {
+    provider: CsNetworkProvider; 
+    vault: CsUtxo;
+    walletStub: CsUtxo;
+    wallet: CsUtxo[];
+    requests?: SwapRequestI[];
+    chain?: string[];
+}
+
+export interface SwapRequestI{
+    // 
+    // redemptions are negative placements
+    // redemption coupons are carry fungible tokens 
+    //
     placement: number;
     locktime: number;
-    vault: UtxoI;
-    wallet: SourceOutput[];
-    coupons?: UtxoI[];
-    chain?: Transaction[];
+    coupon?: CsUtxo;
 }
 
 const literal = <L extends string>(l: L): L => l;
@@ -27,6 +41,7 @@ export interface UtxoI {
     coinbase?: boolean;
     token?: TokenI;
 }
+
 
 
 export interface SendRequest{

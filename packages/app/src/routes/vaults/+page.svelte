@@ -4,7 +4,7 @@
 	import { height } from '$lib/store.js';
 	const series = [3, 4, 5, 6];
 
-	let heightValue: number;
+	let heightValue = 857000;
 
 	height.subscribe((value: any) => {
 		heightValue = value;
@@ -28,7 +28,7 @@
 							<div>
 								{#if time}
 									<span>
-										<a href="/v/{time}">
+										<a href="/v?block={time}">
 											
 											<SeriesIcon {time} size=80/>
 										</a><b>{time.toLocaleString()}</b>
