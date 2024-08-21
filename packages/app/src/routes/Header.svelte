@@ -2,7 +2,7 @@
 	import { onMount } from 'svelte';
 	import { page } from '$app/stores';
 	import github from '$lib/images/github.svg';
-	import  SeriesIcon from "$lib/images/SeriesIcon.svelte"
+	import SeriesIcon from '$lib/images/SeriesIcon.svelte';
 	import { height } from '$lib/store.js';
 	import { ElectrumClient, ElectrumTransport } from '@electrum-cash/network';
 
@@ -19,9 +19,11 @@
 	}
 
 	// Set up a callback function to handle new blocks.
-	const handleBlockNotifications = function (data: any) {
-		console.log(data);
-		if (data.height && data.height > 1) updateHeight(data.height);
+	const handleNotifications = function (data: any) {
+		if (data.method === 'blockchain.headers.subscribe') {
+			let d = data.params[0];
+			if (d.height && d.height > 1) updateHeight(d.height);
+		}
 	};
 
 	onMount(async () => {
@@ -37,8 +39,8 @@
 		// Wait for the client to connect
 		await electrum.connect();
 		// Listen for notifications.
-		//electrum.on('blockchain.headers.subscribe', handleNotifications);
-		await electrum.subscribe(handleBlockNotifications, 'blockchain.headers.subscribe');
+		electrum.on('notification', handleNotifications);
+		await electrum.subscribe('blockchain.headers.subscribe');
 	});
 </script>
 

@@ -28,13 +28,11 @@
 	});
 
 	// Set up a callback function to handle new blocks.
-	const handleCouponNotifications = function (data: any) {
-		//console.log(data);
+	const handleNotifications = function (data: any) {
+		console.log("electrum: ", data)
 	};
-	// Set up a callback function to handle new blocks.
-	const handleVaultNotifications = function (data: any) {
-		//console.log(data);
-	};
+
+
 
 	onMount(async () => {
 		// Initialize an electrum client.
@@ -49,13 +47,13 @@
 		// Wait for the client to connect
 		await electrum.connect();
 		// Listen for notifications.
+		electrum.on('notification', handleNotifications);
+		
 		await electrum.subscribe(
-			handleCouponNotifications,
 			'blockchain.address.subscribe',
 			couponAddress
 		);
 		await electrum.subscribe(
-			handleVaultNotifications,
 			'blockchain.address.subscribe',
 			vaultAddress
 		);
