@@ -36,6 +36,7 @@ jobs:
         run: pnpm install
 
       - run: pnpm install 
+      - run: pnpm build
       - run: pnpm app:build
 
       - name: Deploy
