@@ -20,7 +20,7 @@
 <div class="wrapper">
 	{#each series as e}
 		<div>
-			V{e} Series<br />
+			V<sub>{e}</sub> Series<br />
 			{#if heightValue}
 				<div>
 					{#each Vault.getSeriesTimes(heightValue, e, e == 6 ? 4 : undefined) as time}

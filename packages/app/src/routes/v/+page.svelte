@@ -103,12 +103,12 @@
 							<td>apr* </td>
 						</tr>
 					</thead>
-					
+
 					<tbody>
 						{#each coupons as c}
 							<tr>
-								<td class="r">C0</td>
-								<td class="r">1 BCH</td>
+								<td>C<sub>0</sub></td>
+								<td>1 BCH</td>
 								<td class="r">{c.value.toLocaleString()} </td>
 								<td class="r">{(c.value / (time - heightValue)).toFixed(1)}</td>
 								<td class="r"
@@ -130,24 +130,24 @@
 			<table class="couponTable">
 				<thead>
 					<tr>
+						<td>Token Id </td>
 						<td>BCH </td>
 						<td>FBCH-{time} </td>
-						<td>Token Id </td>
 					</tr>
 				</thead>
-				
+
 				<tbody>
 					{#each threads as c}
 						<tr>
-							<td class="r">{(c.value / 1e8).toFixed(2)} </td>
-							<td class="r"><i>{(c.token_data.amount / 1e8).toLocaleString()}</i></td>
-							<td class="r"
+							<td 
 								><i
 									>{c.token_data.category.substring(0, 8) +
 										'...' +
-										c.token_data.category.slice(-4)}</i
+										c.token_data.category.slice(-8)}</i
 								></td
 							>
+							<td class="r">{(c.value / 1e8).toFixed(2)} </td>
+							<td class="r"><i>{(c.token_data.amount / 1e8).toLocaleString()}</i></td>
 						</tr>
 					{/each}
 				</tbody>
@@ -170,16 +170,18 @@
 	.couponTable {
 		width: 100%;
 	}
-    thead tr{
-		text-align: right;
+	thead tr {
+		text-align: center;
 		font-weight: 900;
 	}
 	tbody tr:nth-child(odd) {
 		background-color: #ff33cc1f;
 	}
 
-	tbody tr td {
+	.r {
 		text-align: right;
+	}
+	tbody tr td {
 	}
 	tbody tr:nth-child(even) {
 		background-color: #e495e41a;

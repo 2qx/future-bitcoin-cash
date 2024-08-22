@@ -72,14 +72,15 @@
 		a vault contract (destination).
 	</p>
 	<p>
-		Coupons values are denoted in BCH sats, where the value of the coupon is the value of the unspent output. A whole BCH could be split into
-		1000 coupons each offering 100k sats for placement, or 1 BCH coin could be sent to the
-		coupon contract in one single output to let anyone lock a "free" FBCH.
+		Coupons values are denoted in BCH sats, where the value of the coupon is the value of the
+		unspent output. A whole BCH could be split into 1000 coupons each offering 100k sats for
+		placement, or 1 BCH coin could be sent to the coupon contract in one single output to let anyone
+		lock a "free" FBCH.
 	</p>
 	<p>
-		At this time, all coupon values are for locking 1 whole BCH or 100M sats. All "C0" Coupon series
-		require at least 1^0 BCH is needed to spend the coupon, but there may be smaller and larger
-		series later.
+		At this time, all coupons incentivize the same placement amount of 1 BCH (or 100M sats) into an
+		FBCH vault. These "C<sub>0</sub>" series coupons are to lock 1 x 10^0 BCH, but there may be
+		smaller and larger amounts later (i.e C<sub>2</sub> for 100 BCH placements and C<sub>-2</sub> for 0.01 BCH vault placements).
 	</p>
 	<p>
 		<b>Coupons are not refundable.</b>

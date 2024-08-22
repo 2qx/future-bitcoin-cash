@@ -2,11 +2,13 @@
 	import { onMount } from 'svelte';
 	import { page } from '$app/stores';
 	import github from '$lib/images/github.svg';
-	import SeriesIcon from '$lib/images/SeriesIcon.svelte';
+	import wallet from '$lib/images/wallet.svg';
 	import { height } from '$lib/store.js';
 	import { ElectrumClient, ElectrumTransport } from '@electrum-cash/network';
 
 	let heightValue: number;
+
+	let balance = 0;
 
 	height.subscribe((value: any) => {
 		console.log(heightValue);
@@ -43,8 +45,11 @@
 		await electrum.subscribe('blockchain.headers.subscribe');
 	});
 </script>
-	<div class="warn">Pre-alpha pre-release. Use at your own risk.<br>
-		 Bugs and usability issues may result in loss of funds. </div>
+
+<div class="warn">
+	Pre-alpha pre-release. Use at your own risk.<br />
+	Bugs and usability issues may result in loss of funds.
+</div>
 
 <header>
 	<div class="corner">
@@ -76,17 +81,27 @@
 			{heightValue.toLocaleString()} &nbsp;■
 		{/if}
 	</div>
-	<div class="corner">
-		<a href="https://github.com/2qx/future-bitcoin-cash">
-			<img src={github} alt="Source Code" />
-		</a>
-	</div>
+
 </header>
+<div class="wallet">
+	{balance}
+		<a href="/wallet">
+			<img src={wallet} alt="wallet" />
+		</a>
+	
+</div>
 
 <style>
 	header {
 		display: flex;
 		justify-content: space-between;
+	}
+	.wallet {
+		position: sticky;
+		top: 0px;
+		display: flex;
+		align-items: center;
+		justify-content: right; 
 	}
 
 	.status {
