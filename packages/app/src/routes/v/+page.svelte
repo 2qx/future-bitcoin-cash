@@ -96,11 +96,11 @@
 				<table class="couponTable">
 					<thead>
 						<tr class="header">
-							<td>series</td>
-							<td>placement </td>
-							<td>coupon </td>
+							<td>Series</td>
+							<td>Placement </td>
+							<td>Coupon </td>
 							<td>spb </td>
-							<td>apr </td>
+							<td>apr* </td>
 						</tr>
 					</thead>
 					

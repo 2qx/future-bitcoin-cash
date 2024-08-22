@@ -26,20 +26,17 @@
 				if ((times[i] - heightValue) * rate > 543) {
 					return [
 						...Array(duplicateCoupons).fill({
-								time: times[i],
-								address: a,
-								placement: placement,
-								amount: Math.floor((times[i] - heightValue) * rate) / 1e8
-							}
-						)
+							time: times[i],
+							address: a,
+							placement: placement,
+							amount: Math.floor((times[i] - heightValue) * rate) / 1e8
+						})
 					];
 				} else {
 					return [];
 				}
 			})
 			.flat();
-
-	
 
 		totalPlacement = coupons.reduce(function (acc, obj) {
 			return acc + obj.placement;
@@ -62,12 +59,43 @@
 </svelte:head>
 
 <div class="text-column">
-	<h1>Write coupons</h1>
+	<h1>Let's write some coupons!</h1>
+	<p>
+		Coupons incentivize money being spent 1) at a specific destination, 2) above some minimum
+		amount, and 3) with restrictions like: limit one per customer.
+	</p>
+	<p>
+		Future vault coupons are plain bitcoin cash unspent transaction outputs (UTXOs) that have been
+		sent to, and are then locked by a <a href="/contracts#coupon">simple contract</a> to incentivize
+		spending money at a specific destination (a FBCH token vault). For example, an output of 100k sats
+		can be sent to a coupon contract to be used for locking at least 1 BCH (min. value) into 1 FBCH at
+		a vault contract (destination).
+	</p>
+	<p>
+		Coupons values are denoted in BCH sats, where the value of the coupon is the value of the unspent output. A whole BCH could be split into
+		1000 coupons each offering 100k sats for placement, or 1 BCH coin could be sent to the
+		coupon contract in one single output to let anyone lock a "free" FBCH.
+	</p>
+	<p>
+		At this time, all coupon values are for locking 1 whole BCH or 100M sats. All "C0" Coupon series
+		require at least 1^0 BCH is needed to spend the coupon, but there may be smaller and larger
+		series later.
+	</p>
+	<p>
+		<b>Coupons are not refundable.</b>
+		Money sent to a coupon holding contract can only be redeemed in a transaction that sends the required
+		amount of value to a second predefined contract (i.e. a future vault).
+	</p>
+	<p>
+		Below is a simple tool for use with the <a href="https://electroncash.org/">Electron Cash</a> pay-to-many
+		feature:
+	</p>
+
 	<div id="control">
 		<div>Placement: 1 BCH</div>
 		<div>
 			<label>
-				Rate: {rate} spb<br />
+				Rate: {rate} spb , <i>~{(rate / 20.0).toPrecision(2)}% </i><br />
 				<input
 					type="range"
 					on:change={() => updateCoupons()}
@@ -108,7 +136,7 @@
 	</div>
 
 	<div>
-		Lock up to {totalPlacement} FBCH 
+		Lock up to {totalPlacement} FBCH
 	</div>
 	<div id="total">
 		Total: {totalSpend} BCH<br />
@@ -135,7 +163,7 @@
 		font-family: monospace;
 		word-break: break-all;
 	}
-	#dataTable{
+	#dataTable {
 		max-width: fit-content;
 	}
 	#total {

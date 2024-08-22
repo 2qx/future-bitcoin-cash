@@ -136,8 +136,8 @@ pragma cashscript ^0.10.0;
 // an advisory doesn't claim all coupons instantly for no cost.
 //
 // Also note: This instance is designed where the `lock`, or destination, 
-// is the first input and output. If the locks isn't spendable, or not the first
-// input, coupons will no be redeemable.
+// is the first input and output. If the lock isn't spendable, or not the first
+// input, coupons will not be redeemable.
 //
 // ... If there is no time or monetary cost to spend every coupon, 
 // it should be expected that they will all be cleaned at once.

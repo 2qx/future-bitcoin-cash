@@ -43,7 +43,7 @@
 		await electrum.subscribe('blockchain.headers.subscribe');
 	});
 </script>
-	<div class="warn">Pre-alpha release. Use at your own risk.<br>
+	<div class="warn">Pre-alpha pre-release. Use at your own risk.<br>
 		 Bugs and usability issues may result in loss of funds. </div>
 
 <header>

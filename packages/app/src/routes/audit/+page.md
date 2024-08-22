@@ -11,7 +11,7 @@ layout: splash
 >Although Vault and Coupon contracts are identical to the audit,
 >### the [Gantry](/contracts#gantry) and [Battery](/contracts#battery) contracts were modified as "NOTED" in the comments of the final versions.
 
->## Also note: the scope of the audit
+>Also note: the scope of the audit pertained to the on-chain contracts and the intended function of the overall contract system. Software such as wallets, plugins and libraries that interact with the contracts (like this webapp or software) are beyond the scope of the audit.
 
 
 # Introduction
