@@ -33,7 +33,12 @@ pragma cashscript ^0.10.0;
 //  [0] Battery + NFT 0x<end>        ->  [0]  Gantry10ᴇ2 + NFT* <startTime>
 //                                       [1]  Burn NFT, sats are unencumbered.
 //                                       
-//
+//  NOTE:
+//  The final production version 
+//    - Swaps the order of outputs so Gantries are first.
+//       (this allows the mutable gantry NFT later mint FTs)
+//    - Accomidates variable length baton values, line 80
+//    - Funds the gantry with sats per lines 100, 104
 // 
 
 contract Battery(

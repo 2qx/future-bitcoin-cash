@@ -91,7 +91,7 @@
 			</label>
 		</div>
 
-		<div>
+		<div id="dataTable">
 			{#each series as number}
 				<label>
 					<input
@@ -101,14 +101,14 @@
 						bind:group={s}
 						on:change={() => updateCoupons()}
 					/>
-					Vaults E{number} - {Math.pow(10, number)} <br />
+					V{number} Series - {Math.pow(10, number).toLocaleString()} <br />
 				</label>
 			{/each}
 		</div>
 	</div>
 
 	<div>
-		Incentivize locking up to {totalPlacement} BCH
+		Lock up to {totalPlacement} FBCH 
 	</div>
 	<div id="total">
 		Total: {totalSpend} BCH<br />
@@ -127,12 +127,16 @@
 		flex-wrap: wrap;
 	}
 	#control div {
-		flex: 1 0 30%;
+		flex: 1 0 50%;
 		border: 1px solid black;
 		padding: 0.2em;
 	}
 	#mono {
 		font-family: monospace;
+		word-break: break-all;
+	}
+	#dataTable{
+		max-width: fit-content;
 	}
 	#total {
 		text-align: right;

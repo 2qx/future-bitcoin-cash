@@ -43,10 +43,12 @@
 		await electrum.subscribe('blockchain.headers.subscribe');
 	});
 </script>
+	<div class="warn">Pre-alpha release. Use at your own risk.<br>
+		 Bugs and usability issues may result in loss of funds. </div>
 
 <header>
 	<div class="corner">
-		<a href="https://futurebitcoin.cash">
+		<a href="/">
 			<img src="/FBCH.svg" alt="Home" />
 		</a>
 	</div>
@@ -71,7 +73,7 @@
 	</nav>
 	<div class="status">
 		{#if heightValue}
-			{heightValue.toLocaleString()} &nbsp;&nbsp; █
+			{heightValue.toLocaleString()} &nbsp;■
 		{/if}
 	</div>
 	<div class="corner">
@@ -166,17 +168,23 @@
 		display: flex;
 		height: 100%;
 		align-items: center;
-		padding: 0 0.5rem;
+		padding: 0 0.3em;
 		color: var(--color-text);
 		font-weight: 700;
 		font-size: 0.8rem;
 		text-transform: uppercase;
-		letter-spacing: 0.1em;
 		text-decoration: none;
 		transition: color 0.2s linear;
 	}
 
 	a:hover {
 		color: var(--color-theme-1);
+	}
+
+	.warn {
+		font-weight: 900;
+		font-size: larger;
+		padding: 1em;
+		background-color: #ffe13e;
 	}
 </style>

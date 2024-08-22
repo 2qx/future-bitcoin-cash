@@ -8,6 +8,12 @@ layout: splash
 
 </svelte:head>
 
+>Although Vault and Coupon contracts are identical to the audit,
+>### the [Gantry](/contracts#gantry) and [Battery](/contracts#battery) contracts were modified as "NOTED" in the comments of the final versions.
+
+>## Also note: the scope of the audit
+
+
 # Introduction
 
 This is an audit report on "Future Bitcoin Cash" system of Bitcoin Cash (BCH) smart contracts, made at request of 2qx.
@@ -31,7 +37,7 @@ This is an audit report on "Future Bitcoin Cash" system of Bitcoin Cash (BCH) sm
 >This is a non-binding memorandum of understanding without contingency.
 
 
-Signed: `H1ErlyrktMt2a5tRzWHfjQkbpNtOCtH/QWcKaR3bRcCkRLmQDuJ3ufDDMe2/83bclcZmyIcHeDk7v4Uku3vhZpw=`
+<code style="line-break:anywhere">Signed: `H1ErlyrktMt2a5tRzWHfjQkbpNtOCtH/QWcKaR3bRcCkRLmQDuJ3ufDDMe2/83bclcZmyIcHeDk7v4Uku3vhZpw=`</code>
 
 # Overview
 
@@ -877,7 +883,7 @@ contract Battery(
 
 After the above review cycle, 2qx has implemented most suggestions and produced a new set of contracts, all of them found here: 
 
-- https://github.com/2qx/future-bitcoin-cash/tree/3fab223e6472a24fda8b8c4cebc120a9293d7102/contracts
+- <p style="line-break:anywhere">https://github.com/2qx/future-bitcoin-cash/tree/3fab223e6472a24fda8b8c4cebc120a9293d7102/contracts</p>
 
 The contract system is expected to perform as intended.
 

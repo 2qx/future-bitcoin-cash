@@ -1,0 +1,84 @@
+contract Battery(
+
+    // Correct contract initialization will have minting NFT's commitment
+    // set to bytes4(step), which will be the step set for 1st minted gantry,
+    // and will then get decremented for the next one until end step is reached.
+
+    // The end is the lowest step to create a Gantry for.
+    int endStep,
+
+    // Base time from which to calculate each Gantry's starting point, e.g.:
+    // --| baseTime
+    //   |------------------------------------| gantry 0 start
+    //   |------------| gantry 1 start
+    //   |----| gantry 2 start
+    int baseTime,
+
+    // Redeem bytecode tail of the gantry contracts
+    bytes gantryReedemBytecodeTail,
+
+    // Redeem bytecode tail of the vault contracts
+    bytes vaultReedemBytecodeTail,
+
+) {
+
+    function execute() {
+
+        // Get the current step, we will mint a Gantry for this step
+        bytes stepBytes = tx.inputs[this.activeInputIndex].nftCommitment;
+        int step = int(stepBytes);
+
+        // Set the gantry's starting time at correct offset from baseTime
+        bytes4 gantryStart = bytes4(baseTime - (baseTime % step) + step);
+        require(tx.outputs[1].nftCommitment == gantryStart);
+
+        // Construct the full redeem bytecode for the Gantry instance
+        bytes gantryRedeemBytecode =
+            bytes(vaultReedemBytecodeTail.length) + vaultReedemBytecodeTail +
+            0x04 + stepBytes +
+            gantryReedemBytecodeTail;
+
+        require(
+            // The second output must have the P2SH32 of the gantry redeem bytecode
+            0xaa20 + hash256(gantryRedeemBytecode) + 0x87
+            == tx.outputs[1].lockingBytecode
+        );
+
+        // Ensure that Gantry inherits a mutable NFT so that it may update the
+        // commitment as it mints its Vaults.
+        bytes gantryCategory =
+            tx.inputs[this.activeInputIndex].tokenCategory.split(32)[0] +
+            0x01;
+        require(tx.outputs[1].tokenCategory == gantryCategory);
+
+        // Exactly 2 outputs, so token state or BCH can't leak out.
+        require(tx.outputs.length == 2);
+
+        // Enforce exact dust amount on the Gantry so that remainder must go
+        // back into Battery or pure BCH change at index 0.
+        require(tx.outputs[1].value == 800);
+
+        // Fee allowance = 1000
+        require(tx.outputs[0].value >
+            tx.inputs[this.activeInputIndex].value -
+            1800);
+
+        if(step > endStep) {
+            // Calculate and enforce next baton's step,
+            require(tx.outputs[0].nftCommitment == bytes4(step / 10));
+            // token category & capability (pass on minting NFT),
+            require(tx.outputs[0].tokenCategory ==
+                tx.inputs[this.activeInputIndex].tokenCategory);
+            // and contract code.
+            require(tx.outputs[0].lockingBytecode ==
+                tx.inputs[this.activeInputIndex].lockingBytecode);
+        } else {
+            // Burn the minting baton while allowing any remaining BCH
+            // to be extracted to output 0.
+            require(tx.outputs[0].tokenCategory == 0x);
+
+            // Note: output 1 still mints a Gantry in this same TX,
+            // and it will be the last one to get minted.
+        }
+    }
+}

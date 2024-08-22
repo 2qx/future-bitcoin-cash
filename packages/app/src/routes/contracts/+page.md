@@ -190,7 +190,7 @@ So while one gantry issues vaults every week, another gantry will issue vaults e
 
 Anyone may that can construct a transaction to satisfy the requirement of the gantry `execute` function may step the gantry forward and commission tokens into a new vault.
 
-The below version has eight (8) threads, each thread has enough tokens to satisfy locking the entire coin supply.
+The below version has seven (7) threads, each thread has enough tokens to satisfy locking the entire coin supply.
 
 ```solidity
 pragma cashscript ^0.10.0;
@@ -383,7 +383,12 @@ pragma cashscript ^0.10.0;
 //  [0] Battery + NFT 0x<end>        ->  [0]  Gantry10ᴇ2 + NFT* <startTime>
 //                                       [1]  Burn NFT, sats are unencumbered.
 //                                       
-//
+//  NOTE:
+//  This final production version: 
+//    - Swaps the order of outputs so Gantries are first.
+//       (this allows the mutable gantry NFT later mint FTs)
+//    - Accomidates variable length baton values, line 80
+//    - Funds the gantry with sats per lines 100, 104
 // 
 
 contract Battery(

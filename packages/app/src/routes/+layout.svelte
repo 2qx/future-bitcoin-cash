@@ -12,8 +12,9 @@
 
 	<footer>
 		<p>
-			<a href="/audit">audit</a>
-			<a href="/contracts">contracts</a>
+			<a href="/audit">audit</a> ■
+			<a href="/contracts">contracts</a> ■
+			<a href="/flipstarter">flipstarter</a>
 		</p>
 		
 	</footer>
