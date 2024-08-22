@@ -183,8 +183,8 @@
 
 	.warn {
 		font-weight: 900;
-		font-size: larger;
-		padding: 1em;
+		font-size: large;
+		padding: 0.5em;
 		background-color: #ffe13e;
 	}
 </style>

@@ -387,7 +387,7 @@ pragma cashscript ^0.10.0;
 //  This final production version: 
 //    - Swaps the order of outputs so Gantries are first.
 //       (this allows the mutable gantry NFT later mint FTs)
-//    - Accomidates variable length baton values, line 80
+//    - Accomodates variable length baton values, line 80
 //    - Funds the gantry with sats per lines 100, 104
 // 
 
