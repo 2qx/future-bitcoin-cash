@@ -30,14 +30,14 @@ export default defineConfig({
 		commonjsOptions: {
 			transformMixedEsModules: true,
 			// linked modules in a monorepo must be explicitly included
-			include: [/@fbch\/lib/, /node_modules/]
+			include: [/@fbch\/lib/, /node_modules/, /mainnet-js/]
 		},
 		sourcemap: true,
 		rollupOptions: {
 			output: {
 				name: 'app',
 				globals: {
-					events: 'undefined',
+					events: 'undefined'
 				},
 
 			},
@@ -45,7 +45,7 @@ export default defineConfig({
 		}
 	},
 	define: {
-		'process.env': process.env
+		'process': process
 	},
 	test: {
 		include: ['src/**/*.{test,spec}.{js,ts}']

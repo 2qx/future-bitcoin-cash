@@ -1,14 +1,17 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { page } from '$app/stores';
-	import github from '$lib/images/github.svg';
-	import wallet from '$lib/images/wallet.svg';
+	import hot from '$lib/images/hot.svg';
 	import { height } from '$lib/store.js';
 	import { ElectrumClient, ElectrumTransport } from '@electrum-cash/network';
+	import { IndexedDBProvider } from '@mainnet-cash/indexeddb-storage';
+	import { FutureWallet } from '@fbch/lib';
+	import { BaseWallet } from 'mainnet-js';
 
 	let heightValue: number;
-
-	let balance = 0;
+	let walletError = false;
+	let wallet;
+	let balance;
 
 	height.subscribe((value: any) => {
 		console.log(heightValue);
@@ -29,6 +32,15 @@
 	};
 
 	onMount(async () => {
+		try {
+			BaseWallet.StorageProvider = IndexedDBProvider;
+			wallet = await FutureWallet.named('hot');
+			balance = await wallet.getBalance('bch');
+		} catch (e) {
+			walletError = true;
+			throw e;
+		}
+
 		// Initialize an electrum client.
 		const electrum = new ElectrumClient(
 			'FBCH',
@@ -49,6 +61,25 @@
 <div class="warn">
 	Pre-alpha pre-release. Use at your own risk.<br />
 	Bugs and usability issues may result in loss of funds.
+</div>
+
+<div class="wallet">
+	{#if wallet}
+		{#if walletError}
+			⚠️
+		{/if}
+		{#if typeof balance !== 'undefined'}
+			{balance} BCH
+		{/if}
+		
+			<a href="/wallet">
+				<img width=30 src={hot} alt="wallet" />
+			</a>
+		
+		
+		
+	{/if}
+	
 </div>
 
 <header>
@@ -81,15 +112,9 @@
 			{heightValue.toLocaleString()} &nbsp;■
 		{/if}
 	</div>
-
 </header>
-<div class="wallet">
-	{balance}
-		<a href="/wallet">
-			<img src={wallet} alt="wallet" />
-		</a>
-	
-</div>
+
+
 
 <style>
 	header {
@@ -101,9 +126,15 @@
 		top: 0px;
 		display: flex;
 		align-items: center;
-		justify-content: right; 
+		justify-content: right;
+		height: 32px;
+		padding: 1em;
+		background-color: #ffffff88;
 	}
 
+	.wallet a{
+		padding: 1em;
+	}
 	.status {
 		display: flex;
 		justify-content: center;
@@ -198,8 +229,8 @@
 
 	.warn {
 		font-weight: 900;
-		font-size: large;
-		padding: 0.5em;
+		font-size: smaller;
+		padding: 0.2em;
 		background-color: #ffe13e;
 	}
 </style>

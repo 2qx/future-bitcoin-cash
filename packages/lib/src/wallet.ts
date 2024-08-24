@@ -1,4 +1,4 @@
-import { Wallet, TestNetWallet, RegTestWallet, SendRequest } from "mainnet-js";
+import { Wallet, TestNetWallet, RegTestWallet, BaseWallet, SendRequest } from "mainnet-js";
 import { SwapState } from "./interface";
 import { hash256, binToHex, hexToBin, swapEndianness } from "@bitauth/libauth";
 import { vaultArtifact, couponArtifact } from "@fbch/contracts";
@@ -233,3 +233,4 @@ export class FutureRegTestWallet extends RegTestWallet {
     public place = place
 
 }
+

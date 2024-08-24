@@ -103,7 +103,7 @@
 					bind:value={rate}
 					min="1"
 					step="0.2"
-					max="50"
+					max="100"
 				/>
 			</label>
 		</div>

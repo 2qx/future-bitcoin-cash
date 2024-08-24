@@ -8,7 +8,7 @@ patchedDependencies:
   '@electrum-cash/network@3.3.0':
     hash: ghfkyoulghrqjtfh6ignnwjtjy
     path: patches/@electrum-cash__network@3.3.0.patch
-  
+
 importers:
 
   .:
@@ -77,6 +77,12 @@ importers:
       '@macfja/svelte-persistent-store':
         specifier: ^2.4.1
         version: 2.4.1(svelte@4.2.18)
+      '@mainnet-cash/indexeddb-storage':
+        specifier: 2.4.3
+        version: 2.4.3
+      mainnet-js:
+        specifier: 2.4.3
+        version: 2.4.3
       mdsvex:
         specifier: ^0.11.2
         version: 0.11.2(svelte@4.2.18)
@@ -238,13 +244,16 @@ importers:
       '@fbch/contracts':
         specifier: workspace:^
         version: link:../contracts
+      mainnet-js:
+        specifier: 2.4.3
+        version: 2.4.3
     devDependencies:
       '@cashscript/utils':
         specifier: ^0.10.0-next.4
         version: 0.10.0-next.6
       electrum-cash:
         specifier: ^3.2.0
-        version: 3.2.0(patch_hash=rsa26lmws7guuxutou5s7tqy6i)
+        version: 3.2.0
 
 packages:
 
@@ -1181,6 +1190,17 @@ packages:
       sjcl-codec-hex: 1.0.0
       sjcl-es: 2.0.0
       svelte: 4.2.18
+    dev: false
+
+  /@mainnet-cash/indexeddb-storage@2.4.3:
+    resolution: {integrity: sha512-/10tTnb0iapHwOyZbvzc9vZowt7M/+8/AjWnw2+JInSvERS1EhP9NEo5RTG3aV2mXrhCIoY3KjkyJWMaHSRAtA==}
+    dependencies:
+      dexie: 3.2.7
+      mainnet-js: 2.4.3
+    transitivePeerDependencies:
+      - bufferutil
+      - supports-color
+      - utf-8-validate
     dev: false
 
   /@monsterbitar/isomorphic-ws@5.3.1(ws@8.18.0):
@@ -2762,6 +2782,11 @@ packages:
     resolution: {integrity: sha512-gO+/OMXF7488D+u3ue+G7Y4AA3ZmUnB3eHJXmBTgNHvr4ZNzl36A0ZtG+XCRNYCkYx/bFmw4qtkoFLa+wSrwAA==}
     dev: true
 
+  /dexie@3.2.7:
+    resolution: {integrity: sha512-2a+BXvVhY5op+smDRLxeBAivE7YcYaneXJ1la3HOkUfX9zKkE/AJ8CNgjiXbtXepFyFmJNGSbmjOwqbT749r/w==}
+    engines: {node: '>=6.0'}
+    dev: false
+
   /diff-sequences@29.6.3:
     resolution: {integrity: sha512-EjePK1srD3P08o2j4f0ExnylqRs5B9tJjcp9t1krH2qRi8CCdsYfwe9JgSLurFBWwq4uOlipzfk5fHNvwFKr8Q==}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
@@ -2837,7 +2862,7 @@ packages:
       - supports-color
       - utf-8-validate
 
-  /electrum-cash@3.2.0(patch_hash=rsa26lmws7guuxutou5s7tqy6i):
+  /electrum-cash@3.2.0:
     resolution: {integrity: sha512-vT7oV9A1O/Chj5w4BBQg3aEBvcE6mHumiBUuOdaTB4WfqD5LPjJ9iwQ4ueJmKyf/cekcWDIqSAxrM2pMgVLXMA==}
     dependencies:
       '@monsterbitar/isomorphic-ws': 5.3.1(ws@8.18.0)
@@ -2851,7 +2876,6 @@ packages:
       - supports-color
       - utf-8-validate
     dev: true
-    patched: true
 
   /elliptic@6.5.7:
     resolution: {integrity: sha512-ESVCtTwiA+XhY3wyh24QqRGBoP3rEdDUl3EDUUo9tft074fi19IrdpH7hLCMMP3CIj7jb3W96rn8lt/BqIlt5Q==}

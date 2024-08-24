@@ -1,1 +1,5 @@
-export { getHvifIconHex, getFbchIconSvg } from "./icons.js";
+export { 
+    getHvifIconHex, 
+    getFbchIconSvg, 
+    getFbchIconSvgUri 
+} from "./icons.js";

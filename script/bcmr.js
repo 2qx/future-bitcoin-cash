@@ -1,6 +1,6 @@
 
 import { vmNumberToBigInt, hexToBin } from "@bitauth/libauth"
-import { textSpanIsEmpty } from "typescript"
+import { getFbchIconSvgUri } from "../packages/lib/dist/main/icons/icons.js"
 
 let series = [
     {
@@ -359,8 +359,8 @@ function asBcmrEntry(time, category) {
                 "symbol": `FBCH-${String(time).padStart(7, '0')}`
             },
             "uris": {
-                "icon": `https://futurebitcoin.cash/${time}.svg`,
-                "web": `https://futurebitcoin.cash/v/${time}`
+                "icon": `${getFbchIconSvgUri(time,400)}`,
+                "web": `https://futurebitcoin.cash/v?block=${time}`
             }
         }
 
