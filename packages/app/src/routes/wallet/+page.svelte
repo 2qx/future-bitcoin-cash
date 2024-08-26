@@ -5,6 +5,8 @@
 	import { receiptAddress } from '$lib/store.js';
 	import { copy } from 'svelte-copy';
 	import { toast } from '@zerodevx/svelte-toast';
+	import { ElectrumCluster, ClusterOrder, ElectrumTransport } from 'electrum-cash';
+	import { ElectrumNetworkProvider } from 'cashscript';
 	import { IndexedDBProvider } from '@mainnet-cash/indexeddb-storage';
 	import { BaseWallet } from 'mainnet-js';
 	import { FutureWallet, isTokenAddress } from '@fbch/lib';
@@ -17,6 +19,7 @@
 	let wallet;
 	let walletThreads;
 	let balance;
+	let provider;
 
 	receiptAddress.subscribe((value: any) => {
 		console.log(receiptAddressRaw);
@@ -30,11 +33,15 @@
 
 	onMount(async () => {
 		try {
+			let cluster = new ElectrumCluster('@fbch/app', "1.4.3", 1, 1, ClusterOrder.RANDOM, 2000);
+
+			cluster.addServer('bch.imaginary.cash', 50004, ElectrumTransport.WSS.Scheme, false);
+			provider = new ElectrumNetworkProvider('mainnet', cluster, false);
+
 			BaseWallet.StorageProvider = IndexedDBProvider;
 			wallet = await FutureWallet.named('hot');
 			balance = await wallet.getBalance('bch');
-			walletThreads = provider.getUtxos("wallet.getDepositAddress()")
-			
+			walletThreads = provider.getUtxos(wallet.getDepositAddress());
 		} catch (e) {
 			walletError = true;
 			throw e;
@@ -181,7 +188,7 @@
 		{/if}
 
 		{#if walletThreads}
-		<button on:click={()=>wallet.preparePlacementOutpoints()} > Prepare Wallet Outpoints</button>
+			<button on:click={() => wallet.preparePlacementOutpoints()}> Prepare Wallet Outpoints</button>
 			{#if walletThreads.length > 0}
 				<table class="wallet">
 					<thead>
@@ -195,13 +202,19 @@
 					<tbody>
 						{#each walletThreads as c, i (i)}
 							<tr>
-								<td><button on:click={()=>handlePlacement(Number(c.satoshis)-800)}>place</button></td>
-								<td class="r">{(Number(c.satoshis)/1000000000).toFixed(10) } </td>
-							<td class="r"><i>
-								{#if c.token}
-								{(Number(c.token.amount) / 100000000).toLocaleString()}
-								{/if}
-							</tr>
+								<td
+									><button on:click={() => handlePlacement(Number(c.satoshis) - 800)}>place</button
+									></td
+								>
+								<td class="r">{(Number(c.satoshis) / 1000000000).toFixed(10)} </td>
+								<td class="r"
+									><i>
+										{#if c.token}
+											{(Number(c.token.amount) / 100000000).toLocaleString()}
+										{/if}
+									</i></td
+								></tr
+							>
 						{/each}
 					</tbody>
 				</table>

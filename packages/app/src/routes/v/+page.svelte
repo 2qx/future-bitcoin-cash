@@ -10,6 +10,7 @@
 	import { BaseWallet } from 'mainnet-js';
 	import { FutureWallet } from '@fbch/lib';
 	import { ElectrumNetworkProvider } from 'cashscript';
+	import { ElectrumCluster, ClusterOrder, ElectrumTransport } from 'electrum-cash';
 	import { type Utxo } from 'cashscript';
 
 	import hot from '$lib/images/hot.svg';
@@ -80,7 +81,10 @@
 		couponAddress = Vault.getCoupon(1e8, time);
 		vaultAddress = Vault.getAddress(time);
 
-		provider = new ElectrumNetworkProvider();
+		let cluster = new ElectrumCluster('@fbch/app', "1.4.3", 1, 1, ClusterOrder.RANDOM, 2000);
+
+		cluster.addServer('bch.imaginary.cash', 50004, ElectrumTransport.WSS.Scheme, false);
+		provider = new ElectrumNetworkProvider('mainnet', cluster, false);
 
 		threads = await provider.getUtxos(vaultAddress);
 		walletThreads = await provider.getUtxos(wallet.getDepositAddress());
@@ -99,179 +103,183 @@
 	{/if}
 </svelte:head>
 <div class="text-column">
-{#if time}
-	<h1>Vault {time.toLocaleString()}</h1>
-	<div>
-		<SeriesIcon {time} size="150" />
-	</div>
+	{#if time}
+		<h1>Vault {time.toLocaleString()}</h1>
+		<div>
+			<SeriesIcon {time} size="150" />
+		</div>
 
-	{#if walletThreads}
-		{#if walletThreads.length > 0}
-			<img width="52" src={hot} />
-			<button on:click={() => wallet.preparePlacementOutpoints()}> Shape</button>
-			<table class="wallet">
-				<thead>
-					<tr class="header">
-						<td></td>
+		{#if walletThreads}
+			{#if walletThreads.length > 0}
+				<img width="52" src={hot} />
+				<button on:click={() => wallet.preparePlacementOutpoints()}> Shape</button>
+				<table class="wallet">
+					<thead>
+						<tr class="header">
+							<td></td>
 
-						<td>BCH </td>
-						<td>FBCH</td>
-						<td></td>
-						<td>Series </td>
-					</tr>
-				</thead>
-
-				<tbody>
-					{#each walletThreads as c, i (i)}
-						<tr>
-							<td style="width=50px;">
-								{#if Number(c.satoshis) > 800 && Math.log10(Number(c.satoshis - 800n)) >= 6}
-									<button on:click={() => handlePlacement(Number(c.satoshis) - 800)}>place</button>
-								{:else}
-									-
-								{/if}
-							</td>
-							<td class="r">
-								{#if Number(c.satoshis) > 800}
-									{(Number(c.satoshis) / 1000000000).toFixed(10)}
-								{/if}
-							</td>
-							<td class="r">
-								<i>
-									{#if c.token}
-										{(Number(c.token.amount) / 100000000).toLocaleString()}
-									{/if}
-								</i>
-							</td>
-							<td class="r">
-								{#if c.token}
-									{#if CATEGORY_MAP.has(c.token.category)}
-										<SeriesIcon time={CATEGORY_MAP.get(c.token?.category)} size="30" />
-									{/if}
-								{/if}
-							</td>
-							<td class="r">
-								{#if c.token}
-									{#if CATEGORY_MAP.has(c.token.category)}
-										{'FBCH-' + String(CATEGORY_MAP.get(c.token?.category)).padStart(7, '0')}
-									{/if}
-								{/if}
-							</td>
+							<td>BCH </td>
+							<td>FBCH</td>
+							<td></td>
+							<td>Series </td>
 						</tr>
-					{/each}
-				</tbody>
-			</table>
-		{:else}
-			<p>no wallet utxos available</p>
-		{/if}
-	{:else}
-		<p>loading wallet...</p>
-	{/if}
+					</thead>
 
-	{#if heightValue}
-		{#if time - heightValue > 0}
-			<h2>T&#8196; -{(time - heightValue).toLocaleString()}&#8196;■</h2>
-		{/if}
-		<h3>
-			{#if time - heightValue >= 2000}
-				Unlocks around
-				{getFutureBlockDate(heightValue, time).toLocaleDateString()}
-			{:else if time - heightValue >= 0}
-				Unlocks around
-				{getFutureBlockDate(heightValue, time).toLocaleDateString()}
-				{getFutureBlockDate(heightValue, time).toLocaleTimeString()}
-			{:else if time - heightValue < 0}
-				Redemptions are open
+					<tbody>
+						{#each walletThreads as c, i (i)}
+							<tr>
+								<td style="width=50px;">
+									{#if Number(c.satoshis) > 800 && Math.log10(Number(c.satoshis - 800n)) >= 6}
+										<button on:click={() => handlePlacement(Number(c.satoshis) - 800)}>place</button
+										>
+									{:else}
+										-
+									{/if}
+								</td>
+								<td class="r">
+									{#if Number(c.satoshis) > 800}
+										{(Number(c.satoshis) / 1000000000).toFixed(10)}
+									{/if}
+								</td>
+								<td class="r">
+									<i>
+										{#if c.token}
+											{(Number(c.token.amount) / 100000000).toLocaleString()}
+										{/if}
+									</i>
+								</td>
+								<td class="r">
+									{#if c.token}
+										{#if CATEGORY_MAP.has(c.token.category)}
+											<SeriesIcon time={CATEGORY_MAP.get(c.token?.category)} size="30" />
+										{/if}
+									{/if}
+								</td>
+								<td class="r">
+									{#if c.token}
+										{#if CATEGORY_MAP.has(c.token.category)}
+											{'FBCH-' + String(CATEGORY_MAP.get(c.token?.category)).padStart(7, '0')}
+										{/if}
+									{/if}
+								</td>
+							</tr>
+						{/each}
+					</tbody>
+				</table>
 			{:else}
-				-
+				<p>no wallet utxos available</p>
 			{/if}
-		</h3>
-	{/if}
+		{:else}
+			<p>loading wallet...</p>
+		{/if}
 
-	<h4>Coupons</h4>
-	<div
-	class="cashaddr"
-		use:copy={couponAddress}
-		on:svelte-copy={(event) => toast.push('Coupon Addr 📋🗸: ' + event.detail)}
-		on:svelte-copy:error={(event) =>
-			toast.push(`Error, no access to clipboard?: ${event.detail.message}`, {
-				classes: ['warn']
-			})}
-	>
-		<p>{couponAddress}</p>
-	</div>
-	{#if coupons}
-		{#if coupons.length > 0}
+		{#if heightValue}
+			{#if time - heightValue > 0}
+				<h2>T&#8196; -{(time - heightValue).toLocaleString()}&#8196;■</h2>
+			{/if}
+			<h3>
+				{#if time - heightValue >= 2000}
+					Unlocks around
+					{getFutureBlockDate(heightValue, time).toLocaleDateString()}
+				{:else if time - heightValue >= 0}
+					Unlocks around
+					{getFutureBlockDate(heightValue, time).toLocaleDateString()}
+					{getFutureBlockDate(heightValue, time).toLocaleTimeString()}
+				{:else if time - heightValue < 0}
+					Redemptions are open
+				{:else}
+					-
+				{/if}
+			</h3>
+		{/if}
+
+		<h4>Coupons</h4>
+		<div
+			class="cashaddr"
+			use:copy={couponAddress}
+			on:svelte-copy={(event) => toast.push('Coupon Addr 📋🗸: ' + event.detail)}
+			on:svelte-copy:error={(event) =>
+				toast.push(`Error, no access to clipboard?: ${event.detail.message}`, {
+					classes: ['warn']
+				})}
+		>
+			<p>{couponAddress}</p>
+		</div>
+		{#if coupons}
+			{#if coupons.length > 0}
+				<table class="couponTable">
+					<thead>
+						<tr class="header">
+							<td>Series</td>
+							<td>Placement </td>
+							<td>Coupon </td>
+							<td>spb </td>
+							<td>apr* </td>
+						</tr>
+					</thead>
+
+					<tbody>
+						{#each coupons as c}
+							<tr>
+								<td>C<sub>0</sub></td>
+								<td>1 BCH</td>
+								<td class="r">{Number(c.satoshis).toLocaleString()} </td>
+								<td class="r">{(Number(c.satoshis) / (time - heightValue)).toFixed(1)}</td>
+								<td class="r"
+									><i>{(Number(c.satoshis) / (time - heightValue) / (1e6 / 52596)).toFixed(2)}%</i
+									></td
+								>
+							</tr>
+						{/each}
+					</tbody>
+				</table>
+			{:else}
+				<p>no coupons available</p>
+			{/if}
+		{:else}
+			<p>loading coupons...</p>
+		{/if}
+		<h4>Vault Threads</h4>
+
+		{#if threads && threads.length}
 			<table class="couponTable">
 				<thead>
-					<tr class="header">
-						<td>Series</td>
-						<td>Placement </td>
-						<td>Coupon </td>
-						<td>spb </td>
-						<td>apr* </td>
+					<tr>
+						<td>Token Id </td>
+						<td>BCH </td>
+						<td>FBCH-{time} </td>
 					</tr>
 				</thead>
 
 				<tbody>
-					{#each coupons as c}
-						<tr>
-							<td>C<sub>0</sub></td>
-							<td>1 BCH</td>
-							<td class="r">{Number(c.satoshis).toLocaleString()} </td>
-							<td class="r">{(Number(c.satoshis) / (time - heightValue)).toFixed(1)}</td>
-							<td class="r"
-								><i>{(Number(c.satoshis) / (time - heightValue) / (1e6 / 52596)).toFixed(2)}%</i
-								></td
-							>
-						</tr>
+					{#each threads as c}
+						{#if c.token}
+							<tr>
+								<td
+									><i>{c.token.category.substring(0, 8) + '...' + c.token.category.slice(-8)}</i
+									></td
+								>
+								<td class="r">{(Number(c.satoshis) / 1000000000).toFixed(3)} </td>
+								<td class="r"
+									><i>
+										{#if c.token}
+											{(Number(c.token.amount) / 100000000).toLocaleString()}
+										{/if}
+									</i></td
+								>
+							</tr>
+						{/if}
 					{/each}
 				</tbody>
 			</table>
 		{:else}
-			<p>no coupons available</p>
+			<p>loading threads...</p>
 		{/if}
 	{:else}
-		<p>loading coupons...</p>
+		<p>loading...</p>
 	{/if}
-	<h4>Vault Threads</h4>
-
-	{#if threads && threads.length}
-		<table class="couponTable">
-			<thead>
-				<tr>
-					<td>Token Id </td>
-					<td>BCH </td>
-					<td>FBCH-{time} </td>
-				</tr>
-			</thead>
-
-			<tbody>
-				{#each threads as c}
-					{#if c.token}
-						<tr>
-							<td><i>{c.token.category.substring(0, 8) + '...' + c.token.category.slice(-8)}</i></td
-							>
-							<td class="r">{(Number(c.satoshis) / 1000000000).toFixed(3)} </td>
-							<td class="r"
-								><i>
-									{#if c.token}
-										{(Number(c.token.amount) / 100000000).toLocaleString()}
-									{/if}
-								</i></td
-							>
-						</tr>
-					{/if}
-				{/each}
-			</tbody>
-		</table>
-	{:else}
-		<p>loading threads...</p>
-	{/if}
-{:else}
-	<p>loading...</p>
-{/if}
 </div>
+
 <style>
 	p {
 		text-overflow: ellipsis;
