@@ -25,6 +25,8 @@ async function preparePlacementOutpoints() {
         }
     }
 
+
+
     let requests = outputs.map(a => {
         return new SendRequest({
             cashaddr: this.getDepositAddress(),
@@ -77,10 +79,18 @@ async function buildPlaceTransaction(state: SwapState, fee = 520n, estimate = fa
 
     if (request.placement > 0) {
 
+
+
         // Find a utxo that can match the placement amount
         const walletUtxoIdx = state.wallet.findIndex(utxo => utxo.satoshis === BigInt(request.placement) + 800n);
 
-        const ticket = state.wallet[walletUtxoIdx];
+        let ticket
+        if (walletUtxoIdx !== -1) {
+            ticket = state.wallet[walletUtxoIdx];
+        } else {
+            throw ("Could not find suitable utxo")
+        }
+
         // remove the ticket from the wallet
         if (!estimate) state.wallet.splice(walletUtxoIdx, 1);
         const walletInput = { ...ticket, unlocker: sigTemplate.unlockP2PKH() }
@@ -135,7 +145,7 @@ async function buildPlaceTransaction(state: SwapState, fee = 520n, estimate = fa
             // Unlock the wallet's 
             const walletInput = { ...request.coupon, unlocker: sigTemplate.unlockP2PKH() }
 
-            
+
             const walletOutput = {
                 to: this.getTokenDepositAddress(),
                 amount: request.coupon.token.amount + request.coupon.satoshis - fee
@@ -154,7 +164,7 @@ async function buildPlaceTransaction(state: SwapState, fee = 520n, estimate = fa
 
     transactionBuilder.addInputs(inputs);
     transactionBuilder.addOutputs(outputs);
-    transactionBuilder.setLocktime(Number(request.locktime));
+    if (request.placement < 0) transactionBuilder.setLocktime(Number(request.locktime));
     transactionBuilder.setMaxFee(fee + 1n);
 
     let details

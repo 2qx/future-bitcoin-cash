@@ -6,8 +6,8 @@
 	import { copy } from 'svelte-copy';
 	import { toast } from '@zerodevx/svelte-toast';
 	import { IndexedDBProvider } from '@mainnet-cash/indexeddb-storage';
-	import { FutureWallet, isTokenAddress } from '@fbch/lib';
 	import { BaseWallet } from 'mainnet-js';
+	import { FutureWallet, isTokenAddress } from '@fbch/lib';
 
 	let receiptAddressValue: string;
 	let receiptAddressRaw: string;
@@ -15,6 +15,7 @@
 	let walletError = false;
 	let showInfo = false;
 	let wallet;
+	let walletThreads;
 	let balance;
 
 	receiptAddress.subscribe((value: any) => {
@@ -32,6 +33,8 @@
 			BaseWallet.StorageProvider = IndexedDBProvider;
 			wallet = await FutureWallet.named('hot');
 			balance = await wallet.getBalance('bch');
+			walletThreads = provider.getUtxos("wallet.getDepositAddress()")
+			
 		} catch (e) {
 			walletError = true;
 			throw e;
@@ -175,6 +178,38 @@
 			>
 				{wallet.toDbString()}
 			</div>
+		{/if}
+
+		{#if walletThreads}
+		<button on:click={()=>wallet.preparePlacementOutpoints()} > Prepare Wallet Outpoints</button>
+			{#if walletThreads.length > 0}
+				<table class="wallet">
+					<thead>
+						<tr class="header">
+							<td></td>
+							<td>BCH </td>
+							<td>Tokens </td>
+						</tr>
+					</thead>
+
+					<tbody>
+						{#each walletThreads as c, i (i)}
+							<tr>
+								<td><button on:click={()=>handlePlacement(Number(c.satoshis)-800)}>place</button></td>
+								<td class="r">{(Number(c.satoshis)/1000000000).toFixed(10) } </td>
+							<td class="r"><i>
+								{#if c.token}
+								{(Number(c.token.amount) / 100000000).toLocaleString()}
+								{/if}
+							</tr>
+						{/each}
+					</tbody>
+				</table>
+			{:else}
+				<p>no wallet utxos available</p>
+			{/if}
+		{:else}
+			<p>loading wallet...</p>
 		{/if}
 	{/if}
 </div>
