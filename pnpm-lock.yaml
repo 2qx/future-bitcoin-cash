@@ -80,6 +80,9 @@ importers:
       '@mainnet-cash/indexeddb-storage':
         specifier: 2.4.3
         version: 2.4.3
+      '@zerodevx/svelte-toast':
+        specifier: 0.8.0
+        version: 0.8.0
       mainnet-js:
         specifier: 2.4.3
         version: 2.4.3
@@ -138,6 +141,9 @@ importers:
       svelte-check:
         specifier: ^3.6.0
         version: 3.8.5(@babel/core@7.25.2)(postcss@8.4.41)(svelte@4.2.18)
+      svelte-copy:
+        specifier: 1.4.2
+        version: 1.4.2(svelte@4.2.18)
       tslib:
         specifier: ^2.4.1
         version: 2.6.3
@@ -1962,6 +1968,10 @@ packages:
       loupe: 2.3.7
       pretty-format: 29.7.0
     dev: true
+
+  /@zerodevx/svelte-toast@0.8.0:
+    resolution: {integrity: sha512-PAcQQGhGYkdZJqPY7obnGIdlBoeoMteogYoN/nJn87CI5LYgRz6X9ST4AA65jyGlybWnniYzlrTT/dFepvuC/g==}
+    dev: false
 
   /acorn-jsx@5.3.2(acorn@8.12.1):
     resolution: {integrity: sha512-rq9s+JNhf0IChjtDXxllJ7g41oZk5SlXtp0LHwyA5cejwn7vKmKp4pPri6YEePv2PU65sAsegbXtIinmDFDXgQ==}
@@ -5642,6 +5652,14 @@ packages:
       - sass
       - stylus
       - sugarss
+    dev: true
+
+  /svelte-copy@1.4.2(svelte@4.2.18):
+    resolution: {integrity: sha512-Q99JvWDzB58JlbVWX2VxjHX/CQ5ayDLUGGJgL2EqU1+3c9CDOtxLrKFZx5CVN5bN/DDl62nxtazz0j3nGX1Xew==}
+    peerDependencies:
+      svelte: ^3.55.0 || ^4.0.0
+    dependencies:
+      svelte: 4.2.18
     dev: true
 
   /svelte-eslint-parser@0.41.0(svelte@4.2.18):

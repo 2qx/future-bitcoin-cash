@@ -27,6 +27,7 @@
 		"prettier-plugin-svelte": "^3.1.2",
 		"svelte": "^4.2.7",
 		"svelte-check": "^3.6.0",
+		"svelte-copy": "1.4.2",
 		"tslib": "^2.4.1",
 		"typescript": "^5.5.2",
 		"typescript-eslint": "^8.0.0-alpha.20",
@@ -36,13 +37,14 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"@electrum-cash/network": "3.3.0",
 		"@fbch/lib": "workspace:*",
-		"@electrum-cash/network":"3.3.0",
-		"@macfja/svelte-persistent-store": "^2.4.1",
 		"@jsdevtools/rehype-toc": "^3.0.2",
-		"mdsvex": "^0.11.2",
+		"@macfja/svelte-persistent-store": "^2.4.1",
+		"@mainnet-cash/indexeddb-storage": "2.4.3",
+		"@zerodevx/svelte-toast": "0.8.0",
 		"mainnet-js": "2.4.3",
-		"@mainnet-cash/indexeddb-storage":"2.4.3",
+		"mdsvex": "^0.11.2",
 		"rehype-slug": "^6.0.0",
 		"svelte-preprocess": "^6.0.1"
 	}

@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { page } from '$app/stores';
 	import { onMount } from 'svelte';
 	import { getFutureBlockDate, Vault } from '@fbch/lib';
 	import SeriesIcon from '$lib/images/SeriesIcon.svelte';
@@ -14,12 +15,9 @@
 	//@ts-ignore
 	let threads;
 
+	let block; 
+
 	let time: number;
-	if (data.block) {
-		time = Number(data.block);
-		couponAddress = Vault.getCoupon(1e8, time);
-		vaultAddress = Vault.getAddress(time);
-	}
 
 	let heightValue: number;
 
@@ -33,6 +31,12 @@
 	};
 
 	onMount(async () => {
+
+		block = $page.url.searchParams.get('block') || undefined;
+		time = Number(block);
+		couponAddress = Vault.getCoupon(1e8, time);
+		vaultAddress = Vault.getAddress(time);
+
 		// Initialize an electrum client.
 		const electrum = new ElectrumClient(
 			'FBCH',
@@ -155,6 +159,8 @@
 		{:else}
 			<p>loading threads...</p>
 		{/if}
+		{:else}
+		<p>loading...</p>
 	{/if}
 </section>
 
@@ -163,10 +169,7 @@
 		text-overflow: ellipsis;
 	}
 
-	.cashaddr {
-		line-break: anywhere;
-		font-size: small;
-	}
+	
 	.couponTable {
 		width: 100%;
 	}

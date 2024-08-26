@@ -1,22 +1,36 @@
 <script>
 	import Header from './Header.svelte';
+	import { SvelteToast } from '@zerodevx/svelte-toast';
 	import './styles.css';
+	import github from '$lib/images/github.svg';
+	import conduct from '$lib/images/conduct.svg';
 </script>
 
 <div class="app">
 	<Header />
-
+	<SvelteToast />
 	<main>
 		<slot />
 	</main>
 
 	<footer>
 		<p>
-			<a href="/audit">audit</a> ■
-			<a href="/contracts">contracts</a> ■
+			<a href="/audit">audit</a>
+			■
+			<a href="/code">
+				code of conduct
+			</a>
+			■
+
+			<a href="/contracts">contracts</a>
+			■
 			<a href="/flipstarter">flipstarter</a>
+			■
+			<a target="_blank" href="https://github.com/2qx/future-bitcoin-cash">
+				source
+				<img width="20px" src={github} alt="GitHub" />
+			</a>
 		</p>
-		
 	</footer>
 </div>
 

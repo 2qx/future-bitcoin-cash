@@ -3,5 +3,8 @@ export { Battery } from "./battery.js"
 export { Coupon } from "./coupon.js"
 export { Gantry } from "./gantry.js"
 export { Vault } from "./vault.js"
-export { getFutureBlockDate } from "./util.js"
+export { 
+    getFutureBlockDate, 
+    isTokenAddress 
+} from "./util.js"
 export { FutureWallet } from "./wallet.js"

@@ -68,18 +68,15 @@
 		{#if walletError}
 			⚠️
 		{/if}
-		{#if typeof balance !== 'undefined'}
-			{balance} BCH
-		{/if}
-		
-			<a href="/wallet">
-				<img width=30 src={hot} alt="wallet" />
-			</a>
-		
-		
-		
+
+		<a href="/wallet">
+			<img width="30" src={hot} alt="wallet" />
+
+			{#if typeof balance !== 'undefined'}
+				{balance} BCH
+			{/if}
+		</a>
 	{/if}
-	
 </div>
 
 <header>
@@ -114,8 +111,6 @@
 	</div>
 </header>
 
-
-
 <style>
 	header {
 		display: flex;
@@ -128,12 +123,13 @@
 		align-items: center;
 		justify-content: right;
 		height: 32px;
-		padding: 1em;
+		padding: 0.5em;
 		background-color: #ffffff88;
 	}
 
-	.wallet a{
-		padding: 1em;
+	.wallet a {
+		color: black;
+		display: flex;
 	}
 	.status {
 		display: flex;

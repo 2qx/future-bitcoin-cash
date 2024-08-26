@@ -1,5 +1,7 @@
 import {
     cashAddressToLockingBytecode,
+    CashAddressType,
+    decodeCashAddress
 } from "@bitauth/libauth";
 
 export function deriveLockingBytecode(address: string): Uint8Array {
@@ -18,4 +20,11 @@ export function getFutureBlockDate(currentBlock: number, futureBlock: number): D
 
 export function delay(time) {
     return new Promise(resolve => setTimeout(resolve, time));
+}
+
+
+export function isTokenAddress(rawAddress): boolean {
+    const addressInfo = decodeCashAddress(rawAddress)
+    if (typeof addressInfo == "string") return false
+    return addressInfo.type == CashAddressType.p2pkhWithTokens || addressInfo.type == CashAddressType.p2shWithTokens
 }
