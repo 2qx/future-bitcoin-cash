@@ -60,6 +60,7 @@
 
 <div class="text-column">
 	<h1>Let's write some coupons!</h1>
+	<blockquote><b>This is an advanced feature for power users. There is no way to undo writing a coupon.</b></blockquote>
 	<p>
 		Coupons incentivize money being spent 1) at a specific destination, 2) above some minimum
 		amount, and 3) with restrictions like: limit one per customer.

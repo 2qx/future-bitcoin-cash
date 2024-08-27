@@ -51,10 +51,11 @@
 		);
 
 		// Wait for the client to connect
-		await electrum.connect();
-		// Listen for notifications.
-		electrum.on('notification', handleNotifications);
-		await electrum.subscribe('blockchain.headers.subscribe');
+		await electrum.connect().then(() => {
+			// Listen for notifications.
+			electrum.on('notification', handleNotifications);
+			electrum.subscribe('blockchain.headers.subscribe');
+		});
 	});
 </script>
 
@@ -105,8 +106,13 @@
 		</svg>
 	</nav>
 	<div class="status">
-		{#if heightValue}
-			{heightValue.toLocaleString()} &nbsp;■
+		{#if Number(heightValue) > 0}
+			<div>
+				{heightValue.toLocaleString()}<sub>■</sub>
+			</div>
+			<div>
+				T -{(1000 - (heightValue % 1000)).toLocaleString()}<sub>■</sub>
+			</div>
 		{/if}
 	</div>
 </header>
@@ -132,8 +138,8 @@
 		display: flex;
 	}
 	.status {
-		display: flex;
-		justify-content: center;
+		display: grid;
+		text-align: right;
 		font-weight: 900;
 		font-size: small;
 		margin: auto;

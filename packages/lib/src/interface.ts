@@ -4,7 +4,6 @@ import { Transaction,
 
 import { 
     Utxo as CsUtxo, 
-    Transaction as CsTransaction, 
     NetworkProvider  as CsNetworkProvider
 } from "cashscript";
 

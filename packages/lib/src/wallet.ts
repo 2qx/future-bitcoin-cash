@@ -1,8 +1,19 @@
-import { Wallet, TestNetWallet, RegTestWallet, BaseWallet, SendRequest } from "mainnet-js";
-import { SwapState } from "./interface";
+import { Wallet, TestNetWallet, RegTestWallet, BaseWallet, SendRequest, TokenSendRequest } from "mainnet-js";
+import { SwapState, SwapRequestI } from "./interface";
 import { hash256, binToHex, hexToBin, swapEndianness } from "@bitauth/libauth";
 import { vaultArtifact, couponArtifact } from "@fbch/contracts";
-import { Contract, TransactionBuilder, SignatureTemplate } from "cashscript";
+import { Coupon } from "./coupon"
+import { Vault } from "./vault"
+import {
+    Contract,
+    ElectrumNetworkProvider,
+    TransactionBuilder, SignatureTemplate
+} from "cashscript";
+import {
+    Utxo as CsUtxo,
+    NetworkProvider as CsNetworkProvider
+} from "cashscript";
+
 import { delay } from "./util";
 
 /**
@@ -37,7 +48,7 @@ async function preparePlacementOutpoints() {
     const tx = await this.send(requests)
 }
 
-async function buildPlaceTransaction(state: SwapState, fee = 520n, estimate = false) {
+async function buildSwapTransaction(state: SwapState, fee = 520n, estimate = false) {
 
     const vault = state.vault;
 
@@ -133,12 +144,7 @@ async function buildPlaceTransaction(state: SwapState, fee = 520n, estimate = fa
         }
     } else if (request.placement < 0) {
         if (request.coupon) {
-            console.log(request.coupon)
-            console.log(
-                BigInt(-request.placement),
-                request.coupon.token.amount,
-                BigInt(-request.placement) == request.coupon.token.amount
-            )
+
             if (BigInt(-request.placement) !== request.coupon.token.amount) {
                 throw Error("Partial redemption of tokens not implemented")
             }
@@ -160,7 +166,6 @@ async function buildPlaceTransaction(state: SwapState, fee = 520n, estimate = fa
         }
     }
 
-    console.log(outputs)
 
     transactionBuilder.addInputs(inputs);
     transactionBuilder.addOutputs(outputs);
@@ -198,16 +203,16 @@ async function buildPlaceTransaction(state: SwapState, fee = 520n, estimate = fa
     }
 }
 
-async function place(state: SwapState): Promise<SwapState> {
+async function swapFnRaw(state: SwapState): Promise<SwapState> {
 
 
-    let actualFee = await this.buildPlaceTransaction(state, 1000n, true) as bigint
-    state = await this.buildPlaceTransaction(state, actualFee) as SwapState
+    let actualFee = await this.buildSwapTransaction(state, 1000n, true) as bigint
+    state = await this.buildSwapTransaction(state, actualFee) as SwapState
 
     // recursively process requests
     // return stack when done.
     if (state.requests && state.requests.length > 0) {
-        return this.place(state)
+        return this.swapFnRaw(state)
     } else {
         state.chain.map(async (tx) => {
             await state.provider.sendRawTransaction(tx)
@@ -219,28 +224,66 @@ async function place(state: SwapState): Promise<SwapState> {
 }
 
 
+async function swap(requests: SwapRequestI | SwapRequestI[]) {
+
+    if (!Array.isArray(requests)) requests = [requests]
+    let provider = new ElectrumNetworkProvider(this.network);
+    let wallet = await provider.getUtxos(this.getDepositAddress())
+    let stub = wallet.pop()
+    let vault = provider.getUtxos(Vault.getAddress(requests[0].locktime, this.network))
+    let state = {
+        chain: [],
+        provider: provider,
+        vault: vault,
+        requests: requests,
+        wallet: wallet,
+        walletStub: stub,
+    };
+
+    return await this.swap(state)
+
+}
+
+async function sendMaxTokens(cashaddr: string) {
+
+    let sendRequests = await (this.getUtxos()).map(u => {
+        return new TokenSendRequest({
+            cashaddr: cashaddr,
+            value: u.value,
+            amount: u.token.amount,
+            tokenId: u.token.tokenId,
+            capability: u.token.capability
+        })
+    })
+    return await this.send(sendRequests)
+}
+
 export class FutureWallet extends Wallet {
 
     public preparePlacementOutpoints = preparePlacementOutpoints
-    public buildPlaceTransaction = buildPlaceTransaction
-    public place = place
+    public buildSwapTransaction = buildSwapTransaction
+    public swap = swap
+    public swapFnRaw = swapFnRaw
+    public sendMaxTokens = sendMaxTokens
 
 }
 
 export class FutureTestNetWallet extends TestNetWallet {
 
     public preparePlacementOutpoints = preparePlacementOutpoints
-    public buildPlaceTransaction = buildPlaceTransaction
-    public place = place
-
+    public buildSwapTransaction = buildSwapTransaction
+    public swap = swap
+    public swapFnRaw = swapFnRaw
+    public sendMaxTokens = sendMaxTokens
 
 }
 
 export class FutureRegTestWallet extends RegTestWallet {
 
     public preparePlacementOutpoints = preparePlacementOutpoints
-    public buildPlaceTransaction = buildPlaceTransaction
-    public place = place
+    public buildSwapTransaction = buildSwapTransaction
+    public swap = swap
+    public swapFnRaw = swapFnRaw
+    public sendMaxTokens = sendMaxTokens
 
 }
-

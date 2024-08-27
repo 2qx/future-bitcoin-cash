@@ -14,6 +14,7 @@
 	import { type Utxo } from 'cashscript';
 
 	import hot from '$lib/images/hot.svg';
+	import bch from '$lib/images/bch.svg';
 	import { CATEGORY_MAP } from '$lib/catMap';
 	import SeriesIcon from '$lib/images/SeriesIcon.svelte';
 	import { height } from '$lib/store.js';
@@ -27,6 +28,8 @@
 	let threads: Utxo[];
 	let walletThreads: Utxo[];
 
+	let openCouponInterest: number;
+	let couponTotal: number;
 	let swapAmount = 0;
 
 	let block;
@@ -81,101 +84,45 @@
 		couponAddress = Vault.getCoupon(1e8, time);
 		vaultAddress = Vault.getAddress(time);
 
-		let cluster = new ElectrumCluster('@fbch/app', "1.4.3", 1, 1, ClusterOrder.RANDOM, 2000);
-
+		let cluster = new ElectrumCluster('@fbch/app', '1.4.3', 1, 1, ClusterOrder.RANDOM, 2000);
 		cluster.addServer('bch.imaginary.cash', 50004, ElectrumTransport.WSS.Scheme, false);
 		provider = new ElectrumNetworkProvider('mainnet', cluster, false);
+		await Promise.all([
+			provider.getUtxos(vaultAddress).then((v) => (threads = v)),
+			provider.getUtxos(wallet.getDepositAddress()).then((v) => (walletThreads = v)),
+			provider.getUtxos(couponAddress).then((v) => {
+				coupons = v;
+				if (coupons.length > 0) {
+					coupons.sort((a, b) => parseFloat(b.satoshis) - parseFloat(a.satoshis));
+					openCouponInterest = coupons.length;
+					couponTotal = (Number(coupons.reduce((acc, utxo) => acc + utxo.satoshis, 0n))) / 1e8;
+				}
+			})
+		]);
 
-		threads = await provider.getUtxos(vaultAddress);
-		walletThreads = await provider.getUtxos(wallet.getDepositAddress());
+		
 		vaultBalance = (Number(threads.reduce((acc, utxo) => acc + utxo.satoshis, 0n)) - 7000) / 1e8;
-		coupons = await provider.getUtxos(couponAddress);
-		// @ts-ignore
-		if (coupons.length > 0) coupons.sort((a, b) => parseFloat(b.satoshis) - parseFloat(a.satoshis));
 	});
 </script>
 
 <svelte:head>
 	<title>FBCH-{time}</title>
 	<meta name="description" content="Future Vault Series" />
-	{#if time > 857000}
+	{#if time > 858000}
 		<link rel="icon" type="image/svg" href="/FBCH-{time}.svg" />
 	{/if}
 </svelte:head>
 <div class="text-column">
 	{#if time}
-		<h1>Vault {time.toLocaleString()}</h1>
+		<h1>Vault {time.toLocaleString()}<sub>■</sub></h1>
 		<div>
 			<SeriesIcon {time} size="150" />
 		</div>
 
-		{#if walletThreads}
-			{#if walletThreads.length > 0}
-				<img width="52" src={hot} alt="hotWallet"/>
-				<button on:click={() => wallet.preparePlacementOutpoints()}> Shape</button>
-				<table class="wallet">
-					<thead>
-						<tr class="header">
-							<td></td>
-
-							<td>BCH </td>
-							<td>FBCH</td>
-							<td></td>
-							<td>Series </td>
-						</tr>
-					</thead>
-
-					<tbody>
-						{#each walletThreads as c, i (i)}
-							<tr>
-								<td style="width=50px;">
-									{#if Number(c.satoshis) > 800 && Math.log10(Number(c.satoshis - 800n)) >= 6}
-										<button on:click={() => handlePlacement(Number(c.satoshis) - 800)}>place</button
-										>
-									{:else}
-										-
-									{/if}
-								</td>
-								<td class="r">
-									{#if Number(c.satoshis) > 800}
-										{(Number(c.satoshis) / 1000000000).toFixed(10)}
-									{/if}
-								</td>
-								<td class="r">
-									<i>
-										{#if c.token}
-											{(Number(c.token.amount) / 100000000).toLocaleString()}
-										{/if}
-									</i>
-								</td>
-								<td class="r">
-									{#if c.token}
-										{#if CATEGORY_MAP.has(c.token.category)}
-											<SeriesIcon time={CATEGORY_MAP.get(c.token?.category)} size="30" />
-										{/if}
-									{/if}
-								</td>
-								<td class="r">
-									{#if c.token}
-										{#if CATEGORY_MAP.has(c.token.category)}
-											{'FBCH-' + String(CATEGORY_MAP.get(c.token?.category)).padStart(7, '0')}
-										{/if}
-									{/if}
-								</td>
-							</tr>
-						{/each}
-					</tbody>
-				</table>
-			{:else}
-				<p>no wallet utxos available</p>
-			{/if}
-		{:else}
-			<p>loading wallet...</p>
-		{/if}
 
 		{#if heightValue}
 			{#if time - heightValue > 0}
-				<h2>T&#8196; -{(time - heightValue).toLocaleString()}&#8196;■</h2>
+				<h2>T&#8196; -{(time - heightValue).toLocaleString()}<sub>■</sub></h2>
 			{/if}
 			<h3>
 				{#if time - heightValue >= 2000}
@@ -193,6 +140,73 @@
 			</h3>
 		{/if}
 
+		{#if walletThreads}
+			{#if walletThreads.length > 0}
+				<div class="walletHead">
+					<img width="52" src={hot} alt="hotWallet" />
+					<button on:click={() => wallet.preparePlacementOutpoints()}> Shape</button>
+					<button on:click={() => alert('not implemented')}> Sweep FBCH</button>
+					<button on:click={() => alert('not implemented')}> Sweep BCH</button>
+				</div>
+
+				<table class="wallet">
+					<thead>
+						<tr class="header">
+							<td> </td>
+							<td>Series</td>
+							<td>FBCH</td>
+							<td>BCH </td>
+							<td>action</td>
+						</tr>
+					</thead>
+
+					<tbody>
+						{#each walletThreads as c, i (i)}
+							<tr>
+								<td class="r">
+									{#if c.token}
+										{#if CATEGORY_MAP.has(c.token.category)}
+											<SeriesIcon time={CATEGORY_MAP.get(c.token?.category)} size="30" />
+										{/if}
+									{/if}
+								</td>
+								<td class="r">
+									{#if c.token}
+										{#if CATEGORY_MAP.has(c.token.category)}
+											{String(CATEGORY_MAP.get(c.token?.category)).padStart(7, '0')}
+										{/if}
+									{/if}
+								</td>
+								<td class="r">
+									<i>
+										{#if c.token}
+											{(Number(c.token.amount) / 100000000).toLocaleString()}
+										{/if}
+									</i>
+								</td>
+								<td class="r">
+									{#if Number(c.satoshis) > 800}
+										{(Number(c.satoshis) / 1000000000).toFixed(10)}
+									{/if}
+								</td>
+								<td style="width:30px; text-align:center;">
+									{#if Number(c.satoshis) > 800 && Math.log10(Number(c.satoshis - 800n)) >= 6}
+										<button on:click={() => handlePlacement(Number(c.satoshis) - 800)}>place</button
+										>
+									{:else}
+										-
+									{/if}
+								</td>
+							</tr>
+						{/each}
+					</tbody>
+				</table>
+			{:else}
+				<p>no wallet utxos available</p>
+			{/if}
+		{:else}
+			<p>loading wallet...</p>
+		{/if}
 		<h4>Coupons</h4>
 		<div
 			class="cashaddr"
@@ -203,7 +217,7 @@
 					classes: ['warn']
 				})}
 		>
-			<p>{couponAddress}</p>
+			<p><b>C<sub>0</sub></b>:{couponAddress}</p>
 		</div>
 		{#if coupons}
 			{#if coupons.length > 0}
@@ -212,7 +226,7 @@
 						<tr class="header">
 							<td>Series</td>
 							<td>Placement </td>
-							<td>Coupon </td>
+							<td>Coupon (sats)</td>
 							<td>spb </td>
 							<td>apr* </td>
 						</tr>
@@ -222,7 +236,7 @@
 						{#each coupons as c}
 							<tr>
 								<td>C<sub>0</sub></td>
-								<td>1 BCH</td>
+								<td class="r">1 BCH</td>
 								<td class="r">{Number(c.satoshis).toLocaleString()} </td>
 								<td class="r">{(Number(c.satoshis) / (time - heightValue)).toFixed(1)}</td>
 								<td class="r"
@@ -231,6 +245,13 @@
 								>
 							</tr>
 						{/each}
+						<tr>
+							<td><i>Total</i></td>
+							<td class="r"><i>{openCouponInterest} BCH </i></td>
+							<td class="r"><i>{couponTotal.toFixed(5)} BCH </i></td>
+							<td></td>
+							<td></td>
+						</tr>
 					</tbody>
 				</table>
 			{:else}
@@ -247,7 +268,7 @@
 					<tr>
 						<td>Token Id </td>
 						<td>BCH </td>
-						<td>FBCH-{time} </td>
+						<td>FBCH-{String(time).padStart(7, '0')} </td>
 					</tr>
 				</thead>
 
@@ -256,16 +277,21 @@
 						{#if c.token}
 							<tr>
 								<td
-									><i>{c.token.category.substring(0, 8) + '...' + c.token.category.slice(-8)}</i
+									><i>{c.token.category.substring(0, 6) + '...' + c.token.category.slice(-6)}</i
 									></td
 								>
-								<td class="r">{(Number(c.satoshis) / 1000000000).toFixed(3)} </td>
+								<td class="r">
+									{(Number(c.satoshis) / 1000000000).toLocaleString(undefined, {minimumFractionDigits: 3})} 
+									<img width="15" src={bch} alt="bchLogo" />
+								</td>
 								<td class="r"
 									><i>
 										{#if c.token}
-											{(Number(c.token.amount) / 100000000).toLocaleString()}
+											{(Number(c.token.amount) / 100000000).toLocaleString(undefined, {minimumFractionDigits: 3})}
 										{/if}
-									</i></td
+									</i>
+									<SeriesIcon time={CATEGORY_MAP.get(c.token?.category)} size="15" />
+									</td
 								>
 							</tr>
 						{/if}
@@ -285,6 +311,13 @@
 		text-overflow: ellipsis;
 	}
 
+	.walletHead {
+		display: flex;
+		justify-content: space-between;
+	}
+	.walletHead button{
+		border-radius: 30px;
+	}
 	.cashaddr {
 		line-break: anywhere;
 	}

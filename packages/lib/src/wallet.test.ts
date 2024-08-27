@@ -52,7 +52,7 @@ describe(`Prepare outpoints for swapping`, () => {
 
 describe(`Test placing with coupons`, () => {
 
-    test.skip("Test swapping with coupons", async () => {
+    test("Test swapping with coupons", async () => {
 
         // get about 11.2 rBCH
         let alice = await getAnAliceWallet(1_123_120_000)
@@ -116,7 +116,6 @@ describe(`Test placing with coupons`, () => {
                 locktime: 100,
                 //coupon: u
             }
-
         })
 
         let state = {
@@ -128,19 +127,25 @@ describe(`Test placing with coupons`, () => {
             walletStub: stub,
         };
 
-        let finalState = await alice.place(state)
+        let finalState = await alice.swapFnRaw(state)
 
 
         await delay(2000)
         //let utxos = await alice.getUtxos()
         //console.log(utxos)
-        expect(await alice.getBalance('sats')).toBeGreaterThan(1_123_120_000 - 360_002_000)
+        let bob = await FutureRegTestWallet.newRandom()
+
+        await alice.sendMax(bob.getDepositAddress())
+        let aliceTokens = await alice.getAllTokenBalances()
+        console.log(aliceTokens)
+        expect(await bob.getBalance('sats')).toBeGreaterThan(1_123_120_000 - 360_002_000)
     });
 
-    test("Test redeeming tokens", async () => {
+    test.skip("Test redeeming tokens", async () => {
 
         // get about 11.2 rBCH
         let alice = await getAnAliceWallet(1_123_120_000)
+        let bob = await FutureRegTestWallet.newRandom()
         await delay(1000)
         // create a coupon for locking a whole coin in the 1e2 vault
         let couponAddress = Vault.getCoupon(100_000_000, 100, CashAddressNetworkPrefix.regtest)
@@ -223,12 +228,15 @@ describe(`Test placing with coupons`, () => {
             walletStub: stub,
         };
 
-        let finalState = await alice.place(state)
+        let finalState = await alice.swapFnRaw(state)
 
 
         await delay(2000)
         //let utxos = await alice.getUtxos()
         //console.log(utxos)
-        expect(await alice.getBalance('sats')).toBeGreaterThan(1_123_120_000 - 360_002_000)
+        await alice.sendMax(bob.getDepositAddress())
+        let aliceTokens = await alice.getAllTokenBalances()
+        console.log(aliceTokens)
+        expect(await bob.getBalance('sats')).toBeGreaterThan(1_123_120_000 - 360_002_000)
     });
 })

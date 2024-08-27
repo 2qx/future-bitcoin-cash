@@ -4,7 +4,7 @@
 	import { height } from '$lib/store.js';
 	const series = [3, 4, 5, 6];
 
-	let heightValue = 857000;
+	let heightValue: number;
 
 	height.subscribe((value: any) => {
 		heightValue = value;
@@ -18,10 +18,10 @@
 </svelte:head>
 
 <div class="wrapper">
-	{#each series as e}
-		<div>
-			V<sub>{e}</sub> Series<br />
-			{#if heightValue}
+	{#if Number(heightValue) > 0}
+		{#each series as e}
+			<div>
+				V<sub>{e}</sub> Series<br />
 				<div>
 					{#each Vault.getSeriesTimes(heightValue, e, e == 6 ? 4 : undefined) as time}
 						<div class="vaultPreview">
@@ -29,18 +29,20 @@
 								<SeriesIcon {time} size="80" />
 							</a>
 
-								{#if time}
-									<span>
-										<b>{time.toLocaleString()}</b><br />
-										{getFutureBlockDate(heightValue, time).toLocaleDateString()}
-									</span>
-								{/if}
+							{#if time}
+								<span>
+									<b>{time.toLocaleString()}</b><br />
+									{getFutureBlockDate(heightValue, time).toLocaleDateString()}
+								</span>
+							{/if}
 						</div>
 					{/each}
 				</div>
-			{/if}
-		</div>
-	{/each}
+			</div>
+		{/each}
+	{:else}
+		getting current block time...
+	{/if}
 </div>
 
 <style>
@@ -53,5 +55,4 @@
 		margin: 1dvw;
 		display: grid;
 	}
-
 </style>
