@@ -111,7 +111,7 @@
 
 		{#if walletThreads}
 			{#if walletThreads.length > 0}
-				<img width="52" src={hot} />
+				<img width="52" src={hot} alt="hotWallet"/>
 				<button on:click={() => wallet.preparePlacementOutpoints()}> Shape</button>
 				<table class="wallet">
 					<thead>
