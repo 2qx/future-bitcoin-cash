@@ -8,6 +8,9 @@ patchedDependencies:
   '@electrum-cash/network@3.3.0':
     hash: ghfkyoulghrqjtfh6ignnwjtjy
     path: patches/@electrum-cash__network@3.3.0.patch
+  electrum-cash@3.2.0:
+    hash: rsa26lmws7guuxutou5s7tqy6i
+    path: patches/electrum-cash@3.2.0.patch
 
 importers:
 
@@ -83,6 +86,9 @@ importers:
       '@zerodevx/svelte-toast':
         specifier: 0.8.0
         version: 0.8.0
+      electrum-cash:
+        specifier: 3.2.0
+        version: 3.2.0(patch_hash=rsa26lmws7guuxutou5s7tqy6i)
       mainnet-js:
         specifier: 2.4.3
         version: 2.4.3
@@ -259,7 +265,7 @@ importers:
         version: 0.10.0-next.6
       electrum-cash:
         specifier: ^3.2.0
-        version: 3.2.0
+        version: 3.2.0(patch_hash=rsa26lmws7guuxutou5s7tqy6i)
 
 packages:
 
@@ -2872,7 +2878,7 @@ packages:
       - supports-color
       - utf-8-validate
 
-  /electrum-cash@3.2.0:
+  /electrum-cash@3.2.0(patch_hash=rsa26lmws7guuxutou5s7tqy6i):
     resolution: {integrity: sha512-vT7oV9A1O/Chj5w4BBQg3aEBvcE6mHumiBUuOdaTB4WfqD5LPjJ9iwQ4ueJmKyf/cekcWDIqSAxrM2pMgVLXMA==}
     dependencies:
       '@monsterbitar/isomorphic-ws': 5.3.1(ws@8.18.0)
@@ -2885,7 +2891,7 @@ packages:
       - bufferutil
       - supports-color
       - utf-8-validate
-    dev: true
+    patched: true
 
   /elliptic@6.5.7:
     resolution: {integrity: sha512-ESVCtTwiA+XhY3wyh24QqRGBoP3rEdDUl3EDUUo9tft074fi19IrdpH7hLCMMP3CIj7jb3W96rn8lt/BqIlt5Q==}

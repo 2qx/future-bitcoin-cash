@@ -1,0 +1,15 @@
+diff --git a/dist/index.mjs b/dist/index.mjs
+index 44444e36ca63d35d2cb7e4ecf6c06e66ffb07d11..41e6bcb534dd5c80d0286aa63a5206ab42401c52 100644
+--- a/dist/index.mjs
++++ b/dist/index.mjs
+@@ -1,8 +1,8 @@
+ import {EventEmitter as $4QiMX$EventEmitter} from "events";
+ import {Mutex as $4QiMX$Mutex} from "async-mutex";
+ import $4QiMX$debug from "debug";
+-import {connect as $4QiMX$connect, TLSSocket as $4QiMX$TLSSocket} from "tls";
+-import {isIP as $4QiMX$isIP, connect as $4QiMX$connect1} from "net";
++//import {connect as $4QiMX$connect, TLSSocket as $4QiMX$TLSSocket} from "tls";
++//import {isIP as $4QiMX$isIP, connect as $4QiMX$connect1} from "net";
+ import {WebSocket as $4QiMX$WebSocket} from "@monsterbitar/isomorphic-ws";
+ 
+ function $parcel$export(e, n, v, s) {
