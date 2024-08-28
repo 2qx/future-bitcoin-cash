@@ -23,16 +23,19 @@ import { delay } from "./util";
 async function preparePlacementOutpoints() {
     let balance = await this.getBalance("sats") as number
     let outputs = []
-    while (balance > 1_000_800) {
-        if (balance > 100_000_800) {
-            balance -= 100_000_800
-            outputs.push(100_000_800)
-        } else if (balance > 10_000_800) {
-            balance -= 10_000_800
-            outputs.push(10_000_800)
-        } else if (balance > 1_000_800) {
-            balance -= 1_000_800
-            outputs.push(1_000_800)
+    const TOKEN_SATS = 800;
+    const MINER_FEE = 0;
+    const EXTRA = TOKEN_SATS + MINER_FEE;
+    while (balance > 1_000_000+EXTRA) {
+        if (balance > 100_000_000+EXTRA) {
+            balance -= 100_000_000+EXTRA
+            outputs.push(100_000_000+EXTRA)
+        } else if (balance > 10_000_000+EXTRA) {
+            balance -= 10_000_000+EXTRA
+            outputs.push(10_000_000+EXTRA)
+        } else if (balance > 1_000_000+EXTRA) {
+            balance -= 1_000_000+EXTRA
+            outputs.push(1_000_000+EXTRA)
         }
     }
 
