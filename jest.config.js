@@ -17,6 +17,7 @@ export default {
     "node_modules",
     "src"
   ],
+  modulePathIgnorePatterns: ["dist"],
   verbose: true,
   preset: 'ts-jest/presets/default-esm',
   testEnvironment: 'node',

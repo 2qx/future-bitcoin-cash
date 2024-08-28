@@ -50,11 +50,13 @@ async function preparePlacementOutpoints() {
 
 async function buildSwapTransaction(state: SwapState, fee = 520n, estimate = false) {
 
-    const vault = state.vault;
+
 
     let request
 
     if (state.requests && state.requests.length > 0) request = state.requests.at(-1)
+
+    const vault = state.vaults.get(request.locktime);
 
     // if building the final transaction, change the state.
     if (!estimate) state.requests.pop()
@@ -74,11 +76,15 @@ async function buildSwapTransaction(state: SwapState, fee = 520n, estimate = fal
         { ...vault, unlocker: vaultContract.unlock.swap() },
     ];
 
+    let placement: bigint
+    if (request.placement) placement = BigInt(request.placement)
+    if (request.future) placement = -BigInt(request.future.token.amount);
+
     const contractOutput = {
         to: vaultContract.tokenAddress,
-        amount: BigInt(vault.satoshis) + BigInt(request.placement),
+        amount: BigInt(vault.satoshis) + placement,
         token: {
-            amount: BigInt(vault.token?.amount!) - BigInt(request.placement),
+            amount: BigInt(vault.token?.amount!) - placement,
             category: vault.token.category,
         }
     }
@@ -88,12 +94,12 @@ async function buildSwapTransaction(state: SwapState, fee = 520n, estimate = fal
     // A wallet coin to pay transaction fees, if placing without coupon
     const stub = state.walletStub;
 
-    if (request.placement > 0) {
 
-
+    // Straight placement or placement with coupon
+    if (placement > 0) {
 
         // Find a utxo that can match the placement amount
-        const walletUtxoIdx = state.wallet.findIndex(utxo => utxo.satoshis === BigInt(request.placement) + 800n);
+        const walletUtxoIdx = state.wallet.findIndex(utxo => utxo.satoshis === placement + 800n);
 
         let ticket
         if (walletUtxoIdx !== -1) {
@@ -110,7 +116,7 @@ async function buildSwapTransaction(state: SwapState, fee = 520n, estimate = fal
             to: this.getTokenDepositAddress(),
             amount: 800n,
             token: {
-                amount: BigInt(request.placement),
+                amount: placement,
                 category: vault.token.category,
             }
         }
@@ -122,7 +128,7 @@ async function buildSwapTransaction(state: SwapState, fee = 520n, estimate = fal
 
             let couponContract = new Contract(
                 couponArtifact,
-                [BigInt(request.placement), vaultContract.bytecode],
+                [placement, vaultContract.bytecode],
                 { provider: provider, addressType: 'p2sh32' }
             );
             inputs.push({ ...request.coupon, unlocker: couponContract.unlock.apply() })
@@ -142,34 +148,35 @@ async function buildSwapTransaction(state: SwapState, fee = 520n, estimate = fal
                 amount: BigInt(stub.satoshis) - fee
             })
         }
-    } else if (request.placement < 0) {
-        if (request.coupon) {
+    } else if (request.future) {
 
-            if (BigInt(-request.placement) !== request.coupon.token.amount) {
-                throw Error("Partial redemption of tokens not implemented")
-            }
-            // Unlock the wallet's 
-            const walletInput = { ...request.coupon, unlocker: sigTemplate.unlockP2PKH() }
-
-
-            const walletOutput = {
-                to: this.getTokenDepositAddress(),
-                amount: request.coupon.token.amount + request.coupon.satoshis - fee
-            }
-
-            inputs.push(walletInput)
-            //@ts-ignore
-            outputs.push(walletOutput)
-
-        } else {
-            throw Error("Attempted redemption without token UTXO")
+        if (-placement !== request.future.token.amount) {
+            throw Error("Partial redemption of tokens not implemented")
         }
+        // Unlock the wallet's 
+        const walletInput = { ...request.future, unlocker: sigTemplate.unlockP2PKH() }
+
+
+        const walletOutput = {
+            to: this.getTokenDepositAddress(),
+            amount: request.future.token.amount + request.future.satoshis - fee
+        }
+
+        inputs.push(walletInput)
+        //@ts-ignore
+        outputs.push(walletOutput)
+
+    } else {
+        throw Error("Could not interpret swap request")
     }
 
 
+
+    //console.log(inputs)
+    //console.log(outputs)
     transactionBuilder.addInputs(inputs);
     transactionBuilder.addOutputs(outputs);
-    if (request.placement < 0) transactionBuilder.setLocktime(Number(request.locktime));
+    if (placement < 0) transactionBuilder.setLocktime(Number(request.locktime));
     transactionBuilder.setMaxFee(fee + 1n);
 
     let details
@@ -189,15 +196,15 @@ async function buildSwapTransaction(state: SwapState, fee = 520n, estimate = fal
         }
 
         // reset the vault utxo 
-        state.vault = {
+        state.vaults.set(request.locktime, {
             txid: txid,
             vout: 0,
-            satoshis: vault.satoshis + BigInt(request.placement),
+            satoshis: vault.satoshis + placement,
             token: {
                 category: vault.token.category,
-                amount: vault.token.amount - BigInt(request.placement)
+                amount: vault.token.amount - placement
             }
-        }
+        })
 
         return { ...state }
     }
@@ -223,18 +230,33 @@ async function swapFnRaw(state: SwapState): Promise<SwapState> {
 
 }
 
+async function getVaultUtxoMap(requests: SwapRequestI[], provider) {
+
+    // get distinct list of locktimes
+    let locktimes = [...new Set(requests.map(item => item.locktime))];
+
+    let vaultUtxoSet = new Map();
+
+    // get vault Utxo Sets of the 
+    for (const lock of locktimes) {
+        const vaultUtxos = (await provider.getUtxos(Vault.getAddress(lock, this.network)))
+        let randomVaultUtxo = vaultUtxos[Math.floor(Math.random() * vaultUtxos.length)];
+        vaultUtxoSet.set(lock,randomVaultUtxo)
+    }
+    return vaultUtxoSet;
+}
 
 async function swap(requests: SwapRequestI | SwapRequestI[]) {
 
     if (!Array.isArray(requests)) requests = [requests]
     let provider = new ElectrumNetworkProvider(this.network);
     let wallet = await provider.getUtxos(this.getDepositAddress())
-    let stub = wallet.pop()
-    let vault = provider.getUtxos(Vault.getAddress(requests[0].locktime, this.network))
+    let stub = wallet.pop();
+    let vaults = this.getVaultUtxoMap()
     let state = {
         chain: [],
         provider: provider,
-        vault: vault,
+        vaults: vaults,
         requests: requests,
         wallet: wallet,
         walletStub: stub,
@@ -244,17 +266,20 @@ async function swap(requests: SwapRequestI | SwapRequestI[]) {
 
 }
 
-async function sendMaxTokens(cashaddr: string) {
+async function sendMaxFungibleTokens(cashaddr: string) {
 
-    let sendRequests = await (this.getUtxos()).map(u => {
-        return new TokenSendRequest({
-            cashaddr: cashaddr,
-            value: u.value,
-            amount: u.token.amount,
-            tokenId: u.token.tokenId,
-            capability: u.token.capability
+    let sendRequests = (await (this.getUtxos()))
+        .filter(u => u.token)
+        .filter(u => !u.token.capability)
+        .map(u => {
+            return new TokenSendRequest({
+                cashaddr: cashaddr,
+                value: u.satoshis,
+                amount: u.token.amount,
+                tokenId: u.token.tokenId
+            })
+
         })
-    })
     return await this.send(sendRequests)
 }
 
@@ -264,7 +289,8 @@ export class FutureWallet extends Wallet {
     public buildSwapTransaction = buildSwapTransaction
     public swap = swap
     public swapFnRaw = swapFnRaw
-    public sendMaxTokens = sendMaxTokens
+    public sendMaxFungibleTokens = sendMaxFungibleTokens
+    public getVaultUtxoMap = getVaultUtxoMap
 
 }
 
@@ -274,7 +300,8 @@ export class FutureTestNetWallet extends TestNetWallet {
     public buildSwapTransaction = buildSwapTransaction
     public swap = swap
     public swapFnRaw = swapFnRaw
-    public sendMaxTokens = sendMaxTokens
+    public sendMaxFungibleTokens = sendMaxFungibleTokens
+    public getVaultUtxoMap = getVaultUtxoMap
 
 }
 
@@ -284,6 +311,7 @@ export class FutureRegTestWallet extends RegTestWallet {
     public buildSwapTransaction = buildSwapTransaction
     public swap = swap
     public swapFnRaw = swapFnRaw
-    public sendMaxTokens = sendMaxTokens
+    public sendMaxFungibleTokens = sendMaxFungibleTokens
+    public getVaultUtxoMap = getVaultUtxoMap
 
 }

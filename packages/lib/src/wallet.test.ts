@@ -37,7 +37,7 @@ export async function getAnAliceWallet(amount: number): Promise<FutureRegTestWal
 
 describe(`Prepare outpoints for swapping`, () => {
 
-    test.skip("Test utxo prep", async () => {
+    test("Test utxo prep", async () => {
         let alice = await getAnAliceWallet(1_123_120_000)
         await alice.preparePlacementOutpoints()
         await delay(1000)
@@ -57,7 +57,8 @@ describe(`Test placing with coupons`, () => {
         // get about 11.2 rBCH
         let alice = await getAnAliceWallet(1_123_120_000)
         await delay(1000)
-        // create a coupon for locking a whole coin in the 1e2 vault
+
+        // create three coupons for locking a whole coin in the 1e2 vault
         let couponAddress = Vault.getCoupon(100_000_000, 100, CashAddressNetworkPrefix.regtest)
         alice.send([{
             cashaddr: alice.getDepositAddress(),
@@ -103,11 +104,10 @@ describe(`Test placing with coupons`, () => {
         regTest.addServer("127.0.0.1", 60003, ElectrumTransport.WS.Scheme, false);
 
         let provider = new ElectrumNetworkProvider("regtest", regTest, false);
-        console.log(await provider.getBlockHeight())
 
         let wallet = await provider.getUtxos(alice.getDepositAddress());
         let stub = wallet.pop();
-        let vault = (await provider.getUtxos(Vault.getAddress(100))).pop()
+        
         let coupons = await provider.getUtxos(couponAddress)
 
         let requests = coupons.map(u => {
@@ -117,11 +117,11 @@ describe(`Test placing with coupons`, () => {
                 //coupon: u
             }
         })
-
+        let vaults = await alice.getVaultUtxoMap(requests, provider);
         let state = {
             chain: [],
             provider: provider,
-            vault: vault,
+            vaults: vaults,
             requests: requests,
             wallet: wallet,
             walletStub: stub,
@@ -135,13 +135,14 @@ describe(`Test placing with coupons`, () => {
         //console.log(utxos)
         let bob = await FutureRegTestWallet.newRandom()
 
+        await alice.sendMaxFungibleTokens(bob.getDepositAddress())
         await alice.sendMax(bob.getDepositAddress())
         let aliceTokens = await alice.getAllTokenBalances()
-        console.log(aliceTokens)
+        expect(JSON.stringify(aliceTokens)).toBe('{}');
         expect(await bob.getBalance('sats')).toBeGreaterThan(1_123_120_000 - 360_002_000)
     });
 
-    test.skip("Test redeeming tokens", async () => {
+    test("Test redeeming tokens", async () => {
 
         // get about 11.2 rBCH
         let alice = await getAnAliceWallet(1_123_120_000)
@@ -175,19 +176,49 @@ describe(`Test placing with coupons`, () => {
         // Mint some FTs
         let tokenResponse = await alice.tokenGenesis({
             cashaddr: alice.getDepositAddress(),
-            amount: 100_000_000_000n
+            amount: 1_000_000_000n
         });
         let tokenId = tokenResponse.tokenIds[0]
-        console.log(tokenId)
         await delay(1000)
 
         alice.send(
-            new TokenSendRequest({
+            [new TokenSendRequest({
                 cashaddr: Vault.getAddress(100, CashAddressNetworkPrefix.regtest)!,
                 amount: 500_000_000n,
                 tokenId: tokenId,
-                value: 500_000_000,
+                value: 500_001_000,
+            }),
+            new TokenSendRequest({
+                cashaddr: alice.getDepositAddress(),
+                amount: 100_000_000n,
+                tokenId: tokenId,
+                value: 800,
+            }),
+            new TokenSendRequest({
+                cashaddr: alice.getDepositAddress(),
+                amount: 100_000_000n,
+                tokenId: tokenId,
+                value: 800,
+            }),
+            new TokenSendRequest({
+                cashaddr: alice.getDepositAddress(),
+                amount: 100_000_000n,
+                tokenId: tokenId,
+                value: 800,
+            }),
+            new TokenSendRequest({
+                cashaddr: alice.getDepositAddress(),
+                amount: 100_000_000n,
+                tokenId: tokenId,
+                value: 800,
+            }),
+            new TokenSendRequest({
+                cashaddr: alice.getDepositAddress(),
+                amount: 100_000_000n,
+                tokenId: tokenId,
+                value: 800,
             })
+        ]
         );
         await delay(1000)
         await alice.preparePlacementOutpoints()
@@ -204,25 +235,23 @@ describe(`Test placing with coupons`, () => {
         regTest.addServer("127.0.0.1", 60003, ElectrumTransport.WS.Scheme, false);
 
         let provider = new ElectrumNetworkProvider("regtest", regTest, false);
-        console.log(await provider.getBlockHeight())
         await delay(1000)
         let wallet = await provider.getUtxos(alice.getDepositAddress());
         let stub = wallet.pop();
-        let vault = (await provider.getUtxos(Vault.getAddress(100))).pop()
-        let coupons = wallet.filter(u => u.token).filter( u => u.token.category == tokenId)
-        console.log(coupons)
-        let requests = coupons.map(u => {
+        
+        let futures = wallet.filter(u => u.token).filter( u => u.token.category == tokenId)
+        let requests = futures.map(u => {
             return {
-                placement: Number(-u.token.amount),
                 locktime: 100,
-                coupon: u
+                future: u
             }
         })
 
+        let vaults = await alice.getVaultUtxoMap(requests, provider)
         let state = {
             chain: [],
             provider: provider,
-            vault: vault,
+            vaults: vaults,
             requests: requests,
             wallet: wallet,
             walletStub: stub,
@@ -236,7 +265,6 @@ describe(`Test placing with coupons`, () => {
         //console.log(utxos)
         await alice.sendMax(bob.getDepositAddress())
         let aliceTokens = await alice.getAllTokenBalances()
-        console.log(aliceTokens)
         expect(await bob.getBalance('sats')).toBeGreaterThan(1_123_120_000 - 360_002_000)
     });
 })

@@ -1,30 +1,41 @@
-import { Transaction,
+import {
+    Transaction,
     Input,
-    Output } from "@bitauth/libauth";
+    Output
+} from "@bitauth/libauth";
 
-import { 
-    Utxo as CsUtxo, 
-    NetworkProvider  as CsNetworkProvider
+import {
+    Utxo as CsUtxo,
+    NetworkProvider as CsNetworkProvider
 } from "cashscript";
 
 export interface SwapState {
-    provider: CsNetworkProvider; 
-    vault: CsUtxo;
+    provider: CsNetworkProvider;
+    vaults: Map<number, CsUtxo>;
     walletStub: CsUtxo;
     wallet: CsUtxo[];
     requests?: SwapRequestI[];
     chain?: string[];
 }
 
-export interface SwapRequestI{
-    // 
-    // redemptions are negative placements
-    // redemption coupons are carry fungible tokens 
-    //
-    placement: number;
+export type SwapRequestI = SwapRequestCouponI | SwapRequestPlacementI | SwapRequestFutureI;
+
+export interface SwapRequestCouponI {
     locktime: number;
-    coupon?: CsUtxo;
+    placement: number;
+    coupon: CsUtxo;
 }
+
+export interface SwapRequestPlacementI {
+    locktime: number;
+    placement: number;
+}
+
+export interface SwapRequestFutureI {
+    future: CsUtxo;
+    locktime: number;
+}
+
 
 const literal = <L extends string>(l: L): L => l;
 
@@ -43,7 +54,7 @@ export interface UtxoI {
 
 
 
-export interface SendRequest{
+export interface SendRequest {
     cashaddr: string;
     value: number;
 }

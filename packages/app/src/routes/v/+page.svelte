@@ -5,17 +5,21 @@
 	import { copy } from 'svelte-copy';
 	import { toast } from '@zerodevx/svelte-toast';
 
-	import { getFutureBlockDate, Vault } from '@fbch/lib';
+
 	import { IndexedDBProvider } from '@mainnet-cash/indexeddb-storage';
 	import { BaseWallet } from 'mainnet-js';
-	import { FutureWallet } from '@fbch/lib';
 	import { ElectrumNetworkProvider } from 'cashscript';
 	import { ElectrumCluster, ClusterOrder, ElectrumTransport } from 'electrum-cash';
 	import { type Utxo } from 'cashscript';
 
+	import { getFutureBlockDate, Vault } from '@fbch/lib';
+	import { CATEGORY_MAP } from '@fbch/lib';
+	import { FutureWallet } from '@fbch/lib';
+
+	
 	import hot from '$lib/images/hot.svg';
 	import bch from '$lib/images/bch.svg';
-	import { CATEGORY_MAP } from '$lib/catMap';
+
 	import SeriesIcon from '$lib/images/SeriesIcon.svelte';
 	import { height } from '$lib/store.js';
 
