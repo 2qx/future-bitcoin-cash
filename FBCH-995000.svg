@@ -3,6 +3,6 @@
     <path d="M 1 1 L 1 15 15 15 15 1 Z" style="fill:#000;stroke:none;"></path> 
     <path d="M 2 2 L 5 2 5 3 3 3 3 4 4 4 4 5 3 5 3 7 2 7 Z" style="fill:#ffffff;stroke:none;"></path>
     <path d="M 2 8 L 2 15 5 15 5 8 Z" style="fill:#fff;stroke:none;"></path>
-    <path d="M 6 7 L 6 15 14 15 14 7 Z" style="fill:#00ff00dd;stroke:none;"></path>
+    <path d="M 6 7 L 6 15 14 15 14 7 Z" style="fill:#00ff00;stroke:none;"></path>
     <path d="M 6 2 L 6 6 14 6 14 2 Z" style="fill:#fff;stroke:none;"></path>
     </svg>
