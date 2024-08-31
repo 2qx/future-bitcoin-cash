@@ -2,12 +2,13 @@ import { Wallet, TestNetWallet, RegTestWallet, BaseWallet, SendRequest, TokenSen
 import { SwapState, SwapRequestI } from "./interface";
 import { hash256, binToHex, hexToBin, swapEndianness } from "@bitauth/libauth";
 import { vaultArtifact, couponArtifact } from "@fbch/contracts";
-import { } from "./util"
+import { deriveLockingBytecode } from "./util"
 import { Vault } from "./vault"
 import {
     Contract,
     ElectrumNetworkProvider,
-    TransactionBuilder, SignatureTemplate
+    TransactionBuilder, SignatureTemplate,
+    HashType
 } from "cashscript";
 import {
     Utxo as CsUtxo,
@@ -32,8 +33,8 @@ async function preparePlacementOutpoints() {
 
     let powers = [8]
     let powerIdx = 0
-    console.log(powers.length,powerIdx)
-    while (powerIdx < powers.length ) {
+    console.log(powers.length, powerIdx)
+    while (powerIdx < powers.length) {
         let thresh = Math.pow(10, powers[powerIdx])
         console.log(thresh)
         if (balance > thresh + EXTRA) {
@@ -69,13 +70,14 @@ async function buildSwapTransaction(state: SwapState, fee = 546n, estimate = fal
     let provider = state.provider
 
     let transactionBuilder = new TransactionBuilder({ provider });
-    const sigTemplate = new SignatureTemplate(this.privateKey!)
+    const sigTemplate = new SignatureTemplate(this.privateKey!, HashType.SIGHASH_ALL)
 
     let vaultContract = new Contract(
         vaultArtifact,
         [BigInt(request.locktime)],
         { provider: provider, addressType: 'p2sh32' }
     );
+
 
     let inputs = [
         { ...vault, unlocker: vaultContract.unlock.swap() },
@@ -113,11 +115,12 @@ async function buildSwapTransaction(state: SwapState, fee = 546n, estimate = fal
 
         // remove the used utxo from the wallet
         if (!estimate) state.wallet.splice(walletUtxoIdx, 1);
+
         const walletInput = { ...ticket, unlocker: sigTemplate.unlockP2PKH() }
 
         const walletOutput = {
             to: this.getTokenDepositAddress(),
-            amount: 800n,
+            amount: ticket.satoshis - placement,
             token: {
                 amount: placement,
                 category: vault.token.category,
@@ -127,10 +130,11 @@ async function buildSwapTransaction(state: SwapState, fee = 546n, estimate = fal
         inputs.push(walletInput)
         outputs.push(walletOutput)
 
-
+        console.log(vaultContract.bytecode)
+        let lock = deriveLockingBytecode(vaultContract.tokenAddress)
         let couponContract = new Contract(
             couponArtifact,
-            [placement, vaultContract.bytecode],
+            [placement, lock],
             { provider: provider, addressType: 'p2sh32' }
         );
         inputs.push({ ...request.coupon, unlocker: couponContract.unlock.apply() })
@@ -190,7 +194,7 @@ async function buildSwapTransaction(state: SwapState, fee = 546n, estimate = fal
             //@ts-ignore
             outputs.push({
                 to: this.getTokenDepositAddress(),
-                amount: ticket.satoshis - placement - fee
+                amount: ticket.satoshis - placement
             })
         }
 
@@ -204,9 +208,9 @@ async function buildSwapTransaction(state: SwapState, fee = 546n, estimate = fal
     console.log(outputs)
     transactionBuilder.addInputs(inputs);
     transactionBuilder.addOutputs(outputs);
-    if (placement < 0) transactionBuilder.setLocktime(Number(request.locktime));
+    //if (placement < 0) transactionBuilder.setLocktime(Number(request.locktime));
     if (estimate) transactionBuilder.setMaxFee(BigInt(fee) + 5000n);
-    if (!estimate) transactionBuilder.setMaxFee(BigInt(fee));
+    if (!estimate) transactionBuilder.setMaxFee(BigInt(fee) + 1n);
 
     let details
 
@@ -214,16 +218,11 @@ async function buildSwapTransaction(state: SwapState, fee = 546n, estimate = fal
         details = transactionBuilder.build();
         return BigInt(details.length / 2)
     } else {
+
         let hex = transactionBuilder.build();
+        console.log(hex)
         let txid = swapEndianness(binToHex(hash256(hexToBin(hex))))
         state.chain.push(hex)
-
-        // reset the stub utxo paying fees
-        // state.walletStub = {
-        //     txid: txid,
-        //     vout: 2,
-        //     satoshis: stub.satoshis - fee,
-        // }
 
         // reset the vault utxo 
         state.vaults.set(request.locktime, {

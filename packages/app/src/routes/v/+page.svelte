@@ -51,27 +51,19 @@
 		heightValue = value;
 	});
 
-	const handlePlacement = async function (amount: number) {
+	const handlePlacement = async function (coupon:Utxo) {
 		let requests = [
 			{
-				placement: Number(amount),
+				placement: 1e8,
+				coupon: coupon,
 				locktime: time
 			}
 		];
 
 		console.log(requests);
-		let stub = walletThreads.pop()!;
+		
 
-		let state = {
-			chain: [],
-			provider: provider,
-			vault: threads[0]!,
-			requests: requests,
-			wallet: walletThreads,
-			walletStub: stub
-		};
-
-		await wallet.place(state);
+		await wallet.swap(requests);
 	};
 
 	onMount(async () => {
@@ -167,6 +159,7 @@
 							<td>Coupon (sats)</td>
 							<td>spb </td>
 							<td>apr* </td>
+							<td> </td>
 						</tr>
 					</thead>
 
@@ -181,12 +174,14 @@
 									><i>{(Number(c.satoshis) / (time - heightValue) / (1e6 / 52596)).toFixed(2)}%</i
 									></td
 								>
+								<td on:click={() => handlePlacement(c)}>claim</td>
 							</tr>
 						{/each}
 						<tr>
 							<td><i>Total</i></td>
 							<td class="r"><i>{openCouponInterest} BCH </i></td>
 							<td class="r"><i>{couponTotal.toFixed(5)} BCH </i></td>
+							<td></td>
 							<td></td>
 							<td></td>
 						</tr>
@@ -219,13 +214,13 @@
 									></td
 								>
 								<td class="r">
-									{(Number(c.satoshis) / 1000000000).toLocaleString(undefined, {minimumFractionDigits: 3})} 
+									{(Number(c.satoshis) / 1e8).toLocaleString(undefined, {minimumFractionDigits: 3})} 
 									<img width="15" src={bch} alt="bchLogo" />
 								</td>
 								<td class="r"
 									><i>
 										{#if c.token}
-											{(Number(c.token.amount) / 100000000).toLocaleString(undefined, {minimumFractionDigits: 3})}
+											{(Number(c.token.amount) / 1e8).toLocaleString(undefined, {minimumFractionDigits: 3})}
 										{/if}
 									</i>
 									<SeriesIcon time={CATEGORY_MAP.get(c.token?.category)} size="15" />
