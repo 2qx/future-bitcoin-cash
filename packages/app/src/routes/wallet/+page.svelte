@@ -1,8 +1,11 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import hot from '$lib/images/hot.svg';
+	import bch from '$lib/images/bch.svg';
 	import walletIcon from '$lib/images/wallet.svg';
-	import { receiptAddress } from '$lib/store.js';
+	import { receiptAddress, height } from '$lib/store.js';
+	import SeriesIcon from '$lib/images/SeriesIcon.svelte';
+
 	import { copy } from 'svelte-copy';
 	import { toast } from '@zerodevx/svelte-toast';
 	import { ElectrumCluster, ClusterOrder, ElectrumTransport } from 'electrum-cash';
@@ -10,20 +13,27 @@
 	import { IndexedDBProvider } from '@mainnet-cash/indexeddb-storage';
 	import { BaseWallet } from 'mainnet-js';
 	import { FutureWallet, isTokenAddress } from '@fbch/lib';
+	import { CATEGORY_MAP } from '@fbch/lib';
 
 	let receiptAddressValue: string;
 	let receiptAddressRaw: string;
 	let receiptError = false;
 	let walletError = false;
 	let showInfo = false;
-	let wallet;
+	let wallet: FutureWallet;
 	let walletThreads;
 	let balance;
 	let provider;
+	let heightValue;
 
 	receiptAddress.subscribe((value: any) => {
 		console.log(receiptAddressRaw);
 		receiptAddressValue = value;
+	});
+
+	height.subscribe((value: any) => {
+		console.log(heightValue);
+		heightValue = value;
 	});
 
 	function updateReceiptAddress(newVal: any) {
@@ -31,9 +41,25 @@
 		receiptAddress.set(newVal);
 	}
 
+	async function sendMaxTokens() {
+		await wallet.sendMaxFungibleTokens(receiptAddressValue);u
+		await updateWallet()
+	}
+	async function sendMax() {
+		await wallet.sendMax(receiptAddressValue);
+		await updateWallet();
+	}
+
+	async function updateWallet() {
+		await Promise.all([
+			provider.getUtxos(wallet.getDepositAddress()).then((v) => (walletThreads = v))
+		]);
+	}
+
+	
 	onMount(async () => {
 		try {
-			let cluster = new ElectrumCluster('@fbch/app', "1.4.3", 1, 1, ClusterOrder.RANDOM, 2000);
+			let cluster = new ElectrumCluster('@fbch/app', '1.4.3', 1, 1, ClusterOrder.RANDOM, 2000);
 
 			cluster.addServer('bch.imaginary.cash', 50004, ElectrumTransport.WSS.Scheme, false);
 			provider = new ElectrumNetworkProvider('mainnet', cluster, false);
@@ -41,7 +67,11 @@
 			BaseWallet.StorageProvider = IndexedDBProvider;
 			wallet = await FutureWallet.named('hot');
 			balance = await wallet.getBalance('bch');
-			walletThreads = provider.getUtxos(wallet.getDepositAddress());
+			let cancelWatch = wallet.watchBalance(()=>{
+				cancelWatch();
+				updateWallet();
+			})
+			await updateWallet();
 		} catch (e) {
 			walletError = true;
 			throw e;
@@ -152,7 +182,7 @@
 			<img width="52" src={hot} slot="icon" />
 		</qr-code>
 		<div
-			use:copy={wallet.getDepositAddress()}
+			use:copy={wallet.getTokenDepositAddress()}
 			on:svelte-copy={(event) => toast.push('OK 📋🗸: ' + event.detail)}
 			on:svelte-copy:error={(event) =>
 				toast.push(`Error, no access to clipboard?: ${event.detail.message}`, {
@@ -163,7 +193,7 @@
 				<img width="52px" src={hot} alt="hot wallet" />
 				<div>
 					<button class="styled">
-						{wallet.getDepositAddress()}
+						{wallet.getTokenDepositAddress()}
 					</button>
 				</div>
 			</div>
@@ -188,33 +218,67 @@
 		{/if}
 
 		{#if walletThreads}
-			<button on:click={() => wallet.preparePlacementOutpoints()}> Prepare Wallet Outpoints</button>
 			{#if walletThreads.length > 0}
+				<div class="walletHead">
+					<img width="15" src={hot} alt="hotWallet" />
+					<button on:click={() => wallet.preparePlacementOutpoints()}> Shape</button>
+					<button on:click={() => sendMaxTokens()}> Sweep FBCH</button>
+					<button on:click={() => wallet.sendMax(receiptAddressValue)}> Sweep BCH</button>
+				</div>
+
 				<table class="wallet">
 					<thead>
 						<tr class="header">
-							<td></td>
 							<td>BCH </td>
-							<td>Tokens </td>
+							<td>FBCH</td>
+							<td>Series</td>
+							<td>action</td>
 						</tr>
 					</thead>
 
 					<tbody>
 						{#each walletThreads as c, i (i)}
 							<tr>
-								<td
-									><button on:click={() => handlePlacement(Number(c.satoshis) - 800)}>place</button
-									></td
-								>
-								<td class="r">{(Number(c.satoshis) / 1000000000).toFixed(10)} </td>
-								<td class="r"
-									><i>
+								<td class="r">
+									{#if Number(c.satoshis) > 800}
+										{(Number(c.satoshis) / 100000000).toLocaleString(undefined, {
+											minimumFractionDigits: 3
+										})}
+										<img width="15" src={bch} alt="bchLogo" />
+									{/if}
+								</td>
+								<td class="r">
+									<i>
 										{#if c.token}
-											{(Number(c.token.amount) / 100000000).toLocaleString()}
+											{(Number(c.token.amount) / 100000000).toLocaleString(undefined, {
+												minimumFractionDigits: 3
+											})}
+											<SeriesIcon time={CATEGORY_MAP.get(c.token?.category)} size="15" />
 										{/if}
-									</i></td
-								></tr
-							>
+									</i>
+								</td>
+								<td class="r">
+									{#if c.token}
+										{#if CATEGORY_MAP.has(c.token.category)}
+											<a href="/v?block={CATEGORY_MAP.get(c.token?.category)}">
+												{String(CATEGORY_MAP.get(c.token?.category)).padStart(7, '0')}
+											</a>
+										{/if}
+									{/if}
+								</td>
+
+								<td style="width:30px; text-align:center;">
+									{#if CATEGORY_MAP.get(c.token?.category) < Number(heightValue)}
+										<button
+											on:click={() =>
+												wallet.swap({ future: c, locktime: CATEGORY_MAP.get(c.token?.category) })}
+											>redeem</button
+										>
+									{:else}
+										-
+									{/if}
+								</td>
+							</tr>
 						{/each}
 					</tbody>
 				</table>
@@ -262,5 +326,19 @@
 		box-shadow:
 			inset -2px -2px 3px rgba(255, 255, 255, 0.6),
 			inset 2px 2px 3px rgba(0, 0, 0, 0.6);
+	}
+	thead tr {
+		text-align: center;
+		font-weight: 900;
+	}
+	tbody tr:nth-child(odd) {
+		background-color: #ff33cc1f;
+	}
+	tbody tr:nth-child(even) {
+		background-color: #e495e41a;
+	}
+	.r {
+		text-align: right;
+		vertical-align: middle;
 	}
 </style>

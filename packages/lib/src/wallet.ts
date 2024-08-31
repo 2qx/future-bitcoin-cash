@@ -2,7 +2,7 @@ import { Wallet, TestNetWallet, RegTestWallet, BaseWallet, SendRequest, TokenSen
 import { SwapState, SwapRequestI } from "./interface";
 import { hash256, binToHex, hexToBin, swapEndianness } from "@bitauth/libauth";
 import { vaultArtifact, couponArtifact } from "@fbch/contracts";
-import { Coupon } from "./coupon"
+import { } from "./util"
 import { Vault } from "./vault"
 import {
     Contract,
@@ -14,7 +14,13 @@ import {
     NetworkProvider as CsNetworkProvider
 } from "cashscript";
 
-import { delay } from "./util";
+import { asCsUtxo, delay, prefixFromNetworkMap } from "./util";
+
+
+const TOKEN_SATS = 800;
+const MINER_FEE = 345;
+const EXTRA = TOKEN_SATS + MINER_FEE;
+
 
 /**
  * Split the wallet balance into chunks for swapping. 
@@ -23,23 +29,21 @@ import { delay } from "./util";
 async function preparePlacementOutpoints() {
     let balance = await this.getBalance("sats") as number
     let outputs = []
-    const TOKEN_SATS = 800;
-    const MINER_FEE = 0;
-    const EXTRA = TOKEN_SATS + MINER_FEE;
-    while (balance > 1_000_000+EXTRA) {
-        if (balance > 100_000_000+EXTRA) {
-            balance -= 100_000_000+EXTRA
-            outputs.push(100_000_000+EXTRA)
-        } else if (balance > 10_000_000+EXTRA) {
-            balance -= 10_000_000+EXTRA
-            outputs.push(10_000_000+EXTRA)
-        } else if (balance > 1_000_000+EXTRA) {
-            balance -= 1_000_000+EXTRA
-            outputs.push(1_000_000+EXTRA)
+
+    let powers = [8]
+    let powerIdx = 0
+    console.log(powers.length,powerIdx)
+    while (powerIdx < powers.length ) {
+        let thresh = Math.pow(10, powers[powerIdx])
+        console.log(thresh)
+        if (balance > thresh + EXTRA) {
+            balance -= thresh + EXTRA
+            outputs.push(thresh + EXTRA)
+        }
+        else {
+            ++powerIdx
         }
     }
-
-
 
     let requests = outputs.map(a => {
         return new SendRequest({
@@ -51,9 +55,7 @@ async function preparePlacementOutpoints() {
     const tx = await this.send(requests)
 }
 
-async function buildSwapTransaction(state: SwapState, fee = 520n, estimate = false) {
-
-
+async function buildSwapTransaction(state: SwapState, fee = 546n, estimate = false) {
 
     let request
 
@@ -83,6 +85,7 @@ async function buildSwapTransaction(state: SwapState, fee = 520n, estimate = fal
     if (request.placement) placement = BigInt(request.placement)
     if (request.future) placement = -BigInt(request.future.token.amount);
 
+
     const contractOutput = {
         to: vaultContract.tokenAddress,
         amount: BigInt(vault.satoshis) + placement,
@@ -94,24 +97,21 @@ async function buildSwapTransaction(state: SwapState, fee = 520n, estimate = fal
 
     let outputs = [contractOutput]
 
-    // A wallet coin to pay transaction fees, if placing without coupon
-    const stub = state.walletStub;
 
+    // placement with coupon
+    if (request.coupon) {
 
-    // Straight placement or placement with coupon
-    if (placement > 0) {
-
-        // Find a utxo that can match the placement amount
-        const walletUtxoIdx = state.wallet.findIndex(utxo => utxo.satoshis === placement + 800n);
+        // Find a wallet utxo that matches the exact placement amount plus fees
+        const walletUtxoIdx = state.wallet.findIndex(utxo => utxo.satoshis === placement + BigInt(EXTRA));
 
         let ticket
         if (walletUtxoIdx !== -1) {
             ticket = state.wallet[walletUtxoIdx];
         } else {
-            throw ("Could not find suitable utxo")
+            throw ("Could not find suitable utxo for coupon, try shaping wallet")
         }
 
-        // remove the ticket from the wallet
+        // remove the used utxo from the wallet
         if (!estimate) state.wallet.splice(walletUtxoIdx, 1);
         const walletInput = { ...ticket, unlocker: sigTemplate.unlockP2PKH() }
 
@@ -127,30 +127,19 @@ async function buildSwapTransaction(state: SwapState, fee = 520n, estimate = fal
         inputs.push(walletInput)
         outputs.push(walletOutput)
 
-        if (request.coupon) {
 
-            let couponContract = new Contract(
-                couponArtifact,
-                [placement, vaultContract.bytecode],
-                { provider: provider, addressType: 'p2sh32' }
-            );
-            inputs.push({ ...request.coupon, unlocker: couponContract.unlock.apply() })
-            //@ts-ignore
-            outputs.push({
-                to: this.getTokenDepositAddress(),
-                amount: request.coupon.satoshis - fee
-            })
+        let couponContract = new Contract(
+            couponArtifact,
+            [placement, vaultContract.bytecode],
+            { provider: provider, addressType: 'p2sh32' }
+        );
+        inputs.push({ ...request.coupon, unlocker: couponContract.unlock.apply() })
+        //@ts-ignore
+        outputs.push({
+            to: this.getTokenDepositAddress(),
+            amount: request.coupon.satoshis - fee
+        })
 
-
-        } else {
-
-            inputs.push({ ...stub, unlocker: sigTemplate.unlockP2PKH() })
-            //@ts-ignore
-            outputs.push({
-                to: this.getTokenDepositAddress(),
-                amount: BigInt(stub.satoshis) - fee
-            })
-        }
     } else if (request.future) {
 
         if (-placement !== request.future.token.amount) {
@@ -169,18 +158,55 @@ async function buildSwapTransaction(state: SwapState, fee = 520n, estimate = fal
         //@ts-ignore
         outputs.push(walletOutput)
 
+    } else if (!request.coupon && request.placement > 0) {
+        // Find a utxo that can match the placement amount
+        const walletUtxoIdx = state.wallet.findIndex(utxo => utxo.satoshis > placement + BigInt(EXTRA));
+
+        let ticket
+        if (walletUtxoIdx !== -1) {
+            ticket = state.wallet[walletUtxoIdx];
+        } else {
+            throw ("Could not find single suitable utxo for placement")
+        }
+
+        // remove the ticket from the wallet
+        if (!estimate) state.wallet.splice(walletUtxoIdx, 1);
+        const walletInput = { ...ticket, unlocker: sigTemplate.unlockP2PKH() }
+
+        const walletOutput = {
+            to: this.getTokenDepositAddress(),
+            amount: 800n,
+            token: {
+                amount: placement,
+                category: vault.token.category,
+            }
+        }
+
+        inputs.push(walletInput)
+        outputs.push(walletOutput)
+
+        // if there is change...
+        if (ticket.satoshis - placement - fee > 543n) {
+            //@ts-ignore
+            outputs.push({
+                to: this.getTokenDepositAddress(),
+                amount: ticket.satoshis - placement - fee
+            })
+        }
+
     } else {
         throw Error("Could not interpret swap request")
     }
 
 
 
-    //console.log(inputs)
-    //console.log(outputs)
+    console.log(inputs)
+    console.log(outputs)
     transactionBuilder.addInputs(inputs);
     transactionBuilder.addOutputs(outputs);
     if (placement < 0) transactionBuilder.setLocktime(Number(request.locktime));
-    transactionBuilder.setMaxFee(fee + 1n);
+    if (estimate) transactionBuilder.setMaxFee(BigInt(fee) + 5000n);
+    if (!estimate) transactionBuilder.setMaxFee(BigInt(fee));
 
     let details
 
@@ -191,12 +217,13 @@ async function buildSwapTransaction(state: SwapState, fee = 520n, estimate = fal
         let hex = transactionBuilder.build();
         let txid = swapEndianness(binToHex(hash256(hexToBin(hex))))
         state.chain.push(hex)
+
         // reset the stub utxo paying fees
-        state.walletStub = {
-            txid: txid,
-            vout: 2,
-            satoshis: stub.satoshis - fee,
-        }
+        // state.walletStub = {
+        //     txid: txid,
+        //     vout: 2,
+        //     satoshis: stub.satoshis - fee,
+        // }
 
         // reset the vault utxo 
         state.vaults.set(request.locktime, {
@@ -216,7 +243,8 @@ async function buildSwapTransaction(state: SwapState, fee = 520n, estimate = fal
 async function swapFnRaw(state: SwapState): Promise<SwapState> {
 
 
-    let actualFee = await this.buildSwapTransaction(state, 1000n, true) as bigint
+    let actualFee = await this.buildSwapTransaction(state, BigInt(MINER_FEE) + 100n, true) as bigint
+    console.log(actualFee)
     state = await this.buildSwapTransaction(state, actualFee) as SwapState
 
     // recursively process requests
@@ -233,39 +261,42 @@ async function swapFnRaw(state: SwapState): Promise<SwapState> {
 
 }
 
-async function getVaultUtxoMap(requests: SwapRequestI[], provider) {
+async function getVaultUtxoMap(requests: SwapRequestI[], provider: ElectrumNetworkProvider) {
 
     // get distinct list of locktimes
     let locktimes = [...new Set(requests.map(item => item.locktime))];
 
+    console.log(locktimes)
     let vaultUtxoSet = new Map();
 
     // get vault Utxo Sets of the 
     for (const lock of locktimes) {
-        const vaultUtxos = (await provider.getUtxos(Vault.getAddress(lock, this.network)))
-        let randomVaultUtxo = vaultUtxos[Math.floor(Math.random() * vaultUtxos.length)];
-        vaultUtxoSet.set(lock,randomVaultUtxo)
+        console.log(Vault.getAddress(lock, prefixFromNetworkMap[provider.network]))
+        const vaultUtxos = (await provider.getUtxos(Vault.getAddress(lock, prefixFromNetworkMap[provider.network])))
+        let randomVaultUtxo = vaultUtxos.sort((a, b) => Number(a.satoshis) - Number(b.satoshis)).pop();
+        console.log("vault", randomVaultUtxo)
+        vaultUtxoSet.set(lock, randomVaultUtxo)
     }
     return vaultUtxoSet;
 }
 
-async function swap(requests: SwapRequestI | SwapRequestI[]) {
+async function swap(requests: SwapRequestI | SwapRequestI[], provider?: ElectrumNetworkProvider) {
 
-    if (!Array.isArray(requests)) requests = [requests]
-    let provider = new ElectrumNetworkProvider(this.network);
-    let wallet = await provider.getUtxos(this.getDepositAddress())
-    let stub = wallet.pop();
-    let vaults = this.getVaultUtxoMap()
+    if (!Array.isArray(requests)) requests = [requests];
+    if (!provider) provider = new ElectrumNetworkProvider(this.network);
+
+    let wallet = (await this.getUtxos()).map(u => asCsUtxo(u))
+    let vaults = await this.getVaultUtxoMap(requests, provider)
+    console.log(vaults)
     let state = {
         chain: [],
         provider: provider,
         vaults: vaults,
         requests: requests,
         wallet: wallet,
-        walletStub: stub,
     };
 
-    return await this.swap(state)
+    return await this.swapFnRaw(state)
 
 }
 

@@ -351,7 +351,7 @@ let series = [
 function asBcmrEntry(time, category) {
     return {
         "2024-08-10T00:00:00.000Z": {
-            "name": "Future Bitcoin Cash - " + time.toLocaleString(),
+            "name": "Future BCH " + time.toLocaleString(),
             "description": "A fungible token redeemable for Bitcoin Cash after block " + time.toLocaleString(),
             "token": {
                 "category": category,

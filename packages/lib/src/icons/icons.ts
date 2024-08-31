@@ -14,14 +14,14 @@ const colorCodes = [
 
 const xmlCodes = [
     "#000",
-    "#966424dd",
-    "#ff0000dd",
-    "#ff7500dd",
-    "#ffff00dd",
-    "#00ff00dd",
-    "#0000ffdd",
-    "#ff00ffdd",
-    "#888888dd",
+    "#966424",
+    "#ff0000",
+    "#ff7500",
+    "#ffff00",
+    "#00ff00",
+    "#0000ff",
+    "#ff00ff",
+    "#888888",
     "#fff"
 ]
 

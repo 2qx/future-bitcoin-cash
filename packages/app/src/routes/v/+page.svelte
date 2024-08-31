@@ -16,7 +16,7 @@
 	import { CATEGORY_MAP } from '@fbch/lib';
 	import { FutureWallet } from '@fbch/lib';
 
-	
+
 	import hot from '$lib/images/hot.svg';
 	import bch from '$lib/images/bch.svg';
 
@@ -144,73 +144,7 @@
 			</h3>
 		{/if}
 
-		{#if walletThreads}
-			{#if walletThreads.length > 0}
-				<div class="walletHead">
-					<img width="52" src={hot} alt="hotWallet" />
-					<button on:click={() => wallet.preparePlacementOutpoints()}> Shape</button>
-					<button on:click={() => alert('not implemented')}> Sweep FBCH</button>
-					<button on:click={() => alert('not implemented')}> Sweep BCH</button>
-				</div>
 
-				<table class="wallet">
-					<thead>
-						<tr class="header">
-							<td> </td>
-							<td>Series</td>
-							<td>FBCH</td>
-							<td>BCH </td>
-							<td>action</td>
-						</tr>
-					</thead>
-
-					<tbody>
-						{#each walletThreads as c, i (i)}
-							<tr>
-								<td class="r">
-									{#if c.token}
-										{#if CATEGORY_MAP.has(c.token.category)}
-											<SeriesIcon time={CATEGORY_MAP.get(c.token?.category)} size="30" />
-										{/if}
-									{/if}
-								</td>
-								<td class="r">
-									{#if c.token}
-										{#if CATEGORY_MAP.has(c.token.category)}
-											{String(CATEGORY_MAP.get(c.token?.category)).padStart(7, '0')}
-										{/if}
-									{/if}
-								</td>
-								<td class="r">
-									<i>
-										{#if c.token}
-											{(Number(c.token.amount) / 100000000).toLocaleString()}
-										{/if}
-									</i>
-								</td>
-								<td class="r">
-									{#if Number(c.satoshis) > 800}
-										{(Number(c.satoshis) / 1000000000).toFixed(10)}
-									{/if}
-								</td>
-								<td style="width:30px; text-align:center;">
-									{#if Number(c.satoshis) > 800 && Math.log10(Number(c.satoshis - 800n)) >= 6}
-										<button on:click={() => handlePlacement(Number(c.satoshis) - 800)}>place</button
-										>
-									{:else}
-										-
-									{/if}
-								</td>
-							</tr>
-						{/each}
-					</tbody>
-				</table>
-			{:else}
-				<p>no wallet utxos available</p>
-			{/if}
-		{:else}
-			<p>loading wallet...</p>
-		{/if}
 		<h4>Coupons</h4>
 		<div
 			class="cashaddr"
@@ -335,13 +269,13 @@
 	tbody tr:nth-child(odd) {
 		background-color: #ff33cc1f;
 	}
-
+	tbody tr:nth-child(even) {
+		background-color: #e495e41a;
+	}
 	.r {
 		text-align: right;
 	}
 	tbody tr td {
 	}
-	tbody tr:nth-child(even) {
-		background-color: #e495e41a;
-	}
+
 </style>

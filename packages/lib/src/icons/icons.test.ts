@@ -1,5 +1,9 @@
 import { getHvifIconHex, getFbchIconSvg } from "./icons"
 import * as fs from 'fs';
+import { TIMELOCK_MAP } from "../constant";
+
+
+const writeElectronCashSVG = (i) => {return fs.writeFileSync('/tmp/'+ TIMELOCK_MAP.get(i)+ ".svg", getFbchIconSvg(i,32));}
 
 const writeSVG = (i ) => {return fs.writeFileSync('/tmp/FBCH-' + i + ".svg", getFbchIconSvg(i));}
 

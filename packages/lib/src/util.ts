@@ -1,8 +1,10 @@
 import {
     cashAddressToLockingBytecode,
+    CashAddressNetworkPrefix,
     CashAddressType,
     decodeCashAddress
 } from "@bitauth/libauth";
+
 import { Utxo } from "cashscript";
 import { UtxoI } from "mainnet-js";
 
@@ -36,13 +38,19 @@ export function asCsUtxo(u: UtxoI): Utxo {
         txid: u.txid,
         vout: u.vout,
         satoshis: BigInt(u.satoshis),
-        token: {
+        token: u.token ? {
             amount: u.token.amount,
             category: u.token.tokenId,
             nft: {
                 capability: u.token.capability,
                 commitment: u.token.commitment,
             }
-        }
+        } : undefined
     }
 }
+
+export const prefixFromNetworkMap = {
+    mainnet: CashAddressNetworkPrefix.mainnet,
+    testnet: CashAddressNetworkPrefix.testnet,
+    regtest: CashAddressNetworkPrefix.regtest,
+  };
