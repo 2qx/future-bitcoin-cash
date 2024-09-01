@@ -5,7 +5,6 @@
 	import { copy } from 'svelte-copy';
 	import { toast } from '@zerodevx/svelte-toast';
 
-
 	import { IndexedDBProvider } from '@mainnet-cash/indexeddb-storage';
 	import { BaseWallet } from 'mainnet-js';
 	import { ElectrumNetworkProvider } from 'cashscript';
@@ -16,15 +15,18 @@
 	import { CATEGORY_MAP } from '@fbch/lib';
 	import { FutureWallet } from '@fbch/lib';
 
-
 	import hot from '$lib/images/hot.svg';
 	import bch from '$lib/images/bch.svg';
 
+	import ExplorerLinks from '$lib/ExplorerLinks.svelte';
+
 	import SeriesIcon from '$lib/images/SeriesIcon.svelte';
 	import { height } from '$lib/store.js';
+	import { CashAddressNetworkPrefix } from '@bitauth/libauth';
 
 	let couponAddress: string;
 	let vaultAddress: string;
+	let vaultPlainAddress: string;
 
 	let provider: ElectrumNetworkProvider;
 
@@ -51,17 +53,14 @@
 		heightValue = value;
 	});
 
-	const handlePlacement = async function (coupon:Utxo) {
+	const handlePlacement = async function (coupon: Utxo) {
 		let requests = [
 			{
-				placement: 1e8,
+				placement: 100000000n,
 				coupon: coupon,
 				locktime: time
 			}
 		];
-
-		console.log(requests);
-		
 
 		await wallet.swap(requests);
 	};
@@ -79,6 +78,7 @@
 		time = Number(block);
 		couponAddress = Vault.getCoupon(1e8, time);
 		vaultAddress = Vault.getAddress(time);
+		vaultPlainAddress = Vault.getAddress(time, CashAddressNetworkPrefix.mainnet, false);
 
 		let cluster = new ElectrumCluster('@fbch/app', '1.4.3', 1, 1, ClusterOrder.RANDOM, 2000);
 		cluster.addServer('bch.imaginary.cash', 50004, ElectrumTransport.WSS.Scheme, false);
@@ -91,30 +91,35 @@
 				if (coupons.length > 0) {
 					coupons.sort((a, b) => parseFloat(b.satoshis) - parseFloat(a.satoshis));
 					openCouponInterest = coupons.length;
-					couponTotal = (Number(coupons.reduce((acc, utxo) => acc + utxo.satoshis, 0n))) / 1e8;
+					couponTotal = Number(coupons.reduce((acc, utxo) => acc + utxo.satoshis, 0n));
 				}
 			})
 		]);
 
-		
 		vaultBalance = (Number(threads.reduce((acc, utxo) => acc + utxo.satoshis, 0n)) - 7000) / 1e8;
 	});
 </script>
 
 <svelte:head>
-	<title>FBCH-{time}</title>
-	<meta name="description" content="Future Vault Series" />
 	{#if time > 858000}
+		<title>FBCH-{time}</title>
+		<meta name="description" content="Future Vault Series" />
 		<link rel="icon" type="image/svg" href="/FBCH-{time}.svg" />
+	{:else}
+		<title>FBCH</title>
+		<meta name="description" content="Future Vault Series" />
+		<link rel="icon" type="image/svg" href="/FBCH.svg" />
 	{/if}
 </svelte:head>
 <div class="text-column">
 	{#if time}
 		<h1>Vault {time.toLocaleString()}<sub>■</sub></h1>
-		<div>
+		<div style="display:flex;">
 			<SeriesIcon {time} size="150" />
+			<div>
+				<ExplorerLinks address={ vaultAddress }></ExplorerLinks>
+			</div>
 		</div>
-
 
 		{#if heightValue}
 			{#if time - heightValue > 0}
@@ -136,7 +141,6 @@
 			</h3>
 		{/if}
 
-
 		<h4>Coupons</h4>
 		<div
 			class="cashaddr"
@@ -154,11 +158,19 @@
 				<table class="couponTable">
 					<thead>
 						<tr class="header">
-							<td>Series</td>
-							<td>Placement </td>
-							<td>Coupon (sats)</td>
-							<td>spb </td>
+							<td></td>
+							<td>amount </td>
+							<td>coupon</td>
+							<td>rate </td>
 							<td>apr* </td>
+							<td> </td>
+						</tr>
+						<tr class="units">
+							<td></td>
+							<td>BCH</td>
+							<td>sats</td>
+							<td>spb</td>
+							<td></td>
 							<td> </td>
 						</tr>
 					</thead>
@@ -167,20 +179,26 @@
 						{#each coupons as c}
 							<tr>
 								<td>C<sub>0</sub></td>
-								<td class="r">1 BCH</td>
+								<td class="r">{Number(1).toFixed(2)}</td>
 								<td class="r">{Number(c.satoshis).toLocaleString()} </td>
 								<td class="r">{(Number(c.satoshis) / (time - heightValue)).toFixed(1)}</td>
 								<td class="r"
-									><i>{(Number(c.satoshis) / (time - heightValue) / (1e6 / 52596)).toFixed(2)}%</i
+									><i>{(Number(c.satoshis) / (time - heightValue) / (1e6 / 52596)).toFixed(1)}%</i
 									></td
 								>
-								<td on:click={() => handlePlacement(c)}>claim</td>
+								{#if walletBalance > 1e8}
+									<td on:click={() => handlePlacement(c)}>claim</td>
+								{:else}
+									<td>-</td>
+								{/if}
 							</tr>
 						{/each}
-						<tr>
-							<td><i>Total</i></td>
-							<td class="r"><i>{openCouponInterest} BCH </i></td>
-							<td class="r"><i>{couponTotal.toFixed(5)} BCH </i></td>
+						<tr style="border-top: solid thin;">
+							<td>∑</td>
+							<td class="r"><i>{openCouponInterest.toFixed(2)} </i></td>
+							<td class="r">
+								<i>{couponTotal.toLocaleString()} </i>
+							</td>
 							<td></td>
 							<td></td>
 							<td></td>
@@ -198,8 +216,8 @@
 		{#if threads && threads.length}
 			<table class="couponTable">
 				<thead>
-					<tr>
-						<td>Token Id </td>
+					<tr class="header">
+						<td>category </td>
 						<td>BCH </td>
 						<td>FBCH-{String(time).padStart(7, '0')} </td>
 					</tr>
@@ -210,22 +228,25 @@
 						{#if c.token}
 							<tr>
 								<td
-									><i>{c.token.category.substring(0, 6) + '...' + c.token.category.slice(-6)}</i
+									><i>{c.token.category.substring(0, 4) + '...' + c.token.category.slice(-2)}</i
 									></td
 								>
 								<td class="r">
-									{(Number(c.satoshis) / 1e8).toLocaleString(undefined, {minimumFractionDigits: 3})} 
+									{(Number(c.satoshis) / 1e8).toLocaleString(undefined, {
+										minimumFractionDigits: 3
+									})}
 									<img width="15" src={bch} alt="bchLogo" />
 								</td>
 								<td class="r"
 									><i>
 										{#if c.token}
-											{(Number(c.token.amount) / 1e8).toLocaleString(undefined, {minimumFractionDigits: 3})}
+											{(Number(c.token.amount) / 1e8).toLocaleString(undefined, {
+												minimumFractionDigits: 3
+											})}
 										{/if}
 									</i>
 									<SeriesIcon time={CATEGORY_MAP.get(c.token?.category)} size="15" />
-									</td
-								>
+								</td>
 							</tr>
 						{/if}
 					{/each}
@@ -248,7 +269,7 @@
 		display: flex;
 		justify-content: space-between;
 	}
-	.walletHead button{
+	.walletHead button {
 		border-radius: 30px;
 	}
 	.cashaddr {
@@ -256,10 +277,17 @@
 	}
 	.couponTable {
 		width: 100%;
+		border-collapse: collapse;
 	}
-	thead tr {
+	.header {
 		text-align: center;
 		font-weight: 900;
+	}
+
+	.units {
+		text-align: center;
+		font-style: italic;
+		font-weight: 400;
 	}
 	tbody tr:nth-child(odd) {
 		background-color: #ff33cc1f;
@@ -272,5 +300,4 @@
 	}
 	tbody tr td {
 	}
-
 </style>

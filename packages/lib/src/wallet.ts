@@ -16,6 +16,7 @@ import {
 } from "cashscript";
 
 import { asCsUtxo, delay, prefixFromNetworkMap } from "./util";
+import { CATEGORY_MAP, TIMELOCK_MAP } from "./constant";
 
 
 const TOKEN_SATS = 800;
@@ -23,38 +24,7 @@ const MINER_FEE = 345;
 const EXTRA = TOKEN_SATS + MINER_FEE;
 
 
-/**
- * Split the wallet balance into chunks for swapping. 
- *
- */
-async function preparePlacementOutpoints() {
-    let balance = await this.getBalance("sats") as number
-    let outputs = []
 
-    let powers = [8]
-    let powerIdx = 0
-    console.log(powers.length, powerIdx)
-    while (powerIdx < powers.length) {
-        let thresh = Math.pow(10, powers[powerIdx])
-        console.log(thresh)
-        if (balance > thresh + EXTRA) {
-            balance -= thresh + EXTRA
-            outputs.push(thresh + EXTRA)
-        }
-        else {
-            ++powerIdx
-        }
-    }
-
-    let requests = outputs.map(a => {
-        return new SendRequest({
-            cashaddr: this.getDepositAddress(),
-            value: a,
-            unit: 'sats',
-        })
-    })
-    const tx = await this.send(requests)
-}
 
 async function buildSwapTransaction(state: SwapState, fee = 546n, estimate = false) {
 
@@ -104,7 +74,7 @@ async function buildSwapTransaction(state: SwapState, fee = 546n, estimate = fal
     if (request.coupon) {
 
         // Find a wallet utxo that matches the exact placement amount plus fees
-        const walletUtxoIdx = state.wallet.findIndex(utxo => utxo.satoshis === placement + BigInt(EXTRA));
+        const walletUtxoIdx = state.wallet.findIndex(utxo => utxo.satoshis > placement + BigInt(EXTRA));
 
         let ticket
         if (walletUtxoIdx !== -1) {
@@ -120,7 +90,7 @@ async function buildSwapTransaction(state: SwapState, fee = 546n, estimate = fal
 
         const walletOutput = {
             to: this.getTokenDepositAddress(),
-            amount: ticket.satoshis - placement,
+            amount: 800n,
             token: {
                 amount: placement,
                 category: vault.token.category,
@@ -130,7 +100,6 @@ async function buildSwapTransaction(state: SwapState, fee = 546n, estimate = fal
         inputs.push(walletInput)
         outputs.push(walletOutput)
 
-        console.log(vaultContract.bytecode)
         let lock = deriveLockingBytecode(vaultContract.tokenAddress)
         let couponContract = new Contract(
             couponArtifact,
@@ -141,7 +110,7 @@ async function buildSwapTransaction(state: SwapState, fee = 546n, estimate = fal
         //@ts-ignore
         outputs.push({
             to: this.getTokenDepositAddress(),
-            amount: request.coupon.satoshis - fee
+            amount: (ticket.satoshis + request.coupon.satoshis) - (fee + placement + 800n)
         })
 
     } else if (request.future) {
@@ -208,7 +177,7 @@ async function buildSwapTransaction(state: SwapState, fee = 546n, estimate = fal
     console.log(outputs)
     transactionBuilder.addInputs(inputs);
     transactionBuilder.addOutputs(outputs);
-    //if (placement < 0) transactionBuilder.setLocktime(Number(request.locktime));
+    if (placement < 0) transactionBuilder.setLocktime(Number(request.locktime));
     if (estimate) transactionBuilder.setMaxFee(BigInt(fee) + 5000n);
     if (!estimate) transactionBuilder.setMaxFee(BigInt(fee) + 1n);
 
@@ -220,7 +189,6 @@ async function buildSwapTransaction(state: SwapState, fee = 546n, estimate = fal
     } else {
 
         let hex = transactionBuilder.build();
-        console.log(hex)
         let txid = swapEndianness(binToHex(hash256(hexToBin(hex))))
         state.chain.push(hex)
 
@@ -265,15 +233,15 @@ async function getVaultUtxoMap(requests: SwapRequestI[], provider: ElectrumNetwo
     // get distinct list of locktimes
     let locktimes = [...new Set(requests.map(item => item.locktime))];
 
-    console.log(locktimes)
     let vaultUtxoSet = new Map();
 
     // get vault Utxo Sets of the 
     for (const lock of locktimes) {
         console.log(Vault.getAddress(lock, prefixFromNetworkMap[provider.network]))
         const vaultUtxos = (await provider.getUtxos(Vault.getAddress(lock, prefixFromNetworkMap[provider.network])))
-        let randomVaultUtxo = vaultUtxos.sort((a, b) => Number(a.satoshis) - Number(b.satoshis)).pop();
-        console.log("vault", randomVaultUtxo)
+        let randomVaultUtxo = vaultUtxos
+            .filter(u => u.token && u.token.category == TIMELOCK_MAP.get(lock))
+            .sort((a, b) => Number(a.satoshis) - Number(b.satoshis)).pop();
         vaultUtxoSet.set(lock, randomVaultUtxo)
     }
     return vaultUtxoSet;
@@ -286,7 +254,6 @@ async function swap(requests: SwapRequestI | SwapRequestI[], provider?: Electrum
 
     let wallet = (await this.getUtxos()).map(u => asCsUtxo(u))
     let vaults = await this.getVaultUtxoMap(requests, provider)
-    console.log(vaults)
     let state = {
         chain: [],
         provider: provider,
@@ -318,7 +285,6 @@ async function sendMaxFungibleTokens(cashaddr: string) {
 
 export class FutureWallet extends Wallet {
 
-    public preparePlacementOutpoints = preparePlacementOutpoints
     public buildSwapTransaction = buildSwapTransaction
     public swap = swap
     public swapFnRaw = swapFnRaw
@@ -329,7 +295,6 @@ export class FutureWallet extends Wallet {
 
 export class FutureTestNetWallet extends TestNetWallet {
 
-    public preparePlacementOutpoints = preparePlacementOutpoints
     public buildSwapTransaction = buildSwapTransaction
     public swap = swap
     public swapFnRaw = swapFnRaw
@@ -340,7 +305,6 @@ export class FutureTestNetWallet extends TestNetWallet {
 
 export class FutureRegTestWallet extends RegTestWallet {
 
-    public preparePlacementOutpoints = preparePlacementOutpoints
     public buildSwapTransaction = buildSwapTransaction
     public swap = swap
     public swapFnRaw = swapFnRaw

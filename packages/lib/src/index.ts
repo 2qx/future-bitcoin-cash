@@ -3,7 +3,8 @@ export { CATEGORY_MAP } from "./constant.js"
 export { getHvifIconHex, getFbchIconSvg } from "./icons/icons.js"
 export {
     getFutureBlockDate,
-    isTokenAddress
+    isTokenAddress,
+    asTokenUnawareP2sh
 } from "./util.js"
 
 export { Battery } from "./battery.js"

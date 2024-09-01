@@ -10,6 +10,7 @@
 	import { toast } from '@zerodevx/svelte-toast';
 	import { ElectrumCluster, ClusterOrder, ElectrumTransport } from 'electrum-cash';
 	import { ElectrumNetworkProvider } from 'cashscript';
+	import { type Utxo } from "cashscript";
 	import { IndexedDBProvider } from '@mainnet-cash/indexeddb-storage';
 	import { BaseWallet } from 'mainnet-js';
 	import { FutureWallet, isTokenAddress } from '@fbch/lib';
@@ -21,9 +22,9 @@
 	let walletError = false;
 	let showInfo = false;
 	let wallet: FutureWallet;
-	let walletThreads;
+	let walletThreads: Utxo[];
 	let balance;
-	let provider;
+	let provider :ElectrumNetworkProvider;
 	let heightValue;
 
 	receiptAddress.subscribe((value: any) => {
@@ -42,11 +43,16 @@
 	}
 
 	async function sendMaxTokens() {
-		await wallet.sendMaxFungibleTokens(receiptAddressValue);u
+		await wallet.sendMaxFungibleTokens(receiptAddressValue);
 		await updateWallet()
 	}
 	async function sendMax() {
 		await wallet.sendMax(receiptAddressValue);
+		await updateWallet();
+	}
+
+	async function shapeWallet() {
+		await wallet.sendMax(wallet.getDepositAddress());
 		await updateWallet();
 	}
 
@@ -221,9 +227,9 @@
 			{#if walletThreads.length > 0}
 				<div class="walletHead">
 					<img width="15" src={hot} alt="hotWallet" />
-					<button on:click={() => wallet.preparePlacementOutpoints()}> Shape</button>
+					<button on:click={() => shapeWallet()}> Shape</button>
 					<button on:click={() => sendMaxTokens()}> Sweep FBCH</button>
-					<button on:click={() => wallet.sendMax(receiptAddressValue)}> Sweep BCH</button>
+					<button on:click={() => sendMax()}> Sweep BCH</button>
 				</div>
 
 				<table class="wallet">

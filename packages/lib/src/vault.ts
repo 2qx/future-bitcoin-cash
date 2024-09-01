@@ -25,10 +25,10 @@ export class Vault {
      * @param time - block time of the vault lock
      * @param network - cashaddress network prefix
      */
-    static getAddress(time: number, network = CashAddressNetworkPrefix.mainnet) {
+    static getAddress(time: number, network = CashAddressNetworkPrefix.mainnet, tokenSupport=true) {
 
         let lockingBytecode = this.getLockingBytecode(time);
-        let addr = lockingBytecodeToCashAddress(lockingBytecode, network, { tokenSupport: true })
+        let addr = lockingBytecodeToCashAddress(lockingBytecode, network, { tokenSupport: tokenSupport })
         if (typeof addr !== 'string') throw (addr)
         return addr
     }

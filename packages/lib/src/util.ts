@@ -2,7 +2,8 @@ import {
     cashAddressToLockingBytecode,
     CashAddressNetworkPrefix,
     CashAddressType,
-    decodeCashAddress
+    decodeCashAddress,
+    encodeCashAddress
 } from "@bitauth/libauth";
 
 import { Utxo } from "cashscript";
@@ -26,6 +27,12 @@ export function delay(time) {
     return new Promise(resolve => setTimeout(resolve, time));
 }
 
+
+export function asTokenUnawareP2sh(rawAddress:string): string{
+    const addressInfo = decodeCashAddress(rawAddress)
+    if (typeof addressInfo == "string") throw(addressInfo)
+    return encodeCashAddress(addressInfo.prefix as CashAddressNetworkPrefix, CashAddressType.p2sh, addressInfo.payload)
+}
 
 export function isTokenAddress(rawAddress): boolean {
     const addressInfo = decodeCashAddress(rawAddress)

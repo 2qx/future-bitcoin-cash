@@ -36,19 +36,7 @@ export async function getAnAliceWallet(amount: number): Promise<FutureRegTestWal
 }
 
 
-describe(`Prepare outpoints for swapping`, () => {
 
-    test("Test utxo prep", async () => {
-        let alice = await getAnAliceWallet(1_123_120_000)
-        await alice.preparePlacementOutpoints()
-        await delay(1000)
-        let utxos = await alice.getUtxos()
-        expect(utxos.length).toBe(12)
-        expect(await alice.getBalance('sats')).toBeGreaterThan(1_123_119_269)
-    });
-
-
-})
 
 
 describe.skip(`Test placing with coupons`, () => {
@@ -90,8 +78,6 @@ describe.skip(`Test placing with coupons`, () => {
             amount: 100_000_000_000n
         });
 
-        await delay(1000)
-        await alice.preparePlacementOutpoints()
         await delay(1000)
 
         let regTest = new ElectrumCluster(
@@ -220,8 +206,7 @@ describe.skip(`Test placing with coupons`, () => {
             })
         ]
         );
-        await delay(1000)
-        await alice.preparePlacementOutpoints()
+
         await delay(1000)
 
         let regTest = new ElectrumCluster(
@@ -355,8 +340,7 @@ describe.skip(`Test placing with coupons`, () => {
         ]
         );
 
-        await delay(1000)
-        await alice.preparePlacementOutpoints()
+
         await delay(1000)
 
 

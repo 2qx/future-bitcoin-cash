@@ -1,0 +1,36 @@
+<script>
+	import { asTokenUnawareP2sh } from '@fbch/lib';
+
+	export let address;
+
+	const unAwareAddress = asTokenUnawareP2sh(address);
+</script>
+
+<div>
+	{#if address}
+		<a target="_blank" href="https://explorer.salemkode.com/address/{address}">salemkode</a>
+		<a target="_blank" href="https://3xpl.com/bitcoin-cash/address/{unAwareAddress.split(':')[1]}"
+			>3xpl</a
+		>
+		<a target="_blank" href="https://explorer.electroncash.de/address/{address}">electroncash.de</a>
+	{/if}
+</div>
+
+<style>
+    div{
+        display: flex;
+        flex-wrap: wrap;
+        align-content: flex-end;
+        justify-content: flex-end;
+    }
+	div a {
+		display: inline-block;
+		border-radius: 10px;
+		background-color: #52254873;
+color: #eee;
+		margin: 5px;
+        padding: 5px;
+        font-weight: 700;
+        font-size: small;
+	}
+</style>
