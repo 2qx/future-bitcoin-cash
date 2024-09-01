@@ -1,4 +1,4 @@
-This is an archived version of the [successful fundraiser](https://blockchair.com/bitcoin-cash/transaction/0b6c6f0a0b1ac5c3a5e681f009cf523364a1a733dc197642173d32b9a6b7ef43) to finance the development of app.
+This is an archived version of the [successful fundraiser](https://blockchair.com/bitcoin-cash/transaction/0b6c6f0a0b1ac5c3a5e681f009cf523364a1a733dc197642173d32b9a6b7ef43) to finance the development of the FBCH contracts and app.
 
 
 Below is a list of our generous contributors:

@@ -1,11 +1,15 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { Vault, getFutureBlockDate } from '@fbch/lib';
-	import SeriesIcon from '$lib/images/SeriesIcon.svelte';
+	import { Vault } from '@fbch/lib';
 	import { height } from '$lib/store.js';
+
+	import { copy } from 'svelte-copy';
+	import { toast } from '@zerodevx/svelte-toast';
+
 	const series = [3, 4, 5, 6];
 	let s = 4;
 	let coupons = [];
+	let copyText = "";
 	let duplicateCoupons = 1;
 	let placement = 1;
 	let rate = 20;
@@ -16,6 +20,16 @@
 	height.subscribe((value: any) => {
 		heightValue = value;
 	});
+
+	function getSendToMany(coupons): string {
+		let str = coupons
+			.map((c) => {
+
+				return `${c.address}, ${c.amount}`;
+			})
+			.join('\r\n');
+		return str;
+	}
 
 	function updateCoupons() {
 		let addresses = Vault.getCouponSeries(heightValue, placement * 1e8, s, s == 6 ? 4 : undefined);
@@ -38,6 +52,7 @@
 			})
 			.flat();
 
+		copyText = getSendToMany(coupons)
 		totalPlacement = coupons.reduce(function (acc, obj) {
 			return acc + obj.placement;
 		}, 0);
@@ -60,7 +75,9 @@
 
 <div class="text-column">
 	<h1>Let's write some coupons!</h1>
-	<blockquote><b>This is an advanced feature for power users. There is no way to undo writing a coupon.</b></blockquote>
+	<blockquote>
+		<b>This is an advanced feature for power users. There is no way to undo writing a coupon.</b>
+	</blockquote>
 	<p>
 		Coupons incentivize money being spent 1) at a specific destination, 2) above some minimum
 		amount, and 3) with restrictions like: limit one per customer.
@@ -81,7 +98,8 @@
 	<p>
 		At this time, all coupons incentivize the same placement amount of 1 BCH (or 100M sats) into an
 		FBCH vault. These "C<sub>0</sub>" series coupons are to lock 1 x 10^0 BCH, but there may be
-		smaller and larger amounts later (i.e C<sub>2</sub> for 100 BCH placements and C<sub>-2</sub> for 0.01 BCH vault placements).
+		smaller and larger amounts later (i.e C<sub>2</sub> for 100 BCH placements and C<sub>-2</sub> for
+		0.01 BCH vault placements).
 	</p>
 	<p>
 		<b>Coupons are not refundable.</b>
@@ -144,7 +162,16 @@
 		Total: {totalSpend} BCH<br />
 	</div>
 	<hr />
-	<div id="mono">
+
+	<div
+		id="mono"
+		use:copy={copyText}
+		on:svelte-copy={(event) => toast.push('Coupons copied to clipboard')}
+		on:svelte-copy:error={(event) =>
+			toast.push(`Error, no access to clipboard?: ${event.detail.message}`, {
+				classes: ['warn']
+			})}
+	>
 		{#each coupons as c}
 			{c.address}, {c.amount}<br />
 		{/each}
