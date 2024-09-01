@@ -28,8 +28,13 @@
 		if (data.method === 'blockchain.headers.subscribe') {
 			let d = data.params[0];
 			if (d.height && d.height > 1) updateHeight(d.height);
+		} else if (data.method === 'blockchain.address.subscribe') {
+			updateWallet();
 		}
 	};
+	async function updateWallet() {
+		balance = await wallet.getBalance('bch');
+	}
 
 	onMount(async () => {
 		try {
@@ -55,6 +60,7 @@
 			// Listen for notifications.
 			electrum.on('notification', handleNotifications);
 			electrum.subscribe('blockchain.headers.subscribe');
+			electrum.subscribe('blockchain.address.subscribe', wallet.getTokenDepositAddress());
 		});
 	});
 </script>

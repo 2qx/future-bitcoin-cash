@@ -117,7 +117,7 @@
 		<div style="display:flex;">
 			<SeriesIcon {time} size="150" />
 			<div>
-				<ExplorerLinks address={ vaultAddress }></ExplorerLinks>
+				<ExplorerLinks address={vaultAddress}></ExplorerLinks>
 			</div>
 		</div>
 
@@ -159,7 +159,7 @@
 					<thead>
 						<tr class="header">
 							<td></td>
-							<td>amount </td>
+							<td>place</td>
 							<td>coupon</td>
 							<td>rate </td>
 							<td>apr* </td>
@@ -182,10 +182,9 @@
 								<td class="r">{Number(1).toFixed(2)}</td>
 								<td class="r">{Number(c.satoshis).toLocaleString()} </td>
 								<td class="r">{(Number(c.satoshis) / (time - heightValue)).toFixed(1)}</td>
-								<td class="r"
-									><i>{(Number(c.satoshis) / (time - heightValue) / (1e6 / 52596)).toFixed(1)}%</i
-									></td
-								>
+								<td class="r">
+									<i>{(Number(c.satoshis) / (time - heightValue) / (1e6 / 52596)).toFixed(1)}%</i>
+								</td>
 								{#if walletBalance > 1e8}
 									<td on:click={() => handlePlacement(c)}>claim</td>
 								{:else}
