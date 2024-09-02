@@ -2,7 +2,7 @@
 </script>
 
 <svelte:head>
-	<title>FBCH</title>
+	<title>Future BCH</title>
 	<meta name="description" content="Future Bitcoin Cash" />
 	<link rel="icon" type="image/svg" href="/FBCH.svg" />
 </svelte:head>
