@@ -17,20 +17,20 @@
 </div>
 
 <style>
-    div{
-        display: flex;
-        flex-wrap: wrap;
-        align-content: flex-end;
-        justify-content: flex-end;
-    }
+	div {
+		display: flex;
+		flex-wrap: wrap;
+		align-content: flex-end;
+		justify-content: flex-end;
+	}
 	div a {
 		display: inline-block;
 		border-radius: 10px;
 		background-color: #52254873;
-color: #eee;
+		color: #eee;
 		margin: 5px;
-        padding: 5px;
-        font-weight: 700;
-        font-size: small;
+		padding: 5px;
+		font-weight: 700;
+		font-size: small;
 	}
 </style>

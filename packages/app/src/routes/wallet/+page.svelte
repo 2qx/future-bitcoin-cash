@@ -10,7 +10,7 @@
 	import { toast } from '@zerodevx/svelte-toast';
 	import { ElectrumCluster, ClusterOrder, ElectrumTransport } from 'electrum-cash';
 	import { ElectrumNetworkProvider } from 'cashscript';
-	import { type Utxo } from "cashscript";
+	import { type Utxo } from 'cashscript';
 	import { IndexedDBProvider } from '@mainnet-cash/indexeddb-storage';
 	import { BaseWallet } from 'mainnet-js';
 	import { FutureWallet, isTokenAddress } from '@fbch/lib';
@@ -20,11 +20,12 @@
 	let receiptAddressRaw: string;
 	let receiptError = false;
 	let walletError = false;
+	let errorMessage = '';
 	let showInfo = false;
 	let wallet: FutureWallet;
 	let walletThreads: Utxo[];
 	let balance;
-	let provider :ElectrumNetworkProvider;
+	let provider: ElectrumNetworkProvider;
 	let heightValue;
 
 	receiptAddress.subscribe((value: any) => {
@@ -44,7 +45,7 @@
 
 	async function sendMaxTokens() {
 		await wallet.sendMaxFungibleTokens(receiptAddressValue);
-		await updateWallet()
+		await updateWallet();
 	}
 	async function sendMax() {
 		await wallet.sendMax(receiptAddressValue);
@@ -62,7 +63,6 @@
 		]);
 	}
 
-	
 	onMount(async () => {
 		try {
 			let cluster = new ElectrumCluster('@fbch/app', '1.4.3', 1, 1, ClusterOrder.RANDOM, 2000);
@@ -73,10 +73,10 @@
 			BaseWallet.StorageProvider = IndexedDBProvider;
 			wallet = await FutureWallet.named('hot');
 			balance = await wallet.getBalance('bch');
-			let cancelWatch = wallet.watchBalance(()=>{
+			let cancelWatch = wallet.watchBalance(() => {
 				cancelWatch();
 				updateWallet();
-			})
+			});
 			await updateWallet();
 		} catch (e) {
 			walletError = true;
@@ -86,6 +86,18 @@
 
 	const toggleSeed = () => {
 		showInfo = !showInfo;
+	};
+
+	const swap = async (requests) => {
+		try {
+			await wallet.swap(requests);
+			errorMessage = '';
+		} catch (e: Error) {
+			errorMessage = e;
+			toast.push(`Error: ${e}`, {
+				classes: ['warn']
+			});
+		}
 	};
 	const validateReceiptAddress = async () => {
 		if (isTokenAddress(receiptAddressRaw)) {
@@ -274,14 +286,19 @@
 								</td>
 
 								<td style="width:30px; text-align:center;">
-									{#if CATEGORY_MAP.get(c.token?.category) < Number(heightValue)}
-										<button
-											on:click={() =>
-												wallet.swap({ future: c, locktime: CATEGORY_MAP.get(c.token?.category) })}
-											>redeem</button
-										>
-									{:else}
-										-
+									{#if c.token}
+										{#if CATEGORY_MAP.get(c.token?.category) < Number(heightValue)}
+											<button
+												class="action"
+												on:click={() =>
+													swap({ future: c, locktime: CATEGORY_MAP.get(c.token?.category) })}
+												>redeem</button
+											>
+										{:else}
+											<button class="action" disabled>
+												T{Number(heightValue) - CATEGORY_MAP.get(c.token?.category)}<sub>■</sub>
+											</button>
+										{/if}
 									{/if}
 								</td>
 							</tr>
@@ -307,6 +324,28 @@
 		background: #f4ffee;
 		border-width: 5px;
 		font-weight: 500;
+	}
+
+	.action {
+		display: inline-block;
+		border-radius: 10px;
+		background-color: #fa1ad5;
+		color: #fff;
+		margin: 1px;
+		padding: 1px;
+		font-weight: 900;
+		font-size: small;
+	}
+
+	.action:disabled {
+		display: inline-block;
+		border-radius: 10px;
+		background-color: #80748069;
+		color: #ffffff;
+		margin: 1px;
+		padding: 1px;
+		font-weight: 900;
+		font-size: small;
 	}
 
 	.styled {

@@ -38,6 +38,8 @@
 	let couponTotal: number;
 	let swapAmount = 0;
 
+	let errorMessage = '';
+
 	let block;
 
 	let time: number;
@@ -62,7 +64,15 @@
 			}
 		];
 
-		await wallet.swap(requests);
+		try {
+			await wallet.swap(requests);
+			errorMessage = '';
+		} catch (e: Error) {
+			errorMessage = e;
+			toast.push(`Error: ${e}`, {
+				classes: ['warn']
+			});
+		}
 	};
 
 	onMount(async () => {
@@ -163,7 +173,7 @@
 							<td>coupon</td>
 							<td>rate </td>
 							<td>apr* </td>
-							<td> </td>
+							<td>claim</td>
 						</tr>
 						<tr class="units">
 							<td></td>
@@ -183,12 +193,20 @@
 								<td class="r">{Number(c.satoshis).toLocaleString()} </td>
 								<td class="r">{(Number(c.satoshis) / (time - heightValue)).toFixed(1)}</td>
 								<td class="r">
-									<i>{(Number(c.satoshis) / (time - heightValue) / (1e6 / 52596)).toFixed(1)}%</i>
+									<i
+										>{(Number(c.satoshis) / (time - heightValue) / (1e6 / 52596)).toLocaleString(
+											undefined,
+											{
+												maximumFractionDigits: 1,
+												minimumFractionDigits: 1
+											}
+										)}%</i
+									>
 								</td>
 								{#if walletBalance > 1e8}
-									<td on:click={() => handlePlacement(c)}>claim</td>
+									<td style="text-align:center;"><button class="action" on:click={() => handlePlacement(c)}>claim</button></td>
 								{:else}
-									<td>-</td>
+									<td style="text-align:center;"><button class="action" disabled>insufficient funds</button></td>
 								{/if}
 							</tr>
 						{/each}
@@ -281,6 +299,28 @@
 	.header {
 		text-align: center;
 		font-weight: 900;
+	}
+
+	.action {
+		display: inline-block;
+		border-radius: 10px;
+		background-color: #fa1ad5;
+		color: #fff;
+		margin: 1px;
+		padding: 1px;
+		font-weight: 900;
+		font-size: small;
+	}
+
+	.action:disabled {
+		display: inline-block;
+		border-radius: 10px;
+		background-color: #80748069;
+		color: #ffffff;
+		margin: 1px;
+		padding: 1px;
+		font-weight: 900;
+		font-size: small;
 	}
 
 	.units {
