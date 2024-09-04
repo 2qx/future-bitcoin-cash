@@ -287,7 +287,7 @@
 
 								<td style="width:30px; text-align:center;">
 									{#if c.token}
-										{#if CATEGORY_MAP.get(c.token?.category) < Number(heightValue)}
+										{#if CATEGORY_MAP.get(c.token?.category) <= Number(heightValue)}
 											<button
 												class="action"
 												on:click={() =>
