@@ -16,7 +16,7 @@ import { Coupon } from "./coupon"
 export class Vault {
 
     locktime: number;
-    static lockingScript = "c0d3c0d0a06376b17568c0cec0d188c0cdc0c788c0d0c0c693c0d3c0cc939c77"
+    static unlockingScript = "c0d3c0d0a06376b17568c0cec0d188c0cdc0c788c0d0c0c693c0d3c0cc939c77"
 
     /**
      * Return the token address for a Vault
@@ -56,11 +56,11 @@ export class Vault {
      */
     static getUnlockingBytecode(time: number) {
         const locktimeVm = encodeDataPush(bigIntToVmNumber(BigInt(time)))
-        const lockingScript = hexToBin(this.lockingScript)
+        const unlockingScript = hexToBin(this.unlockingScript)
         return new Uint8Array(
             [
                 ...locktimeVm,
-                ...lockingScript
+                ...unlockingScript
             ]
         )
     }

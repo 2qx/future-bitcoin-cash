@@ -13,7 +13,7 @@ export class Coupon {
 
     amount: number;
     lock: Uint8Array;
-    static lockingScript = "00cc00c694a16900c788c08bc39c"
+    static unlockingScript = "00cc00c694a16900c788c08bc39c"
 
     /**
      * Return the address for a Coupon
@@ -40,12 +40,12 @@ export class Coupon {
     static getUnlockingBytecode(amount: number, lock: Uint8Array) {
         const amountVm = encodeDataPush(bigIntToVmNumber(BigInt(amount)))
         const lockVm = encodeDataPush(lock)
-        const lockingScript = hexToBin(this.lockingScript)
+        const unlockingScript = hexToBin(this.unlockingScript)
         return new Uint8Array(
             [
                 ...lockVm,
                 ...amountVm,
-                ...lockingScript
+                ...unlockingScript
             ]
         )
     }

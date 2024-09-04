@@ -191,22 +191,32 @@
 								<td>C<sub>0</sub></td>
 								<td class="r">{Number(1).toFixed(2)}</td>
 								<td class="r">{Number(c.satoshis).toLocaleString()} </td>
-								<td class="r">{(Number(c.satoshis) / (time - heightValue)).toFixed(1)}</td>
+								<td class="r"
+									>{time - heightValue > 0
+										? (Number(c.satoshis) / (time - heightValue)).toFixed(1)
+										: Infinity.toLocaleString()}</td
+								>
 								<td class="r">
 									<i
-										>{(Number(c.satoshis) / (time - heightValue) / (1e6 / 52596)).toLocaleString(
-											undefined,
-											{
-												maximumFractionDigits: 1,
-												minimumFractionDigits: 1
-											}
-										)}%</i
+										>{time - heightValue > 0
+											? (Number(c.satoshis) / (time - heightValue) / (1e6 / 52596)).toLocaleString(
+													undefined,
+													{
+														maximumFractionDigits: 1,
+														minimumFractionDigits: 1
+													}
+												)
+											: Infinity.toLocaleString()}%</i
 									>
 								</td>
 								{#if walletBalance > 1e8}
-									<td style="text-align:center;"><button class="action" on:click={() => handlePlacement(c)}>claim</button></td>
+									<td style="text-align:center;"
+										><button class="action" on:click={() => handlePlacement(c)}>claim</button></td
+									>
 								{:else}
-									<td style="text-align:center;"><button class="action" disabled>insufficient funds ☹️</button></td>
+									<td style="text-align:center;"
+										><button class="action" disabled>insufficient funds ☹️</button></td
+									>
 								{/if}
 							</tr>
 						{/each}

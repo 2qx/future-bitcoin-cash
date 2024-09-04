@@ -1,4 +1,4 @@
-A utility for calling unspent contracts via the command line.
+A utility for calling fbch contracts via the command line.
 
 # Usage
 

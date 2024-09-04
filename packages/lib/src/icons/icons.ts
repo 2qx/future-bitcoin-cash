@@ -56,7 +56,6 @@ export function getFbchIconSvg(n: number, size = 400): string {
 
     const places = [...Math.floor(n / 1000).toString().padStart(4, '0')].map((a, i) => Number(a))
 
-    // data:image/svg+xml;utf8,
     const svgString = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" style="width:` + size + `px; height:` + size + `px;">
     <path d="M 1 1 L 1 15 15 15 15 1 Z" style="stroke-width:4;stroke-linejoin:miter;stroke-linecap:butt;stroke:#ffffff;fill:none;"></path>
     <path d="M 1 1 L 1 15 15 15 15 1 Z" style="fill:#` + xmlCodes[places[0]] + `;stroke:none;"></path> 
