@@ -207,13 +207,13 @@
 	}
 
 	li[aria-current='page']::before {
-		--size: 6px;
+		--size: 15px;
 		content: '';
 		width: 0;
 		height: 0;
 		position: absolute;
 		top: 0;
-		left: calc(50% - var(--size));
+		left: calc(15% - var(--size));
 		border: var(--size) solid transparent;
 		border-top: var(--size) solid var(--color-theme-1);
 	}
@@ -222,7 +222,7 @@
 		display: flex;
 		height: 100%;
 		align-items: center;
-		padding: 0 0.3em;
+		padding: 0 2em 0 0;
 		color: var(--color-text);
 		font-weight: 700;
 		font-size: 0.8rem;

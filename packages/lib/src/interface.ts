@@ -12,7 +12,6 @@ import {
 export interface SwapState {
     provider: CsNetworkProvider;
     vaults: Map<number, CsUtxo>;
-    //walletStub: CsUtxo;
     wallet: CsUtxo[];
     requests?: SwapRequestI[];
     chain?: string[];

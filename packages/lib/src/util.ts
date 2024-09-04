@@ -28,9 +28,9 @@ export function delay(time) {
 }
 
 
-export function asTokenUnawareP2sh(rawAddress:string): string{
+export function asTokenUnawareP2sh(rawAddress: string): string {
     const addressInfo = decodeCashAddress(rawAddress)
-    if (typeof addressInfo == "string") throw(addressInfo)
+    if (typeof addressInfo == "string") throw (addressInfo)
     return encodeCashAddress(addressInfo.prefix as CashAddressNetworkPrefix, CashAddressType.p2sh, addressInfo.payload)
 }
 
@@ -60,4 +60,4 @@ export const prefixFromNetworkMap = {
     mainnet: CashAddressNetworkPrefix.mainnet,
     testnet: CashAddressNetworkPrefix.testnet,
     regtest: CashAddressNetworkPrefix.regtest,
-  };
+};

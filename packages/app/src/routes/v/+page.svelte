@@ -206,7 +206,7 @@
 								{#if walletBalance > 1e8}
 									<td style="text-align:center;"><button class="action" on:click={() => handlePlacement(c)}>claim</button></td>
 								{:else}
-									<td style="text-align:center;"><button class="action" disabled>insufficient funds</button></td>
+									<td style="text-align:center;"><button class="action" disabled>insufficient funds ☹️</button></td>
 								{/if}
 							</tr>
 						{/each}
@@ -307,7 +307,7 @@
 		background-color: #fa1ad5;
 		color: #fff;
 		margin: 1px;
-		padding: 1px;
+		padding: 0 10px 0 20px;
 		font-weight: 900;
 		font-size: small;
 	}
@@ -318,7 +318,7 @@
 		background-color: #80748069;
 		color: #ffffff;
 		margin: 1px;
-		padding: 1px;
+		padding: 0 10px 0 20px;
 		font-weight: 900;
 		font-size: small;
 	}
