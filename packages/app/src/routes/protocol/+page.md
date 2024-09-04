@@ -144,7 +144,7 @@ For example, for series FBCH-0859000, this would map to the colors:
 
 This is the icon for FBCH-0859 as an svg in markdown:
 
-<img width=100 src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' style='width:400px; height: 400px;'%3E%3Cpath d='M 1 1 L 1 15 15 15 15 1 Z' style='stroke-width: 4px; stroke-linejoin: miter; stroke-linecap: butt; stroke: %23fff; fill: none;'%3E%3C/path%3E%3Cpath d='M 1 1 L 1 15 15 15 15 1 Z' style='fill:%23000;'%3E%3C/path%3E%3Cpath d='M 2 2 L 5 2 5 3 3 3 3 4 4 4 4 5 3 5 3 7 2 7 Z' style='fill: %23fff;'%3E%3C/path%3E%3Cpath d='M 2 8 L 2 15 5 15 5 8 Z' style='fill: %23888888;'%3E%3C/path%3E%3Cpath d='M 6 7 L 6 15 14 15 14 7 Z' style='fill:%23fff;'%3E%3C/path%3E%3Cpath d='M 6 2 L 6 6 14 6 14 2 Z' style='fill:%2300ff00;'%3E%3C/path%3E%3C/svg%3E"></img>
+<img width=100 src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' style='width:400px; height: 400px;'%3E%3Cpath d='M 1 1 L 1 15 15 15 15 1 Z' style='stroke-width: 4px; stroke-linejoin: miter; stroke-linecap: butt; stroke: %23fff; fill: none;'%3E%3C/path%3E%3Cpath d='M 1 1 L 1 15 15 15 15 1 Z' style='fill:%23000;'%3E%3C/path%3E%3Cpath d='M 2 2 L 5 2 5 3 3 3 3 4 4 4 4 5 3 5 3 7 2 7 Z' style='fill: %23fff;'%3E%3C/path%3E%3Cpath d='M 2 8 L 2 15 5 15 5 8 Z' style='fill: %23888888;'%3E%3C/path%3E%3Cpath d='M 6 7 L 6 15 14 15 14 7 Z' style='fill:%23fff;'%3E%3C/path%3E%3Cpath d='M 6 2 L 6 6 14 6 14 2 Z' style='fill:%2300ff00;'%3E%3C/path%3E%3C/svg%3E"/>
 
 Generating an SVG icon in javascript can be done as follows:
 
