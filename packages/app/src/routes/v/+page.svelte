@@ -9,13 +9,13 @@
 	import { BaseWallet } from 'mainnet-js';
 	import { ElectrumNetworkProvider } from 'cashscript';
 	import { ElectrumCluster, ClusterOrder, ElectrumTransport } from 'electrum-cash';
+	import { ElectrumClient, ElectrumTransport as Transport } from '@electrum-cash/network';
 	import { type Utxo } from 'cashscript';
 
 	import { getFutureBlockDate, Vault } from '@fbch/lib';
 	import { CATEGORY_MAP } from '@fbch/lib';
 	import { FutureWallet } from '@fbch/lib';
 
-	import hot from '$lib/images/hot.svg';
 	import bch from '$lib/images/bch.svg';
 
 	import ExplorerLinks from '$lib/ExplorerLinks.svelte';
@@ -27,6 +27,10 @@
 	let couponAddress: string;
 	let vaultAddress: string;
 	let vaultPlainAddress: string;
+
+	let couponState: string;
+	let vaultState: string;
+	let walletState: string;
 
 	let provider: ElectrumNetworkProvider;
 
@@ -55,6 +59,23 @@
 		heightValue = value;
 	});
 
+	const updateVault = async function (provider: any) {
+		await provider.getUtxos(vaultAddress).then((v: any) => (threads = v));
+	};
+	const updateWallet = async function (provider: any) {
+		await provider.getUtxos(wallet.getDepositAddress()).then((v: any) => (walletThreads = v));
+	};
+	const updateCoupons = async function (provider: any) {
+		provider.getUtxos(couponAddress).then((v: any) => {
+			coupons = v;
+			if (coupons.length > 0) {
+				coupons.sort((a: any, b: any) => parseFloat(b.satoshis) - parseFloat(a.satoshis));
+				openCouponInterest = coupons.length;
+				couponTotal = Number(coupons.reduce((acc, utxo) => acc + utxo.satoshis, 0n));
+			}
+		});
+	};
+
 	const handlePlacement = async function (coupon: Utxo) {
 		let requests = [
 			{
@@ -72,6 +93,31 @@
 			toast.push(`Error: ${e}`, {
 				classes: ['warn']
 			});
+		}
+	};
+
+	// Set up a callback function to handle new blocks.
+	const handleNotifications = function (data: any) {
+		if (data.method === 'blockchain.address.subscribe') {
+			console.log(data)
+			if (data.params[0] == wallet.getTokenDepositAddress()) {
+				if (data.params[1] !== walletState) {
+					walletState = data.params[1]
+					updateWallet(provider);
+				}
+			} else if (data.params[0] == vaultAddress) {
+				if (data.params[1] !== vaultState) {
+					vaultState = data.params[1]
+					updateVault(provider);
+
+				}
+			} else if (data.params[0] == couponAddress) {
+				if (data.params[1] !== couponState){
+
+					couponState = data.params[1];
+					updateCoupons(provider);
+				} 
+			}
 		}
 	};
 
@@ -93,18 +139,25 @@
 		let cluster = new ElectrumCluster('@fbch/app', '1.4.3', 1, 1, ClusterOrder.RANDOM, 2000);
 		cluster.addServer('bch.imaginary.cash', 50004, ElectrumTransport.WSS.Scheme, false);
 		provider = new ElectrumNetworkProvider('mainnet', cluster, false);
-		await Promise.all([
-			provider.getUtxos(vaultAddress).then((v) => (threads = v)),
-			provider.getUtxos(wallet.getDepositAddress()).then((v) => (walletThreads = v)),
-			provider.getUtxos(couponAddress).then((v) => {
-				coupons = v;
-				if (coupons.length > 0) {
-					coupons.sort((a, b) => parseFloat(b.satoshis) - parseFloat(a.satoshis));
-					openCouponInterest = coupons.length;
-					couponTotal = Number(coupons.reduce((acc, utxo) => acc + utxo.satoshis, 0n));
-				}
-			})
-		]);
+		await Promise.all([updateVault(provider), updateCoupons(provider), updateWallet(provider)]);
+
+		// Initialize an electrum client.
+		const electrum = new ElectrumClient(
+			'FBCH/webapp',
+			'1.4.1',
+			'bch.imaginary.cash',
+			Transport.WSS.Port,
+			Transport.WSS.Scheme
+		);
+
+		// Wait for the client to connect
+		await electrum.connect().then(() => {
+			// Listen for notifications.
+			electrum.on('notification', handleNotifications);
+			electrum.subscribe('blockchain.address.subscribe', wallet.getTokenDepositAddress());
+			electrum.subscribe('blockchain.address.subscribe', couponAddress);
+			electrum.subscribe('blockchain.address.subscribe', vaultAddress);
+		});
 
 		vaultBalance = (Number(threads.reduce((acc, utxo) => acc + utxo.satoshis, 0n)) - 7000) / 1e8;
 	});
@@ -152,16 +205,8 @@
 		{/if}
 
 		<h4>Coupons</h4>
-		<div
-			class="cashaddr"
-			use:copy={couponAddress}
-			on:svelte-copy={(event) => toast.push('Coupon Addr 📋🗸: ' + event.detail)}
-			on:svelte-copy:error={(event) =>
-				toast.push(`Error, no access to clipboard?: ${event.detail.message}`, {
-					classes: ['warn']
-				})}
-		>
-			<p><b>C<sub>0</sub></b>:{couponAddress}</p>
+		<div style="display:flex">
+			<p>C<sub>0</sub> Series:</p><ExplorerLinks address={couponAddress}></ExplorerLinks>
 		</div>
 		{#if coupons}
 			{#if coupons.length > 0}
@@ -189,11 +234,11 @@
 						{#each coupons as c}
 							<tr>
 								<td>C<sub>0</sub></td>
-								<td class="r">{Number(1).toFixed(2)}</td>
+								<td class="r">{Number(1)}</td>
 								<td class="r">{Number(c.satoshis).toLocaleString()} </td>
 								<td class="r"
 									>{time - heightValue > 0
-										? (Number(c.satoshis) / (time - heightValue)).toFixed(1)
+										? (Number(c.satoshis) / (time - heightValue)).toFixed(0)
 										: Infinity.toLocaleString()}</td
 								>
 								<td class="r">
@@ -215,7 +260,7 @@
 									>
 								{:else}
 									<td style="text-align:center;"
-										><button class="action" disabled>insufficient funds ☹️</button></td
+										><button class="action" disabled>low funds</button></td
 									>
 								{/if}
 							</tr>

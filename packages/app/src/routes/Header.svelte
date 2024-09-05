@@ -11,6 +11,7 @@
 	let heightValue: number;
 	let walletError = false;
 	let wallet;
+	let walletState: string;
 	let balance;
 
 	height.subscribe((value: any) => {
@@ -29,7 +30,12 @@
 			let d = data.params[0];
 			if (d.height && d.height > 1) updateHeight(d.height);
 		} else if (data.method === 'blockchain.address.subscribe') {
-			updateWallet();
+			if (data.params[0] == wallet.getTokenDepositAddress()) {
+				if (data.params[1] !== walletState){
+					walletState = data.params[1];
+					updateWallet();
+				} 
+			}
 		}
 	};
 	async function updateWallet() {

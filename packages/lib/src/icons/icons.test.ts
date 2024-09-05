@@ -37,7 +37,7 @@ describe('test example contract functions', () => {
         for await (const n of [...Array(50).keys()]) {
             await writeSVG(8.6e5+(1e4*n))
         }
-        for await (const n of [...Array(200).keys()]) {
+        for await (const n of [...Array(100).keys()]) {
             await writeSVG(8.57e5+(1e3*n))
         }
     })
