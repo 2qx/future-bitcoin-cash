@@ -25,7 +25,7 @@ export class Vault {
      * @param time - block time of the vault lock
      * @param network - cashaddress network prefix
      */
-    static getAddress(time: number, network = CashAddressNetworkPrefix.mainnet, tokenSupport=true) {
+    static getAddress(time: number, network = CashAddressNetworkPrefix.mainnet, tokenSupport = true) {
 
         let lockingBytecode = this.getLockingBytecode(time);
         let addr = lockingBytecodeToCashAddress(lockingBytecode, network, { tokenSupport: tokenSupport })
@@ -137,15 +137,32 @@ export class Vault {
         )
     }
 
+    // TODO fix-me
+    static getCouponSeriesArray(startTime: number, amount = 1e8, series?: number, limit?: number, network = CashAddressNetworkPrefix.mainnet): any[] {
+        let seriesTimes = this.getSeriesTimes(startTime, series, limit);
+        return seriesTimes.map(
+            time => {
+                return {
+                    locktime: time,
+                    placement: amount,
+                    address: Coupon.getAddress(
+                        amount,
+                        this.getLockingBytecode(time),
+                        network
+                    )
+                }
+            }
+        )
+    }
 
-     /**
-     * Return an Unspent Transaction Output as an Input
-     *
-     *
-     * @param time - block time of the vault lock
-     * @param utxo - the unspent transaction output being spent.
-     */
-    static asInput(time: number, utxo: UtxoI)  {
+    /**
+    * Return an Unspent Transaction Output as an Input
+    *
+    *
+    * @param time - block time of the vault lock
+    * @param utxo - the unspent transaction output being spent.
+    */
+    static asInput(time: number, utxo: UtxoI) {
         return {
             outpointIndex: utxo.vout,
             outpointTransactionHash: hexToBin(utxo.txid),
@@ -154,14 +171,14 @@ export class Vault {
         }
     }
 
-     /**
-     * Return an Unspent Transaction Output as an Output
-     *
-     *
-     * @param time - block time of the vault lock
-     * @param utxo - the unspent transaction output being spent.
-     * @param placement - the number of sats being placed *into* the vault.
-     */
+    /**
+    * Return an Unspent Transaction Output as an Output
+    *
+    *
+    * @param time - block time of the vault lock
+    * @param utxo - the unspent transaction output being spent.
+    * @param placement - the number of sats being placed *into* the vault.
+    */
     static asOutput(
         time: number,
         utxo: UtxoI,

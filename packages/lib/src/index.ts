@@ -1,4 +1,4 @@
-export { CATEGORY_MAP } from "./constant.js"
+export { CATEGORY_MAP, TIMELOCK_MAP } from "./constant.js"
 
 export { getHvifIconHex, getFbchIconSvg } from "./icons/icons.js"
 export {

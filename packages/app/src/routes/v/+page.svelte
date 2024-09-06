@@ -13,7 +13,7 @@
 	import { type Utxo } from 'cashscript';
 
 	import { getFutureBlockDate, Vault } from '@fbch/lib';
-	import { CATEGORY_MAP } from '@fbch/lib';
+	import { CATEGORY_MAP, TIMELOCK_MAP } from '@fbch/lib';
 	import { FutureWallet } from '@fbch/lib';
 
 	import bch from '$lib/images/bch.svg';
@@ -99,24 +99,22 @@
 	// Set up a callback function to handle new blocks.
 	const handleNotifications = function (data: any) {
 		if (data.method === 'blockchain.address.subscribe') {
-			console.log(data)
+			console.log(data);
 			if (data.params[0] == wallet.getTokenDepositAddress()) {
 				if (data.params[1] !== walletState) {
-					walletState = data.params[1]
+					walletState = data.params[1];
 					updateWallet(provider);
 				}
 			} else if (data.params[0] == vaultAddress) {
 				if (data.params[1] !== vaultState) {
-					vaultState = data.params[1]
+					vaultState = data.params[1];
 					updateVault(provider);
-
 				}
 			} else if (data.params[0] == couponAddress) {
-				if (data.params[1] !== couponState){
-
+				if (data.params[1] !== couponState) {
 					couponState = data.params[1];
 					updateCoupons(provider);
-				} 
+				}
 			}
 		}
 	};
@@ -176,7 +174,35 @@
 </svelte:head>
 <div class="text-column">
 	{#if time}
-		<h1>Vault {time.toLocaleString()}<sub>■</sub></h1>
+		<div style="display:flex; flex-wrap:wrap">
+			<h1>Vault {time.toLocaleString()}<sub>■</sub></h1>
+			{#if heightValue}
+				{#if time - heightValue > 0}
+					<h2>T&#8196; -{(time - heightValue).toLocaleString()}<sub>■</sub></h2>
+				{/if}
+			{/if}
+		</div>
+		<p>A vault contract locking coins against tokens until block {time.toLocaleString()}.</p>
+		{#if heightValue}
+			<p>
+				<b>
+					{#if time - heightValue >= 2000}
+						Unlocking around
+						{getFutureBlockDate(heightValue, time).toLocaleDateString()}
+					{:else if time - heightValue >= 0}
+						Unlocks around
+						{getFutureBlockDate(heightValue, time).toLocaleDateString()}
+						{getFutureBlockDate(heightValue, time).toLocaleTimeString()}
+					{:else if time - heightValue < 0}
+						Redemptions are open
+					{:else}
+						-
+					{/if}
+				</b>
+			</p>
+		{/if}
+
+
 		<div style="display:flex;">
 			<SeriesIcon {time} size="150" />
 			<div>
@@ -184,29 +210,13 @@
 			</div>
 		</div>
 
-		{#if heightValue}
-			{#if time - heightValue > 0}
-				<h2>T&#8196; -{(time - heightValue).toLocaleString()}<sub>■</sub></h2>
-			{/if}
-			<h3>
-				{#if time - heightValue >= 2000}
-					Unlocks around
-					{getFutureBlockDate(heightValue, time).toLocaleDateString()}
-				{:else if time - heightValue >= 0}
-					Unlocks around
-					{getFutureBlockDate(heightValue, time).toLocaleDateString()}
-					{getFutureBlockDate(heightValue, time).toLocaleTimeString()}
-				{:else if time - heightValue < 0}
-					Redemptions are open
-				{:else}
-					-
-				{/if}
-			</h3>
-		{/if}
+
+		{#if heightValue}{/if}
 
 		<h4>Coupons</h4>
 		<div style="display:flex">
-			<p>C<sub>0</sub> Series:</p><ExplorerLinks address={couponAddress}></ExplorerLinks>
+			<p>C<sub>0</sub> Series</p>
+			<ExplorerLinks address={couponAddress}></ExplorerLinks>
 		</div>
 		{#if coupons}
 			{#if coupons.length > 0}
@@ -216,16 +226,16 @@
 							<td></td>
 							<td>place</td>
 							<td>coupon</td>
-							<td>rate </td>
-							<td>spot </td>
-							<td>claim</td>
+							<td colspan="2">spot rate </td>
+
+							<td>action</td>
 						</tr>
 						<tr class="units">
 							<td></td>
 							<td class="r"><img width="15" src={bch} alt="bchLogo" /></td>
 							<td class="r">sats</td>
 							<td class="r">spb</td>
-							<td></td>
+							<td>per annum</td>
 							<td> </td>
 						</tr>
 					</thead>
@@ -238,7 +248,10 @@
 								<td class="sats">{Number(c.satoshis).toLocaleString()} </td>
 								<td class="sats"
 									>{time - heightValue > 0
-										? (Number(c.satoshis) / (time - heightValue)).toFixed(0)
+										? (Number(c.satoshis) / (time - heightValue)).toLocaleString(undefined, {
+												maximumFractionDigits: 0,
+												minimumFractionDigits: 0
+											})
 										: Infinity.toLocaleString()}</td
 								>
 								<td class="r">
@@ -260,7 +273,7 @@
 									>
 								{:else}
 									<td style="text-align:center;"
-										><button class="action" disabled>low funds</button></td
+										><button class="action" disabled>low bal.</button></td
 									>
 								{/if}
 							</tr>
@@ -320,12 +333,19 @@
 					{/each}
 				</tbody>
 			</table>
+			<p class="cashaddr">Use category: {TIMELOCK_MAP.get(time)}</p>
 		{:else}
 			<p>loading threads...</p>
 		{/if}
 	{:else}
 		<p>loading...</p>
 	{/if}
+	<p>
+		Note:<br />
+		sats (satoshis): one 100,000,000<sup>th</sup> of a whole coin.<br />
+		spb: rate in sats per coin per block of time remaining to maturation.<br />
+		spot rate per annum: effective non-compounding rate of annual return.
+	</p>
 </div>
 
 <style>
@@ -347,9 +367,11 @@
 		width: 100%;
 		border-collapse: collapse;
 	}
-	.header {
+	thead tr td {
 		text-align: center;
+		background-color: #ffffff5b;
 		font-weight: 900;
+		border: 2px ridge rgba(247, 202, 248, 0.6);
 	}
 
 	.action {
@@ -388,12 +410,13 @@
 	.r {
 		text-align: right;
 	}
-	.sats{
+	.sats {
 		text-align: right;
 		font-weight: 300;
 		font-style: italic;
 	}
 
 	tbody tr td {
+		border: 2px ridge rgba(247, 202, 248, 0.6);
 	}
 </style>
