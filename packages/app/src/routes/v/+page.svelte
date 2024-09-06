@@ -217,14 +217,14 @@
 							<td>place</td>
 							<td>coupon</td>
 							<td>rate </td>
-							<td>apr* </td>
+							<td>spot </td>
 							<td>claim</td>
 						</tr>
 						<tr class="units">
 							<td></td>
-							<td>BCH</td>
-							<td>sats</td>
-							<td>spb</td>
+							<td class="r"><img width="15" src={bch} alt="bchLogo" /></td>
+							<td class="r">sats</td>
+							<td class="r">spb</td>
 							<td></td>
 							<td> </td>
 						</tr>
@@ -235,8 +235,8 @@
 							<tr>
 								<td>C<sub>0</sub></td>
 								<td class="r">{Number(1)}</td>
-								<td class="r">{Number(c.satoshis).toLocaleString()} </td>
-								<td class="r"
+								<td class="sats">{Number(c.satoshis).toLocaleString()} </td>
+								<td class="sats"
 									>{time - heightValue > 0
 										? (Number(c.satoshis) / (time - heightValue)).toFixed(0)
 										: Infinity.toLocaleString()}</td
@@ -267,9 +267,9 @@
 						{/each}
 						<tr style="border-top: solid thin;">
 							<td>∑</td>
-							<td class="r"><i>{openCouponInterest.toFixed(2)} </i></td>
+							<td class="r"><b>{openCouponInterest.toFixed(0)} </b></td>
 							<td class="r">
-								<i>{couponTotal.toLocaleString()} </i>
+								<b>{couponTotal.toLocaleString()} </b>
 							</td>
 							<td></td>
 							<td></td>
@@ -304,17 +304,13 @@
 									></td
 								>
 								<td class="r">
-									{(Number(c.satoshis) / 1e8).toLocaleString(undefined, {
-										minimumFractionDigits: 3
-									})}
+									{(Number(c.satoshis) / 1e8).toLocaleString(undefined, {})}
 									<img width="15" src={bch} alt="bchLogo" />
 								</td>
 								<td class="r"
 									><i>
 										{#if c.token}
-											{(Number(c.token.amount) / 1e8).toLocaleString(undefined, {
-												minimumFractionDigits: 3
-											})}
+											{(Number(c.token.amount) / 1e8).toLocaleString(undefined, {})}
 										{/if}
 									</i>
 									<SeriesIcon time={CATEGORY_MAP.get(c.token?.category)} size="15" />
@@ -392,6 +388,12 @@
 	.r {
 		text-align: right;
 	}
+	.sats{
+		text-align: right;
+		font-weight: 300;
+		font-style: italic;
+	}
+
 	tbody tr td {
 	}
 </style>
