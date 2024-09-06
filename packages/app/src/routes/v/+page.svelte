@@ -174,7 +174,7 @@
 </svelte:head>
 <div class="text-column">
 	{#if time}
-		<div style="display:flex; flex-wrap:wrap">
+		<div style="display:flex; flex-direction:column; align-items:flex-end;">
 			<h1>Vault {time.toLocaleString()}<sub>■</sub></h1>
 			{#if heightValue}
 				{#if time - heightValue > 0}
@@ -182,7 +182,6 @@
 				{/if}
 			{/if}
 		</div>
-		<p>A vault contract locking coins against tokens until block {time.toLocaleString()}.</p>
 		{#if heightValue}
 			<p>
 				<b>
@@ -201,19 +200,21 @@
 				</b>
 			</p>
 		{/if}
-
-
+		<p>
+			Vault locking Bitcoin Cash (BCH) against CashTokens until block {time.toLocaleString()}
+			in {(time - heightValue).toLocaleString()} blocks.
+		</p>
 		<div style="display:flex;">
-			<SeriesIcon {time} size="150" />
+			<SeriesIcon {time} size="75" />
 			<div>
 				<ExplorerLinks address={vaultAddress}></ExplorerLinks>
 			</div>
 		</div>
-
-
+		
 		{#if heightValue}{/if}
 
-		<h4>Coupons</h4>
+		<h4>Spot Coupons</h4>
+		<p>Place 1 BCH, limit one coupon per transaction.</p>
 		<div style="display:flex">
 			<p>C<sub>0</sub> Series</p>
 			<ExplorerLinks address={couponAddress}></ExplorerLinks>
@@ -267,13 +268,14 @@
 											: Infinity.toLocaleString()}%</i
 									>
 								</td>
-								{#if walletBalance > 1e8}
+								{#if walletBalance+Number(c.satoshis) > 1e8}
 									<td style="text-align:center;"
 										><button class="action" on:click={() => handlePlacement(c)}>claim</button></td
 									>
 								{:else}
 									<td style="text-align:center;"
-										><button class="action" disabled>low bal.</button></td
+										><button class="action" disabled style="font-size:x-small;">balance too low</button
+										></td
 									>
 								{/if}
 							</tr>
@@ -333,7 +335,7 @@
 					{/each}
 				</tbody>
 			</table>
-			<p class="cashaddr">Use category: {TIMELOCK_MAP.get(time)}</p>
+			<p class="cashaddr">see pre-genesis/tx: {TIMELOCK_MAP.get(time)}</p>
 		{:else}
 			<p>loading threads...</p>
 		{/if}
@@ -349,17 +351,17 @@
 </div>
 
 <style>
+	h1 {
+		margin: 2px;
+	}
+	h2 {
+		margin: 2px;
+	}
 	p {
 		text-overflow: ellipsis;
+		margin: 2px;
 	}
 
-	.walletHead {
-		display: flex;
-		justify-content: space-between;
-	}
-	.walletHead button {
-		border-radius: 30px;
-	}
 	.cashaddr {
 		line-break: anywhere;
 	}
@@ -367,11 +369,15 @@
 		width: 100%;
 		border-collapse: collapse;
 	}
-	thead tr td {
-		text-align: center;
-		background-color: #ffffff5b;
-		font-weight: 900;
+	thead tr td{
 		border: 2px ridge rgba(247, 202, 248, 0.6);
+		background-color: #ffffff5b;
+	}
+
+	thead tr:nth-child(odd) {
+		text-align: center;
+		
+		font-weight: 900;
 	}
 
 	.action {
@@ -399,7 +405,7 @@
 	.units {
 		text-align: center;
 		font-style: italic;
-		font-weight: 400;
+		font-weight: 200;
 	}
 	tbody tr:nth-child(odd) {
 		background-color: #ff33cc1f;
