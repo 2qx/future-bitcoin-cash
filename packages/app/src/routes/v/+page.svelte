@@ -201,8 +201,7 @@
 			</p>
 		{/if}
 		<p>
-			Vault locking Bitcoin Cash (BCH) against CashTokens until block {time.toLocaleString()}
-			in {(time - heightValue).toLocaleString()} blocks.
+			Vault locking Bitcoin Cash (BCH) for CashTokens until opening redemptions after block {time.toLocaleString()}―in {(time - heightValue).toLocaleString()} blocks.
 		</p>
 		<div style="display:flex;">
 			<SeriesIcon {time} size="75" />
