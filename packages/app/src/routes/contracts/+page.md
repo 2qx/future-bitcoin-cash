@@ -8,6 +8,22 @@ layout: splash
 
 </svelte:head>
 
+# Overview
+
+Future Bitcoin Cash is an anyone-can-spend system for populating a fixed supply of tokens in vaults using an NFT baton as authority.
+
+The contracts allow anyone to mint a fixed supply of fungible tokens and put them into the next vault, and also check that a token claiming to be FBCH is valid.
+
+<img src="/system_genesis.svg" alt="diagram showing system operation"/>
+
+To check if an FBCH category, get the pre-genesis transaction matching the category ID, then:
+
+ - Check that the first output of the transaction paid to one of the four gantry contracts.
+ - Check that the first output spent the FBCH baton (`fbc0b00131...ccb46`).
+ - The token is valid FBCH and the value of the baton commitment (LE) is the series.
+  
+More details on checking FBCH tokens [here](/protocol)
+
 # Vault
 
 The vault allows swapping coins for fungible tokens on a 1:1 basis until a certain block height is reached. When the `locktime` has been met, the vault allows bi-directional swapping.

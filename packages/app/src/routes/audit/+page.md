@@ -8,10 +8,6 @@ layout: splash
 
 </svelte:head>
 
->Although Vault and Coupon contracts are identical to the audit,
->### the [Gantry](/contracts#gantry) and [Battery](/contracts#battery) contracts were modified as "NOTED" in the comments of the final versions.
-
->Also note: the scope of the audit pertained to the on-chain contracts and the intended function of the overall contract system. Software such as wallets, plugins and libraries that interact with the contracts (like this webapp or software) are beyond the scope of the audit.
 
 
 # Introduction
@@ -908,3 +904,13 @@ It doesn't implement time-skip, meaning the contract is simpler but it will have
 [**Battery**](https://github.com/2qx/future-bitcoin-cash/blob/3fab223e6472a24fda8b8c4cebc120a9293d7102/contracts/battery.v2.cash)
 
 Contract has implemented suggested [alternative contract](#battery-alternative-contract) verbatim and is expected to perform as intended.
+
+# Implementation Notes
+ 
+=== post audit changes:
+
+> Although Vault and Coupon contracts are identical to the audit, *the [Gantry](/contracts#gantry) and [Battery](/contracts#battery) contracts were modified as "NOTED" in the comments of the final versions.* The major change post-audit was that the final contracts secure funds for the continued operation of the system, and the order of outputs from the battery changed. The gantry also had to be optimized slightly to fit within current operation code limits. 
+
+> It should also be noted, the scope of the audit pertained to the on-chain contracts and the intended function of the overall contract system. Software such as wallets, plugins and libraries that interact with the contracts (like this webapp or software) are beyond the scope of the audit.
+
+> -2qx 2024-08

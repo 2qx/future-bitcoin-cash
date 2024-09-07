@@ -1,13 +1,3 @@
-This guide is for wallet maintainers and defi builders/inventors who what to display, interface with, or eventually integrate FBCH swaps/markets in their software.
-
- > TL;DR. There is [DNS-resolved](https://cashtokens.org/docs/bcmr/chip#dns-resolved-registries) BCMR metadata for FBCH series (to date) [here](https://futurebitcoin.cash/.well-known/bitcoin-cash-metadata-registry.json). I'd also be happy to craft integrations for any wallet looking to have FBCH in their [embedded registry](https://cashtokens.org/docs/bcmr/chip#embedded-registries) or that wants tooling specific to FBCH integrated. Such assets have already been prepackaged for [Electron Cash here](https://github.com/2qx/future-bitcoin-cash/tree/main/metadata/electron-cash).
-
-On the various current implementations of BCMR, I generally think many DNS-resolved registries could lead to a mess in user-space. This is a document to convey how to check a baton authorized FT mint, along a set of auth chains. 
-
-**This is a fuller exposition of a message to the Electron Cash team in their telegram channel that caused the author's Telegram account to be temporary restricted across all public groups platform wide. So I can't chat about this, at least on TG ATM.**
-:point_up: 
-@cculianu @im_uname @dagurval @Andrew-128 
-
 ## Introduction
 
 Future Bitcoin Cash fungible token series represent time-locked BCH on a 1:1 basis. Each series is denoted by the block time when redemption opens. There's a different series about every week, or every 1000 blocks.
@@ -18,9 +8,7 @@ The system secures it's own financing for fees and token utxo dust. It was funde
 
 The system uses NFT batons to authenticate "valid" token mints and also track the state of the gantry.
 
-
-![system_genesis|690x334](upload://8vlIG6vVre7PAfuq1bNMtXBV8b5.png)
-Note: the actual implementation of the battery contract released the gantries in the opposite order before burning the minting baton, but the above graphic illustrates the system architecture. 
+<img src="system_genesis.svg" alt="genesis" width="600"/>
 
 
 ## Validating Yet to be Minted FBCH Series
@@ -169,8 +157,7 @@ export function getFbchIconSvg(n: number, size = 400): string {
 
     return `<svg 
     xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" style="width:` + size + `px; height:` + size + `px;">
-    <path d="M 1 1 L 1 15 15 15 15 1 Z" style="stroke-width:4;stroke-linejoin:miter;stroke-linecap:butt;stroke:#ffffff;fill:none;"></path>
-    <path d="M 1 1 L 1 15 15 15 15 1 Z" style="fill:#` + colorMap[places[0]] + `;stroke:none;"></path> 
+    <path d="M 1 1 L 1 15 15 15 15 1 Z" style="stroke-width:2;stroke-linejoin:miter;stroke-linecap:butt;stroke:#ffffff;fill:#` + colorMap[places[0]] + `; paint-order:stroke;"></path>
     <path d="M 2 2 L 5 2 5 3 3 3 3 4 4 4 4 5 3 5 3 7 2 7 Z" style="fill:#ffffff;stroke:none;"></path>
     <path d="M 2 8 L 2 15 5 15 5 8 Z" style="fill:#` + colorMap[places[1]] + `;stroke:none;"></path>
     <path d="M 6 7 L 6 15 14 15 14 7 Z" style="fill:#` + colorMap[places[3]] + `;stroke:none;"></path>
