@@ -228,7 +228,7 @@
 		display: flex;
 		height: 100%;
 		align-items: center;
-		padding: 0 2em 0 0;
+		padding: 0 1rem 0 0;
 		color: var(--color-text);
 		font-weight: 700;
 		font-size: 0.8rem;

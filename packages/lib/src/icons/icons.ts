@@ -59,8 +59,8 @@ export function getFbchIconSvg(n: number, size = 400): string {
     const svgString = `<svg 
     xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" style="width:` + size + `px; height:` + size + `px;">
     <path d="M 1 1 L 1 15 15 15 15 1 Z" 
-          style="stroke-width:2;stroke-linejoin:miter;stroke-linecap:butt;stroke:#ffffff;fill:#` + xmlCodes[places[0]] + `;" 
-          paint-order="stroke">
+          style="stroke-width:2;stroke-linejoin:miter;stroke-linecap:butt;stroke:#ffffff;fill:#` + xmlCodes[places[0]] + `; 
+          paint-order:stroke;">
     </path>
     <path d="M 2 2 L 5 2 5 3 3 3 3 4 4 4 4 5 3 5 3 7 2 7 Z" style="fill:#ffffff;"></path>
     <path d="M 2 8 L 2 15 5 15 5 8 Z" style="fill:#` + xmlCodes[places[1]] + `;"></path>
@@ -78,7 +78,7 @@ export function getFbchIconSvgUri(n: number, size = 400): string {
         `%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' style='width:` + size + `px; height: ` + size + `px;'%3E` +
         `%3Cpath d='M 1 1 L 1 15 15 15 15 1 Z' ` +
         `style='stroke-width: 2px; stroke-linejoin: miter; stroke-linecap: butt; stroke: %23fff; fill:%23` + xmlCodes[places[0]] + `; ` +
-        `paint-order=stroke'` +
+        `paint-order:stroke'` +
         `%3E%3C/path%3E` +
         `%3Cpath d='M 2 2 L 5 2 5 3 3 3 3 4 4 4 4 5 3 5 3 7 2 7 Z' style='fill: %23fff;'%3E%3C/path%3E` +
         `%3Cpath d='M 2 8 L 2 15 5 15 5 8 Z' style='fill: %23` + xmlCodes[places[1]] + `;'%3E%3C/path%3E` +

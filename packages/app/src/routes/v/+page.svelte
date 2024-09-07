@@ -201,30 +201,31 @@
 			</p>
 		{/if}
 		<p>
-			Vault locking Bitcoin Cash (BCH) for CashTokens until opening redemptions after block {time.toLocaleString()}―in {(time - heightValue).toLocaleString()} blocks.
+			Vault locking Bitcoin Cash (BCH) for CashTokens until opening redemptions after block {time.toLocaleString()}―in
+			{(time - heightValue).toLocaleString()} blocks.
 		</p>
 		<div style="display:flex;">
 			<SeriesIcon {time} size="75" />
-			<div>
-				<ExplorerLinks address={vaultAddress}></ExplorerLinks>
-			</div>
 		</div>
-		
+
 		{#if heightValue}{/if}
 
 		<h4>Spot Coupons</h4>
-		<p>Place 1 BCH, limit one coupon per transaction.</p>
 		<div style="display:flex">
-			<p>C<sub>0</sub> Series</p>
+			<p>C<sub>0</sub></p>
 			<ExplorerLinks address={couponAddress}></ExplorerLinks>
 		</div>
+		<p>
+			Coupons discount placement of <i>P</i> BCH into the vault; limit one coupon per transaction.
+		</p>
+
 		{#if coupons}
 			{#if coupons.length > 0}
 				<table class="couponTable">
 					<thead>
 						<tr class="header">
 							<td></td>
-							<td>place</td>
+							<td><i>P</i></td>
 							<td>coupon</td>
 							<td colspan="2">spot rate </td>
 
@@ -267,13 +268,14 @@
 											: Infinity.toLocaleString()}%</i
 									>
 								</td>
-								{#if walletBalance+Number(c.satoshis) > 1e8}
+								{#if walletBalance + Number(c.satoshis) > 1e8}
 									<td style="text-align:center;"
 										><button class="action" on:click={() => handlePlacement(c)}>claim</button></td
 									>
 								{:else}
 									<td style="text-align:center;"
-										><button class="action" disabled style="font-size:x-small;">balance too low</button
+										><button class="action" disabled style="font-size:x-small;"
+											>balance too low</button
 										></td
 									>
 								{/if}
@@ -298,6 +300,14 @@
 			<p>loading coupons...</p>
 		{/if}
 		<h4>Vault Threads</h4>
+		<div style="display:flex">
+			<ExplorerLinks address={vaultAddress}></ExplorerLinks>
+		</div>
+		<p>
+			Seven (7) unspent transaction outputs control swapping of coins and tokens on a 1:1 basis with
+			the vault unlocking script. 
+		</p>
+		<p class="cashaddr">Category/pre-genesis: <a target="_blank" href="https://explorer.electroncash.de/tx/{TIMELOCK_MAP.get(time)}"> {TIMELOCK_MAP.get(time)}</a></p>
 
 		{#if threads && threads.length}
 			<table class="couponTable">
@@ -334,19 +344,19 @@
 					{/each}
 				</tbody>
 			</table>
-			<p class="cashaddr">see pre-genesis/tx: {TIMELOCK_MAP.get(time)}</p>
+
 		{:else}
 			<p>loading threads...</p>
 		{/if}
+		<hr />
+		<p style="font-size:small">
+			<i>sats (satoshis)</i>: one 100,000,000<sup>th</sup> of a whole coin.<br />
+			<i>spb</i>: rate in sats per coin per block of time remaining to maturation.<br />
+			<i>spot rate per annum</i>: effective non-compounding rate of annual return.
+		</p>
 	{:else}
 		<p>loading...</p>
 	{/if}
-	<p>
-		Note:<br />
-		sats (satoshis): one 100,000,000<sup>th</sup> of a whole coin.<br />
-		spb: rate in sats per coin per block of time remaining to maturation.<br />
-		spot rate per annum: effective non-compounding rate of annual return.
-	</p>
 </div>
 
 <style>
@@ -368,14 +378,14 @@
 		width: 100%;
 		border-collapse: collapse;
 	}
-	thead tr td{
+	thead tr td {
 		border: 2px ridge rgba(247, 202, 248, 0.6);
 		background-color: #ffffff5b;
 	}
 
 	thead tr:nth-child(odd) {
 		text-align: center;
-		
+
 		font-weight: 900;
 	}
 
