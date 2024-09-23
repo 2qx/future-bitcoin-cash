@@ -1,0 +1,31 @@
+{
+  "$schema": "https://cashtokens.org/bcmr-v2.schema.json",
+  "version": { "major": 1, "minor": 1, "patch": 0 },
+  "latestRevision": "2024-09-16T13:15:14.574422",
+  "license": "CC0-1.0",
+  "registryIdentity": {
+    "name": "A Future BCH Baton Authenticated Distributed Registry",
+    "description": "Auto-generated metadata for an independently validated FBCH token series; verified by checked a FBCH minting baton was spent in the first output to a known gantry in the pre-genesis transaction.",
+    "uris": {
+      "icon": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' style='width:400px; height: 400px;'%3E%3Crect width='14' height='14' x='1' y='1' rx='3' ry='3' style='stroke:%23fbc; fill:%23fff' /%3E%3Cpath d='m 5,3 h 6 V 5 H 7 V 7 H 9 V 9 H 7 v 4 H 5 Z' style='stroke:%23fbc; fill:%23fff;' /%3E%3C/svg%3E",
+      "web": "https://futurebitcoin.cash/protocol"
+    }
+  },
+  "identities": {
+    "00beef": {
+      "2024-09-16T13:15:14.574457": {
+        "name": "Future BCH 0",
+        "description": "A fungible token redeemable for Bitcoin Cash after block 0",
+        "token": {
+          "category": "00beef",
+          "decimals": 8,
+          "symbol": "FBCH-0000000"
+        },
+        "uris": {
+          "icon": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' style='width:400px; height: 400px;'%3E%3Cpath d='M 1 1 L 1 15 15 15 15 1 Z' style='stroke-width: 2px; stroke-linejoin: miter; stroke-linecap: butt; stroke: %23fff; fill:%23000; paint-order:stroke'%3E%3C/path%3E%3Cpath d='M 2 2 L 5 2 5 3 3 3 3 4 4 4 4 5 3 5 3 7 2 7 Z' style='fill: %23fff;'%3E%3C/path%3E%3Cpath d='M 2 8 L 2 15 5 15 5 8 Z' style='fill: %23000;'%3E%3C/path%3E%3Cpath d='M 6 7 L 6 15 14 15 14 7 Z' style='fill:%23000;'%3E%3C/path%3E%3Cpath d='M 6 2 L 6 6 14 6 14 2 Z' style='fill:%23000;'%3E%3C/path%3E%3C/svg%3E",
+          "web": "https://futurebitcoin.cash/v?block=0"
+        }
+      }
+    }
+  }
+}

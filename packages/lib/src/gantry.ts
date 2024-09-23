@@ -6,7 +6,6 @@ import {
     hexToBin,
     binToHex,
     lockingBytecodeToCashAddress,
-    swapEndianness,
     numberToBinUint32LEClamped,
     binToNumberInt32LE
 

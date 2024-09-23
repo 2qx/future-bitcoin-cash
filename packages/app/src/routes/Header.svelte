@@ -31,10 +31,10 @@
 			if (d.height && d.height > 1) updateHeight(d.height);
 		} else if (data.method === 'blockchain.address.subscribe') {
 			if (data.params[0] == wallet.getTokenDepositAddress()) {
-				if (data.params[1] !== walletState){
+				if (data.params[1] !== walletState) {
 					walletState = data.params[1];
 					updateWallet();
-				} 
+				}
 			}
 		}
 	};
@@ -80,6 +80,9 @@
 	{#if wallet}
 		{#if walletError}
 			⚠️
+		{/if}
+		{#if balance == 0}
+			Deposit coins to claim coupons ☞
 		{/if}
 
 		<a href="/wallet">
