@@ -1,4 +1,5 @@
 import {
+    binToHex,
     encodeDataPush,
     hash256,
     bigIntToVmNumber,
@@ -8,10 +9,11 @@ import {
     Output
 } from "@bitauth/libauth";
 
-import { UtxoI } from "./interface"
+import { CouponDataI, UtxoI } from "./interface"
 
 import { Coupon } from "./coupon"
-
+import { COUPON_SERIES, VAULT_SERIES } from "./constant";
+import { getAllUnspentCoupons, getRates, getRateLocale } from "./util";
 
 export class Vault {
 
@@ -115,6 +117,22 @@ export class Vault {
 
 
     /**
+     * Return an array of vaults in all series
+     *
+     *
+     * @param startTime - block time of the vault lock
+     * @param series - power of 10 to stagger the times
+     * @param limit - length of the array to return
+     * @param network - cashaddress network prefix
+     */
+    static getAllSeries(startTime: number, network = CashAddressNetworkPrefix.mainnet) {
+
+        let addresses = VAULT_SERIES.map(e => this.getSeries(startTime, e, e == 6 ? 4 : undefined, network)).flat()
+        return [...new Set(addresses)]
+    }
+
+
+    /**
      * Return an array coupons for vaults in a series
      *
      *
@@ -138,21 +156,63 @@ export class Vault {
     }
 
     // TODO fix-me
-    static getCouponSeriesArray(startTime: number, amount = 1e8, series?: number, limit?: number, network = CashAddressNetworkPrefix.mainnet): any[] {
-        let seriesTimes = this.getSeriesTimes(startTime, series, limit);
-        return seriesTimes.map(
-            time => {
-                return {
-                    locktime: time,
-                    placement: amount,
-                    address: Coupon.getAddress(
+    static getAllCouponSeries(startTime: number, seriesTimes?): Map<string, CouponDataI> {
+
+        if(!seriesTimes) seriesTimes = VAULT_SERIES.map(e => this.getSeriesTimes(startTime-1000, e, e == 6 ? 4 : undefined)).flat()
+        seriesTimes = [...new Set(seriesTimes)]
+        let amounts = COUPON_SERIES.map(c => Math.pow(10, c) * 1e8)
+        let coupons = amounts.map(amount =>
+            seriesTimes.map(
+                time => {
+                    let address = Coupon.getAddress(
                         amount,
                         this.getLockingBytecode(time),
-                        network
+                        CashAddressNetworkPrefix.mainnet
                     )
+                    return {
+                        locktime: time,
+                        placement: amount,
+                        order: Math.log10(amount/1e8),
+                        address: address,
+                        lockingBytecode: binToHex(Coupon.getLockingBytecode(amount, this.getLockingBytecode(time)))
+                    }
                 }
-            }
-        )
+            )
+        ).flat()
+        var map = new Map();
+        coupons.forEach(obj => map.set(obj.address, obj));
+        return map;
+
+    }
+
+
+    /**
+     * Return an array coupons for vaults in a series
+     *
+     *
+     * @param electrumClient - an v4 electrum-cash client
+     * @param height - the height after which to list coupons.
+     * @param locktime - filter to coupons for a single series
+     */
+
+    public static async getAllCouponUtxos(electrumClient, height, locktime?) {
+        let couponSeries = Vault.getAllCouponSeries(height, locktime)
+        console.log(couponSeries)
+        let allCoupons = await getAllUnspentCoupons(electrumClient, [...couponSeries.keys()]) 
+        allCoupons.forEach((value, key, map) => {
+            let cData = couponSeries.get(value.address)
+            map.set(key,
+                {
+                    id: value.utxo.txid +":"+value.utxo.vout,
+                    ...value,
+                    ...getRates(height, cData.locktime, Number(value.utxo.satoshis), cData.placement),
+                    locale: getRateLocale(height, cData.locktime, Number(value.utxo.satoshis), cData.placement),
+                    ...cData
+                } 
+            ) 
+        })
+        return Array.from(allCoupons.values()).sort((a,b) => b.spb-a.spb)
+
     }
 
     /**

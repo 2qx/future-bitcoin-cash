@@ -25,12 +25,12 @@
 	}
 	div a {
 		display: inline-block;
-		border-radius: 10px;
+		border-radius: 5px;
 		background-color: #52254873;
 		color: #eee;
-		margin: 5px;
-		padding: 5px;
-		font-weight: 700;
+		margin: 2px;
+		padding: 2px;
+		font-weight: 400;
 		font-size: small;
 	}
 </style>

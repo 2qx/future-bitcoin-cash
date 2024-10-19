@@ -5,9 +5,57 @@ import {
 } from "@bitauth/libauth";
 
 import {
-    Utxo as CsUtxo,
     NetworkProvider as CsNetworkProvider
 } from "cashscript";
+
+
+export interface CsUtxo {
+    txid: string;
+    vout: number;
+    satoshis: bigint;
+    token?: TokenDetails;
+}
+
+export interface CouponDataI {
+    locktime: number;
+    placement: number;
+    address: string;
+    lockingBytecode: string;
+}
+
+export interface CouponItemI {
+    id: string;
+    address: string;
+    utxo: CsUtxo;
+    spb?: number;
+    ytm?: number;
+    ypa?: number;
+    locale?: rateSetLocale;
+    locktime?: number;
+    placement?: number;
+    lockingBytecode?: string;
+}
+
+export interface TokenDetails {
+    amount: bigint;
+    category: string;
+    nft?: {
+        capability: 'none' | 'mutable' | 'minting';
+        commitment: string;
+    };
+}
+
+export interface rateSet {
+    spb: number;
+    ytm: number;
+    ypa: number;
+}
+
+export interface rateSetLocale {
+    spb: string;
+    ytm: string;
+    ypa: string;
+}
 
 export interface SwapState {
     provider: CsNetworkProvider;
@@ -50,6 +98,14 @@ export interface UtxoI {
     coinbase?: boolean;
     token?: TokenI;
 }
+
+
+export interface UtxoItemI {
+    cashaddr: string;
+    utxo: UtxoI;
+}
+
+
 
 
 

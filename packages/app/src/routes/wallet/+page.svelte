@@ -27,6 +27,7 @@
 	let balance;
 	let provider: ElectrumNetworkProvider;
 	let heightValue;
+	let requests: any[] = [];
 
 	receiptAddress.subscribe((value: any) => {
 		console.log(receiptAddressRaw);
@@ -88,17 +89,31 @@
 		showInfo = !showInfo;
 	};
 
-	const swap = async (requests) => {
-		try {
-			await wallet.swap(requests);
-			errorMessage = '';
-		} catch (e: Error) {
-			errorMessage = e;
-			toast.push(`Error: ${e}`, {
-				classes: ['warn']
-			});
-		}
+	function debounce(func, timeout = 2000) {
+		let timer;
+		return (...args) => {
+			clearTimeout(timer);
+			timer = setTimeout(() => {
+				func.apply(this, args);
+			}, timeout);
+		};
+	}
+	async function doSwaps() {
+		console.log('processing que data');
+		console.log(requests);
+		await wallet.swap(requests);
+		requests = [];
+	}
+	const processQueue = debounce(() => doSwaps());
+
+	const swap = async (request, idx) => {
+		balance -= request.placement;
+		requests.push(request);
+		console.log(requests);
+		walletThreads = walletThreads.filter((c) => c.txid + ':' + c.vout !== idx);
+		processQueue();
 	};
+
 	const validateReceiptAddress = async () => {
 		if (isTokenAddress(receiptAddressRaw)) {
 			receiptAddressValue = receiptAddressRaw;
@@ -255,11 +270,11 @@
 					</thead>
 
 					<tbody>
-						{#each walletThreads as c, i (i)}
+						{#each walletThreads as c, i (c.txid + ':' + c.vout)}
 							<tr>
 								<td class="r">
 									{#if Number(c.satoshis) > 800}
-										{(Number(c.satoshis) / 100000000).toLocaleString(undefined, {
+										{(Number(c.satoshis) / 1e8).toLocaleString(undefined, {
 											minimumFractionDigits: 3
 										})}
 										<img width="15" src={bch} alt="bchLogo" />
@@ -268,7 +283,7 @@
 								<td class="r">
 									<i>
 										{#if c.token}
-											{(Number(c.token.amount) / 100000000).toLocaleString(undefined, {
+											{(Number(c.token.amount) / 1e8).toLocaleString(undefined, {
 												minimumFractionDigits: 3
 											})}
 											<SeriesIcon time={CATEGORY_MAP.get(c.token?.category)} size="15" />
@@ -291,8 +306,10 @@
 											<button
 												class="action"
 												on:click={() =>
-													swap({ future: c, locktime: CATEGORY_MAP.get(c.token?.category) })}
-												>redeem</button
+													swap(
+														{ future: c, locktime: CATEGORY_MAP.get(c.token?.category) },
+														c.txid + ':' + c.vout
+													)}>redeem</button
 											>
 										{:else}
 											<button class="action" disabled>

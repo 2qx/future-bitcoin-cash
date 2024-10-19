@@ -1,16 +1,16 @@
 import {
+    bigIntToVmNumber,
+    binToHex,
+    binToNumberInt32LE,
+    CashAddressNetworkPrefix,
     encodeDataPush,
     hash256,
-    bigIntToVmNumber,
-    CashAddressNetworkPrefix,
     hexToBin,
-    binToHex,
     lockingBytecodeToCashAddress,
     numberToBinUint32LEClamped,
-    binToNumberInt32LE
-
 } from "@bitauth/libauth";
 
+import { BATON } from "./constant"
 import { gantryArtifact } from "@fbch/contracts";
 import { Vault } from "./vault"
 import { Contract, ElectrumNetworkProvider, Network } from "cashscript";
@@ -26,7 +26,8 @@ export class Gantry {
 
     step: number;
 
-    public static category = "fbc0b001313509454331f23f4b1891a8d9a284421efcc33187f1a1cdd37ccb46";
+    public static category = BATON;
+    //public static gantrySet = Gantry.getLockingBytecodeSet(1e6, 4)
 
     public static unlockingScript = "c0009dc0c7c0cd88c0cec0d188c0ccc0c6023421949dc0cf81c0d278537993548088767b965a97009c63c4519d67768277787e52797e02aa2078aa7e01877e51cd788851d100c88851d2008851d3070040075af075079d51cc02e8039d52cd788852d100c88852d2008852d3070040075af075079d52cc02e8039d53cd788853d100c88853d2008853d3070040075af075079d53cc02e8039d54cd788854d100c88854d2008854d3070040075af075079d54cc02e8039d55cd788855d100c88855d2008855d3070040075af075079d55cc02e8039d56cd788856d100c88856d2008856d3070040075af075079d56cc02e8039d57cd788857d100c88857d2008857d3070040075af075079d57cc02e8039d58cd066a0446424348547982777e54797e8858d1008858cc009dc4599d6d686d51";
 
@@ -158,4 +159,8 @@ export class Gantry {
         await delay(2000);
 
     }
+
+
+     
+    
 }

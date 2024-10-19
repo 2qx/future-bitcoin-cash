@@ -1,17 +1,17 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { Vault } from '@fbch/lib';
+	import { Vault, COUPON_SERIES, VAULT_SERIES } from '@fbch/lib';
 	import { height } from '$lib/store.js';
 
 	import { copy } from 'svelte-copy';
 	import { toast } from '@zerodevx/svelte-toast';
 
-	const series = [3, 4, 5, 6];
 	let s = 4;
+	let c = 0;
 	let coupons = [];
-	let copyText = "";
+	let copyText = '';
 	let duplicateCoupons = 1;
-	let placement = 1;
+
 	let rate = 20;
 	let totalSpend = 0;
 	let totalPlacement = 0;
@@ -24,7 +24,6 @@
 	function getSendToMany(coupons): string {
 		let str = coupons
 			.map((c) => {
-
 				return `${c.address}, ${c.amount}`;
 			})
 			.join('\r\n');
@@ -32,6 +31,7 @@
 	}
 
 	function updateCoupons() {
+		let placement = Math.round((10 ** c + Number.EPSILON) * 100) / 100;
 		let addresses = Vault.getCouponSeries(heightValue, placement * 1e8, s, s == 6 ? 4 : undefined);
 		let times = Vault.getSeriesTimes(heightValue, s, s == 6 ? 4 : undefined);
 
@@ -43,7 +43,7 @@
 							time: times[i],
 							address: a,
 							placement: placement,
-							amount: Math.floor((times[i] - heightValue) * rate) / 1e8
+							amount: Math.floor((times[i] - heightValue) * rate * placement) / 1e8
 						})
 					];
 				} else {
@@ -52,11 +52,11 @@
 			})
 			.flat();
 
-		copyText = getSendToMany(coupons)
+		copyText = getSendToMany(coupons);
 		totalPlacement = coupons.reduce(function (acc, obj) {
 			return acc + obj.placement;
 		}, 0);
-
+		totalPlacement = Math.round(totalPlacement * 100) / 100;
 		totalSpend = coupons.reduce(function (acc, obj) {
 			return acc + obj.amount;
 		}, 0);
@@ -112,7 +112,22 @@
 	</p>
 
 	<div id="control">
-		<div>Placement: 1 BCH</div>
+		<div>
+			Placement: <br />
+
+			{#each COUPON_SERIES as order}
+				<label>
+					<input
+						type="radio"
+						name="c"
+						value={order}
+						bind:group={c}
+						on:change={() => updateCoupons()}
+					/>
+					C<sub>{order}</sub> Series - {Math.pow(10, order).toLocaleString()} BCH <br />
+				</label>
+			{/each}
+		</div>
 		<div>
 			<label>
 				Rate: {rate} spb , <i>~{(rate / 20.0).toPrecision(2)}% </i><br />
@@ -140,7 +155,7 @@
 		</div>
 
 		<div id="dataTable">
-			{#each series as number}
+			{#each VAULT_SERIES as number}
 				<label>
 					<input
 						type="radio"

@@ -1,32 +1,33 @@
 {
-    "name": "@fbch/lib",
-    "version": "0.0.1",
-    "description": "A typescirpt library for FBCH contracts",
-    "author": "2qx",
-    "scripts": {
-        "build": "npm run clean && npm run compile",
-        "clean": "rm -rf ./dist",
-        "compile": "tsc"
-    },
-    "type": "module",
-    "exclude": [
-        "node_modules"
-    ],
-    "main": "dist/main/index.js",
-    "types": "dist/main/index.d.ts",
-    "keywords": [
-        "bitcoin",
-        "bitcoin cash",
-        "bch",
-        "FBCH"
-    ],
-    "dependencies": {
-        "@fbch/contracts": "workspace:^",
-        "mainnet-js":"2.4.3"
-    },
-    "devDependencies": {
-        "@cashscript/utils": "^0.10.0-next.4",
-        "electrum-cash":"^3.2.0"
-    },
-    "license": "Unlicense"
+  "name": "@fbch/lib",
+  "version": "0.0.1",
+  "description": "A typescirpt library for FBCH contracts",
+  "author": "2qx",
+  "scripts": {
+    "build": "npm run clean && npm run compile",
+    "clean": "rm -rf ./dist",
+    "compile": "tsc"
+  },
+  "type": "module",
+  "exclude": [
+    "node_modules"
+  ],
+  "main": "dist/main/index.js",
+  "types": "dist/main/index.d.ts",
+  "keywords": [
+    "bitcoin",
+    "bitcoin cash",
+    "bch",
+    "FBCH"
+  ],
+  "dependencies": {
+    "@fbch/contracts": "workspace:^",
+    "mainnet-js": "2.4.3"
+  },
+  "devDependencies": {
+    "@cashscript/utils": "^0.10.0-next.4",
+    "electrum-cash": "^3.2.0",
+    "@electrum-cash/network": "^4.1.1"
+  },
+  "license": "Unlicense"
 }

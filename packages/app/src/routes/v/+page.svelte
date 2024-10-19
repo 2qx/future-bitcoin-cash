@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { page } from '$app/stores';
-	import { onMount } from 'svelte';
+	import { onMount, onDestroy } from 'svelte';
 
 	import { copy } from 'svelte-copy';
 	import { toast } from '@zerodevx/svelte-toast';
@@ -8,12 +8,11 @@
 	import { IndexedDBProvider } from '@mainnet-cash/indexeddb-storage';
 	import { BaseWallet } from 'mainnet-js';
 	import { ElectrumNetworkProvider } from 'cashscript';
-	import { ElectrumCluster, ClusterOrder, ElectrumTransport } from 'electrum-cash';
 	import { ElectrumClient, ElectrumTransport as Transport } from '@electrum-cash/network';
 	import { type Utxo } from 'cashscript';
 
 	import { getFutureBlockDate, Vault } from '@fbch/lib';
-	import { CATEGORY_MAP, TIMELOCK_MAP } from '@fbch/lib';
+	import { CATEGORY_MAP, TIMELOCK_MAP, COUPON_SERIES } from '@fbch/lib';
 	import { FutureWallet } from '@fbch/lib';
 
 	import bch from '$lib/images/bch.svg';
@@ -33,8 +32,11 @@
 	let walletState: string;
 
 	let provider: ElectrumNetworkProvider;
+	let electrum: ElectrumClient;
 
-	let coupons: Utxo[];
+	let coupons: any[];
+	let requests: any[] = [];
+
 	let threads: Utxo[];
 	let walletThreads: Utxo[];
 
@@ -47,7 +49,6 @@
 	let block;
 
 	let time: number;
-	let vaultBalance: number;
 
 	let heightValue: number;
 
@@ -65,26 +66,29 @@
 	const updateWallet = async function (provider: any) {
 		await provider.getUtxos(wallet.getDepositAddress()).then((v: any) => (walletThreads = v));
 	};
-	const updateCoupons = async function (provider: any) {
-		provider.getUtxos(couponAddress).then((v: any) => {
-			coupons = v;
-			if (coupons.length > 0) {
-				coupons.sort((a: any, b: any) => parseFloat(b.satoshis) - parseFloat(a.satoshis));
-				openCouponInterest = coupons.length;
-				couponTotal = Number(coupons.reduce((acc, utxo) => acc + utxo.satoshis, 0n));
-			}
-		});
+	const updateCoupons = async function () {
+		console.log('time:', time);
+		coupons = await Vault.getAllCouponUtxos(electrum, heightValue, [time]);
+		if (coupons.length > 0) {
+			coupons.sort((a: any, b: any) => parseFloat(b.utxo.satoshis) - parseFloat(a.utxo.satoshis));
+			openCouponInterest = coupons.length;
+			couponTotal = Number(coupons.reduce((acc, c) => acc + c.utxo.satoshis, 0n));
+		}
 	};
 
-	const handlePlacement = async function (coupon: Utxo) {
-		let requests = [
-			{
-				placement: 100000000n,
-				coupon: coupon,
-				locktime: time
-			}
-		];
+	function debounce(func, timeout = 2000) {
+		let timer;
+		return (...args) => {
+			clearTimeout(timer);
+			timer = setTimeout(() => {
+				func.apply(this, args);
+			}, timeout);
+		};
+	}
 
+	async function doSwaps() {
+		console.log('processing que data');
+		console.log(requests);
 		try {
 			await wallet.swap(requests);
 			errorMessage = '';
@@ -94,30 +98,23 @@
 				classes: ['warn']
 			});
 		}
+		requests = [];
+	}
+
+	const processQueue = debounce(() => doSwaps());
+
+	const handlePlacement = async function (coupon: any, id: string) {
+		walletBalance -= coupon.placement;
+		requests.push({
+			placement: BigInt(coupon.placement),
+			coupon: coupon.utxo,
+			locktime: coupon.locktime
+		});
+		console.log(requests);
+		coupons = coupons.filter((c) => c.id !== id);
+		processQueue();
 	};
 
-	// Set up a callback function to handle new blocks.
-	const handleNotifications = function (data: any) {
-		if (data.method === 'blockchain.address.subscribe') {
-			console.log(data);
-			if (data.params[0] == wallet.getTokenDepositAddress()) {
-				if (data.params[1] !== walletState) {
-					walletState = data.params[1];
-					updateWallet(provider);
-				}
-			} else if (data.params[0] == vaultAddress) {
-				if (data.params[1] !== vaultState) {
-					vaultState = data.params[1];
-					updateVault(provider);
-				}
-			} else if (data.params[0] == couponAddress) {
-				if (data.params[1] !== couponState) {
-					couponState = data.params[1];
-					updateCoupons(provider);
-				}
-			}
-		}
-	};
 
 	onMount(async () => {
 		try {
@@ -133,14 +130,10 @@
 		couponAddress = Vault.getCoupon(1e8, time);
 		vaultAddress = Vault.getAddress(time);
 		vaultPlainAddress = Vault.getAddress(time, CashAddressNetworkPrefix.mainnet, false);
-
-		let cluster = new ElectrumCluster('@fbch/app', '1.4.3', 1, 1, ClusterOrder.RANDOM, 2000);
-		cluster.addServer('bch.imaginary.cash', 50004, ElectrumTransport.WSS.Scheme, false);
-		provider = new ElectrumNetworkProvider('mainnet', cluster, false);
-		await Promise.all([updateVault(provider), updateCoupons(provider), updateWallet(provider)]);
-
+		provider = new ElectrumNetworkProvider();
+		
 		// Initialize an electrum client.
-		const electrum = new ElectrumClient(
+		electrum = new ElectrumClient(
 			'FBCH/webapp',
 			'1.4.1',
 			'bch.imaginary.cash',
@@ -151,13 +144,9 @@
 		// Wait for the client to connect
 		await electrum.connect().then(() => {
 			// Listen for notifications.
-			electrum.on('notification', handleNotifications);
-			electrum.subscribe('blockchain.address.subscribe', wallet.getTokenDepositAddress());
-			electrum.subscribe('blockchain.address.subscribe', couponAddress);
-			electrum.subscribe('blockchain.address.subscribe', vaultAddress);
+			updateCoupons();
+			updateVault(provider);
 		});
-
-		vaultBalance = (Number(threads.reduce((acc, utxo) => acc + utxo.satoshis, 0n)) - 7000) / 1e8;
 	});
 </script>
 
@@ -211,10 +200,7 @@
 		{#if heightValue}{/if}
 
 		<h4>Spot Coupons</h4>
-		<div style="display:flex">
-			<p>C<sub>0</sub></p>
-			<ExplorerLinks address={couponAddress}></ExplorerLinks>
-		</div>
+		
 		<p>
 			Coupons discount placement of <i>P</i> BCH into the vault; limit one coupon per transaction.
 		</p>
@@ -227,7 +213,7 @@
 							<td></td>
 							<td><i>P</i></td>
 							<td>coupon</td>
-							<td colspan="2">spot rate </td>
+							<td colspan="3">coupon rate </td>
 
 							<td>action</td>
 						</tr>
@@ -237,6 +223,7 @@
 							<td class="r">sats</td>
 							<td class="r">spb</td>
 							<td>per annum</td>
+							<td>to maturity</td>
 							<td> </td>
 						</tr>
 					</thead>
@@ -244,38 +231,24 @@
 					<tbody>
 						{#each coupons as c}
 							<tr>
-								<td>C<sub>0</sub></td>
-								<td class="r">{Number(1)}</td>
-								<td class="sats">{Number(c.satoshis).toLocaleString()} </td>
-								<td class="sats"
-									>{time - heightValue > 0
-										? (Number(c.satoshis) / (time - heightValue)).toLocaleString(undefined, {
-												maximumFractionDigits: 0,
-												minimumFractionDigits: 0
-											})
-										: Infinity.toLocaleString()}</td
-								>
+								<td>C<sub>{c.order}</sub></td>
+								<td class="r">{Number(c.placement / 1e8)}</td>
+								<td class="sats">{Number(c.utxo.satoshis).toLocaleString()} </td>
+								<td class="sats">{c.locale.spb}</td>
 								<td class="r">
-									<i
-										>{time - heightValue > 0
-											? (Number(c.satoshis) / (time - heightValue) / (1e6 / 52596)).toLocaleString(
-													undefined,
-													{
-														maximumFractionDigits: 1,
-														minimumFractionDigits: 1
-													}
-												)
-											: Infinity.toLocaleString()}%</i
-									>
+									<i>{c.locale.ypa}%</i>
 								</td>
-								{#if walletBalance + Number(c.satoshis) > 1e8}
+								<td class="r">
+									<i>{c.locale.ytm}%</i>
+								</td>
+								{#if walletBalance + Number(c.utxo.satoshis) > c.placement}
 									<td style="text-align:center;"
-										><button class="action" on:click={() => handlePlacement(c)}>claim</button></td
+										><button class="action" on:click={() => handlePlacement(c, c.id)}>claim</button
+										></td
 									>
 								{:else}
 									<td style="text-align:center;"
-										><button class="action" disabled style="font-size:x-small;"
-											>balance too low</button
+										><button class="action" disabled style="font-size:x-small;">low bal.</button
 										></td
 									>
 								{/if}
@@ -290,6 +263,7 @@
 							<td></td>
 							<td></td>
 							<td></td>
+							<td></td>
 						</tr>
 					</tbody>
 				</table>
@@ -299,15 +273,34 @@
 		{:else}
 			<p>loading coupons...</p>
 		{/if}
+
+		<div style="display:flex;">
+			{#each COUPON_SERIES as c}
+			<div>
+				<pre style="font-size:small">C<sub>{c}</sub></pre>
+				<ExplorerLinks address={Vault.getCoupon(Math.pow(10, c) * 1e8, time)}></ExplorerLinks><br />
+
+			</div>
+				
+			{/each}
+		</div>
+
 		<h4>Vault Threads</h4>
 		<div style="display:flex">
 			<ExplorerLinks address={vaultAddress}></ExplorerLinks>
 		</div>
 		<p>
 			Seven (7) unspent transaction outputs control swapping of coins and tokens on a 1:1 basis with
-			the vault unlocking script. 
+			the vault unlocking script.
 		</p>
-		<p class="cashaddr">Category/pre-genesis: <a target="_blank" href="https://explorer.electroncash.de/tx/{TIMELOCK_MAP.get(time)}"> {TIMELOCK_MAP.get(time)}</a></p>
+		<p class="cashaddr">
+			Category/pre-genesis: <a
+				target="_blank"
+				href="https://explorer.electroncash.de/tx/{TIMELOCK_MAP.get(time)}"
+			>
+				{TIMELOCK_MAP.get(time)}</a
+			>
+		</p>
 
 		{#if threads && threads.length}
 			<table class="couponTable">
@@ -344,7 +337,6 @@
 					{/each}
 				</tbody>
 			</table>
-
 		{:else}
 			<p>loading threads...</p>
 		{/if}
@@ -352,7 +344,7 @@
 		<p style="font-size:small">
 			<i>sats (satoshis)</i>: one 100,000,000<sup>th</sup> of a whole coin.<br />
 			<i>spb</i>: rate in sats per coin per block of time remaining to maturation.<br />
-			<i>spot rate per annum</i>: effective non-compounding rate of annual return.
+			<i>coupon rate per annum</i>: effective non-compounding rate of annual return.
 		</p>
 	{:else}
 		<p>loading...</p>

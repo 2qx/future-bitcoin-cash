@@ -34,16 +34,14 @@ describe(`Static Coupon Tests`, () => {
 
     });
 
-    test.skip("Should step some gantries", async () => {
+    test("Should step some gantries", async () => {
 
         let provider = new ElectrumNetworkProvider();
-        // for await (const results of [...Array(5).keys()]) {
-        //     await Gantry.step(1_000_000n, provider);
-        // }
+        // await Gantry.step(1_000_000n, provider);
         for await (const results of [...Array(10).keys()]) {
             await Gantry.step(100_000n, provider);
         }
-        for await (const results of [...Array(10).keys()]) {
+        for await (const results of [...Array(20).keys()]) {
             await Gantry.step(10_000n, provider);
         }
         for await (const results of [...Array(52).keys()]) {

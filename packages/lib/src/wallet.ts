@@ -30,6 +30,9 @@ async function buildSwapTransaction(state: SwapState, fee = 546n, estimate = fal
 
     let request
 
+    let walletUtxoIdx = -1;
+    let changeAmount = 0n
+
     if (state.requests && state.requests.length > 0) request = state.requests.at(-1)
 
     const vault = state.vaults.get(request.locktime);
@@ -74,7 +77,7 @@ async function buildSwapTransaction(state: SwapState, fee = 546n, estimate = fal
     if (request.coupon) {
 
         // Find a wallet utxo that matches the exact placement amount plus fees
-        const walletUtxoIdx = state.wallet.findIndex(utxo => utxo.satoshis > placement + BigInt(EXTRA));
+        walletUtxoIdx = state.wallet.findIndex(utxo => (utxo.satoshis + BigInt(request.coupon.satoshis)) > placement + BigInt(EXTRA));
 
         let ticket
         if (walletUtxoIdx !== -1) {
@@ -82,9 +85,6 @@ async function buildSwapTransaction(state: SwapState, fee = 546n, estimate = fal
         } else {
             throw ("Could not find suitable utxo for coupon, try shaping wallet")
         }
-
-        // remove the used utxo from the wallet
-        if (!estimate) state.wallet.splice(walletUtxoIdx, 1);
 
         const walletInput = { ...ticket, unlocker: sigTemplate.unlockP2PKH() }
 
@@ -108,9 +108,12 @@ async function buildSwapTransaction(state: SwapState, fee = 546n, estimate = fal
         );
         inputs.push({ ...request.coupon, unlocker: couponContract.unlock.apply() })
         //@ts-ignore
+
+        changeAmount = (BigInt(ticket.satoshis) + BigInt(request.coupon.satoshis)) - (fee + placement + 800n)
+        //@ts-ignore
         outputs.push({
             to: this.getTokenDepositAddress(),
-            amount: (ticket.satoshis + request.coupon.satoshis) - (fee + placement + 800n)
+            amount: changeAmount
         })
 
     } else if (request.future) {
@@ -122,9 +125,10 @@ async function buildSwapTransaction(state: SwapState, fee = 546n, estimate = fal
         const walletInput = { ...request.future, unlocker: sigTemplate.unlockP2PKH() }
 
 
+        changeAmount = request.future.token.amount + request.future.satoshis - fee
         const walletOutput = {
             to: this.getTokenDepositAddress(),
-            amount: request.future.token.amount + request.future.satoshis - fee
+            amount: changeAmount
         }
 
         inputs.push(walletInput)
@@ -133,7 +137,7 @@ async function buildSwapTransaction(state: SwapState, fee = 546n, estimate = fal
 
     } else if (!request.coupon && request.placement > 0) {
         // Find a utxo that can match the placement amount
-        const walletUtxoIdx = state.wallet.findIndex(utxo => utxo.satoshis > placement + BigInt(EXTRA));
+        walletUtxoIdx = state.wallet.findIndex(utxo => utxo.satoshis > placement + BigInt(EXTRA));
 
         let ticket
         if (walletUtxoIdx !== -1) {
@@ -142,8 +146,7 @@ async function buildSwapTransaction(state: SwapState, fee = 546n, estimate = fal
             throw ("Could not find single suitable utxo for placement")
         }
 
-        // remove the ticket from the wallet
-        if (!estimate) state.wallet.splice(walletUtxoIdx, 1);
+
         const walletInput = { ...ticket, unlocker: sigTemplate.unlockP2PKH() }
 
         const walletOutput = {
@@ -158,14 +161,16 @@ async function buildSwapTransaction(state: SwapState, fee = 546n, estimate = fal
         inputs.push(walletInput)
         outputs.push(walletOutput)
 
+        changeAmount = ticket.satoshis - placement
         // if there is change...
         if (ticket.satoshis - placement - fee > 543n) {
             //@ts-ignore
             outputs.push({
                 to: this.getTokenDepositAddress(),
-                amount: ticket.satoshis - placement
+                amount: changeAmount
             })
         }
+
 
     } else {
         throw Error("Could not interpret swap request")
@@ -192,6 +197,16 @@ async function buildSwapTransaction(state: SwapState, fee = 546n, estimate = fal
         let txid = swapEndianness(binToHex(hash256(hexToBin(hex))))
         state.chain.push(hex)
 
+        if (walletUtxoIdx !== -1) {
+            state.wallet.push({
+                txid: txid,
+                vout: 2,
+                satoshis: changeAmount
+            })
+        }
+        // remove the used utxo from the wallet
+        if (!estimate) state.wallet.splice(walletUtxoIdx, 1);
+
         // reset the vault utxo 
         state.vaults.set(request.locktime, {
             txid: txid,
@@ -210,6 +225,7 @@ async function buildSwapTransaction(state: SwapState, fee = 546n, estimate = fal
 async function swapFnRaw(state: SwapState): Promise<SwapState> {
 
 
+    console.log(state)
     let actualFee = await this.buildSwapTransaction(state, BigInt(MINER_FEE) + 100n, true) as bigint
     console.log(actualFee)
     state = await this.buildSwapTransaction(state, actualFee) as SwapState
