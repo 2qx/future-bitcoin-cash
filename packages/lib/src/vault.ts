@@ -197,7 +197,6 @@ export class Vault {
 
     public static async getAllCouponUtxos(electrumClient, height, locktime?) {
         let couponSeries = Vault.getAllCouponSeries(height, locktime)
-        console.log(couponSeries)
         let allCoupons = await getAllUnspentCoupons(electrumClient, [...couponSeries.keys()]) 
         allCoupons.forEach((value, key, map) => {
             let cData = couponSeries.get(value.address)

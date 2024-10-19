@@ -3,7 +3,7 @@ export const BATON = 'fbc0b001313509454331f23f4b1891a8d9a284421efcc33187f1a1cdd3
 export const VAULT_SERIES = [3, 4, 5, 6]
 export const COUPON_SERIES = [-1, 0, 1]
 
-export const ELECTRUM_CONCURRENCY = 20;
+export const ELECTRUM_CONCURRENCY = 8;
 
 export const CATEGORY_MAP = new Map([
 	['16dac7ae826ad3913db3b1f0c1db567e3086a7591334c0fd3667ab13e51ae831', 858000],
