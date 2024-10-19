@@ -116,21 +116,18 @@
 			<table class="couponTable">
 				<thead>
 					<tr class="header">
-						<td></td>
 						<td><i>P</i></td>
 						<td>locktime</td>
 						<td>coupon</td>
-						<td colspan="3">coupon rate </td>
+						<td colspan="2">coupon rate </td>
 						<td>action</td>
 					</tr>
 					<tr class="units">
-						<td></td>
 						<td>BCH</td>
 						<td>series</td>
 						<td class="r">sats</td>
 						<td class="r">spb</td>
 						<td>per annum</td>
-						<td>to maturity</td>
 						<td> </td>
 					</tr>
 				</thead>
@@ -138,7 +135,6 @@
 				<tbody>
 					{#each coupons as c (c.id)}
 						<tr>
-							<td>C<sub>{c.order}</sub></td>
 							<td class="r"
 								>{Number(c.placement / 1e8)}<img width="15" src={bch} alt="bchLogo" /></td
 							>
@@ -151,9 +147,6 @@
 							<td class="sats">{c.locale.spb}</td>
 							<td class="r">
 								<i>{c.locale.ypa}%</i>
-							</td>
-							<td class="r">
-								<i>{c.locale.ytm}%</i>
 							</td>
 							{#if walletBalance + Number(c.utxo.satoshis) > c.placement}
 								<td style="text-align:center;"

@@ -22,13 +22,13 @@ describe(`Token series validity tests`, () => {
     })
 
 
-    test("get all coupons ", async () => {
+    test.skip("get all coupons ", async () => {
 
         const electrumClient = new ElectrumClient('Future Bitcoin Cash Tests', '1.4.1', 'bch.imaginary.cash');
         await electrumClient.connect();
         let allCoupons = await Vault.getAllCouponUtxos(electrumClient, 867000)
         allCoupons = allCoupons.sort((a,b) => b.spb-a.spb)
-        console.log(allCoupons.slice(0,10))
+        
     
     })
 
