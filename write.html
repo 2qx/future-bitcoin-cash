@@ -47,7 +47,10 @@
 		0.01 BCH vault placements).</p> <p data-svelte-h="svelte-17orl32"><b>Coupons are not refundable.</b>
 		Money sent to a coupon holding contract can only be redeemed in a transaction that sends the required
 		amount of value to a second predefined contract (i.e. a future vault).</p> <p data-svelte-h="svelte-15bll3f">Below is a simple tool for use with the <a href="https://electroncash.org/">Electron Cash</a> pay-to-many
-		feature:</p> <div id="control" class="svelte-vxd5yl"><div class="svelte-vxd5yl" data-svelte-h="svelte-13h8hoj">Placement: 1 BCH</div> <div class="svelte-vxd5yl"><label>Rate: 20 spb , <i>~1.0% </i><br> <input type="range" min="1" step="0.2" max="100" value="20"></label></div> <div class="svelte-vxd5yl"><label>Copies: 1<br> <input type="range" min="1" max="40" value="1"></label></div> <div id="dataTable" class="svelte-vxd5yl"><label><input type="radio" name="s" value="3">
+		feature:</p> <div id="control" class="svelte-vxd5yl"><div class="svelte-vxd5yl">Placement: <br> <label><input type="radio" name="c" value="-1">
+					C<sub>-1</sub> Series - 0.1 BCH <br> </label><label><input type="radio" name="c" value="0" checked>
+					C<sub>0</sub> Series - 1 BCH <br> </label><label><input type="radio" name="c" value="1">
+					C<sub>1</sub> Series - 10 BCH <br> </label></div> <div class="svelte-vxd5yl"><label>Rate: 20 spb , <i>~1.0% </i><br> <input type="range" min="1" step="0.2" max="100" value="20"></label></div> <div class="svelte-vxd5yl"><label>Copies: 1<br> <input type="range" min="1" max="40" value="1"></label></div> <div id="dataTable" class="svelte-vxd5yl"><label><input type="radio" name="s" value="3">
 					V3 Series - 1,000 <br> </label><label><input type="radio" name="s" value="4" checked>
 					V4 Series - 10,000 <br> </label><label><input type="radio" name="s" value="5">
 					V5 Series - 100,000 <br> </label><label><input type="radio" name="s" value="6">
