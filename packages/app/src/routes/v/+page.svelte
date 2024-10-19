@@ -71,7 +71,7 @@
 		coupons = await Vault.getAllCouponUtxos(electrum, heightValue, [time]);
 		if (coupons.length > 0) {
 			coupons.sort((a: any, b: any) => parseFloat(b.utxo.satoshis) - parseFloat(a.utxo.satoshis));
-			openCouponInterest = coupons.length;
+			openCouponInterest = Number(coupons.reduce((acc, c) => acc + c.placement, 0)/1e8);
 			couponTotal = Number(coupons.reduce((acc, c) => acc + c.utxo.satoshis, 0n));
 		}
 	};
@@ -256,7 +256,7 @@
 						{/each}
 						<tr style="border-top: solid thin;">
 							<td>∑</td>
-							<td class="r"><b>{openCouponInterest.toFixed(0)} </b></td>
+							<td class="r"><b>{openCouponInterest.toFixed(1)} </b></td>
 							<td class="r">
 								<b>{couponTotal.toLocaleString()} </b>
 							</td>
