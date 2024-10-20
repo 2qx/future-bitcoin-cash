@@ -70,7 +70,7 @@
 		console.log('time:', time);
 		coupons = await Vault.getAllCouponUtxos(electrum, heightValue, [time]);
 		if (coupons.length > 0) {
-			coupons.sort((a: any, b: any) => parseFloat(b.utxo.satoshis) - parseFloat(a.utxo.satoshis));
+			coupons.sort((a: any, b: any) => parseFloat(b.spb) - parseFloat(a.spb));
 			openCouponInterest = Number(coupons.reduce((acc, c) => acc + c.placement, 0)/1e8);
 			couponTotal = Number(coupons.reduce((acc, c) => acc + c.utxo.satoshis, 0n));
 		}
