@@ -109,7 +109,7 @@
 
 <section>
 	<p>
-		FBCH are series of fungible tokens, with an incentive market for locking and unlocking Bitcoin
+		Future Bitcoin Cash (FBCH) are series of fungible tokens, with an incentive market for locking and unlocking Bitcoin
 		Cash.
 	</p>
 	{#if coupons}
