@@ -43,7 +43,7 @@
 							time: times[i],
 							address: a,
 							placement: placement,
-							amount: Math.floor((times[i] - heightValue) * rate * placement) / 1e8
+							amount: Math.floor((times[0] - heightValue) * rate * placement) / 1e8
 						})
 					];
 				} else {
@@ -96,10 +96,9 @@
 		lock a "free" FBCH.
 	</p>
 	<p>
-		At this time, all coupons incentivize the same placement amount of 1 BCH (or 100M sats) into an
-		FBCH vault. These "C<sub>0</sub>" series coupons are to lock 1 x 10^0 BCH, but there may be
-		smaller and larger amounts later (i.e C<sub>2</sub> for 100 BCH placements and C<sub>-2</sub> for
-		0.01 BCH vault placements).
+		These "C<sub>0</sub>" series coupons are to lock 1 x 10^0 BCH, but there are
+		smaller and larger amounts (i.e C<sub>1</sub> for 10 BCH placements and C<sub>-1</sub> for
+		0.1 BCH vault placements).
 	</p>
 	<p>
 		<b>Coupons are not refundable.</b>

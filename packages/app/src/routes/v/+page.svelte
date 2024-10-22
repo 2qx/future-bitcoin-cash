@@ -63,9 +63,7 @@
 	const updateVault = async function (provider: any) {
 		await provider.getUtxos(vaultAddress).then((v: any) => (threads = v));
 	};
-	const updateWallet = async function (provider: any) {
-		await provider.getUtxos(wallet.getDepositAddress()).then((v: any) => (walletThreads = v));
-	};
+	
 	const updateCoupons = async function () {
 		console.log('time:', time);
 		coupons = await Vault.getAllCouponUtxos(electrum, heightValue, [time]);

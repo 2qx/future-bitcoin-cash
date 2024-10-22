@@ -37,6 +37,45 @@ export function getFutureBlockDate(currentBlock: number, futureBlock: number): D
     return futureDate
 }
 
+export function getFutureBlockDateLocale(currentBlock: number, futureBlock: number): string {
+    var futureDate = getFutureBlockDate(currentBlock, futureBlock)
+    let diff = futureBlock - currentBlock;
+    let options = {}
+    if (diff < 200) {
+        options = {
+            month: 'numeric',
+            day: 'numeric',
+            minute: 'numeric',
+            hour: 'numeric',
+            hourCycle: 'h24'
+        }
+    }else if (diff < 1000) {
+        options = {
+            month: 'numeric',
+            day: 'numeric',
+            hour: 'numeric',
+            hourCycle: 'h24'
+        }
+    } else if (diff > 200000) {
+        options = {
+            year: 'numeric'
+        }
+    }else if (diff > 50000) {
+        options = {
+            year: 'numeric',
+            month: 'numeric'
+        }
+    } else {
+        options = {
+            month: 'numeric',
+            day: 'numeric',
+            year: 'numeric'
+        }
+    }
+    //@ts-ignore
+    return new Intl.DateTimeFormat(undefined, options).format(futureDate);
+}
+
 export function delay(time) {
     return new Promise(resolve => setTimeout(resolve, time));
 }
@@ -57,7 +96,7 @@ export function getRates(
 
     return {
         spb: Math.round(Number((coupon / (futureBlock - currentBlock) / ((principal - coupon) / 1e8)) + Number.EPSILON) * 100) / 100,
-        ytm: Number((coupon / (principal - coupon)) * 1e2) ,
+        ytm: Number((coupon / (principal - coupon)) * 1e2),
         ypa: Number((coupon / (principal - coupon)) * 1e2 * (52596 / (futureBlock - currentBlock))),
     }
 
@@ -187,7 +226,7 @@ export function verifySeriesCategory(
  * @param {int} batchSize
  * @returns {Promise<B[]>}
  */
-export async function promiseAllInBatches(task, items, batchSize=ELECTRUM_CONCURRENCY) {
+export async function promiseAllInBatches(task, items, batchSize = ELECTRUM_CONCURRENCY) {
     let position = 0;
     let results = [];
     while (position < items.length) {

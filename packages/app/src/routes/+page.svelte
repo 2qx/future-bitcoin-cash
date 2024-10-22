@@ -14,6 +14,7 @@
 	import { FutureWallet } from '@fbch/lib';
 
 	import SeriesIcon from '$lib/images/SeriesIcon.svelte';
+	import { get } from 'http';
 	let errorMessage = '';
 
 	let heightValue: number;
@@ -48,7 +49,7 @@
 
 	async function doSwaps() {
 		console.log('processing que data');
-		console.log(requests)
+		console.log(requests);
 		try {
 			await wallet.swap(requests);
 			errorMessage = '';
@@ -63,14 +64,14 @@
 
 	const processQueue = debounce(() => doSwaps());
 
-	const handlePlacement = async function (coupon: any, id:string) {
+	const handlePlacement = async function (coupon: any, id: string) {
 		walletBalance -= coupon.placement;
 		requests.push({
 			placement: BigInt(coupon.placement),
 			coupon: coupon.utxo,
 			locktime: coupon.locktime
 		});
-		console.log(requests)
+		console.log(requests);
 		coupons = coupons.filter((c) => c.id !== id);
 		processQueue();
 	};
@@ -116,18 +117,20 @@
 			<table class="couponTable">
 				<thead>
 					<tr class="header">
-						<td><i>P</i></td>
-						<td>locktime</td>
-						<td>coupon</td>
-						<td colspan="2">coupon rate </td>
-						<td>action</td>
+						<td>BCH</td>
+						<td colspan="2">FBCH</td>
+						<td colspan="3">Coupon </td>
+						<td>Matures</td>
+						<td>Action</td>
 					</tr>
 					<tr class="units">
-						<td>BCH</td>
+						<td><img width="15" src={bch} alt="bchLogo" /></td>
+						<td></td>
 						<td>series</td>
 						<td class="r">sats</td>
 						<td class="r">spb</td>
-						<td>per annum</td>
+						<td>apy</td>
+						<td>approx.</td>
 						<td> </td>
 					</tr>
 				</thead>
@@ -135,18 +138,20 @@
 				<tbody>
 					{#each coupons as c (c.id)}
 						<tr>
-							<td class="r"
-								>{Number(c.placement / 1e8)}<img width="15" src={bch} alt="bchLogo" /></td
-							>
-							<td class="r"
-								><a href="/v?block={c.locktime}"
-									>{c.locktime.toLocaleString()}<SeriesIcon time={c.locktime} size="15" /></a
+							<td class="r">{Number(c.placement / 1e8)}</td>
+							<td class="r"><SeriesIcon time={c.locktime} size="15" /></td>
+							<td>
+								<a style="color:#75006b; font-weight:600;" href="/v?block={c.locktime}"
+									>{String(c.locktime).padStart(7, '0')}</a
 								></td
 							>
-							<td class="sats">{Number(c.utxo.satoshis).toLocaleString()} </td>
+							<td class="sats">{Number(c.utxo.satoshis / 1000n).toLocaleString()}k </td>
 							<td class="sats">{c.locale.spb}</td>
 							<td class="r">
 								<i>{c.locale.ypa}%</i>
+							</td>
+							<td class="r">
+								<i>{c.dateLocale}</i>
 							</td>
 							{#if walletBalance + Number(c.utxo.satoshis) > c.placement}
 								<td style="text-align:center;"
@@ -172,6 +177,12 @@
 						</tr> -->
 				</tbody>
 			</table>
+			<hr />
+			<p style="font-size:small">
+				<i>sats (satoshis)</i>: one 100,000,000<sup>th</sup> of a whole coin.<br />
+				<i>spb</i>: rate in sats per coin per block of time remaining to maturation.<br />
+				<i>apy, coupon rate per annum</i>: effective non-compounding rate of annual return.
+			</p>
 		{:else}
 			<p>no coupons available</p>
 		{/if}
@@ -194,6 +205,7 @@
 	.cashaddr {
 		line-break: anywhere;
 	}
+
 	.couponTable {
 		width: 100%;
 		border-collapse: collapse;
@@ -205,8 +217,8 @@
 
 	thead tr:nth-child(odd) {
 		text-align: center;
-
 		font-weight: 900;
+		font-size: small;
 	}
 
 	.action {

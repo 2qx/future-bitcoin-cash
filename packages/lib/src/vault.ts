@@ -13,7 +13,7 @@ import { CouponDataI, UtxoI } from "./interface"
 
 import { Coupon } from "./coupon"
 import { COUPON_SERIES, VAULT_SERIES } from "./constant";
-import { getAllUnspentCoupons, getRates, getRateLocale } from "./util";
+import { getAllUnspentCoupons, getRates, getRateLocale, getFutureBlockDateLocale } from "./util";
 
 export class Vault {
 
@@ -206,7 +206,8 @@ export class Vault {
                     ...value,
                     ...getRates(height, cData.locktime, Number(value.utxo.satoshis), cData.placement),
                     locale: getRateLocale(height, cData.locktime, Number(value.utxo.satoshis), cData.placement),
-                    ...cData
+                    ...cData,
+                    dateLocale: getFutureBlockDateLocale(height, cData.locktime)
                 } 
             ) 
         })

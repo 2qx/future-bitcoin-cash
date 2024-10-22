@@ -34,6 +34,7 @@ export interface CouponItemI {
     locktime?: number;
     placement?: number;
     lockingBytecode?: string;
+    dateLocale?: string;
 }
 
 export interface TokenDetails {
