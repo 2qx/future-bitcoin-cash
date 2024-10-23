@@ -32,7 +32,7 @@
 			</a>
 		</p>
 		<p>
-			<a href="/chip/vm-limits">Future Bitcoin Cash supports CHIP-2021-05 VM Limits (Targeted Virtual Machine Limits) for the May 2025 BCH Upgrade.</a>
+			<a href="/vm-limits">Future Bitcoin Cash supports CHIP-2021-05 VM Limits (Targeted Virtual Machine Limits) for the May 2025 BCH Upgrade.</a>
 		</p>
 	</footer>
 </div>
