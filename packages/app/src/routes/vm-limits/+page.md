@@ -5,12 +5,16 @@ layout: splash
 <svelte:head>
 
 <title>FBCH supports CHIP-2021-05 VM Limits</title>
+<meta
+			property="og:title"
+			content="FBCH supports CHIP-2021-05 VM Limits"
+		/>
 <meta name="description" content="Future Bitcoin Cash supports CHIP-2021-05 VM Limits (Targeted Virtual Machine Limits) for the May 2025 BCH Upgrade." />
 </svelte:head>
 
 ## Future Bitcoin Cash supports CHIP-2021-05 VM Limits (Targeted Virtual Machine Limits) for the May 2025 BCH Upgrade.
 
-The implementation of Future Bitcoin Cash (FBCH) in the summer of 2024 hit both the 520-byte stack element size limit AND the 201 operation limit. Here's why the design went up to the limits, and why those limits should be raised in May 2025 for BCH defi designers going forward. 
+The implementation of Future Bitcoin Cash (FBCH) in the summer of 2024 hit *both* the 520-byte stack element size limit AND the 201 operation limit. Here's why the design for FBCH went up to the limits, and why those limits should be raised in May 2025 for BCH defi designers going forward. 
 
 
 While building a system of time-locked fungible tokens for Bitcoin Cash, both the 520-byte limit and the 201 operation limit were encountered. These limits affected the design of a contract that funds each Vault with tokens, and in turn, an initial contract that spawned a set of four minting contracts. 
@@ -21,9 +25,11 @@ Given the work Jason and others have done to show the 520-byte limit and the 201
 
 ## What is FBCH? 
 
-Future Bitcoin Cash (FBCH) isn't CashToken. FBCH is neither an NFT nor single fungible token series. Rather, it's a regularly minted series of fungible tokens using contract controlled NFTs as a minting authority. So, for example, there's *FBCH-0869000* for tokens maturing next Wednesday, and *FBCH-1000000* for FBCH tokens maturing in at the millionth BCH block sometime in 2027. 
+Future Bitcoin Cash (FBCH) isn't a CashToken. Which is to say, FBCH is neither an NFT nor single fungible token series. Rather, it's a regularly minted series of fungible tokens using contract controlled NFTs as a minting authority. So, for example, there's *FBCH-0869000* for tokens maturing some Wednesday in 2024, and *FBCH-1000000* for FBCH tokens maturing in at the millionth BCH block sometime in 2027. 
 
-But there is no FBCH token, it's a defi system, or an idea, or a CashToken markets.
+But there is no FBCH base token. It's a defi system, or an idea, or a CashToken markets.
+
+There are about a hundred FBCH series that exist today. In total, there may be about five thousand series over the next century, but they weren't all printed at once because that would have basically doubled the number of CashToken categories in existence.
 
 ## Who owns, mints, controls, or authoritatively issues more FBCH series?
 
