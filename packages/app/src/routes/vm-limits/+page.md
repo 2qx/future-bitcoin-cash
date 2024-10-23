@@ -19,9 +19,9 @@ The implementation of Future Bitcoin Cash (FBCH) in the summer of 2024 hit *both
 
 While building a system of time-locked fungible tokens for Bitcoin Cash, both the 520-byte limit and the 201 operation limit were encountered. These limits affected the design of a contract that funds each Vault with tokens, and in turn, an initial contract that spawned a set of four minting contracts. 
 
-Given the work Jason and others have done to show the 520-byte limit and the 201 operation limits can be safely removed without impacting node performance, removing the old limits could make building BCH defi systems easier going forward.
+Given the work [Jason and others](https://bitcoincashresearch.org/t/chip-2021-05-targeted-virtual-machine-limits/437) have done to show the 520-byte limit and the 201 operation limits can be safely removed without impacting node performance, retargeting the limits based on a operation cost should make building BCH defi systems easier going forward.
 
-**Future Bitcoin Cash supports CHIP-2021-05 VM Limits (Targeted Virtual Machine Limits) for the May 2025 BCH Upgrade.**
+**Future Bitcoin Cash supports [CHIP-2021-05 VM Limits (Targeted Virtual Machine Limits)](https://github.com/bitjson/bch-vm-limits/#) for the May 2025 BCH Upgrade.**
 
 ## What is FBCH? 
 
