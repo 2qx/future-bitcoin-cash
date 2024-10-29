@@ -15,7 +15,7 @@ describe(`Token series validity tests`, () => {
         const electrumClient = new ElectrumClient('Future Bitcoin Cash Tests', '1.4.1', 'bch.imaginary.cash');
         await electrumClient.connect();
 
-        let addresses = Vault.getAllSeries(867000)
+        let addresses = Vault.getAllSeries(869000)
         let balances = (await getAllBalances(electrumClient, addresses)).reduce((a, b) => a + b, 0)
         console.log(balances / 1e8)
 

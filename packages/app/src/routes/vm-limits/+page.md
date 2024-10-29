@@ -27,7 +27,7 @@ Given the work [Jason and others](https://bitcoincashresearch.org/t/chip-2021-05
 
 Future Bitcoin Cash (FBCH) isn't a CashToken. Which is to say, FBCH is neither an NFT nor single fungible token series. Rather, it's a regularly minted series of fungible tokens using contract controlled NFTs as a minting authority. So, for example, there's *FBCH-0869000* for tokens maturing some Wednesday in 2024, and *FBCH-1000000* for FBCH tokens maturing in at the millionth BCH block sometime in 2027. 
 
-But there is no FBCH base token. It's a defi system, or an idea, or a CashToken markets.
+But there is no FBCH base token. It's a defi system, or an idea, or a set of CashToken markets.
 
 There are about a hundred FBCH series that exist today. In total, there may be about five thousand series over the next century, but they weren't all printed at once because that would have basically doubled the number of CashToken categories in existence.
 

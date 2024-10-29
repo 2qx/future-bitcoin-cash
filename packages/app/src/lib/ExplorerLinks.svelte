@@ -20,8 +20,6 @@
 	div {
 		display: flex;
 		flex-wrap: wrap;
-		align-content: flex-end;
-		justify-content: flex-end;
 	}
 	div a {
 		display: inline-block;

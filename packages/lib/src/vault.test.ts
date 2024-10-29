@@ -1,4 +1,9 @@
-import  { CashAddressNetworkPrefix, cashAddressToLockingBytecode, binToHex, hexToBin} from "@bitauth/libauth"
+import  { 
+    CashAddressNetworkPrefix, 
+    cashAddressToLockingBytecode, 
+    binToHex, 
+    hexToBin
+} from "@bitauth/libauth"
 import { vaultArtifact } from "@fbch/contracts";
 import { couponArtifact } from "@fbch/contracts";
 import { Contract, MockNetworkProvider } from "cashscript";

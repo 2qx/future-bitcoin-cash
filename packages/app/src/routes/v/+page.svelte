@@ -272,16 +272,18 @@
 			<p>loading coupons...</p>
 		{/if}
 
-		<div style="display:flex;">
+		<h4>Coupon Contracts</h4>
+
+		<ul class="couponList">
 			{#each COUPON_SERIES as c}
-			<div>
-				<pre style="font-size:small">C<sub>{c}</sub></pre>
+			<li>
+				C<sub>{c}</sub> {Math.pow(10, c)} BCH
 				<ExplorerLinks address={Vault.getCoupon(Math.pow(10, c) * 1e8, time)}></ExplorerLinks><br />
 
-			</div>
+			</li>
 				
 			{/each}
-		</div>
+		</ul>
 
 		<h4>Vault Threads</h4>
 		<div style="display:flex">
@@ -399,6 +401,13 @@
 		padding: 0 10px 0 20px;
 		font-weight: 900;
 		font-size: small;
+	}
+
+	.couponList{
+		display: flex;
+		flex-wrap: wrap;
+		list-style-type: none;
+
 	}
 
 	.units {

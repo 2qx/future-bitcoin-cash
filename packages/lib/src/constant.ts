@@ -1,7 +1,7 @@
 export const BATON = 'fbc0b001313509454331f23f4b1891a8d9a284421efcc33187f1a1cdd37ccb46'
 
 export const VAULT_SERIES = [3, 4, 5, 6]
-export const COUPON_SERIES = [-1, 0, 1]
+export const COUPON_SERIES = [-1, 0, 1, 2]
 
 export const ELECTRUM_CONCURRENCY = 8;
 
