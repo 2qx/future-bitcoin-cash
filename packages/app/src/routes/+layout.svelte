@@ -18,7 +18,7 @@
 			<a href="/contracts">contracts</a>■
 			<a href="/flipstarter">flipstarter</a>■
 			<a target="_blank" href="https://github.com/2qx/future-bitcoin-cash">source</a>■
-			<a target="_blank"  href="https://t.me/Future_Bitcoin_Cash">telegram</a>■
+			<a target="_blank" href="https://t.me/Future_Bitcoin_Cash">telegram</a>■
 			<a href="/savers">tlv</a>
 		</p>
 		<p>

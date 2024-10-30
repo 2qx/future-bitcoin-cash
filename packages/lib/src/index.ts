@@ -4,7 +4,8 @@ export { getHvifIconHex, getFbchIconSvg } from "./icons/icons.js"
 export {
     getFutureBlockDate,
     isTokenAddress,
-    asTokenUnawareP2sh
+    asTokenUnawareP2sh,
+    getAllBalances,
 } from "./util.js"
 
 export { Battery } from "./battery.js"
