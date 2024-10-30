@@ -2,8 +2,6 @@
 	import Header from './Header.svelte';
 	import { SvelteToast } from '@zerodevx/svelte-toast';
 	import './styles.css';
-	import github from '$lib/images/github.svg';
-	import conduct from '$lib/images/conduct.svg';
 </script>
 
 <div class="app">
@@ -21,7 +19,7 @@
 			<a href="/flipstarter">flipstarter</a>■
 			<a target="_blank" href="https://github.com/2qx/future-bitcoin-cash">source</a>■
 			<a target="_blank"  href="https://t.me/Future_Bitcoin_Cash">telegram</a>■
-			<a  href="/savers">tlv</a>
+			<a href="/savers">tlv</a>
 		</p>
 		<p>
 			<a href="/vm-limits">Future Bitcoin Cash supports CHIP-2021-05 VM Limits (Targeted Virtual Machine Limits) for the May 2025 BCH Upgrade.</a>
