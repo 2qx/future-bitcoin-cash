@@ -15,22 +15,12 @@
 
 	<footer>
 		<p>
-			<a href="/audit">audit</a>
-			■
-			<a href="/code">
-				code of conduct
-			</a>
-			■
-
-			<a href="/contracts">contracts</a>
-			■
-			<a href="/flipstarter">flipstarter</a>
-			■
-			<a target="_blank" href="https://github.com/2qx/future-bitcoin-cash">
-				source
-			</a>
-			■
-			<a target="_blank"  href="https://t.me/Future_Bitcoin_Cash">telegram</a>
+			<a href="/audit">audit</a> ■
+			<a href="/code">code of conduct</a>■
+			<a href="/contracts">contracts</a>■
+			<a href="/flipstarter">flipstarter</a>■
+			<a target="_blank" href="https://github.com/2qx/future-bitcoin-cash">source</a>■
+			<a target="_blank"  href="https://t.me/Future_Bitcoin_Cash">telegram</a>■
 			<a  href="/savers">tlv</a>
 		</p>
 		<p>
