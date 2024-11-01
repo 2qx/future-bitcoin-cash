@@ -15,6 +15,13 @@
 			tlv: NaN
 		},
 		{
+			name: 'Unspent',
+			docs: 'https://unspent.cash/help',
+            app: 'https://unspent.cash/',
+            src: 'https://gitlab.com/2qx/unspent/',
+			tlv: NaN
+		},
+		{
 			name: 'Emerald Dao',
 			addresses: ['bitcoincash:pr43rx2gwdq6j2dpmrpxldftu7swfn7xvqga6vzmp3'],
 			docs: 'https://emerald-dao.cash/',
@@ -27,6 +34,12 @@
 			addresses: ['bitcoincash:pvgcl3xk6nwqlngkk09e7g67x5vxs57jv6v2q4qm4ct5yv4d3ppfgl3tq982v'],
 			docs: 'https://badgers.cash/FAQ',
 			app: 'https://badgers.cash',
+			src: 'https://github.com/SayoshiNakamario/BadgersStake',
+			tlv: NaN
+		},
+		{
+			name: 'Hodl',
+			src: 'https://github.com/mainnet-pat/hodl_ec_plugin/',
 			tlv: NaN
 		},
 		{
@@ -66,8 +79,8 @@
 </svelte:head>
 
 <section>
-	<h3>Savings Bitcoin Cash DeFi</h3>
-	<h4>Decentralized BCH Financial Instruments based on wrapped and timed deposits</h4>
+	<h3>The Bitcoin Cash Savings Club</h3>
+	<h4>Decentralized Financial Instruments based on wrapped and time locked BCH</h4>
 	<table>
 		{#each protocols as p}
 			<tr>
@@ -94,7 +107,7 @@
 </section>
 
 <style>
-    td {
-  padding: 10px;
-}
+	td {
+		padding: 10px;
+	}
 </style>
