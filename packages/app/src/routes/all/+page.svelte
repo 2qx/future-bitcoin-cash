@@ -107,28 +107,85 @@
 	<link rel="icon" type="image/svg" href="/FBCH.svg" />
 </svelte:head>
 
-<section style="font-size:large">
-	<p >
-		Future Bitcoin Cash (FBCH) are series of fungible tokens, with an incentive market for locking and unlocking Bitcoin
-		Cash.
-	</p>
-	<ul>
-		<li>
-			Claim <a href="/all">coupons</a>  by locking BCH for fungible tokens.
-		</li>
-		<li>
-			Explore coupons and tokens per <a href="/vaults">vaults</a>.
-		</li>
-		<li>
-			Or experiment with different coupon <a href="/write">writing</a>.
-		</li>
-	</ul>
-<br>
-<br>
-<br>
-<br>
-	<i>Want to know more?</i>
-	<p>Check out <a href="/audit">the audit</a>, <a href="/code">the contracts</a>, or <a href="/protocol">integration guide</a>.</p>
+<section>
+
+	{#if coupons}
+		{#if coupons.length > 0}
+			<table class="couponTable">
+				<thead>
+					<tr class="header">
+						<td>BCH</td>
+						<td colspan="2">FBCH</td>
+						<td colspan="3">Coupon </td>
+						<td>Matures</td>
+						<td>Action</td>
+					</tr>
+					<tr class="units">
+						<td><img width="15" src={bch} alt="bchLogo" /></td>
+						<td></td>
+						<td>series</td>
+						<td class="r">sats</td>
+						<td class="r">spb</td>
+						<td>apy</td>
+						<td>approx.</td>
+						<td> </td>
+					</tr>
+				</thead>
+
+				<tbody>
+					{#each coupons as c (c.id)}
+						<tr>
+							<td class="r">{Number(c.placement / 1e8)}</td>
+							<td class="r"><SeriesIcon time={c.locktime} size="15" /></td>
+							<td>
+								<a style="color:#75006b; font-weight:600;" href="/v?block={c.locktime}"
+									>{String(c.locktime).padStart(7, '0')}</a
+								></td
+							>
+							<td class="sats">{Number(c.utxo.satoshis / 1000n).toLocaleString()}k </td>
+							<td class="sats">{c.locale.spb}</td>
+							<td class="r">
+								<i>{c.locale.ypa}%</i>
+							</td>
+							<td class="r">
+								<i>{c.dateLocale}</i>
+							</td>
+							{#if walletBalance + Number(c.utxo.satoshis) > c.placement}
+								<td style="text-align:center;"
+									><button class="action" on:click={() => handlePlacement(c, c.id)}>claim</button
+									></td
+								>
+							{:else}
+								<td style="text-align:center;"
+									><button class="action" disabled style="font-size:x-small;">low bal.</button></td
+								>
+							{/if}
+						</tr>
+					{/each}
+					<!-- <tr style="border-top: solid thin;">
+							<td>∑</td>
+							<td class="r"><b>{openCouponInterest.toFixed(0)} </b></td>
+							<td class="r">
+								<b>{couponTotal.toLocaleString()} </b>
+							</td>
+							<td></td>
+							<td></td>
+							<td></td>
+						</tr> -->
+				</tbody>
+			</table>
+			<hr />
+			<p style="font-size:small">
+				<i>sats (satoshis)</i>: one 100,000,000<sup>th</sup> of a whole coin.<br />
+				<i>spb</i>: rate in sats per coin per block of time remaining to maturation.<br />
+				<i>apy, coupon rate per annum</i>: effective non-compounding rate of annual return.
+			</p>
+		{:else}
+			<p>no coupons available</p>
+		{/if}
+	{:else}
+		<p>loading coupons...</p>
+	{/if}
 </section>
 
 <style>

@@ -106,8 +106,8 @@
 			<path d="M0,0 L1,2 C1.5,3 1.5,3 2,3 L2,0 Z" />
 		</svg>
 		<ul>
-			<li style="font-weight: 900;" aria-current={$page.url.pathname === '/' ? 'page' : undefined}>
-				<a style="font-size: larger" href="/"><b>&#9432</b></a>
+			<li aria-current={$page.url.pathname === '/all' ? 'page' : undefined}>
+				<a href="/all"><b>Coupons</b></a>
 			</li>
 			<li aria-current={$page.url.pathname === '/vaults' ? 'page' : undefined}>
 				<a href="/vaults">Vaults</a>

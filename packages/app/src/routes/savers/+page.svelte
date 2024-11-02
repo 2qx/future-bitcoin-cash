@@ -88,6 +88,7 @@
 <section>
 	<h3>The Bitcoin Cash Savings Club</h3>
 	<h4>Decentralized Financial Instruments based on wrapped and time locked BCH</h4>
+	{#if protocols.length > 0}
 	<table>
 		{#each protocols as p}
 			<tr>
@@ -112,6 +113,9 @@
 		{/each}
 	</table>
 	<sub>* version 2 Unspent Perpetuities only</sub>
+	{:else}
+	... <p>getting total amount locked by protocol.</p>
+	{/if}
 </section>
 
 <style>
