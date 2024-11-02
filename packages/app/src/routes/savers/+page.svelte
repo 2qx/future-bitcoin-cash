@@ -1,58 +1,12 @@
 <script lang="ts">
 	import { ElectrumClient, ElectrumTransport as Transport } from '@electrum-cash/network';
 	import { onMount, onDestroy } from 'svelte';
-	import { getAllBalances, Vault } from '@fbch/lib';
+	import { getAllBalances, Vault, getUnspentAddresses, getHodlAddresses } from '@fbch/lib';
 
 	import ExplorerLinks from '$lib/ExplorerLinks.svelte';
 
-	let protocols = [
-		{
-			name: 'Future Bitcoin Cash',
-			addresses: Vault.getAllSeries(869000),
-			docs: 'https://futurebitcoin.cash/contracts',
-			app: 'https://futurebitcoin.cash/',
-			src: 'https://gitlab.com/2qx/future-bitcoin-cash/',
-			tlv: NaN
-		},
-		{
-			name: 'Unspent',
-			docs: 'https://unspent.cash/help',
-            app: 'https://unspent.cash/',
-            src: 'https://gitlab.com/2qx/unspent/',
-			tlv: NaN
-		},
-		{
-			name: 'Emerald Dao',
-			addresses: ['bitcoincash:pr43rx2gwdq6j2dpmrpxldftu7swfn7xvqga6vzmp3'],
-			docs: 'https://emerald-dao.cash/',
-			app: 'https://emerald-dao.vercel.app/',
-			src: 'https://gitlab.com/0353F40E/emerald-dao/-/tree/main',
-			tlv: NaN
-		},
-		{
-			name: 'BadgerCoin',
-			addresses: ['bitcoincash:pvgcl3xk6nwqlngkk09e7g67x5vxs57jv6v2q4qm4ct5yv4d3ppfgl3tq982v'],
-			docs: 'https://badgers.cash/FAQ',
-			app: 'https://badgers.cash',
-			src: 'https://github.com/SayoshiNakamario/BadgersStake',
-			tlv: NaN
-		},
-		{
-			name: 'Hodl',
-			src: 'https://github.com/mainnet-pat/hodl_ec_plugin/',
-			tlv: NaN
-		},
-		{
-			name: 'Wrapped Bitcoin Cash',
-			addresses: ['bitcoincash:p0ujgnc9jnyurzv99678fgac3fdrq8x3py9rlrg6dlnz96qxrdl02efwc0sf9'],
-			docs: 'https://bitcoincashresearch.org/t/wbch-bch-wrapped-as-cash-token/1196',
-			app: 'https://wrapped.cash/',
-			src: 'https://gitlab.com/dagurval/wrapped-cash',
-			tlv: NaN
-		}
-	];
-
 	let electrum;
+	let protocols = [];
 
 	onMount(async () => {
 		// Initialize an electrum client.
@@ -64,6 +18,59 @@
 			Transport.WSS.Scheme
 		);
 		await electrum.connect();
+
+		let unspentAddresses = await getUnspentAddresses();
+		let hodlAddresses = await getHodlAddresses();
+
+		protocols = [
+			{
+				name: 'Hodl',
+				src: 'https://github.com/mainnet-pat/hodl_ec_plugin/',
+				addresses: hodlAddresses,
+				tlv: NaN
+			},
+			{
+				name: 'Future Bitcoin Cash',
+				addresses: Vault.getAllSeries(869000),
+				docs: 'https://futurebitcoin.cash/contracts',
+				app: 'https://futurebitcoin.cash/',
+				src: 'https://gitlab.com/2qx/future-bitcoin-cash/',
+				tlv: NaN
+			},
+			{
+				name: 'Unspent Cash',
+				docs: 'https://unspent.cash/help',
+				app: 'https://unspent.cash/',
+				src: 'https://gitlab.com/2qx/unspent/',
+				addresses: unspentAddresses,
+				tlv: NaN
+			},
+			{
+				name: 'Emerald Dao',
+				addresses: ['bitcoincash:pr43rx2gwdq6j2dpmrpxldftu7swfn7xvqga6vzmp3'],
+				docs: 'https://emerald-dao.cash/',
+				app: 'https://emerald-dao.vercel.app/',
+				src: 'https://gitlab.com/0353F40E/emerald-dao/-/tree/main',
+				tlv: NaN
+			},
+			{
+				name: 'BadgerCoin',
+				addresses: ['bitcoincash:pvgcl3xk6nwqlngkk09e7g67x5vxs57jv6v2q4qm4ct5yv4d3ppfgl3tq982v'],
+				docs: 'https://badgers.cash/FAQ',
+				app: 'https://badgers.cash',
+				src: 'https://github.com/SayoshiNakamario/BadgersStake',
+				tlv: NaN
+			},
+
+			{
+				name: 'Wrapped Bitcoin Cash',
+				addresses: ['bitcoincash:p0ujgnc9jnyurzv99678fgac3fdrq8x3py9rlrg6dlnz96qxrdl02efwc0sf9'],
+				docs: 'https://bitcoincashresearch.org/t/wbch-bch-wrapped-as-cash-token/1196',
+				app: 'https://wrapped.cash/',
+				src: 'https://gitlab.com/dagurval/wrapped-cash',
+				tlv: NaN
+			}
+		];
 
 		protocols.map(async (v, i) => {
 			protocols[i].tlv =

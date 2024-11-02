@@ -8,6 +8,11 @@ export {
     getAllBalances,
 } from "./util.js"
 
+export {
+    getHodlAddresses,
+    getUnspentAddresses
+} from "./extra.js"
+
 export { Battery } from "./battery.js"
 export { Coupon } from "./coupon.js"
 export { Gantry } from "./gantry.js"
