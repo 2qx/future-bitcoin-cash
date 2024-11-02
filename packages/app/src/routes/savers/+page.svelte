@@ -38,7 +38,7 @@
 				tlv: NaN
 			},
 			{
-				name: 'Unspent Cash',
+				name: 'Unspent Cash*',
 				docs: 'https://unspent.cash/help',
 				app: 'https://unspent.cash/',
 				src: 'https://gitlab.com/2qx/unspent/',
@@ -111,6 +111,7 @@
 			</tr>
 		{/each}
 	</table>
+	<sub>* version 2 Unspent Perpetuities only</sub>
 </section>
 
 <style>
