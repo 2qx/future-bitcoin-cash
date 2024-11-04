@@ -10,7 +10,8 @@ export {
 
 export {
     getHodlAddresses,
-    getUnspentAddresses
+    getUnspentAddresses,
+    getUnspentV1Addresses
 } from "./extra.js"
 
 export { Battery } from "./battery.js"

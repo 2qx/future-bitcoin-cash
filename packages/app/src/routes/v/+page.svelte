@@ -20,7 +20,10 @@
 	import ExplorerLinks from '$lib/ExplorerLinks.svelte';
 
 	import SeriesIcon from '$lib/images/SeriesIcon.svelte';
+	import Loading from '$lib/Loading.svelte';
+
 	import { height } from '$lib/store.js';
+
 	import { CashAddressNetworkPrefix } from '@bitauth/libauth';
 
 	let couponAddress: string;
@@ -63,13 +66,13 @@
 	const updateVault = async function (provider: any) {
 		await provider.getUtxos(vaultAddress).then((v: any) => (threads = v));
 	};
-	
+
 	const updateCoupons = async function () {
 		console.log('time:', time);
 		coupons = await Vault.getAllCouponUtxos(electrum, heightValue, [time]);
 		if (coupons.length > 0) {
 			coupons.sort((a: any, b: any) => parseFloat(b.spb) - parseFloat(a.spb));
-			openCouponInterest = Number(coupons.reduce((acc, c) => acc + c.placement, 0)/1e8);
+			openCouponInterest = Number(coupons.reduce((acc, c) => acc + c.placement, 0) / 1e8);
 			couponTotal = Number(coupons.reduce((acc, c) => acc + c.utxo.satoshis, 0n));
 		}
 	};
@@ -113,7 +116,6 @@
 		processQueue();
 	};
 
-
 	onMount(async () => {
 		try {
 			BaseWallet.StorageProvider = IndexedDBProvider;
@@ -129,7 +131,7 @@
 		vaultAddress = Vault.getAddress(time);
 		vaultPlainAddress = Vault.getAddress(time, CashAddressNetworkPrefix.mainnet, false);
 		provider = new ElectrumNetworkProvider();
-		
+
 		// Initialize an electrum client.
 		electrum = new ElectrumClient(
 			'FBCH/webapp',
@@ -198,7 +200,7 @@
 		{#if heightValue}{/if}
 
 		<h4>Spot Coupons</h4>
-		
+
 		<p>
 			Coupons discount placement of <i>P</i> BCH into the vault; limit one coupon per transaction.
 		</p>
@@ -269,19 +271,20 @@
 				<p>no coupons available</p>
 			{/if}
 		{:else}
-			<p>loading coupons...</p>
+			<Loading />
+			<p>loading coupons</p>
 		{/if}
 
 		<h4>Coupon Contracts</h4>
 
 		<ul class="couponList">
 			{#each COUPON_SERIES as c}
-			<li>
-				C<sub>{c}</sub> {Math.pow(10, c)} BCH
-				<ExplorerLinks address={Vault.getCoupon(Math.pow(10, c) * 1e8, time)}></ExplorerLinks><br />
-
-			</li>
-				
+				<li>
+					C<sub>{c}</sub>
+					{Math.pow(10, c)} BCH
+					<ExplorerLinks address={Vault.getCoupon(Math.pow(10, c) * 1e8, time)}></ExplorerLinks><br
+					/>
+				</li>
 			{/each}
 		</ul>
 
@@ -338,7 +341,7 @@
 				</tbody>
 			</table>
 		{:else}
-			<p>loading threads...</p>
+			<p>loading threads</p> <Loading/>
 		{/if}
 		<hr />
 		<p style="font-size:small">
@@ -347,7 +350,9 @@
 			<i>coupon rate per annum</i>: effective non-compounding rate of annual return.
 		</p>
 	{:else}
-		<p>loading...</p>
+	<div style="text-align:center">
+		<h2>loading</h2> <Loading/>
+	</div>
 	{/if}
 </div>
 
@@ -403,11 +408,10 @@
 		font-size: small;
 	}
 
-	.couponList{
+	.couponList {
 		display: flex;
 		flex-wrap: wrap;
 		list-style-type: none;
-
 	}
 
 	.units {

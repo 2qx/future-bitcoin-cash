@@ -14,7 +14,7 @@
 	import { FutureWallet } from '@fbch/lib';
 
 	import SeriesIcon from '$lib/images/SeriesIcon.svelte';
-	import { get } from 'http';
+	import Loading from '$lib/Loading.svelte';
 	let errorMessage = '';
 
 	let heightValue: number;
@@ -108,7 +108,6 @@
 </svelte:head>
 
 <section>
-
 	{#if coupons}
 		{#if coupons.length > 0}
 			<table class="couponTable">
@@ -184,7 +183,10 @@
 			<p>no coupons available</p>
 		{/if}
 	{:else}
-		<p>loading coupons...</p>
+		<div style="text-align:center">
+			<h2>loading coupons</h2>
+			<Loading />
+		</div>
 	{/if}
 </section>
 

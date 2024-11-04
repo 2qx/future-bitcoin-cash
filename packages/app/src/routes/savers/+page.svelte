@@ -1,8 +1,9 @@
 <script lang="ts">
 	import { ElectrumClient, ElectrumTransport as Transport } from '@electrum-cash/network';
 	import { onMount, onDestroy } from 'svelte';
-	import { getAllBalances, Vault, getUnspentAddresses, getHodlAddresses } from '@fbch/lib';
+	import { getAllBalances, Vault, getUnspentAddresses,  getHodlAddresses } from '@fbch/lib';
 
+	import Loading from '$lib/Loading.svelte';
 	import ExplorerLinks from '$lib/ExplorerLinks.svelte';
 
 	let electrum;
@@ -38,7 +39,7 @@
 				tlv: NaN
 			},
 			{
-				name: 'Unspent Cash*',
+				name: 'Unspent Cash v2',
 				docs: 'https://unspent.cash/help',
 				app: 'https://unspent.cash/',
 				src: 'https://gitlab.com/2qx/unspent/',
@@ -112,9 +113,9 @@
 			</tr>
 		{/each}
 	</table>
-	<sub>* version 2 Unspent Perpetuities only</sub>
 	{:else}
-	... <p>getting total amount locked by protocol.</p>
+	<Loading />
+	 <p>getting total amount locked by protocol.</p>
 	{/if}
 </section>
 
