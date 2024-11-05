@@ -73,8 +73,9 @@
 
 <div class="warn">
 	Beta release. Use at your own risk. Move all assets to your wallet after each session. 
-	<a target="_blank" href="https://fundme.cash/campaign/15">Checkout the FundMe to build an FBCH Electron Cash plugin.</a>
+
 </div>
+
 
 <div class="wallet">
 	{#if wallet}
@@ -93,6 +94,11 @@
 			{/if}
 		</a>
 	{/if}
+</div>
+
+
+<div class="banner">
+	<a target="_blank" href="https://fundme.cash/campaign/15">Checkout the FundMe to build an FBCH Electron Cash plugin!</a>
 </div>
 
 <header>
@@ -251,7 +257,15 @@
 		color: #fff;
 		background-color: #856583;
 	}
-	.warn a {
-		color: #ffa7fb
+	.banner {
+		font-weight: 900;
+		font-size: smaller;
+		text-align: right;
+		padding: 0.2em;
+		color: #fff;
+		background-color: #253afa;
+	}
+	.banner a {
+		color: #ffffff
 	}
 </style>
