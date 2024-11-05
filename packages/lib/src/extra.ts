@@ -62,7 +62,7 @@ export async function getUnspentAddresses() {
         const response = await fetch('https://demo.chaingraph.cash/v1/graphql', {
             credentials: 'omit',
             referrer: 'https://futurebitcoin.cash/',
-            body: '{"operationName":"SearchOutputsByLockingBytecodePrefix","variables":{},"query":"query SearchOutputsByLockingBytecodePrefix {\\n  search_output_prefix(args: {locking_bytecode_prefix_hex: \\"6a047574786f01500102\\"}, distinct_on: locking_bytecode, where: {_or: [{transaction: {block_inclusions: {block: {accepted_by: {node: {name: {_regex: \\"mainnet\\"}}}}}}}, {transaction: {node_validations: {node: {name: {_regex: \\"mainnet\\"}}}}}, {transaction: {node_validations: {node_internal_id: {_is_null: true}}}}]}) {\\n    locking_bytecode\\n  }\\n}\\n"}',
+            body: '{\"operationName\":\"SearchOutputsByLockingBytecodePrefix\",\"variables\":{},\"query\":\"query SearchOutputsByLockingBytecodePrefix {\\n  search_output_prefix(args: {locking_bytecode_prefix_hex: \\\"6a047574786f01500102\\\"}, distinct_on: locking_bytecode, where: {transaction: {block_inclusions: {block: {accepted_by: {node: {name: {_regex: \\\"mainnet\\\"}}}}}}}) {\\n    locking_bytecode\\n  }\\n}\\n\"}',
             method: 'POST',
             mode: 'cors'
         });
