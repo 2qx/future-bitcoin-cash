@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { ElectrumClient, ElectrumTransport as Transport } from '@electrum-cash/network';
 	import { onMount, onDestroy } from 'svelte';
-	import { getAllBalances, Vault, getUnspentAddresses, getHodlAddresses } from '@fbch/lib';
+	import { getAllBalances, Vault, getUnspentAddresses, getUnspentV1Addresses, getHodlAddresses } from '@fbch/lib';
 
 	import Loading from '$lib/Loading.svelte';
 	import ExplorerLinks from '$lib/ExplorerLinks.svelte';
@@ -21,6 +21,7 @@
 		await electrum.connect();
 
 		let unspentAddresses = await getUnspentAddresses();
+		let unspentV1Addresses = await getUnspentV1Addresses();
 		let hodlAddresses = await getHodlAddresses();
 
 		protocols = [
@@ -39,11 +40,19 @@
 				tlv: NaN
 			},
 			{
-				name: 'Unspent Cash v2',
+				name: 'Unspent Cash',
 				docs: 'https://unspent.cash/help',
 				app: 'https://unspent.cash/',
 				src: 'https://gitlab.com/2qx/unspent/',
 				addresses: unspentAddresses,
+				tlv: NaN
+			},
+			{
+				name: 'Unspent Phi',
+				docs: 'https://unspent.app/documentation',
+				app: 'https://unspent.app/',
+				src: 'https://gitlab.com/2qx/unspent/',
+				addresses: unspentV1Addresses,
 				tlv: NaN
 			},
 			{
