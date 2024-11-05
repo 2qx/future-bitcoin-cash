@@ -76,7 +76,9 @@
 
 </div>
 
-
+<div class="banner">
+	<a target="_blank" href="https://fundme.cash/campaign/15">To FundMe to build an FBCH Electron Cash plugin, CLICK HERE!!</a>
+</div>
 <div class="wallet">
 	{#if wallet}
 		{#if walletError}
@@ -97,9 +99,7 @@
 </div>
 
 
-<div class="banner">
-	<a target="_blank" href="https://fundme.cash/campaign/15">Checkout the FundMe to build an FBCH Electron Cash plugin!</a>
-</div>
+
 
 <header>
 	<div class="corner">
@@ -112,8 +112,8 @@
 			<path d="M0,0 L1,2 C1.5,3 1.5,3 2,3 L2,0 Z" />
 		</svg>
 		<ul>
-			<li aria-current={$page.url.pathname === '/all' ? 'page' : undefined}>
-				<a href="/all"><b>Coupons</b></a>
+			<li aria-current={$page.url.pathname === '/coupons' ? 'page' : undefined}>
+				<a href="/coupons"><b>Coupons</b></a>
 			</li>
 			<li aria-current={$page.url.pathname === '/vaults' ? 'page' : undefined}>
 				<a href="/vaults">Vaults</a>
