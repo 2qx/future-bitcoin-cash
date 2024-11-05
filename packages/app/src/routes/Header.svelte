@@ -77,7 +77,7 @@
 </div>
 
 <div class="banner">
-	<a target="_blank" href="https://fundme.cash/campaign/15">CLICK HERE! to FundMe to build an FBCH Electron Cash plugin.</a>
+	<a target="_blank" href="https://fundme.cash/campaign/15">FundMe to build a FBCH Electron Cash plugin―CLICK HERE!.</a>
 </div>
 <div class="wallet">
 	{#if wallet}
