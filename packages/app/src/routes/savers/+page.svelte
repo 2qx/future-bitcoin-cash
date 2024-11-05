@@ -28,7 +28,10 @@
 			{
 				name: 'Hodl',
 				src: 'https://github.com/mainnet-pat/hodl_ec_plugin/',
+				docs: 'https://github.com/mainnet-pat/hodl_ec_plugin/blob/master/README.md',
+				app: 'https://github.com/mainnet-pat/hodl_ec_plugin/releases',
 				addresses: hodlAddresses,
+				description: 'Timelock BCH with an Electron Cash Plugin',
 				tlv: NaN
 			},
 			{
@@ -37,6 +40,7 @@
 				docs: 'https://futurebitcoin.cash/contracts',
 				app: 'https://futurebitcoin.cash/',
 				src: 'https://gitlab.com/2qx/future-bitcoin-cash/',
+				description: 'Tokenized timelocked BCH',
 				tlv: NaN
 			},
 			{
@@ -44,6 +48,7 @@
 				docs: 'https://unspent.cash/help',
 				app: 'https://unspent.cash/',
 				src: 'https://gitlab.com/2qx/unspent/',
+				description: 'Get one percent of a fund monthly in perpetuity.',
 				addresses: unspentAddresses,
 				tlv: NaN
 			},
@@ -52,6 +57,7 @@
 				docs: 'https://unspent.app/documentation',
 				app: 'https://unspent.app/',
 				src: 'https://gitlab.com/2qx/unspent/',
+				description: 'Generic composable contracts with timelocking available.',
 				addresses: unspentV1Addresses,
 				tlv: NaN
 			},
@@ -61,6 +67,7 @@
 				docs: 'https://emerald-dao.cash/',
 				app: 'https://emerald-dao.vercel.app/',
 				src: 'https://gitlab.com/0353F40E/emerald-dao/-/tree/main',
+				description: 'A fixed-term deposit savings vault using NFTs with crowdfunded rewards.',
 				tlv: NaN
 			},
 			{
@@ -69,6 +76,7 @@
 				docs: 'https://badgers.cash/FAQ',
 				app: 'https://badgers.cash',
 				src: 'https://github.com/SayoshiNakamario/BadgersStake',
+				description: 'A proof-of-ownership memecoin paying token rewards for time-locking BCH.',
 				tlv: NaN
 			},
 
@@ -78,6 +86,7 @@
 				docs: 'https://bitcoincashresearch.org/t/wbch-bch-wrapped-as-cash-token/1196',
 				app: 'https://wrapped.cash/',
 				src: 'https://gitlab.com/dagurval/wrapped-cash',
+				description: 'Bitcoin Cash Tokenized 1:1 as fungible CashTokens.',
 				tlv: NaN
 			}
 		];
@@ -105,6 +114,7 @@
 					<td>
 						<a style="color:#333333; font-weight:600;" href={p.app} target="_blank">{p.name}</a><br
 						/>
+						<p style="font-size:small" >{p.description}</p>
 					</td>
 					<td>
 						{#if p.docs}
@@ -122,7 +132,8 @@
 							{p.tlv.toLocaleString(undefined, { maximumFractionDigits: 1 })} 
 						{:else}
 							<Loading />
-						{/if}BCH
+						{/if}
+						<p style="font-size:small" >BCH</p>
 					</td>
 				</tr>
 			{/each}
