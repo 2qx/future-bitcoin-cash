@@ -114,7 +114,7 @@
 	</p>
 	<ul>
 		<li>
-			Claim <a href="/all">coupons</a>  by locking BCH for fungible tokens.
+			Claim <a href="/coupons">coupons</a>  by locking BCH for fungible tokens.
 		</li>
 		<li>
 			Explore coupons and tokens per <a href="/vaults">vaults</a>.

@@ -13,7 +13,7 @@
 <style>
   span {
     display: inline-block;
-    font-size: xx-large;
+    font-size: large;
   }
 	
   span > :where(span) {

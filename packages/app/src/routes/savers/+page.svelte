@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { ElectrumClient, ElectrumTransport as Transport } from '@electrum-cash/network';
 	import { onMount, onDestroy } from 'svelte';
-	import { getAllBalances, Vault, getUnspentAddresses,  getHodlAddresses } from '@fbch/lib';
+	import { getAllBalances, Vault, getUnspentAddresses, getHodlAddresses } from '@fbch/lib';
 
 	import Loading from '$lib/Loading.svelte';
 	import ExplorerLinks from '$lib/ExplorerLinks.svelte';
@@ -90,37 +90,43 @@
 	<h3>The Bitcoin Cash Savings Club</h3>
 	<h4>Decentralized Financial Instruments based on wrapped and time locked BCH</h4>
 	{#if protocols.length > 0}
-	<table>
-		{#each protocols as p}
-			<tr>
-				<td>
-					<a style="color:#333333; font-weight:600;" href={p.app} target="_blank">{p.name}</a><br />
-				</td>
-				<td>
-					{#if p.docs}
-						<a target="_blank" href={p.docs}>docs</a>
-					{/if}
-				</td>
-				<td>
-					{#if p.src}
-						<a target="_blank" href={p.src}>src</a>
-					{/if}
-				</td>
+		<table>
+			{#each protocols as p}
+				<tr>
+					<td>
+						<a style="color:#333333; font-weight:600;" href={p.app} target="_blank">{p.name}</a><br
+						/>
+					</td>
+					<td>
+						{#if p.docs}
+							<a target="_blank" href={p.docs}>docs</a>
+						{/if}
+					</td>
+					<td>
+						{#if p.src}
+							<a target="_blank" href={p.src}>src</a>
+						{/if}
+					</td>
 
-				<td style="text-align:right">
-					{p.tlv.toLocaleString(undefined, { maximumFractionDigits: 1 })} BCH
-				</td>
-			</tr>
-		{/each}
-	</table>
+					<td style="text-align:right">
+						{#if p.tlv}
+							{p.tlv.toLocaleString(undefined, { maximumFractionDigits: 1 })} 
+						{:else}
+							<Loading />
+						{/if}BCH
+					</td>
+				</tr>
+			{/each}
+		</table>
 	{:else}
-	<Loading />
-	 <p>getting total amount locked by protocol.</p>
+
+		<p>Getting total amount locked by protocol </p> 		<Loading />
 	{/if}
 </section>
 
 <style>
 	td {
 		padding: 10px;
+		font-size: large;
 	}
 </style>
