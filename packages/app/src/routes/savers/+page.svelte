@@ -1,7 +1,13 @@
 <script lang="ts">
 	import { ElectrumClient, ElectrumTransport as Transport } from '@electrum-cash/network';
 	import { onMount, onDestroy } from 'svelte';
-	import { getAllBalances, Vault, getUnspentAddresses, getUnspentV1Addresses, getHodlAddresses } from '@fbch/lib';
+	import {
+		getAllBalances,
+		Vault,
+		getUnspentAddresses,
+		getUnspentV1Addresses,
+		getHodlAddresses
+	} from '@fbch/lib';
 
 	import Loading from '$lib/Loading.svelte';
 	import ExplorerLinks from '$lib/ExplorerLinks.svelte';
@@ -109,44 +115,49 @@
 	<h4>Decentralized Financial Instruments based on wrapped and time locked BCH</h4>
 	{#if protocols.length > 0}
 		<table>
+			<thead>
+				<tr class="header">
+					<td></td>
+					<td style="font-size:small; font-weight:600">BCH</td>
+				</tr>
+			</thead>
+
 			{#each protocols as p}
 				<tr>
 					<td>
 						<a style="color:#333333; font-weight:600;" href={p.app} target="_blank">{p.name}</a><br
 						/>
-						<p style="font-size:small" >{p.description}</p>
-					</td>
-					<td>
-						{#if p.docs}
-							<a target="_blank" href={p.docs}>docs</a>
-						{/if}
-					</td>
-					<td>
-						{#if p.src}
-							<a target="_blank" href={p.src}>src</a>
-						{/if}
+						<p style="font-size:small">
+							{p.description}
+							{#if p.docs}
+								<a style="color:#333333;" target="_blank" href={p.docs}>[docs]</a>
+							{/if}
+
+							{#if p.src}
+								<a style="color:#333333;" target="_blank" href={p.src}>[code]</a>
+							{/if}
+						</p>
 					</td>
 
 					<td style="text-align:right">
 						{#if p.tlv}
-							{p.tlv.toLocaleString(undefined, { maximumFractionDigits: 1 })} 
+							{p.tlv.toLocaleString(undefined, { maximumFractionDigits: 1 })}
 						{:else}
 							<Loading />
 						{/if}
-						<p style="font-size:small" >BCH</p>
+						<p style="font-size:small"></p>
 					</td>
 				</tr>
 			{/each}
 		</table>
 	{:else}
-
-		<p>Getting total amount locked by protocol </p> 		<Loading />
+		<p>Getting total amount locked by protocol</p>
+		<Loading />
 	{/if}
 </section>
 
 <style>
 	td {
-		padding: 10px;
 		font-size: large;
 	}
 </style>
