@@ -112,7 +112,7 @@
 
 <section>
 	<h3>The Bitcoin Cash Savings Club</h3>
-	<h4>Decentralized Financial Instruments based on wrapped and time locked BCH</h4>
+	<p>Decentralized Financial Instruments based on wrapped and time locked Bitcoin Cash (BCH)</p>
 	{#if protocols.length > 0}
 		<table>
 			<thead>
