@@ -348,7 +348,7 @@
 			<i>sats (satoshis)</i>: one 100,000,000<sup>th</sup> of a whole coin.<br />
 			<i>spb</i>: rate in sats per coin per block of time remaining to maturation.<br />
 			<i>coupon rate per annum</i>: effective non-compounding rate of annual return.<br/>
-			Note: rates are not inclusive of network transaction fees paid to miners.
+			Note: approximate rates assume 870 sats network transaction fees (550 swap, 320 redeem)―paid to miners.
 		</p>
 	{:else}
 	<div style="text-align:center">

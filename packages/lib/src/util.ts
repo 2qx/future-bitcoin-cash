@@ -94,6 +94,8 @@ export function getRates(
         }
     }
 
+    // account for swap in fee
+    coupon -= 870;
     return {
         spb: Math.round(Number((coupon / (futureBlock - currentBlock) / ((principal - coupon) / 1e8)) + Number.EPSILON) * 100) / 100,
         ytm: Number((coupon / (principal - coupon)) * 1e2),
