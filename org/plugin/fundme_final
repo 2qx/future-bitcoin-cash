@@ -1,37 +1,20 @@
-Following on a successful 60 BCH flipstarter campaign in April '24, Future Bitcoin Cash has been developed, audited and funded on-chain since August. And an initial webapp was launched the following month to swap the tokens. It's all LIVE at: futurebitcoin.cash .
-
-
+Following on a successful 60 BCH flipstarter campaign in April '24, Future Bitcoin Cash has been developed, audited and funded on-chain since August. And an initial webapp was launched the following month to swap the tokens. It's all LIVE at: futurebitcoin.cash.
 
 The project enables locking BCH as Future CashTokens with incentives paid up front in BCH. The FBCH tokens can then be traded or sent to any BCH wallet with CashToken support. 
 
-
-
 Some documentation, an archive of the original flipstarter, the audit and all the contract CashScript and BitcoinScript can found in the app.
-
-
 
 Webapps are great for reaching a lot of people. They target a low-cost, ubiquitous platform that almost everyone has in their pocket, but there are a number of drawbacks. 
 
-
-
 An app as a webpage isn't great for a number of things, such as: high value transactions in a controlled environment, long running processes, or using a database with a lot of reliability or flexibility. 
-
-
 
 Luckily, Bitcoin Cash has a well-established platform for more advanced feature integration, the Electron-Cash plugin system. 
 
-
-
 Why do we need an Electron Cash Plugin if webapps are so great?
-
 
 In the case of FBCH, from a monetary perspective, it's somewhat irrelevant if 1000 people place 1 BCH or 1 person locks 1000 BCH. There's a lot of utility to be found catering to high net users in a platform they're accustomed to.
 
-
-
 So this campaign is to build out some "missing" features of FBCH as an Electron-Cash plugin: 
-
-
 
 Sort coupons by expiration, rate, total yield, sat.
 Charting: historical charts of the prevailing rate.
@@ -42,56 +25,33 @@ Builtin validation of FBCH series.
 Bootstrapped token metadata from static BCMR.
 Locally generated BCMR metadata for new series as minted. 
 
-
 Stretch goal - A commission-free DeFi market: 
 
-
 If the campaign exceeds the 30 BCH goal by 100% (60 BCH total), the deliverable will include an on-chain Defi system tailored to creating a liquid futures market with:
-
-
 
 Open ask-market style orders with partial fulfillment. 
 Pricing token sales to the satoshi. 
 No commissions.
 No centralized server or custom indexer. 
 
-
 Why do we want a new kind of market? 
-
 
 Currently, FBCH contracts allow swapping BCH and FBCH for the cost of network transaction fees alone. So to swap 10 BCH for FBCH costs about 550 sats, (a fee of 0.00005%). To swap just 0.1 BCH, cost the same sats, so it's about 0.005%.
 
-
-
 If a user then wants to sell their tokens, let's say 10 FBCH-01000000, there are two options currently: TapSwap (3.0% fee) and Cauldron (0.3% fee). If the seller wanted to liquidate their 10 FBCH-1e6 position, they could list it on Tapswap for something less than 9.7 BCH, and it will sell eventually, but the seller will eat 0.3 BCH in fees. 
-
-
 
 While such that trade may be great for our good friend the market operator, it's not great for the seller. It's not great for price discovery or the liquidity of FBCH tokens. 
 
-
-
 If someone has 1 FBCH in a series maturing in a week, the owner should be able to liquidate that position on an open market at a small discount, perhaps in the neighborhood of a 100k sat discount, but a 3% commission is 3M sats. And a Cauldron-style swap is a non-starter because it would not allow them to fully liquidate their position after the "constant product" price moved slightly and their tokens started selling for more than the locked BCH.
-
-
 
 From the FBCH Electron Plugin, it should be possible to list an "Ask" or offer to sell FBCH at a price to the sat. Anyone should be able to take FBCH from a seller's vault contract at that price, by paying BCH to the seller's address in the same transaction. 
 
-
-
 This seller's vault contract would support partial fulfillment, meaning a seller could put 100 FBCH in a vault, to be taken all by 1 buyer, or in 1000 order of 0.1 FBCH each. 
-
-
 
 Anyone will be able to derive the "market" contract from the categoryId of the token they wish to trade. All seller vaults and rates will be indexed by the NFT commitments sellers place on a market contract. 
 
-
-
 Timeline
 
-
 The initial plugin minimum viable app should take a few months. The market will be completed after the MVP plugin is complete.
-
-
 
 All products will be free and open source software.  There will be no rent seeking or commission to use the swaping plugin or a market.

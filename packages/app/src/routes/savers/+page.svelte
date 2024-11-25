@@ -38,6 +38,7 @@
 				app: 'https://github.com/mainnet-pat/hodl_ec_plugin/releases',
 				addresses: hodlAddresses,
 				description: 'Timelock BCH with an Electron Cash Plugin',
+				image: "/hodl.png",
 				tlv: NaN
 			},
 			{
@@ -47,6 +48,7 @@
 				app: 'https://futurebitcoin.cash/',
 				src: 'https://gitlab.com/2qx/future-bitcoin-cash/',
 				description: 'Tokenized timelocked BCH',
+				image: "/FBCH.png",
 				tlv: NaN
 			},
 			{
@@ -56,7 +58,9 @@
 				src: 'https://gitlab.com/2qx/unspent/',
 				description: 'Get one percent of a fund monthly in perpetuity.',
 				addresses: unspentAddresses,
+				image: "/unspent2.png",
 				tlv: NaN
+
 			},
 			{
 				name: 'Unspent Phi',
@@ -65,6 +69,7 @@
 				src: 'https://gitlab.com/2qx/unspent/',
 				description: 'Generic composable contracts with timelocking available.',
 				addresses: unspentV1Addresses,
+				image: "/unspent1.png",
 				tlv: NaN
 			},
 			{
@@ -74,6 +79,7 @@
 				app: 'https://emerald-dao.vercel.app/',
 				src: 'https://gitlab.com/0353F40E/emerald-dao/-/tree/main',
 				description: 'A fixed-term deposit savings vault using NFTs with crowdfunded rewards.',
+				image: "/emerald.jpg",
 				tlv: NaN
 			},
 			{
@@ -83,6 +89,7 @@
 				app: 'https://badgers.cash',
 				src: 'https://github.com/SayoshiNakamario/BadgersStake',
 				description: 'A proof-of-ownership memecoin paying token rewards for time-locking BCH.',
+				image: "/badgercoin.png",
 				tlv: NaN
 			},
 
@@ -93,6 +100,7 @@
 				app: 'https://wrapped.cash/',
 				src: 'https://gitlab.com/dagurval/wrapped-cash',
 				description: 'Bitcoin Cash Tokenized 1:1 as fungible CashTokens.',
+				image: "/WBCH.png",
 				tlv: NaN
 			}
 		];
@@ -118,12 +126,14 @@
 			<thead>
 				<tr class="header">
 					<td></td>
+					<td></td>
 					<td style="font-size:small; font-weight:600">BCH</td>
 				</tr>
 			</thead>
 
 			{#each protocols as p}
 				<tr>
+					<td> <img src={p.image} width="40"/></td>
 					<td>
 						<a style="color:#333333; font-weight:600;" href={p.app} target="_blank">{p.name}</a><br
 						/>
