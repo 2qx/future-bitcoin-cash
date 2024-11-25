@@ -38,7 +38,7 @@
 				app: 'https://github.com/mainnet-pat/hodl_ec_plugin/releases',
 				addresses: hodlAddresses,
 				description: 'Timelock BCH with an Electron Cash Plugin',
-				image: "/hodl.png",
+				image: '/hodl.png',
 				tlv: NaN
 			},
 			{
@@ -48,7 +48,7 @@
 				app: 'https://futurebitcoin.cash/',
 				src: 'https://gitlab.com/2qx/future-bitcoin-cash/',
 				description: 'Tokenized timelocked BCH',
-				image: "/FBCH.png",
+				image: '/FBCH.png',
 				tlv: NaN
 			},
 			{
@@ -58,9 +58,8 @@
 				src: 'https://gitlab.com/2qx/unspent/',
 				description: 'Get one percent of a fund monthly in perpetuity.',
 				addresses: unspentAddresses,
-				image: "/unspent2.png",
+				image: '/unspent2.png',
 				tlv: NaN
-
 			},
 			{
 				name: 'Unspent Phi',
@@ -69,17 +68,7 @@
 				src: 'https://gitlab.com/2qx/unspent/',
 				description: 'Generic composable contracts with timelocking available.',
 				addresses: unspentV1Addresses,
-				image: "/unspent1.png",
-				tlv: NaN
-			},
-			{
-				name: 'Emerald Dao',
-				addresses: ['bitcoincash:pr43rx2gwdq6j2dpmrpxldftu7swfn7xvqga6vzmp3'],
-				docs: 'https://emerald-dao.cash/',
-				app: 'https://emerald-dao.vercel.app/',
-				src: 'https://gitlab.com/0353F40E/emerald-dao/-/tree/main',
-				description: 'A fixed-term deposit savings vault using NFTs with crowdfunded rewards.',
-				image: "/emerald.jpg",
+				image: '/unspent1.png',
 				tlv: NaN
 			},
 			{
@@ -89,10 +78,19 @@
 				app: 'https://badgers.cash',
 				src: 'https://github.com/SayoshiNakamario/BadgersStake',
 				description: 'A proof-of-ownership memecoin paying token rewards for time-locking BCH.',
-				image: "/badgercoin.png",
+				image: '/badgercoin.png',
 				tlv: NaN
 			},
-
+			{
+				name: 'Emerald Dao',
+				addresses: ['bitcoincash:pr43rx2gwdq6j2dpmrpxldftu7swfn7xvqga6vzmp3'],
+				docs: 'https://emerald-dao.cash/',
+				app: 'https://emerald-dao.vercel.app/',
+				src: 'https://gitlab.com/0353F40E/emerald-dao/-/tree/main',
+				description: 'A fixed-term deposit savings vault using NFTs with crowdfunded rewards.',
+				image: '/emerald.jpg',
+				tlv: NaN
+			},
 			{
 				name: 'Wrapped Bitcoin Cash',
 				addresses: ['bitcoincash:p0ujgnc9jnyurzv99678fgac3fdrq8x3py9rlrg6dlnz96qxrdl02efwc0sf9'],
@@ -100,15 +98,24 @@
 				app: 'https://wrapped.cash/',
 				src: 'https://gitlab.com/dagurval/wrapped-cash',
 				description: 'Bitcoin Cash Tokenized 1:1 as fungible CashTokens.',
-				image: "/WBCH.png",
+				image: '/WBCH.png',
 				tlv: NaN
 			}
 		];
 
-		protocols.map(async (v, i) => {
-			protocols[i].tlv =
-				(await getAllBalances(electrum, v.addresses)).reduce((a, b) => a + b, 0) / 1e8;
-		});
+		const getTlvs = async () => {
+			Promise.all(
+				protocols.map(async (v, i) => {
+					protocols[i].tlv =
+						(await getAllBalances(electrum, v.addresses)).reduce((a, b) => a + b, 0) / 1e8;
+					protocols = protocols.sort((a, b) => b.tlv - a.tlv);
+				})
+			).then(() => {
+				console.log('here');
+				// protocols = protocols.sort((a, b) => b.tlv -a.tlv);
+			});
+		};
+		await getTlvs();
 	});
 </script>
 
@@ -127,13 +134,15 @@
 				<tr class="header">
 					<td></td>
 					<td></td>
+					<td></td>
 					<td style="font-size:small; font-weight:600">BCH</td>
 				</tr>
 			</thead>
 
-			{#each protocols as p}
+			{#each protocols as p, i (p.name)}
 				<tr>
-					<td> <img src={p.image} width="40"/></td>
+					<td> <div style="font-weight:900">#{i}</div></td>
+					<td> <img src={p.image} width="40" /></td>
 					<td>
 						<a style="color:#333333; font-weight:600;" href={p.app} target="_blank">{p.name}</a><br
 						/>
