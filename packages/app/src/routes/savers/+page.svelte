@@ -135,7 +135,7 @@
 					<td></td>
 					<td></td>
 					<td></td>
-					<td style="font-size:small; font-weight:600">BCH</td>
+					<td style="font-size:small; font-weight:600">TLV</td>
 				</tr>
 			</thead>
 
@@ -160,7 +160,7 @@
 
 					<td style="text-align:right">
 						{#if p.tlv}
-							{p.tlv.toLocaleString(undefined, { maximumFractionDigits: 1 })}
+							{p.tlv.toLocaleString(undefined, { maximumFractionDigits: 1,  minimumFractionDigits: 1 })} BCH
 						{:else}
 							<Loading />
 						{/if}
