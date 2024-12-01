@@ -109,7 +109,7 @@
 
 <section style="font-size:large">
 	<p >
-		Future Bitcoin Cash (FBCH) are sets of fungible tokens, with an incentive market for locking and unlocking Bitcoin
+		Future Bitcoin Cash (FBCH) are sets of fungible tokens, with a coupon incentive market for locking and unlocking Bitcoin
 		Cash (BCH).
 	</p>
 	<ul>
@@ -117,10 +117,10 @@
 			Claim <a href="/coupons">coupons</a>  by locking coins for fungible tokens.
 		</li>
 		<li>
-			Explore coupons and tokens per <a href="/vaults">vaults</a>.
+			Explore coupons and tokens per <a href="/vaults">vault</a>.
 		</li>
 		<li>
-			Or experiment with different coupon <a href="/write">writing</a>.
+			Or experiment with different coupon <a href="/write">writing</a> strategies.
 		</li>
 	</ul>
 <br>
