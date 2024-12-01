@@ -76,9 +76,9 @@
 
 </div>
 
-<div class="banner">
+<!-- <div class="banner">
 	<a target="_blank" href="https://fs.futurebitcoin.cash/en">CLICK HERE! To help fund an FBCH Electron-Cash plugin.</a>
-</div>
+</div> -->
 <div class="wallet">
 	{#if wallet}
 		{#if walletError}
