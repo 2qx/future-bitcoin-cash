@@ -52,6 +52,16 @@
 				tlv: NaN
 			},
 			{
+				name: 'BadgerCoin',
+				addresses: ['bitcoincash:pvgcl3xk6nwqlngkk09e7g67x5vxs57jv6v2q4qm4ct5yv4d3ppfgl3tq982v'],
+				docs: 'https://badgers.cash/FAQ',
+				app: 'https://badgers.cash',
+				src: 'https://github.com/SayoshiNakamario/BadgersStake',
+				description: 'A proof-of-ownership memecoin paying token rewards for time-locking BCH.',
+				image: '/badgercoin.png',
+				tlv: NaN
+			},
+			{
 				name: 'Unspent Cash',
 				docs: 'https://unspent.cash/help',
 				app: 'https://unspent.cash/',
@@ -69,16 +79,6 @@
 				description: 'Generic composable contracts with timelocking available.',
 				addresses: unspentV1Addresses,
 				image: '/unspent1.png',
-				tlv: NaN
-			},
-			{
-				name: 'BadgerCoin',
-				addresses: ['bitcoincash:pvgcl3xk6nwqlngkk09e7g67x5vxs57jv6v2q4qm4ct5yv4d3ppfgl3tq982v'],
-				docs: 'https://badgers.cash/FAQ',
-				app: 'https://badgers.cash',
-				src: 'https://github.com/SayoshiNakamario/BadgersStake',
-				description: 'A proof-of-ownership memecoin paying token rewards for time-locking BCH.',
-				image: '/badgercoin.png',
 				tlv: NaN
 			},
 			{
