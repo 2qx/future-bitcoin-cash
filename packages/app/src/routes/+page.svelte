@@ -128,7 +128,7 @@
 <br>
 <br>
 	<i>Want to know more?</i>
-	<p>Check out <a href="/audit">the audit</a>, <a href="/code">the contracts</a>, or <a href="/protocol">integration guide</a>.</p>
+	<p>Check out <a href="/audit">the audit</a>, <a href="/contracts">the contracts</a>, or <a href="/protocol">integration guide</a>.</p>
 </section>
 
 <style>
