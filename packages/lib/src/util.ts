@@ -240,7 +240,7 @@ export async function promiseAllInBatches(task, items, batchSize = ELECTRUM_CONC
 export async function getBalanceWrap(args) {
     let balance = await args[0].request('blockchain.address.get_balance', args[1], "include_tokens");
     if (balance instanceof Error) throw balance
-    return balance.confirmed
+    return balance.confirmed + balance.unconfirmed
 }
 
 export async function getAllBalances(electrumClient, addresses) {
