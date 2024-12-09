@@ -167,7 +167,7 @@
 		background-color: #fa1ad5;
 		color: #fff;
 		margin: 1px;
-		padding: 0 10px 0 20px;
+		padding: 0 5px 0 5px;
 		font-weight: 900;
 		font-size: small;
 	}
@@ -178,7 +178,7 @@
 		background-color: #80748069;
 		color: #ffffff;
 		margin: 1px;
-		padding: 0 10px 0 20px;
+		padding: 0 5px 0 5px;
 		font-weight: 900;
 		font-size: small;
 	}
