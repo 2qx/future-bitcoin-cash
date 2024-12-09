@@ -210,15 +210,13 @@
 				<table class="couponTable">
 					<thead>
 						<tr class="header">
-							<td></td>
-							<td><i>P</i></td>
+							<td>BCH</td>
 							<td>coupon</td>
 							<td colspan="3">coupon rate </td>
 
 							<td>action</td>
 						</tr>
 						<tr class="units">
-							<td></td>
 							<td class="r"><img width="15" src={bch} alt="bchLogo" /></td>
 							<td class="r">sats</td>
 							<td class="r">spb</td>
@@ -231,7 +229,6 @@
 					<tbody>
 						{#each coupons as c}
 							<tr>
-								<td>C<sub>{c.order}</sub></td>
 								<td class="r">{Number(c.placement / 1e8)}</td>
 								<td class="sats">{Number(c.utxo.satoshis).toLocaleString()} </td>
 								<td class="sats">{c.locale.spb}</td>

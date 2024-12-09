@@ -115,7 +115,7 @@
 					<tr class="header">
 						<td>BCH</td>
 						<td colspan="2">FBCH</td>
-						<td colspan="3">Coupon </td>
+						<td colspan="2">Coupon </td>
 						<td>Matures</td>
 						<td>Action</td>
 					</tr>
@@ -124,9 +124,8 @@
 						<td></td>
 						<td>series</td>
 						<td class="r">sats</td>
-						<td class="r">spb</td>
 						<td>apy</td>
-						<td>approx.</td>
+						<td> </td>
 						<td> </td>
 					</tr>
 				</thead>
@@ -138,17 +137,15 @@
 							<td class="r"><SeriesIcon time={c.locktime} size="15" /></td>
 							<td>
 								<a style="color:#75006b; font-weight:600;" href="/v?block={c.locktime}"
-									>{String(c.locktime).padStart(7, '0')}</a
-								></td
+									>{String(c.locktime).padStart(7, '0')}</a>
+								</td
 							>
+
 							<td class="sats">{Number(c.utxo.satoshis / 1000n).toLocaleString()}k </td>
-							<td class="sats">{c.locale.spb}</td>
 							<td class="r">
 								<i>{c.locale.ypa}%</i>
 							</td>
-							<td class="r">
-								<i>{c.dateLocale}</i>
-							</td>
+							<td class="tiny">{c.dateLocale}</td>
 							{#if walletBalance + Number(c.utxo.satoshis) > c.placement}
 								<td style="text-align:center;"
 									><button class="action" on:click={() => handlePlacement(c, c.id)}>claim</button
@@ -255,6 +252,11 @@
 		background-color: #e495e41a;
 	}
 	.r {
+		text-align: right;
+	}
+	.tiny {
+		font-weight: 100;
+		font-size: small;
 		text-align: right;
 	}
 	.sats {
