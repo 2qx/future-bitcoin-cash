@@ -245,8 +245,7 @@
 									>
 								{:else}
 									<td style="text-align:center;"
-										><button class="action" disabled style="font-size:x-small;">low bal.</button
-										></td
+										><button class="action" disabled style="font-size:xx-small;">lo bal</button></td
 									>
 								{/if}
 							</tr>
@@ -390,7 +389,7 @@
 		background-color: #fa1ad5;
 		color: #fff;
 		margin: 1px;
-		padding: 0 10px 0 20px;
+		padding: 0 5px 0 5px;
 		font-weight: 900;
 		font-size: small;
 	}
@@ -401,7 +400,7 @@
 		background-color: #80748069;
 		color: #ffffff;
 		margin: 1px;
-		padding: 0 10px 0 20px;
+		padding: 0 5px 0 5px;
 		font-weight: 900;
 		font-size: small;
 	}
