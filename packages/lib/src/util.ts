@@ -13,7 +13,7 @@ import {
 import { BATON, ELECTRUM_CONCURRENCY } from "./constant"
 
 import { Utxo } from "cashscript";
-import { balanceFromSatoshi, UtxoI } from "mainnet-js";
+import { UtxoI } from "mainnet-js";
 
 import {
     CouponItemI,
@@ -45,7 +45,6 @@ export function getFutureBlockDateLocale(currentBlock: number, futureBlock: numb
         options = {
             month: 'numeric',
             day: 'numeric',
-            minute: 'numeric',
             hour: 'numeric',
             hourCycle: 'h24'
         }
@@ -53,8 +52,6 @@ export function getFutureBlockDateLocale(currentBlock: number, futureBlock: numb
         options = {
             month: 'numeric',
             day: 'numeric',
-            hour: 'numeric',
-            hourCycle: 'h24'
         }
     } else if (diff > 200000) {
         options = {

@@ -5,6 +5,7 @@
 .env.testnet
 .env.mainnet
 node_modules
+plugin/electroncash
 *.log
 *.d.ts
 *.js.map
