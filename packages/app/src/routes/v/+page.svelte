@@ -251,12 +251,10 @@
 							</tr>
 						{/each}
 						<tr style="border-top: solid thin;">
-							<td>∑</td>
 							<td class="r"><b>{openCouponInterest.toFixed(1)} </b></td>
 							<td class="r">
 								<b>{couponTotal.toLocaleString()} </b>
 							</td>
-							<td></td>
 							<td></td>
 							<td></td>
 							<td></td>
