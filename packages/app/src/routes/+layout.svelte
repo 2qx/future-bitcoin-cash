@@ -12,19 +12,20 @@
 	</main>
 
 	<footer>
-		<p class="links"> 
+		<p class="links">
 			<a target="_blank" href="https://t.me/Future_Bitcoin_Cash">telegram</a> ■
 			<a href="/savers">savers club</a>
 		</p>
-		<p class="dev">
-			<a href="/audit">audit</a> ■
-			<a href="/code">code of conduct</a> ■
-			<a href="/contracts">contracts</a> ■
-			<a href="/flipstarter">flipstarter</a> ■
-			<a target="_blank" href="https://github.com/2qx/future-bitcoin-cash">source</a> ■
-			<a href="/vm-limits">vm limits</a> 
-			
-		</p>
+		<div class="dev">
+			<p>
+				<a href="/audit">audit</a> ■
+				<a href="/code">code of conduct</a> ■
+				<a href="/contracts">contracts</a> ■
+				<a href="/flipstarter">initial flipstarter</a> ■
+				<a target="_blank" href="https://github.com/2qx/future-bitcoin-cash">source</a> ■
+				<a href="/vm-limits">vm limits</a>
+			</p>
+		</div>
 	</footer>
 </div>
 
@@ -35,11 +36,13 @@
 		min-height: 100vh;
 	}
 
-	.links{
+	.links {
 		font-weight: 800;
 	}
 
-	.dev{
+	.dev {
+		width: 50%;
+		text-align: center;
 		font-weight: 200;
 		font-weight: normal;
 		font-size: small;
@@ -63,8 +66,6 @@
 		align-items: center;
 		padding: 12px;
 	}
-
-	
 
 	@media (min-width: 480px) {
 		footer {

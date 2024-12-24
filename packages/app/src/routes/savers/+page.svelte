@@ -87,7 +87,7 @@
 				docs: 'https://emerald-dao.cash/',
 				app: 'https://emerald-dao.vercel.app/',
 				src: 'https://gitlab.com/0353F40E/emerald-dao/-/tree/main',
-				description: 'A fixed-term deposit savings vault using NFTs with crowdfunded rewards.',
+				description: '[CLOSED FUND] A fixed-term deposit savings vault using NFTs with crowdfunded rewards.',
 				image: '/emerald.jpg',
 				tlv: NaN
 			},
@@ -135,7 +135,7 @@
 					<td></td>
 					<td></td>
 					<td></td>
-					<td style="font-size:small; font-weight:600">TLV</td>
+					<td style="font-weight:600">TLV</td>
 				</tr>
 			</thead>
 			<tbody>
@@ -158,12 +158,12 @@
 							</p>
 						</td>
 
-						<td style="text-align:right; font-weight:500">
+						<td style="text-align:right; font-weight:600">
 							{#if p.tlv}
 								{p.tlv.toLocaleString(undefined, {
 									maximumFractionDigits: 1,
 									minimumFractionDigits: 1
-								})} BCH
+								})} ʙᴄʜ
 							{:else}
 								<Loading />
 							{/if}
