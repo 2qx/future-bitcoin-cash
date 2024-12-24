@@ -138,36 +138,40 @@
 					<td style="font-size:small; font-weight:600">TLV</td>
 				</tr>
 			</thead>
+			<tbody>
+				{#each protocols as p, i (p.name)}
+					<tr>
+						<td> <div style="font-weight:900">#{i}</div></td>
+						<td> <img src={p.image} width="40" /></td>
+						<td>
+							<a style="color:#333333; font-weight:600;" href={p.app} target="_blank">{p.name}</a
+							><br />
+							<p style="font-size:small">
+								{p.description}
+								{#if p.docs}
+									<a style="color:#333333;" target="_blank" href={p.docs}>[docs]</a>
+								{/if}
 
-			{#each protocols as p, i (p.name)}
-				<tr>
-					<td> <div style="font-weight:900">#{i}</div></td>
-					<td> <img src={p.image} width="40" /></td>
-					<td>
-						<a style="color:#333333; font-weight:600;" href={p.app} target="_blank">{p.name}</a><br
-						/>
-						<p style="font-size:small">
-							{p.description}
-							{#if p.docs}
-								<a style="color:#333333;" target="_blank" href={p.docs}>[docs]</a>
+								{#if p.src}
+									<a style="color:#333333;" target="_blank" href={p.src}>[code]</a>
+								{/if}
+							</p>
+						</td>
+
+						<td style="text-align:right; font-weight:500">
+							{#if p.tlv}
+								{p.tlv.toLocaleString(undefined, {
+									maximumFractionDigits: 1,
+									minimumFractionDigits: 1
+								})} BCH
+							{:else}
+								<Loading />
 							{/if}
-
-							{#if p.src}
-								<a style="color:#333333;" target="_blank" href={p.src}>[code]</a>
-							{/if}
-						</p>
-					</td>
-
-					<td style="text-align:right">
-						{#if p.tlv}
-							{p.tlv.toLocaleString(undefined, { maximumFractionDigits: 1,  minimumFractionDigits: 1 })} BCH
-						{:else}
-							<Loading />
-						{/if}
-						<p style="font-size:small"></p>
-					</td>
-				</tr>
-			{/each}
+							<p style="font-size:small"></p>
+						</td>
+					</tr>
+				{/each}
+			</tbody>
 		</table>
 	{:else}
 		<p>Getting total amount locked by protocol</p>
@@ -176,7 +180,18 @@
 </section>
 
 <style>
+	table {
+		border-collapse: collapse;
+	}
 	td {
 		font-size: large;
+		padding: 10px;
+		border: 0px;
+	}
+	tbody tr:nth-child(even) {
+		background: radial-gradient(#c455c428, #ffdaff00);
+	}
+	tbody tr:nth-child(odd) {
+		background: radial-gradient(#ffffff55, #ffdaff00);
 	}
 </style>

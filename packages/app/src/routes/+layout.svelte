@@ -12,17 +12,18 @@
 	</main>
 
 	<footer>
-		<p>
-			<a href="/audit">audit</a> ■
-			<a href="/code">code of conduct</a>■
-			<a href="/contracts">contracts</a>■
-			<a href="/flipstarter">flipstarter</a>■
-			<a target="_blank" href="https://github.com/2qx/future-bitcoin-cash">source</a>■
-			<a target="_blank" href="https://t.me/Future_Bitcoin_Cash">telegram</a>■
-			<a href="/savers">tlv</a>
+		<p class="links"> 
+			<a target="_blank" href="https://t.me/Future_Bitcoin_Cash">telegram</a> ■
+			<a href="/savers">savers club</a>
 		</p>
-		<p>
-			<a href="/vm-limits">Future Bitcoin Cash supports CHIP-2021-05 VM Limits (Targeted Virtual Machine Limits) for the May 2025 BCH Upgrade.</a>
+		<p class="dev">
+			<a href="/audit">audit</a> ■
+			<a href="/code">code of conduct</a> ■
+			<a href="/contracts">contracts</a> ■
+			<a href="/flipstarter">flipstarter</a> ■
+			<a target="_blank" href="https://github.com/2qx/future-bitcoin-cash">source</a> ■
+			<a href="/vm-limits">vm limits</a> 
+			
 		</p>
 	</footer>
 </div>
@@ -32,6 +33,16 @@
 		display: flex;
 		flex-direction: column;
 		min-height: 100vh;
+	}
+
+	.links{
+		font-weight: 800;
+	}
+
+	.dev{
+		font-weight: 200;
+		font-weight: normal;
+		font-size: small;
 	}
 
 	main {
@@ -53,9 +64,7 @@
 		padding: 12px;
 	}
 
-	footer a {
-		font-weight: bold;
-	}
+	
 
 	@media (min-width: 480px) {
 		footer {
