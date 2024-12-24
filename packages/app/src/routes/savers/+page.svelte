@@ -185,7 +185,6 @@
 	}
 	td {
 		font-size: large;
-		padding: 10px;
 		border: 0px;
 	}
 	tbody tr:nth-child(even) {
