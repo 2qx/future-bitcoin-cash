@@ -109,12 +109,22 @@
 
 <section style="font-size:large">
 	<p >
-		Future Bitcoin Cash (FBCH) are sets of fungible tokens, with a coupon incentive market for locking and unlocking Bitcoin
-		Cash (BCH).
+		Future Bitcoin Cash (FBCH) let's anyone get a small yield for placing money in a simple time-locked token.
+		Each FBCH "series" is denoted by the block it can be unwrapped or redeemed 1:1 for the placed BCH.
+		There is different FBCH token series every 1000 blocks (each week). 
+	</p>
+	<p>
+        One Future Bitcoin Cash <i>will be</i> one Bitcoin Cash, but FBCH can also be sold early on a decentralized exchange (at a discount).
+	</p>
+	<p>
+        Cash coupons, paid upfront, set the yield rate for locking coins until some block. Coupons are just plain satoshis that can be used as an input for a locking transaction.
+	</p>
+	<p>
+		Open market participants can profit by claiming coupons and holding FBCH to maturity, or buying FBCH at a discount to sell or redeem later. Other strategies may include arbitraging FBCH on secondary markets or writing coupons for different times and values.
 	</p>
 	<ul>
 		<li>
-			Claim <a href="/coupons">coupons</a>  by locking coins for fungible tokens.
+			Claim cash <a href="/coupons">coupons</a>  by locking coins as fungible FBCH tokens.
 		</li>
 		<li>
 			Explore coupons and tokens per <a href="/vaults">vault</a>.
