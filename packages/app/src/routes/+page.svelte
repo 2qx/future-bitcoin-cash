@@ -109,9 +109,9 @@
 
 <section style="font-size:large">
 	<p >
-		Future Bitcoin Cash (FBCH) let's anyone get a small yield for placing money in a simple time-locked token.
-		Each FBCH "series" is denoted by the block it can be unwrapped or redeemed 1:1 for the placed BCH.
-		There is different FBCH token series every 1000 blocks (each week). 
+		Future Bitcoin Cash let's anyone get a small yield for placing money in a simple time-locked token.
+		Each FBCH "series" denoteds the block when it can be redeemed 1:1 for BCH.
+		There is a FBCH series every 1000 blocks (each week). 
 	</p>
 	<p>
         One Future Bitcoin Cash <i>will be</i> one Bitcoin Cash, but FBCH can also be sold early on a decentralized exchange (at a discount).
