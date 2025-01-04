@@ -109,23 +109,20 @@
 
 <section style="font-size:large">
 	<p >
-		Future Bitcoin Cash let's anyone get a small yield for placing money in a simple time-locked token.
-		Each FBCH "series" denoteds the block when it can be redeemed 1:1 for BCH.
-		There is a FBCH series every 1000 blocks (each week). 
+		Future Bitcoin Cash let's anyone get a small yield for swapping BitcoinCash into a simple time-locked token.
+	</p>
+	<blockquote>"1 Future Bitcoin Cash <b>will be</b> 1 Bitcoin Cash"</blockquote>
+	<p>
+		Bitcoin Cash (BCH) can be swapped 1:1 for Future Bitcoin Cash (FBCH). Each FBCH "series" denotes the blocktime when it can be redeemed 1:1 for BCH. 
 	</p>
 	<p>
-        One Future Bitcoin Cash <i>will be</i> one Bitcoin Cash, but FBCH can also be sold early on a decentralized exchange (at a discount).
-	</p>
-	<p>
-        Cash coupons, paid upfront, set the yield rate for locking coins until some block. Coupons are just plain satoshis that can be used as an input for a locking transaction.
-	</p>
-	<p>
-		Open market participants can profit by claiming coupons and holding FBCH to maturity, or buying FBCH at a discount to sell or redeem later. Other strategies may include arbitraging FBCH on secondary markets or writing coupons for different times and values.
+        Cash coupons offer a prebate incentive for locking coins. Coupons are just plain satoshis that can be used as an input for a locking transaction.
 	</p>
 	<ul>
 		<li>
 			Claim cash <a href="/coupons">coupons</a>  by locking coins as fungible FBCH tokens.
 		</li>
+		<li>Buying and selling FBCH token series is supported on <a target="_blank" href="https://tapswap.cash/trade/FT">tapswap.cash</a></li>
 		<li>
 			Explore coupons and tokens per <a href="/vaults">vault</a>.
 		</li>
