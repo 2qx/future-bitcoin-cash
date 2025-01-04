@@ -109,14 +109,14 @@
 
 <section style="font-size:large">
 	<p >
-		Future Bitcoin Cash let's anyone get a small yield for swapping BitcoinCash into a simple time-locked token.
+		Future Bitcoin Cash wrapped BitcoinCash, in a simple time-locked fungible token.
 	</p>
 	<blockquote>"1 Future Bitcoin Cash <b>will be</b> 1 Bitcoin Cash"</blockquote>
 	<p>
 		Bitcoin Cash (BCH) can be swapped 1:1 for Future Bitcoin Cash (FBCH). Each FBCH "series" denotes the blocktime when it can be redeemed 1:1 for BCH. 
 	</p>
 	<p>
-        Cash coupons offer a prebate incentive for locking coins. Coupons are just plain satoshis that can be used as an input for a locking transaction.
+        Cash <i>coupons</i> offer a prebate incentive for locking funds. Coupons are just plain satoshis that can be used as an input for a locking transaction.
 	</p>
 	<ul>
 		<li>
