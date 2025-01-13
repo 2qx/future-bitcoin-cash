@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { ElectrumClient, ElectrumTransport as Transport } from '@electrum-cash/network';
-	import { onMount, onDestroy } from 'svelte';
+	import { onMount } from 'svelte';
 	import {
 		getAllBalances,
 		Vault,
@@ -10,7 +10,13 @@
 	} from '@fbch/lib';
 
 	import Loading from '$lib/Loading.svelte';
-	import ExplorerLinks from '$lib/ExplorerLinks.svelte';
+	import { height } from '$lib/store.js';
+
+	let heightValue: number;
+
+	height.subscribe((value: any) => {
+		heightValue = value;
+	});
 
 	let electrum;
 	let protocols = [];
@@ -43,7 +49,7 @@
 			},
 			{
 				name: 'Future Bitcoin Cash',
-				addresses: Vault.getAllSeries(869000),
+				addresses: Vault.getAllSeries(heightValue ? heightValue: 881000 ),
 				docs: 'https://futurebitcoin.cash/contracts',
 				app: 'https://futurebitcoin.cash/',
 				src: 'https://github.com/2qx/future-bitcoin-cash/',
