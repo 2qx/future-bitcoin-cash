@@ -10,7 +10,7 @@ import {
     numberToBinUint32LEClamped,
 } from "@bitauth/libauth";
 
-import { BATON } from "./constant"
+import { BATON, TESTNET_BATON } from "./constant"
 import { gantryArtifact } from "@fbch/contracts";
 import { Vault } from "./vault"
 import { Contract, ElectrumNetworkProvider, Network } from "cashscript";
@@ -96,7 +96,8 @@ export class Gantry {
     static async step(step: bigint, provider: ElectrumNetworkProvider) {
 
         let contract = new Contract(gantryArtifact, [step, Vault.unlockingScript], { provider })
-        let utxo = (await provider.getUtxos(contract.tokenAddress))[0]
+        let BATON_CAT = provider.network == "mainnet" ? BATON : TESTNET_BATON
+        let utxo = (await provider.getUtxos(contract.tokenAddress)).filter(u => u.token.category == BATON_CAT)[0]
         let to = []
         console.log(utxo)
         let baton = utxo.token
@@ -156,7 +157,7 @@ export class Gantry {
                 ])
         }
         let tx = await fn.send();
-        await delay(2000);
+        await delay(200);
 
     }
 

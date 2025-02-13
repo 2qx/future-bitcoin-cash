@@ -50,7 +50,7 @@ describe(`TimeLock Tests`, () => {
         expect(tokenId).toBe(guessTokenId)
 
         let blockHeight = (await alice.provider?.getBlockHeight())
-        console.log(blockHeight)
+        //console.log(blockHeight)
         let locktime = BigInt(blockHeight!) + 10n
         // convert locktime to LE Byte4
         //let locktimeBytes = to32LE(locktime);
@@ -137,8 +137,8 @@ describe(`TimeLock Tests`, () => {
             blocks: 10,
         });
         blockHeight = (await alice.provider?.getBlockHeight())
-        console.log(blockHeight)
-        console.log(locktime)
+        // console.log(blockHeight)
+        // console.log(locktime)
         // console.log((await alice.getTokenBalance(tokenId)))
         // console.log((await alice.getUtxos()))
         transactionBuilder = new TransactionBuilder({ provider });
@@ -153,9 +153,9 @@ describe(`TimeLock Tests`, () => {
         aliceUtxo = aliceUtxos[0];
         bobUtxo = bobUtxos[0];
 
-        console.log(contractUtxo)
-        console.log(aliceUtxo)
-        console.log(bobUtxo)
+        // console.log(contractUtxo)
+        // console.log(aliceUtxo)
+        // console.log(bobUtxo)
 
         aliceUtxoBalance = aliceUtxo.satoshis
         transactionBuilder.addInputs([

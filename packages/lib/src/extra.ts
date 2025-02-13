@@ -1,10 +1,6 @@
 import {
-    encodeCashAddress,
-    CashAddressNetworkPrefix,
-    CashAddressType,
     hexToBin,
     binToUtf8,
-    base58AddressToLockingBytecode,
     lockingBytecodeToCashAddress
 } from "@bitauth/libauth";
 
@@ -24,7 +20,7 @@ export async function getUnspentAddresses() {
 
 
         const json = await response.json();
-        let addresses = json.data.search_output_prefix.filter(o => o.locking_bytecode.startsWith("\\x6a047574786f01500102")).map(o => {
+        let addresses = json.data.search_output_prefix.filter(o => o.locking_bytecode.startsWith("\\x6a047574786f01500102021f11")).map(o => {
             let payload = hexToBin(o.locking_bytecode.slice(-70))
             return lockingBytecodeToCashAddress(payload)
         })
@@ -41,7 +37,7 @@ export async function getUnspentV1Addresses() {
         const response = await fetch('https://demo.chaingraph.cash/v1/graphql', {
             credentials: 'omit',
             referrer: 'https://futurebitcoin.cash/',
-            body: '{\"operationName\":\"SearchOutputsByLockingBytecodePrefix\",\"variables\":{},\"query\":\"query SearchOutputsByLockingBytecodePrefix {\\n  search_output_prefix(args: {locking_bytecode_prefix_hex: \\\"6a047574786f01500101\\\"}, distinct_on: locking_bytecode, where: {transaction: {block_inclusions: {block: {accepted_by: {node: {name: {_regex: \\\"mainnet\\\"}}}}}}}) {\\n    locking_bytecode\\n  }\\n}\\n\"}',
+            body: '{\"operationName\":\"SearchOutputsByLockingBytecodePrefix\",\"variables\":{},\"query\":\"query SearchOutputsByLockingBytecodePrefix {\\n  search_output_prefix(args: {locking_bytecode_prefix_hex: \\\"6a047574786f01\\\"}, distinct_on: locking_bytecode, where: {transaction: {block_inclusions: {block: {accepted_by: {node: {name: {_regex: \\\"mainnet\\\"}}}}}}}) {\\n    locking_bytecode\\n  }\\n}\\n\"}',
             method: 'POST',
             mode: 'cors'
         });
@@ -51,9 +47,11 @@ export async function getUnspentV1Addresses() {
 
 
         const json = await response.json();
-        let addresses = json.data.search_output_prefix.filter(o => o.locking_bytecode.startsWith("\\x6a047574786f01500101")).map(o => {
-            let payload = hexToBin(o.locking_bytecode.slice(-46))
-            return lockingBytecodeToCashAddress(payload)
+        let addresses = json.data.search_output_prefix.filter(o => !o.locking_bytecode.startsWith("\\x6a047574786f01500102021f11")).map(o => {
+            // drop the "\\x", then parse the op_return for the checksum (locking bytecode)
+            let payload = decodeNullDataScript(o.locking_bytecode.substring(2)).pop()
+            let r =  lockingBytecodeToCashAddress(payload)
+            if(typeof r === "string") return r
         })
 
         return [...new Set(addresses)]
@@ -77,7 +75,7 @@ export async function getHodlAddresses() {
             throw new Error(`Response status: ${response.status}`);
         }
         const json = await response.json();
-        let addresses =  json.data.search_output_prefix.map(o => {
+        let addresses = json.data.search_output_prefix.map(o => {
             let len = parseInt(o.locking_bytecode.slice(14, 16), 16)
             let payload = o.locking_bytecode.substring(16, 16 + len * 2)
             let addr = binToUtf8(hexToBin(payload)).split(" ")[0]
@@ -90,3 +88,35 @@ export async function getHodlAddresses() {
         console.error(error.message);
     }
 }
+
+
+// For decoding OP_RETURN data
+export function decodeNullDataScript(data: Uint8Array | string) {
+    if (typeof data === "string") data = hexToBin(data);
+  
+    if (data.slice(0, 1)[0] !== 106) {
+      throw Error(
+        "Attempted to decode NullDataScript without a OP_RETURN code (106), not an OpReturn output?"
+      );
+    }
+  
+    // skip the OP_RETURN code data[0]
+    let i = 1;
+  
+    const r: Uint8Array[] = [];
+    while (i < data.length) {
+      if (data.slice(i, i + 1)[0] === 0x4c) {
+        r.push(data.slice(i, i + 1));
+        i + 1;
+      } else if (data.slice(i, i + 1)[0] === 0x4d) {
+        throw Error("Not Implemented");
+      } else {
+        const len = data.slice(i, i + 1)[0]!;
+        const start = i + 1;
+        const end = start + len;
+        r.push(data.slice(start, end));
+        i = end;
+      }
+    }
+    return r;
+  }

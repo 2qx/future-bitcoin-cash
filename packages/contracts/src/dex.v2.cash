@@ -1,0 +1,189 @@
+pragma cashscript ^0.10.0;
+
+//
+// CatDex - A token category authorized decentralized exchange
+//
+// Trade fungible tokens at fixed prices based on orders expressed in NFT commitments
+
+//   Features:
+//   - Allow for partial order fulfillment at a fixed price,
+//   - Allow contracts with zero (0) of a specific token to acquire a position in that token
+//   - Allow contracts with some number of tokens to liquidate that position completely
+//   - Allow a minting Baton holder to withdraw, or cancel any open order, by spending/burning utxos.
+//   - Zero commission trades, although order takers pay standard transaction fees to miners.
+//   - Given a known token category, orders are discoverable with the exchange token category.
+//   - Given an exchange category, orders are indexed and retrieved by getting the NFT balance of the exchange.
+
+// Usage:
+
+//   The exchange "owner" creates an NFT category with a minting baton to open trade orders on their own behalf.
+
+//   An order to Bid, or Buy, an asset is created by:
+//    creating a mutable NFT with the order in the commitment
+//    where the order quantity to be bought is *positive*, and
+//    the output contains sufficient value to fulfill the entire order,
+//    then sending that output to the dex contract.
+
+//   An Ask order, or Sell, is created as above:
+//     creating a mutable NFT identical to a buy, where,
+//     the quantity available for sale is *negative*,
+//     and the order utxo will accumulate any funds from the sale of the token,
+//     after the owner sends both: the order and the tokens to the contract as two utxos.
+
+//   Order Commitments: mutable NFT commitment to trade fungible token
+  
+//      byte16(LE)<quantity>   number of tokens remaining in order
+//      byte16(LE)<price>      price per token in sats
+//      TODO: multiplier   pre-multiply the token price by some fixed constant (i.e. decimals)
+//      ===
+//      32 length
+
+//   Transaction Building Modes:
+
+//    Order Mode:
+  
+//      In "Order mode" outputs are submitted in pairs, with both the record for the order
+//      and the cash value moving on the even "foot" and the tokens trading on the odd "foot".
+    
+//      orderAuth     input[even] -> output[even]  - An order NFT of category AuthCat (mutable)
+//      assetVault    input[odd]  -> output[odd]   - An input or output of category AssetCat.
+
+//    Withdraw Mode:
+  
+//      Transactions with a minting NFT may withdraw all outputs from the contract.
+  
+//      Auth             input[0] -> output[0]     - Authenticating NFT of category AuthCat (minting)
+//                       input[i] -> output[*]     - Unrestricted spending
+
+//   Note: 
+
+//   The exchange owner(s) holds the minting NFT baton(s), which authorizes spending funds from the exchange.
+
+//   
+// CatDex - WIP 20250115
+//
+//   Parameters:
+//
+//     authCat - the token category authorizing trades or transfers (owner's NFT)
+//     assetCat - the category of the fungible token being traded
+//
+
+contract CatDex(bytes32 authCat, bytes32 assetCat){
+
+
+    function swap(){
+    
+        // Set the index of the order baton related to this trade
+        // OP_INPUTINDEX OP_INPUTINDEX OP_2 OP_MOD OP_SUB
+        int orderIndex = this.activeInputIndex - (this.activeInputIndex % 2);   
+
+        // If the order input (even input) is a mutable auth Baton ... 
+        // OP_DUP OP_UTXOTOKENCATEGORY OP_2 OP_PICK OP_1 OP_CAT OP_EQUAL OP_IF        
+        if(tx.inputs[orderIndex].tokenCategory == authCat + 0x01){
+
+            // Require the baton is passed back in an output of the same index with mutable capability
+            // OP_DUP OP_OUTPUTTOKENCATEGORY OP_2 OP_PICK OP_1 OP_CAT OP_EQUALVERIFY
+            require(tx.outputs[orderIndex].tokenCategory == authCat + 0x01,
+                    "order baton must be returned intact");
+
+            // Require the order baton be passed back to the contract
+            // OP_DUP OP_OUTPUTBYTECODE OP_OVER OP_UTXOBYTECODE OP_EQUALVERIFY
+            require(tx.outputs[orderIndex].lockingBytecode == 
+                     tx.inputs[orderIndex].lockingBytecode,
+                     "order baton must be returned to the dex");
+
+            // verify asset thread:
+            // - output
+            // - categoryId
+            // - qty
+            //
+
+            // Get the next index of the asset thread
+            // OP_DUP OP_1ADD
+            int assetIndex = orderIndex + 1; 
+
+            // Require the asset thread be sent at the current contract
+            // OP_DUP OP_OUTPUTBYTECODE OP_2 OP_PICK OP_OUTPUTBYTECODE OP_EQUALVERIFY
+            require(tx.outputs[assetIndex].lockingBytecode == 
+                    tx.outputs[orderIndex].lockingBytecode,
+                     "token output be returned to the dex");                 
+                        
+            // if the amount of tokens is greater than zero,
+            // OP_DUP OP_OUTPUTTOKENAMOUNT OP_0 OP_GREATERTHAN OP_IF
+            if(tx.outputs[assetIndex].tokenAmount > 0){
+              // require the asset output contain token category specified by the order
+              // OP_DUP OP_OUTPUTTOKENCATEGORY OP_4 OP_PICK OP_EQUALVERIFY
+              require(tx.outputs[assetIndex].tokenCategory == assetCat,
+                "wrong token passed as the return asset");
+            } // OP_ENDIF
+
+            // Parse the order data from the NFT commitment
+            // OP_OVER OP_UTXOTOKENCOMMITMENT OP_16 OP_SPLIT
+            bytes quantityBin, bytes priceBin = 
+                          tx.inputs[orderIndex].nftCommitment.split(16);
+
+            // OP_OVER OP_BIN2NUM
+            int orderQuantity = int(quantityBin);  
+
+            // OP_OVER OP_BIN2NUM
+            int price = int(priceBin);
+
+            // Get the amount of the token traded
+            // OP_4 OP_PICK OP_OUTPUTTOKENAMOUNT 
+            // OP_5 OP_PICK OP_UTXOTOKENAMOUNT OP_SUB
+            int tradeQuantity = tx.outputs[assetIndex].tokenAmount - 
+                                 tx.inputs[assetIndex].tokenAmount;
+
+            // Verify new authCat order baton NFT commitment
+            // OP_2 OP_PICK OP_OVER OP_SUB OP_16 OP_NUM2BIN 
+            // OP_2 OP_PICK OP_16 OP_NUM2BIN OP_CAT
+            bytes32 nextCommitment = bytes16(orderQuantity-tradeQuantity) + bytes16(price);
+
+
+            // OP_7 OP_PICK OP_OUTPUTTOKENCOMMITMENT OP_OVER OP_EQUALVERIFY
+            require(tx.outputs[orderIndex].nftCommitment == nextCommitment,
+                "order baton data was not updated to reflect trade");
+
+            // require the sign of the quantity traded is matches the order sign  
+            // OP_OVER OP_0 OP_GREATERTHAN OP_4 OP_PICK OP_0 OP_GREATERTHAN OP_EQUALVERIFY
+            require(tradeQuantity > 0 == orderQuantity > 0,
+                "conflicting trade & order direction"); 
+
+            // require the amount traded be less than (or equal to) the quantity available
+            // OP_OVER OP_ABS OP_4 OP_PICK OP_ABS OP_LESSTHANOREQUAL OP_VERIFY
+            require(
+                abs(tradeQuantity) <= abs(orderQuantity),
+                "trade must be less than or equal to order quantity available"
+                );
+
+
+            // Verify the value returned with the order exceeds the quantity traded times the price.
+            //
+            // Examples:
+            // 0 - 10,000 sats  ->  534 sats  
+            //        |-> Buy -1000 @ 10 sat
+            // 1 -      0 ft    -> 10,000 ft          534-10,000 >= -1000*10 OK
+            //
+            // 2 -  800 sats     -> 10,800 sats
+            //       |-> Sell 1000 @ 10 sat/ft
+            // 3 -  1,000 ft    -> 0 ft                   10,000 >= 1000*10 OK
+            //
+            // OP_7 OP_PICK OP_OUTPUTVALUE OP_8 OP_PICK OP_UTXOVALUE OP_SUB 
+            // OP_2OVER OP_SWAP OP_MUL OP_NEGATE OP_GREATERTHANOREQUAL OP_VERIFYY
+            require(
+                (tx.outputs[orderIndex].value - tx.inputs[orderIndex].value) >= -(tradeQuantity*price),
+                "Payment for order too low"
+            );
+            //
+        } // OP_2DROP OP_2DROP OP_2DROP OP_DROP
+        //
+        // otherwise, if the zeroth input contains the minting baton 
+        // OP_ELSE
+        else{
+            // Authentication failed, script fails.
+            // OP_0 OP_UTXOTOKENCATEGORY OP_2 OP_PICK OP_2 OP_CAT OP_EQUALVERIFY
+            require(tx.inputs[0].tokenCategory == authCat + 0x02,
+                "Authorizing order baton NFT must be passed with each trade on an even input.");
+        } //  OP_ENDIF
+    } // OP_ENDIF
+} // OP_2DROP OP_2DROP OP_1

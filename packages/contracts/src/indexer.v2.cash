@@ -1,11 +1,11 @@
-pragma cashscript 0.11.0;
+pragma cashscript 0.10.0;
 
 // Small Index 
 // 
 // A subscription based key-value index 
 //
 
-contract index(bytes key) {
+contract SmallIndex(bytes key) {
     
     // Secure outputs with data in token commitments for a given key.
     // 
@@ -18,9 +18,9 @@ contract index(bytes key) {
 
     function drop() {
 
-        // Assure the key is not empty.
-        // OP_SIZE OP_NIP OP_VERIFY
-        require(bool(key.length));
+        // Use the key.
+        // OP_SIZE OP_NIP OP_0 OP_GREATERTHANOREQUAL OP_VERIFY
+        require(key.length >= 0);
 
         // Require each input age be higher than the utxo value
         // OP_INPUTINDEX OP_UTXOVALUE OP_CHECKSEQUENCEVERIFY OP_DROP

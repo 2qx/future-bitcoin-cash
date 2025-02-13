@@ -1,4 +1,4 @@
-import  { hexToBin } from "@bitauth/libauth"
+import  { CashAddressNetworkPrefix, hexToBin } from "@bitauth/libauth"
 import { couponArtifact  } from "@fbch/contracts";
 import { Contract } from "cashscript";
 import { Coupon } from "./coupon";
@@ -18,10 +18,12 @@ describe(`Static Coupon Tests`, () => {
     });
 
     test("Cat some token addresses", async () => {
-        for(var i = 900000; i <= 1e6; i+=10000){
-            let a = Coupon.getAddress(100000000, Vault.getLockingBytecode(i))
-            console.log(i, a)
+        let out = []
+        for(var i = 237000; i <= 1e6; i+=1000){
+            let a = Coupon.getAddress(100000000, Vault.getLockingBytecode(i), CashAddressNetworkPrefix.testnet)
+            out.push(a)
         }
+        console.log(out)
     });
 
 });

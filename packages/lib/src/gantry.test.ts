@@ -1,5 +1,6 @@
 import { binToHex, hexToBin, lockingBytecodeToCashAddress } from "@bitauth/libauth"
 import { gantryArtifact } from "@fbch/contracts";
+import { ElectrumCluster, ElectrumTransport, ClusterOrder } from "electrum-cash";
 import { Contract, ElectrumNetworkProvider } from "cashscript";
 import { Gantry } from "./gantry";
 import { Vault } from "./vault";
@@ -27,17 +28,39 @@ describe(`Static Coupon Tests`, () => {
     });
 
 
-    test("Should step gantry", async () => {
+    test.skip("Should step gantry", async () => {
 
         let provider = new ElectrumNetworkProvider("chipnet");
         await Gantry.step(1000n, provider);
 
     });
 
-    test("Should step some gantries", async () => {
+    test.skip("Should step some gantries", async () => {
 
         let provider = new ElectrumNetworkProvider();
         // await Gantry.step(1_000_000n, provider);
+        for await (const results of [...Array(10).keys()]) {
+            await Gantry.step(100_000n, provider);
+        }
+        for await (const results of [...Array(20).keys()]) {
+            await Gantry.step(10_000n, provider);
+        }
+        for await (const results of [...Array(52).keys()]) {
+            await Gantry.step(1_000n, provider);
+        }
+
+    });
+
+    test("Should step some gantries", async () => {
+
+        let electrum = new ElectrumCluster('CashScript Application', '1.4.1', 1, 1, ClusterOrder.PRIORITY);
+        electrum.addServer('chipnet.bch.ninja', 50004, ElectrumTransport.WSS.Scheme, false);
+        let provider = new ElectrumNetworkProvider("chipnet", electrum);  
+        
+        // await Gantry.step(1_000_000n, provider);
+        // for await (const results of [...Array(4).keys()]) {
+        //     await Gantry.step(1_000_000n, provider);
+        // }
         for await (const results of [...Array(10).keys()]) {
             await Gantry.step(100_000n, provider);
         }

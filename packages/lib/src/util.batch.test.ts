@@ -17,7 +17,7 @@ describe(`Token series validity tests`, () => {
 
         let addresses = Vault.getAllSeries(869000)
         let balances = (await getAllBalances(electrumClient, addresses)).reduce((a, b) => a + b, 0)
-        console.log(balances / 1e8)
+        //console.log(balances / 1e8)
 
     })
 

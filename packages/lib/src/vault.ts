@@ -182,7 +182,6 @@ export class Vault {
         var map = new Map();
         coupons.forEach(obj => map.set(obj.address, obj));
         return map;
-
     }
 
 
