@@ -1,11 +1,13 @@
 
-import { getHodlAddresses, getUnspentAddresses } from "./extra";
+import { getHodlAddresses, getUnspentAddresses, getLichoWillAddresses } from "./extra";
 
 describe(`Static Coupon Tests`, () => {
 
-    test("Should step gantry", async () => {
+    test("Should text extra", async () => {
 
-        await getUnspentAddresses();
+        let addresses  = await getLichoWillAddresses();
+        process.stdout.write(JSON.stringify(addresses) + '\n');
+        //await getUnspentAddresses();
         //await getHodlAddresses();
     });
 

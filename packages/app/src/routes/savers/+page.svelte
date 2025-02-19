@@ -103,13 +103,13 @@
 				tlv: NaN
 			},
 			{
-				name: 'Last Will',
-				addresses: willAddresses,
-				docs: 'https://github.com/KarolTrzeszczkowski/Electron-Cash-Last-Will-Plugin',
-				app: 'https://github.com/KarolTrzeszczkowski/Electron-Cash-Last-Will-Plugin',
-				src: 'https://github.com/KarolTrzeszczkowski/Electron-Cash-Last-Will-Plugin',
-				description: 'A dead man\'s switch with a six month trigger.',
-				image: '/licho.png',
+				name: 'Wrapped Bitcoin Cash',
+				addresses: ['bitcoincash:p0ujgnc9jnyurzv99678fgac3fdrq8x3py9rlrg6dlnz96qxrdl02efwc0sf9'],
+				docs: 'https://bitcoincashresearch.org/t/wbch-bch-wrapped-as-cash-token/1196',
+				app: 'https://wrapped.cash/',
+				src: 'https://gitlab.com/dagurval/wrapped-cash',
+				description: 'Bitcoin Cash Tokenized 1:1 as fungible CashTokens.',
+				image: '/WBCH.png',
 				tlv: NaN
 			},
 			{
@@ -123,13 +123,13 @@
 				tlv: NaN
 			},
 			{
-				name: 'Wrapped Bitcoin Cash',
-				addresses: ['bitcoincash:p0ujgnc9jnyurzv99678fgac3fdrq8x3py9rlrg6dlnz96qxrdl02efwc0sf9'],
-				docs: 'https://bitcoincashresearch.org/t/wbch-bch-wrapped-as-cash-token/1196',
-				app: 'https://wrapped.cash/',
-				src: 'https://gitlab.com/dagurval/wrapped-cash',
-				description: 'Bitcoin Cash Tokenized 1:1 as fungible CashTokens.',
-				image: '/WBCH.png',
+				name: 'Last Will',
+				addresses: willAddresses,
+				docs: 'https://github.com/KarolTrzeszczkowski/Electron-Cash-Last-Will-Plugin',
+				app: 'https://github.com/KarolTrzeszczkowski/Electron-Cash-Last-Will-Plugin',
+				src: 'https://github.com/KarolTrzeszczkowski/Electron-Cash-Last-Will-Plugin',
+				description: 'A dead man\'s switch with a six month trigger.',
+				image: '/licho.png',
 				tlv: NaN
 			}
 		];
