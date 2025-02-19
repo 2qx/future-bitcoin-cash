@@ -109,7 +109,7 @@
 
 <section style="font-size:large">
 	<p >
-		Future Bitcoin Cash is wrapped BitcoinCash, as a time-locked fungible token.
+		Future Bitcoin Cash is wrapped BitcoinCash, as a time-locked fungible tokens.
 	</p>
 	<blockquote>"1 Future Bitcoin Cash <b>will be</b> 1 Bitcoin Cash"</blockquote>
 	<p>

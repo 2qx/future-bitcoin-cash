@@ -1,7 +1,8 @@
 import {
     hexToBin,
     binToUtf8,
-    lockingBytecodeToCashAddress
+    lockingBytecodeToCashAddress,
+    binToHex
 } from "@bitauth/libauth";
 
 
@@ -25,6 +26,70 @@ export async function getUnspentAddresses() {
             return lockingBytecodeToCashAddress(payload)
         })
 
+        return [...new Set(addresses)]
+
+    } catch (error) {
+        console.error(error.message);
+    }
+}
+
+export async function getLichoWillAddresses() {
+    try {
+        const response = await fetch('https://demo.chaingraph.cash/v1/graphql', {
+            credentials: 'omit',
+            referrer: 'https://futurebitcoin.cash/',
+            body: '{\"operationName\":\"SearchOutputsByLockingBytecodePrefix\",\"variables\":{},\"query\":\"query SearchOutputsByLockingBytecodePrefix {\\n  search_output_prefix(args: {locking_bytecode_prefix_hex: \\\"6a043e736800\\\"}, distinct_on: locking_bytecode, where: {transaction: {block_inclusions: {block: {accepted_by: {node: {name: {_regex: \\\"mainnet\\\"}}}}}}}) {\\n    locking_bytecode\\n  }\\n}\\n\"}',
+            method: 'POST',
+            mode: 'cors'
+        });
+        if (!response.ok) {
+            throw new Error(`Response status: ${response.status}`);
+        }
+
+
+        const json = await response.json();
+        let addresses = json.data.search_output_prefix.map(o => {
+            // drop the "\\x", then parse the op_return 
+            let parts = decodeNullDataScript(o.locking_bytecode.substring(2))//
+            let output = parts.map(c => binToHex(c).match(/.{1,2}/g).reduce((acc,char)=>acc+String.fromCharCode(parseInt(char, 16)),""))
+            if (output.length==2){
+                return output[1].split(" ")[0]
+            } 
+        })
+        addresses = addresses.filter(x => x)
+        console.log(addresses)
+        return [...new Set(addresses)]
+
+    } catch (error) {
+        console.error(error.message);
+    }
+}
+
+
+export async function getLichoMecenasAddresses() {
+    try {
+        const response = await fetch('https://demo.chaingraph.cash/v1/graphql', {
+            credentials: 'omit',
+            referrer: 'https://futurebitcoin.cash/',
+            body: '{\"operationName\":\"SearchOutputsByLockingBytecodePrefix\",\"variables\":{},\"query\":\"query SearchOutputsByLockingBytecodePrefix {\\n  search_output_prefix(args: {locking_bytecode_prefix_hex: \\\"6a043e736800\\\"}, distinct_on: locking_bytecode, where: {transaction: {block_inclusions: {block: {accepted_by: {node: {name: {_regex: \\\"mainnet\\\"}}}}}}}) {\\n    locking_bytecode\\n  }\\n}\\n\"}',
+            method: 'POST',
+            mode: 'cors'
+        });
+        if (!response.ok) {
+            throw new Error(`Response status: ${response.status}`);
+        }
+
+
+        const json = await response.json();
+        let addresses = json.data.search_output_prefix.map(o => {
+            // drop the "\\x", then parse the op_return 
+            let parts = decodeNullDataScript(o.locking_bytecode.substring(2))//
+            let output = parts.map(c => binToHex(c).match(/.{1,2}/g).reduce((acc,char)=>acc+String.fromCharCode(parseInt(char, 16)),""))
+            if (output.length==3){
+                return output[1].split(" ")[0]
+            } 
+        })
+        addresses = addresses.filter(x => x)
         return [...new Set(addresses)]
 
     } catch (error) {

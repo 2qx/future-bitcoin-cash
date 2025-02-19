@@ -4,9 +4,12 @@
 	import {
 		getAllBalances,
 		Vault,
+		getHodlAddresses,
+		getLichoWillAddresses,
+		getLichoMecenasAddresses,
 		getUnspentAddresses,
 		getUnspentV1Addresses,
-		getHodlAddresses
+		
 	} from '@fbch/lib';
 
 	import Loading from '$lib/Loading.svelte';
@@ -35,6 +38,8 @@
 		let unspentAddresses = await getUnspentAddresses();
 		let unspentV1Addresses = await getUnspentV1Addresses();
 		let hodlAddresses = await getHodlAddresses();
+		let willAddresses = await getLichoWillAddresses();
+		let mecenasAddresses = await getLichoMecenasAddresses();
 
 		protocols = [
 			{
@@ -68,16 +73,6 @@
 				tlv: NaN
 			},
 			{
-				name: 'Unspent Cash',
-				docs: 'https://unspent.cash/help',
-				app: 'https://unspent.cash/',
-				src: 'https://github.com/2qx/unspent/tree/main/packages/chi',
-				description: 'Get one percent of a fund monthly in perpetuity.',
-				addresses: unspentAddresses,
-				image: '/unspent2.png',
-				tlv: NaN
-			},
-			{
 				name: 'Unspent Phi',
 				docs: 'https://unspent.app/documentation',
 				app: 'https://unspent.app/',
@@ -88,6 +83,16 @@
 				tlv: NaN
 			},
 			{
+				name: 'Unspent Cash',
+				docs: 'https://unspent.cash/help',
+				app: 'https://unspent.cash/',
+				src: 'https://github.com/2qx/unspent/tree/main/packages/chi',
+				description: 'Get one percent of a fund monthly in perpetuity.',
+				addresses: unspentAddresses,
+				image: '/unspent2.png',
+				tlv: NaN
+			},
+			{
 				name: 'Emerald Dao',
 				addresses: ['bitcoincash:pr43rx2gwdq6j2dpmrpxldftu7swfn7xvqga6vzmp3'],
 				docs: 'https://emerald-dao.cash/',
@@ -95,6 +100,26 @@
 				src: 'https://gitlab.com/0353F40E/emerald-dao/-/tree/main',
 				description: '[CLOSED FUND] A fixed-term deposit savings vault using NFTs with crowdfunded rewards.',
 				image: '/emerald.jpg',
+				tlv: NaN
+			},
+			{
+				name: 'Last Will',
+				addresses: willAddresses,
+				docs: 'https://github.com/KarolTrzeszczkowski/Electron-Cash-Last-Will-Plugin',
+				app: 'https://github.com/KarolTrzeszczkowski/Electron-Cash-Last-Will-Plugin',
+				src: 'https://github.com/KarolTrzeszczkowski/Electron-Cash-Last-Will-Plugin',
+				description: 'A dead man\'s switch with a six month trigger.',
+				image: '/licho.png',
+				tlv: NaN
+			},
+			{
+				name: 'Mecenas',
+				addresses: mecenasAddresses,
+				docs: 'https://github.com/KarolTrzeszczkowski/Mecenas-recurring-payment-EC-plugin',
+				app: 'https://github.com/KarolTrzeszczkowski/Mecenas-recurring-payment-EC-plugin',
+				src: 'https://github.com/KarolTrzeszczkowski/Mecenas-recurring-payment-EC-plugin',
+				description: 'A recurring payment plugin for a noncustodial patronate',
+				image: '/mecenas.svg',
 				tlv: NaN
 			},
 			{
@@ -167,8 +192,8 @@
 						<td style="text-align:right; font-weight:600">
 							{#if p.tlv}
 								{p.tlv.toLocaleString(undefined, {
-									maximumFractionDigits: 1,
-									minimumFractionDigits: 1
+									maximumSignificantDigits: 3,
+									minimumSignificantDigits: 1
 								})} ʙᴄʜ
 							{:else}
 								<Loading />

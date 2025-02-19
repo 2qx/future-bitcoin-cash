@@ -10,6 +10,8 @@ export {
 
 export {
     getHodlAddresses,
+    getLichoWillAddresses,
+    getLichoMecenasAddresses,
     getUnspentAddresses,
     getUnspentV1Addresses
 } from "./extra.js"
