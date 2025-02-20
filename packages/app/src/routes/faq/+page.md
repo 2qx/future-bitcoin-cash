@@ -8,7 +8,7 @@ Future BCH (FBCH-\*) are fungible tokens redeemable 1:1 for Bitcoin Cash (BCH) a
 
 Each Future BCH "series" is denoted with the "block" that the vault matures, it shows when the vault opens for redemption.
 
-So FBCH-1000000 can be redeemed after block 1,000,000 is mined. In 2027, all the FBCH-1000000 can be swapped 1:1 for BCH held in [the 1000000 FBCH vault](/v?block=1000000).
+So FBCH-1000000 can be redeemed after block 1,000,000 is mined. In 2027, all the FBCH-1000000 can be swapped 1:1 for BCH held in [the 1000000 FBCH vault](https://futurebitcoin.cash/v?block=1000000).
 
 ### What are Futures worth?
 
