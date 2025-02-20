@@ -13,7 +13,7 @@
 
 	<footer>
 		<p class="links">
-			<a href="/faq">FAQ</a> ■
+			<a href="/faq">faq</a> ■
 			<a target="_blank" href="https://t.me/Future_Bitcoin_Cash">telegram</a> ■
 			<a href="/savers">savers club</a>
 		</p>
