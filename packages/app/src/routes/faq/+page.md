@@ -16,7 +16,7 @@ While each Future represents one Bitcoin Cash, the bitcoin is **encumbered** in 
 
 Most people might agree that locked bitcoin is less useful than liquid bitcoin, but as the time to unlocking approaches the value of a FBCH gets closer to the BCH it can be redeemed for.
 
-<img src="discount.svg" alt="chart showing future discount rate" width="400px"/>
+<img src="/discount.svg" alt="chart showing future discount rate" width="400px"/>
 
 So most Future BCH can be expected to trade at some discount to plain BCH, but that discount will slowly evaporate as the time to maturity approaches. 
 
@@ -40,7 +40,7 @@ Coupons could also be made for **any** contract system with a unidirectional loc
 
 While the amount of a coupon to lock can't be changed, the time remaining for a series changes every block. 
 
-<img src="yield.svg" alt="chart showing changing yield rates" width="400px"/>
+<img src="/yield.svg" alt="chart showing changing yield rates" width="400px"/>
 
 As the time remaining for a coupon to be used approaches zero, the effective rate approaches infinity. 
 
