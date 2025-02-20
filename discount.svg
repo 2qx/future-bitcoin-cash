@@ -5,7 +5,6 @@
    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
    xmlns:svg="http://www.w3.org/2000/svg"
    xmlns="http://www.w3.org/2000/svg"
-   xmlns:xlink="http://www.w3.org/1999/xlink"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    width="800"
@@ -125,18 +124,6 @@
        width="156.83407"
        height="89.275442"
        id="rect2010" />
-    <linearGradient
-       inkscape:collect="always"
-       id="linearGradient2004">
-      <stop
-         style="stop-color:#ffffff;stop-opacity:1;"
-         offset="0"
-         id="stop2000" />
-      <stop
-         style="stop-color:#800080;stop-opacity:1"
-         offset="1"
-         id="stop2002" />
-    </linearGradient>
     <marker
        style="overflow:visible"
        id="marker1822"
@@ -252,15 +239,6 @@
          style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.625;stroke-linejoin:round;stroke-opacity:1"
          id="path882-1-7-1" />
     </marker>
-    <linearGradient
-       inkscape:collect="always"
-       xlink:href="#linearGradient2004"
-       id="linearGradient2006"
-       x1="109.87296"
-       y1="223.36432"
-       x2="107.65861"
-       y2="-326.68695"
-       gradientUnits="userSpaceOnUse" />
   </defs>
   <sodipodi:namedview
      id="base"
@@ -290,7 +268,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -299,256 +277,208 @@
      inkscape:groupmode="layer"
      id="layer1">
     <rect
-       style="fill:url(#linearGradient2006);stroke-width:1.2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:1.2, 2.39999999999999991;stroke-dashoffset:0;fill-opacity:1"
-       id="rect1998"
-       width="211.07877"
-       height="211.94853"
-       x="0.41700453"
-       y="0.23386829" />
-    <rect
-       style="fill:#ffffff;fill-opacity:0.613665;stroke-width:1.2;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:1.2, 2.4;stroke-dashoffset:0"
+       style="fill:#ffffff;fill-opacity:0.39290029;stroke-width:1.2;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:1.2, 2.39999999999999991;stroke-dashoffset:0"
        id="rect2898"
-       width="175.08249"
-       height="204.50885"
-       x="19.118452"
-       y="4.1031432" />
+       width="211.83134"
+       height="211.63768"
+       x="0"
+       y="0"
+       rx="10"
+       ry="10" />
     <path
        style="fill:none;stroke:#000000;stroke-width:1.32292;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="m 154.86752,134.56094 c -49.86141,-0.27921 -81.793329,6.4902 -100.65246,13.84224"
+       d="M 171.28826,97.204129 C 110.01105,96.860989 70.768291,105.18026 47.591349,114.21556"
        id="path833"
        sodipodi:nodetypes="cc" />
     <path
        style="fill:none;stroke:#000000;stroke-width:1.32292;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:1.32292, 2.64583;stroke-dashoffset:0;stroke-opacity:1"
-       d="M 147.63677,134.3977 H 47.484504"
+       d="M 162.40203,97.003509 H 39.319828"
        id="path835"
        sodipodi:nodetypes="cc" />
     <path
        style="fill:none;stroke:#000000;stroke-width:1.32292;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:1.32292, 2.64584;stroke-dashoffset:0;stroke-opacity:1"
-       d="m 148.19959,118.22138 v 74.29859"
+       d="M 163.0937,77.123611 V 168.43292"
        id="path837"
        sodipodi:nodetypes="cc" />
     <text
        xml:space="preserve"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7.01876px;line-height:1.25;font-family:'Noto Sans';-inkscape-font-specification:'Noto Sans, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;word-spacing:0px;stroke-width:0.264583"
-       x="172.41884"
-       y="128.68201"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:8.62571px;line-height:1.25;font-family:'Noto Sans';-inkscape-font-specification:'Noto Sans, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;word-spacing:0px;stroke-width:0.264583"
+       x="192.86008"
+       y="89.971664"
        id="text841"
-       transform="scale(1.0001106,0.99988941)"><tspan
+       transform="scale(1.0001106,0.99988942)"><tspan
          sodipodi:role="line"
          id="tspan839"
-         x="172.41884"
-         y="128.68201"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7.01876px;font-family:'Noto Sans';-inkscape-font-specification:'Noto Sans, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:center;text-anchor:middle;stroke-width:0.264583">1 FBCH </tspan><tspan
+         x="192.86008"
+         y="89.971664"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:8.62571px;font-family:'Noto Sans';-inkscape-font-specification:'Noto Sans, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:center;text-anchor:middle;stroke-width:0.264583">1 FBCH </tspan><tspan
          sodipodi:role="line"
-         x="172.41884"
-         y="137.45546"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7.01876px;font-family:'Noto Sans';-inkscape-font-specification:'Noto Sans, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:center;text-anchor:middle;stroke-width:0.264583"
+         x="192.86008"
+         y="100.7538"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:8.62571px;font-family:'Noto Sans';-inkscape-font-specification:'Noto Sans, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:center;text-anchor:middle;stroke-width:0.264583"
          id="tspan2902">= </tspan><tspan
          sodipodi:role="line"
-         x="172.41884"
-         y="146.22891"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7.01876px;font-family:'Noto Sans';-inkscape-font-specification:'Noto Sans, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:center;text-anchor:middle;stroke-width:0.264583"
+         x="192.86008"
+         y="111.53594"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:8.62571px;font-family:'Noto Sans';-inkscape-font-specification:'Noto Sans, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:center;text-anchor:middle;stroke-width:0.264583"
          id="tspan2900">1 BCH</tspan></text>
     <path
        style="fill:none;stroke:#000000;stroke-width:1.323;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#marker2776)"
-       d="m 46.67605,192.8708 108.44819,-0.26859"
+       d="M 38.326278,168.86407 171.60376,168.53398"
        id="path843"
        sodipodi:nodetypes="cc" />
     <text
        xml:space="preserve"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7.01876px;line-height:1.25;font-family:'Noto Sans';-inkscape-font-specification:'Noto Sans, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;word-spacing:0px;stroke-width:0.264583"
-       x="133.5359"
-       y="113.71445"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:8.62571px;line-height:1.25;font-family:'Noto Sans';-inkscape-font-specification:'Noto Sans, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;word-spacing:0px;stroke-width:0.264583"
+       x="145.07364"
+       y="71.581604"
        id="text847"
-       inkscape:transform-center-x="-2.2518651"
-       inkscape:transform-center-y="-10.977657"
+       inkscape:transform-center-x="-2.7674252"
+       inkscape:transform-center-y="-13.491006"
        transform="scale(1.000047,0.99995301)"><tspan
          sodipodi:role="line"
          id="tspan845"
-         x="133.5359"
-         y="113.71445"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7.01876px;font-family:'Noto Sans';-inkscape-font-specification:'Noto Sans, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:0.264583">Maturity</tspan></text>
+         x="145.07364"
+         y="71.581604"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:8.62571px;font-family:'Noto Sans';-inkscape-font-specification:'Noto Sans, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:0.264583">Maturity</tspan></text>
     <text
        xml:space="preserve"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7.01876px;line-height:1.25;font-family:'Noto Sans';-inkscape-font-specification:'Noto Sans, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;word-spacing:0px;stroke-width:0.264583"
-       x="78.349281"
-       y="203.22353"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:8.62571px;line-height:1.25;font-family:'Noto Sans';-inkscape-font-specification:'Noto Sans, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;word-spacing:0px;stroke-width:0.264583"
+       x="77.252007"
+       y="181.58385"
        id="text851"
        transform="scale(1.000047,0.99995301)"><tspan
          sodipodi:role="line"
          id="tspan849"
-         x="78.349281"
-         y="203.22353"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7.01876px;font-family:'Noto Sans';-inkscape-font-specification:'Noto Sans, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:0.264583">Time (blocks)</tspan></text>
+         x="77.252007"
+         y="181.58385"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:8.62571px;font-family:'Noto Sans';-inkscape-font-specification:'Noto Sans, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:0.264583">Time (blocks)</tspan></text>
     <text
        xml:space="preserve"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7.01876px;line-height:1.25;font-family:'Noto Sans';-inkscape-font-specification:'Noto Sans, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;word-spacing:0px;stroke-width:0.264583"
-       x="144.23836"
-       y="201.81442"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:8.62571px;line-height:1.25;font-family:'Noto Sans';-inkscape-font-specification:'Noto Sans, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;word-spacing:0px;stroke-width:0.264583"
+       x="158.22643"
+       y="179.85213"
        id="text1183"
-       transform="scale(1.000047,0.999953)"><tspan
+       transform="scale(1.000047,0.99995301)"><tspan
          sodipodi:role="line"
          id="tspan1181"
-         x="144.23836"
-         y="201.81442"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7.01876px;font-family:'Noto Sans';-inkscape-font-specification:'Noto Sans, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:0.264583">T-0</tspan></text>
+         x="158.22643"
+         y="179.85213"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:8.62571px;font-family:'Noto Sans';-inkscape-font-specification:'Noto Sans, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:0.264583">T-0</tspan></text>
     <path
        style="fill:none;stroke:#000000;stroke-width:1.323;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#Arrow1Send)"
-       d="M 46.599245,192.7231 V 95.674644"
+       d="M 38.231888,168.68255 V 49.414784"
        id="path1197" />
     <path
        style="fill:none;stroke:#000000;stroke-width:1.2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="m 89.794688,134.48804 v 4.27572"
+       d="m 91.316959,97.114529 v 5.254651"
        id="path1223"
        sodipodi:nodetypes="cc" />
     <text
        xml:space="preserve"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7.01876px;line-height:1.25;font-family:'Noto Sans';-inkscape-font-specification:'Noto Sans, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;word-spacing:0px;stroke-width:0.264583"
-       x="87.049698"
-       y="103.1262"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:8.62571px;line-height:1.25;font-family:'Noto Sans';-inkscape-font-specification:'Noto Sans, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;word-spacing:0px;stroke-width:0.264583"
+       x="87.943504"
+       y="58.572376"
        id="text1227"><tspan
          sodipodi:role="line"
          id="tspan1225"
-         x="87.049698"
-         y="103.1262"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7.01876px;font-family:'Noto Sans';-inkscape-font-specification:'Noto Sans, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:0.264583">The</tspan><tspan
+         x="87.943504"
+         y="58.572376"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:8.62571px;font-family:'Noto Sans';-inkscape-font-specification:'Noto Sans, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:0.264583">The</tspan><tspan
          sodipodi:role="line"
-         x="87.049698"
-         y="111.89965"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7.01876px;font-family:'Noto Sans';-inkscape-font-specification:'Noto Sans, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:0.264583"
+         x="87.943504"
+         y="69.354507"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:8.62571px;font-family:'Noto Sans';-inkscape-font-specification:'Noto Sans, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:0.264583"
          id="tspan1464">coupon </tspan><tspan
          sodipodi:role="line"
-         x="87.049698"
-         y="120.6731"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7.01876px;font-family:'Noto Sans';-inkscape-font-specification:'Noto Sans, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:0.264583"
+         x="87.943504"
+         y="80.13665"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:8.62571px;font-family:'Noto Sans';-inkscape-font-specification:'Noto Sans, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:0.264583"
          id="tspan1229" /></text>
     <text
        xml:space="preserve"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7.01876px;line-height:1.25;font-family:'Noto Sans';-inkscape-font-specification:'Noto Sans, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;word-spacing:0px;stroke-width:0.264583"
-       x="39.002441"
-       y="136.13869"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:8.62571px;line-height:1.25;font-family:'Noto Sans';-inkscape-font-specification:'Noto Sans, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;word-spacing:0px;stroke-width:0.264583"
+       x="28.897894"
+       y="99.135559"
        id="text841-2"
-       transform="scale(1.0001106,0.99988941)"><tspan
+       transform="scale(1.0001106,0.99988942)"><tspan
          sodipodi:role="line"
          id="tspan839-1"
-         x="39.002441"
-         y="136.13869"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7.01876px;font-family:'Noto Sans';-inkscape-font-specification:'Noto Sans, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:0.264583">1</tspan></text>
+         x="28.897894"
+         y="99.135559"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:8.62571px;font-family:'Noto Sans';-inkscape-font-specification:'Noto Sans, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:0.264583">1</tspan></text>
     <text
        xml:space="preserve"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7.01876px;line-height:1.25;font-family:'Noto Sans';-inkscape-font-specification:'Noto Sans, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;word-spacing:0px;stroke-width:0.264583"
-       x="38.327351"
-       y="194.49278"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:8.62571px;line-height:1.25;font-family:'Noto Sans';-inkscape-font-specification:'Noto Sans, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;word-spacing:0px;stroke-width:0.264583"
+       x="28.068243"
+       y="170.84987"
        id="text841-2-6"
-       transform="scale(1.0001106,0.99988941)"><tspan
+       transform="scale(1.0001106,0.99988942)"><tspan
          sodipodi:role="line"
          id="tspan839-1-2"
-         x="38.327351"
-         y="194.49278"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7.01876px;font-family:'Noto Sans';-inkscape-font-specification:'Noto Sans, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:0.264583">0</tspan></text>
+         x="28.068243"
+         y="170.84987"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:8.62571px;font-family:'Noto Sans';-inkscape-font-specification:'Noto Sans, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:0.264583">0</tspan></text>
     <text
        xml:space="preserve"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7.01876px;line-height:1.25;font-family:'Noto Sans';-inkscape-font-specification:'Noto Sans, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;word-spacing:0px;stroke-width:0.264583"
-       x="23.930283"
-       y="157.93076"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:8.62571px;line-height:1.25;font-family:'Noto Sans';-inkscape-font-specification:'Noto Sans, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;word-spacing:0px;stroke-width:0.264583"
+       x="10.374956"
+       y="125.91694"
        id="text841-0"
-       transform="scale(1.0001106,0.99988941)"><tspan
+       transform="scale(1.0001106,0.99988942)"><tspan
          sodipodi:role="line"
          id="tspan839-2"
-         x="23.930283"
-         y="157.93076"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7.01876px;font-family:'Noto Sans';-inkscape-font-specification:'Noto Sans, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:0.264583">Price</tspan><tspan
+         x="10.374956"
+         y="125.91694"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:8.62571px;font-family:'Noto Sans';-inkscape-font-specification:'Noto Sans, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:0.264583">Price</tspan><tspan
          sodipodi:role="line"
-         x="23.930283"
-         y="166.70421"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7.01876px;font-family:'Noto Sans';-inkscape-font-specification:'Noto Sans, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:0.264583"
+         x="10.374956"
+         y="136.69908"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:8.62571px;font-family:'Noto Sans';-inkscape-font-specification:'Noto Sans, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:0.264583"
          id="tspan1698">(BCH)</tspan></text>
     <text
        xml:space="preserve"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7.01876px;line-height:1.25;font-family:'Noto Sans';-inkscape-font-specification:'Noto Sans, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;word-spacing:0px;stroke-width:0.264583"
-       x="51.199635"
-       y="103.346"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:8.62571px;line-height:1.25;font-family:'Noto Sans';-inkscape-font-specification:'Noto Sans, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;word-spacing:0px;stroke-width:0.264583"
+       x="43.88554"
+       y="58.842503"
        id="text1227-9"><tspan
          sodipodi:role="line"
-         x="51.199635"
-         y="103.346"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7.01876px;font-family:'Noto Sans';-inkscape-font-specification:'Noto Sans, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:0.264583"
+         x="43.88554"
+         y="58.842503"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:8.62571px;font-family:'Noto Sans';-inkscape-font-specification:'Noto Sans, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:0.264583"
          id="tspan1229-4">The </tspan><tspan
          sodipodi:role="line"
-         x="51.199635"
-         y="112.11945"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7.01876px;font-family:'Noto Sans';-inkscape-font-specification:'Noto Sans, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:0.264583"
+         x="43.88554"
+         y="69.624634"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:8.62571px;font-family:'Noto Sans';-inkscape-font-specification:'Noto Sans, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:0.264583"
          id="tspan1462">discount</tspan></text>
     <text
        xml:space="preserve"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7.01876px;line-height:1.25;font-family:'Noto Sans';-inkscape-font-specification:'Noto Sans, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;word-spacing:0px;stroke-width:0.264583"
-       x="73.947914"
-       y="170.69228"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:8.62571px;line-height:1.25;font-family:'Noto Sans';-inkscape-font-specification:'Noto Sans, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;word-spacing:0px;stroke-width:0.264583"
+       x="71.842056"
+       y="141.60776"
        id="text1227-3"><tspan
          sodipodi:role="line"
-         x="73.947914"
-         y="170.69228"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7.01876px;font-family:'Noto Sans';-inkscape-font-specification:'Noto Sans, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:0.264583"
+         x="71.842056"
+         y="141.60776"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:8.62571px;font-family:'Noto Sans';-inkscape-font-specification:'Noto Sans, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:0.264583"
          id="tspan1229-6">FBCH Price</tspan></text>
     <path
-       style="fill:none;stroke:#000000;stroke-width:1.2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:1.2, 2.4;stroke-dashoffset:0;stroke-opacity:1"
-       d="m 60.053435,134.91123 v 10.87299"
+       style="fill:none;stroke:#000000;stroke-width:1.2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:1.2, 2.40001;stroke-dashoffset:0;stroke-opacity:1"
+       d="M 54.766424,97.634609 V 110.99698"
        id="path1223-0"
        sodipodi:nodetypes="cc" />
     <path
        style="fill:none;stroke:#000000;stroke-width:1.32292;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#Arrow2Mend-3)"
-       d="M 80.023648,161.41015 V 143.77159"
+       d="M 79.308831,130.20048 V 108.52356"
        id="path853-2" />
     <path
        style="fill:none;stroke:#000000;stroke-width:1.32292;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#Arrow2Mend-3-7)"
-       d="m 60.412941,114.9963 v 17.63856"
+       d="M 55.208239,73.160146 V 94.837069"
        id="path853-2-9" />
     <path
        style="fill:none;stroke:#000000;stroke-width:1.32292;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#Arrow2Mend-3-7-8)"
-       d="m 89.89656,114.34553 v 17.63856"
+       d="M 91.442149,72.360382 V 94.037299"
        id="path853-2-9-0" />
-    <text
-       xml:space="preserve"
-       id="text2008"
-       style="font-size:3.88056px;line-height:1.25;font-family:'Noto Sans';-inkscape-font-specification:'Noto Sans';word-spacing:0px;white-space:pre;shape-inside:url(#rect2010);"
-       transform="translate(17.487177,1.0769784)"
-       x="69.913368"
-       y="0"><tspan
-         x="25.192906"
-         y="13.343507"><tspan
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7.05556px;font-family:'Noto Sans';-inkscape-font-specification:'Noto Sans, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:center;text-anchor:middle">Future Bitcoin Cash (FBCH) is time-locked </tspan></tspan><tspan
-         x="61.659473"
-         y="22.162958"><tspan
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7.05556px;font-family:'Noto Sans';-inkscape-font-specification:'Noto Sans, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:center;text-anchor:middle">Bitcoin Cash (BCH).
-</tspan></tspan><tspan
-         x="93.166016"
-         y="30.982408"><tspan
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7.05556px;font-family:'Noto Sans';-inkscape-font-specification:'Noto Sans, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:center;text-anchor:middle">
-</tspan></tspan><tspan
-         x="14.85303"
-         y="39.801858"><tspan
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7.05556px;font-family:'Noto Sans';-inkscape-font-specification:'Noto Sans, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:center;text-anchor:middle">Before maturity, FBCH should usually trade at a </tspan></tspan><tspan
-         x="35.113017"
-         y="48.621309"><tspan
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7.05556px;font-family:'Noto Sans';-inkscape-font-specification:'Noto Sans, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:center;text-anchor:middle">discount to the coins it encumbers.
-</tspan></tspan><tspan
-         x="93.166016"
-         y="57.440759"><tspan
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7.05556px;font-family:'Noto Sans';-inkscape-font-specification:'Noto Sans, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:center;text-anchor:middle">
-</tspan></tspan><tspan
-         x="16.937947"
-         y="66.260209"><tspan
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7.05556px;font-family:'Noto Sans';-inkscape-font-specification:'Noto Sans, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:center;text-anchor:middle">Coupon takers establish the discount rate and </tspan></tspan><tspan
-         x="15.632645"
-         y="75.07966"><tspan
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7.05556px;font-family:'Noto Sans';-inkscape-font-specification:'Noto Sans, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:center;text-anchor:middle">the market price of FBCH when they encumber </tspan></tspan><tspan
-         x="43.678439"
-         y="83.89911"><tspan
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7.05556px;font-family:'Noto Sans';-inkscape-font-specification:'Noto Sans, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:center;text-anchor:middle">new coins by taking coupons. 
-</tspan></tspan><tspan
-         x="93.166016"
-         y="92.718561"><tspan
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7.05556px;font-family:'Noto Sans';-inkscape-font-specification:'Noto Sans, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:center;text-anchor:middle">
-</tspan></tspan></text>
   </g>
 </svg>
