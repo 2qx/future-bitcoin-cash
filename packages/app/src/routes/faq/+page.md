@@ -8,9 +8,9 @@ Future BCH (FBCH-\*) are fungible tokens redeemable 1:1 for Bitcoin Cash (BCH) a
 
 Each Future BCH *series* has a block number in the ticker.
 
-This number denotes the time when the series matures; it's when the vault opens for redemptions. The future time is measured in blocks.
+This number denotes the **time** when the series matures, or opens for redemptions. The future time is measured in absolute blocks on-chain.
 
-So FBCH-1000000 can be redeemed after block 1,000,000 is mined. In 2027, all the FBCH-1000000 can be swapped 1:1 for BCH held in [the 1000000 FBCH vault](https://futurebitcoin.cash/v?block=1000000).
+So FBCH-1000000 can be redeemed after the 1,000,000th block is mined. In 2027, all the FBCH-1000000 can be swapped 1:1 for BCH held in [the 1000000 FBCH vault](https://futurebitcoin.cash/v?block=1000000).
 
 Blocks are the base time unit of blockchains. On average, a block is mined every 10 minutes. There are about 1000 blocks per week and 52500 blocks per year. A million blocks is about 19 years.
 
@@ -18,13 +18,13 @@ Blocks are the base time unit of blockchains. On average, a block is mined every
 
 While each Future represents one Bitcoin Cash, but the coins are **encumbered** in a vault.
 
-Most people might agree that encumbered bitcoin is less useful than plain ol' bitcoin, but as the time to unlocking approaches the value of a FBCH gets closer to the BCH it can be redeemed for.
+Future BCH can be expected to trade at some discount to plain BCH, but that discount should slowly decrease as the time to maturity approaches. The curve is similar to how bonds are priced at a discount.
+
 <p style="text-align: center;">
 <img src="/discount.svg" alt="chart showing future discount rate" width="80%"/>
 </p>
-So most Future BCH can be expected to trade at some discount to plain BCH, but that discount will slowly evaporate as the time to maturity approaches. The curve is similar to how bonds are priced at a discount.
 
-So, if a future is worth less than the coins backing it, it follows that encumbering coins as futures should **always** instantly result in slightly less value to the locker. To find the discount, anyone write a *coupon* to cover the difference in market price.
+If a future always is worth less than the coins being locked, it follows that encumbering coins as futures should **always** instantly result in slightly less value to the locker. To find the discount, anyone write a *coupon* to cover the difference in market price for the locking party.
 
 ### What is a coupon?
 
@@ -44,15 +44,15 @@ Note: coupons could also be made for **any** contract system with a unidirection
 
 Coupon value are specified in satoshis. Each coupon is a single output (unspent transaction output, UTXO). 
 
-To create multiple coupons, many outputs are sent to the coupon contract. So one coin (100M sats), can be sent as 100 outputs of 1M sats each to write a hundred coupons.
+Multiple coupons can be creaetd by sending many outputs to a coupon contract. So one coin (100M sats), can be sent as 100 outputs of 1M sats each to write a hundred coupons in a single transaction.
 
-The yield is calculated as the satoshis per amount locked divided by the time remaining to maturity.
+The coupon yield is calculated as the satoshis per amount locked divided by the time remaining to maturity.
 
 **A satoshi per coin per block is one *spb*. 20 sbp is approximately 1% APY.**
 
-### Are coupon rates changing?
+### Are coupon rates increasing?
 
-Yes.
+Yes, every block.
 
 While the amount of a coupon to lock can't be changed, the time remaining for a series decreases every block. 
 
