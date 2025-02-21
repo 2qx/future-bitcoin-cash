@@ -4,26 +4,31 @@
 
 Future BCH (FBCH-\*) are fungible tokens redeemable 1:1 for Bitcoin Cash (BCH) after the block indicated by the each *series*. 
 
-### What's a series? What's the number after "FBCH-" in the ticker mean?
+### What's a series? 
 
-Each Future BCH *series* is denoted with the "block" that the vault matures, it shows when the vault opens for redemption.
+Each Future BCH *series* has a block number in the ticker.
 
-So FBCH-1000000 can be redeemed after block 1,000,000 is mined. In 2027, all the FBCH-1000000 can be swapped 1:1 for BCH held in [the 1000000 FBCH vault](https://futurebitcoin.cash/v?block=1000000).drones
+This number denotes the time when the series matures; it's when the vault opens for redemptions. The future time is measured in blocks.
+
+So FBCH-1000000 can be redeemed after block 1,000,000 is mined. In 2027, all the FBCH-1000000 can be swapped 1:1 for BCH held in [the 1000000 FBCH vault](https://futurebitcoin.cash/v?block=1000000).
+
+Blocks are the base time unit of blockchains. On average, a block is mined every 10 minutes. There are about 1000 blocks per week and 52500 blocks per year. A million blocks is about 19 years.
 
 ### What are Futures worth?
 
-While each Future represents one Bitcoin Cash, but the bitcoin is **encumbered** in a vault. 
+While each Future represents one Bitcoin Cash, but the coins are **encumbered** in a vault.
 
-Most people might agree that encumbered bitcoin is less useful than liquid bitcoin, but as the time to unlocking approaches the value of a FBCH gets closer to the BCH it can be redeemed for.
+Most people might agree that encumbered bitcoin is less useful than plain ol' bitcoin, but as the time to unlocking approaches the value of a FBCH gets closer to the BCH it can be redeemed for.
 <p style="text-align: center;">
 <img src="/discount.svg" alt="chart showing future discount rate" width="80%"/>
 </p>
 So most Future BCH can be expected to trade at some discount to plain BCH, but that discount will slowly evaporate as the time to maturity approaches. The curve is similar to how bonds are priced at a discount.
 
+So, if a future is worth less than the coins backing it, it follows that encumbering coins as futures should **always** instantly result in slightly less value to the locker. To find the discount, anyone write a *coupon* to cover the difference in market price.
 
 ### What is a coupon?
 
-A coupon is **NOT** a CashToken, it's *plain ol'* Bitcoin Cash locked by a contract.
+A coupon is **NOT** a CashToken, it's *plain ol'* Bitcoin Cash held by a contract.
 
 The coupon contract **requires** three conditions to spend the coupon:
 
