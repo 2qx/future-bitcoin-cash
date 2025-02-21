@@ -4,6 +4,11 @@
 
 Future BCH (FBCH-\*) are fungible tokens redeemable 1:1 for Bitcoin Cash (BCH) after the block indicated by the each *series*. 
 
+### What's a series? What's the number after "FBCH-" in the ticker mean?
+
+Each Future BCH *series* is denoted with the "block" that the vault matures, it shows when the vault opens for redemption.
+
+So FBCH-1000000 can be redeemed after block 1,000,000 is mined. In 2027, all the FBCH-1000000 can be swapped 1:1 for BCH held in [the 1000000 FBCH vault](https://futurebitcoin.cash/v?block=1000000).drones
 
 ### What are Futures worth?
 
@@ -14,12 +19,6 @@ Most people might agree that encumbered bitcoin is less useful than liquid bitco
 <img src="/discount.svg" alt="chart showing future discount rate" width="80%"/>
 </p>
 So most Future BCH can be expected to trade at some discount to plain BCH, but that discount will slowly evaporate as the time to maturity approaches. The curve is similar to how bonds are priced at a discount.
-
-### What's a series? What's the number after "FBCH-" in the ticker mean?
-
-Each Future BCH *series* is denoted with the "block" that the vault matures, it shows when the vault opens for redemption.
-
-So FBCH-1000000 can be redeemed after block 1,000,000 is mined. In 2027, all the FBCH-1000000 can be swapped 1:1 for BCH held in [the 1000000 FBCH vault](https://futurebitcoin.cash/v?block=1000000).
 
 
 ### What is a coupon?
@@ -38,7 +37,19 @@ All FBCH coupon contract use identical logic, only the amount and destination co
 
 Coupons could also be made for **any** contract system with a unidirectional lock or one-way mechanism.
 
-### Why do coupon rates change?
+### What determines the coupon yield rate?
+
+Coupon value are specified in satoshis. Each coupon is a single output (unspent transaction output, UTXO). 
+
+To create multiple coupons, many outputs are sent to the coupon contract.
+
+The yield is the satoshis divided by the time remaining to maturity.
+
+**A satoshi per coin per block is one *spb*. 20 sbp is approximately 1% APY.**
+
+### Are coupon rates changing?
+
+Yes.
 
 While the amount of a coupon to lock can't be changed, the time remaining for a series changes every block. 
 
@@ -50,7 +61,19 @@ As the time remaining for a coupon to be used approaches zero, the effective rat
 
 When series matures, anyone may instantly claim unused coupons by placing BCH and immediately redeeming.
 
+### Where do coupons come from?
 
+Anything that can send satoshis can write a coupon by sending money to a coupon contract. 
+
+The coupon could be written by a person, a bot, a service, or another contract system. 
+
+Coupons can be written in response to external events, like markets. Or coupons can be emitted in response to things like hash rate or difficulty. 
+
+Coupon writing is permissionless and pluralistic, meaning many different parties may write coupons for conflicting or independent reasons.
+
+### I have Futures, but I want liquid Bitcoin Cash now? 
+
+FBCH fungible tokens can be traded on [tapswap](https://tapswap.cash/trade).
 
 ### I forgot about my FBCH for 100 years, can I still redeem it for BCH? 
 
