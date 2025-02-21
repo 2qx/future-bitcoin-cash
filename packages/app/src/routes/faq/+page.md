@@ -28,9 +28,9 @@ So, if a future is worth less than the coins backing it, it follows that encumbe
 
 ### What is a coupon?
 
-A coupon is **NOT** a CashToken, it's *plain ol'* Bitcoin Cash held by a contract.
+A coupon is **NOT** a token, it's *plain ol'* cash held by a contract.
 
-The coupon contract **requires** three conditions to spend the coupon:
+The coupon contract **requires** three conditions to spend the cash:
 
 - The transaction **must send net value** to some other contract.
 - The transaction must spend **some minimum amount**, and
@@ -38,17 +38,15 @@ The coupon contract **requires** three conditions to spend the coupon:
 
 Coupons must be used when placing BCH for FBCH, but it's also technically possible to swap BCH for FBCH without a coupon.
 
-All FBCH coupon contract use identical logic, only the amount and destination contract changes.
-
-Coupons could also be made for **any** contract system with a unidirectional lock or one-way mechanism.
+Note: coupons could also be made for **any** contract system with a unidirectional lock or one-way mechanism.
 
 ### What determines the coupon yield rate?
 
 Coupon value are specified in satoshis. Each coupon is a single output (unspent transaction output, UTXO). 
 
-To create multiple coupons, many outputs are sent to the coupon contract.
+To create multiple coupons, many outputs are sent to the coupon contract. So one coin (100M sats), can be sent as 100 outputs of 1M sats each to write a hundred coupons.
 
-The yield is the satoshis divided by the time remaining to maturity.
+The yield is calculated as the satoshis per amount locked divided by the time remaining to maturity.
 
 **A satoshi per coin per block is one *spb*. 20 sbp is approximately 1% APY.**
 
@@ -56,7 +54,7 @@ The yield is the satoshis divided by the time remaining to maturity.
 
 Yes.
 
-While the amount of a coupon to lock can't be changed, the time remaining for a series changes every block. 
+While the amount of a coupon to lock can't be changed, the time remaining for a series decreases every block. 
 
 <p style="text-align: center;">
 <img src="/yield.svg" alt="chart showing changing yield rates" width="80%"/>
