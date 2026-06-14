@@ -2191,12 +2191,12 @@
 				}
 			}
 		},
-		"6382194f597734ac447c95caab9155f61e92a3e6ff19a8db3e027f191e8ef59c": {
-			"2026-05-07T00:00:00.000Z": {
+		"61baa0a6e1c255ed68738ecd2e39837c0dbe0b68e028629bfbc3566ef575e260": {
+			"2024-10-14T00:00:00.000Z": {
 				"name": "Future BCH 962,000",
 				"description": "A fungible token redeemable for Bitcoin Cash after block 962,000",
 				"token": {
-					"category": "6382194f597734ac447c95caab9155f61e92a3e6ff19a8db3e027f191e8ef59c",
+					"category": "61baa0a6e1c255ed68738ecd2e39837c0dbe0b68e028629bfbc3566ef575e260",
 					"decimals": 8,
 					"symbol": "FBCH-0962000"
 				},
@@ -2206,12 +2206,12 @@
 				}
 			}
 		},
-		"2cb42658bc2d11473eb69c54900c40072f54265faac694091f2cac3bd3de5dfe": {
-			"2026-05-07T00:00:00.000Z": {
+		"6382194f597734ac447c95caab9155f61e92a3e6ff19a8db3e027f191e8ef59c": {
+			"2024-10-14T00:00:00.000Z": {
 				"name": "Future BCH 963,000",
 				"description": "A fungible token redeemable for Bitcoin Cash after block 963,000",
 				"token": {
-					"category": "2cb42658bc2d11473eb69c54900c40072f54265faac694091f2cac3bd3de5dfe",
+					"category": "6382194f597734ac447c95caab9155f61e92a3e6ff19a8db3e027f191e8ef59c",
 					"decimals": 8,
 					"symbol": "FBCH-0963000"
 				},
@@ -2221,12 +2221,12 @@
 				}
 			}
 		},
-		"603095b50e61536655abc5413b4d80413b3bfd52d47a3fe9e3611f9477f78ed5": {
-			"2026-05-07T00:00:00.000Z": {
+		"2cb42658bc2d11473eb69c54900c40072f54265faac694091f2cac3bd3de5dfe": {
+			"2024-10-14T00:00:00.000Z": {
 				"name": "Future BCH 964,000",
 				"description": "A fungible token redeemable for Bitcoin Cash after block 964,000",
 				"token": {
-					"category": "603095b50e61536655abc5413b4d80413b3bfd52d47a3fe9e3611f9477f78ed5",
+					"category": "2cb42658bc2d11473eb69c54900c40072f54265faac694091f2cac3bd3de5dfe",
 					"decimals": 8,
 					"symbol": "FBCH-0964000"
 				},
@@ -2236,12 +2236,12 @@
 				}
 			}
 		},
-		"4552b365f012ea8aa8c32ce75656c6b223d7e8bc85038f084f5192bbf6064680": {
-			"2026-05-07T00:00:00.000Z": {
+		"603095b50e61536655abc5413b4d80413b3bfd52d47a3fe9e3611f9477f78ed5": {
+			"2024-10-14T00:00:00.000Z": {
 				"name": "Future BCH 965,000",
 				"description": "A fungible token redeemable for Bitcoin Cash after block 965,000",
 				"token": {
-					"category": "4552b365f012ea8aa8c32ce75656c6b223d7e8bc85038f084f5192bbf6064680",
+					"category": "603095b50e61536655abc5413b4d80413b3bfd52d47a3fe9e3611f9477f78ed5",
 					"decimals": 8,
 					"symbol": "FBCH-0965000"
 				},
@@ -2251,12 +2251,12 @@
 				}
 			}
 		},
-		"3e3cad85ed715c768f6c58355ff17a0704625d96ecca50b7a37cab28133b079a": {
-			"2026-05-07T00:00:00.000Z": {
+		"4552b365f012ea8aa8c32ce75656c6b223d7e8bc85038f084f5192bbf6064680": {
+			"2024-10-14T00:00:00.000Z": {
 				"name": "Future BCH 966,000",
 				"description": "A fungible token redeemable for Bitcoin Cash after block 966,000",
 				"token": {
-					"category": "3e3cad85ed715c768f6c58355ff17a0704625d96ecca50b7a37cab28133b079a",
+					"category": "4552b365f012ea8aa8c32ce75656c6b223d7e8bc85038f084f5192bbf6064680",
 					"decimals": 8,
 					"symbol": "FBCH-0966000"
 				},
@@ -2266,12 +2266,12 @@
 				}
 			}
 		},
-		"bba19560cff91f638e6910398a5fe2de00104e0eedd01aad25ce4851c78af420": {
-			"2026-05-07T00:00:00.000Z": {
+		"3e3cad85ed715c768f6c58355ff17a0704625d96ecca50b7a37cab28133b079a": {
+			"2024-10-14T00:00:00.000Z": {
 				"name": "Future BCH 967,000",
 				"description": "A fungible token redeemable for Bitcoin Cash after block 967,000",
 				"token": {
-					"category": "bba19560cff91f638e6910398a5fe2de00104e0eedd01aad25ce4851c78af420",
+					"category": "3e3cad85ed715c768f6c58355ff17a0704625d96ecca50b7a37cab28133b079a",
 					"decimals": 8,
 					"symbol": "FBCH-0967000"
 				},
@@ -2281,12 +2281,12 @@
 				}
 			}
 		},
-		"3e9c474ec904395e0c908ea59f7a13d281775e6d8baf018e66af1a70098aec44": {
-			"2026-05-07T00:00:00.000Z": {
+		"bba19560cff91f638e6910398a5fe2de00104e0eedd01aad25ce4851c78af420": {
+			"2024-10-14T00:00:00.000Z": {
 				"name": "Future BCH 968,000",
 				"description": "A fungible token redeemable for Bitcoin Cash after block 968,000",
 				"token": {
-					"category": "3e9c474ec904395e0c908ea59f7a13d281775e6d8baf018e66af1a70098aec44",
+					"category": "bba19560cff91f638e6910398a5fe2de00104e0eedd01aad25ce4851c78af420",
 					"decimals": 8,
 					"symbol": "FBCH-0968000"
 				},
@@ -2296,12 +2296,12 @@
 				}
 			}
 		},
-		"a5c219d60f8903fb6fb9bc4255e040a7fe955b49cde75a1b48070153f001110f": {
-			"2026-05-07T00:00:00.000Z": {
+		"3e9c474ec904395e0c908ea59f7a13d281775e6d8baf018e66af1a70098aec44": {
+			"2024-10-14T00:00:00.000Z": {
 				"name": "Future BCH 969,000",
 				"description": "A fungible token redeemable for Bitcoin Cash after block 969,000",
 				"token": {
-					"category": "a5c219d60f8903fb6fb9bc4255e040a7fe955b49cde75a1b48070153f001110f",
+					"category": "3e9c474ec904395e0c908ea59f7a13d281775e6d8baf018e66af1a70098aec44",
 					"decimals": 8,
 					"symbol": "FBCH-0969000"
 				},
@@ -2311,12 +2311,12 @@
 				}
 			}
 		},
-		"ac1fe9d76c2215eb755e772641b0643dc05315339e74e4a9d82a6ee5b8eb9b15": {
-			"2026-05-07T00:00:00.000Z": {
+		"1d4d148aece3154834564f51b0a92f058a2891d466008f4883dc52fb29536890": {
+			"2024-10-14T00:00:00.000Z": {
 				"name": "Future BCH 971,000",
 				"description": "A fungible token redeemable for Bitcoin Cash after block 971,000",
 				"token": {
-					"category": "ac1fe9d76c2215eb755e772641b0643dc05315339e74e4a9d82a6ee5b8eb9b15",
+					"category": "1d4d148aece3154834564f51b0a92f058a2891d466008f4883dc52fb29536890",
 					"decimals": 8,
 					"symbol": "FBCH-0971000"
 				},
@@ -2326,12 +2326,12 @@
 				}
 			}
 		},
-		"39432b4d6c8de11b808dc2874510e09777ae823adcd527f099a76feea3fa8d33": {
-			"2026-05-07T00:00:00.000Z": {
+		"ac1fe9d76c2215eb755e772641b0643dc05315339e74e4a9d82a6ee5b8eb9b15": {
+			"2024-10-14T00:00:00.000Z": {
 				"name": "Future BCH 972,000",
 				"description": "A fungible token redeemable for Bitcoin Cash after block 972,000",
 				"token": {
-					"category": "39432b4d6c8de11b808dc2874510e09777ae823adcd527f099a76feea3fa8d33",
+					"category": "ac1fe9d76c2215eb755e772641b0643dc05315339e74e4a9d82a6ee5b8eb9b15",
 					"decimals": 8,
 					"symbol": "FBCH-0972000"
 				},
@@ -2341,12 +2341,12 @@
 				}
 			}
 		},
-		"9115cb1fb6179c0f24cdea13a5247a7a28af8dc02b0d925cf3a8359af2d94cd9": {
-			"2026-05-07T00:00:00.000Z": {
+		"39432b4d6c8de11b808dc2874510e09777ae823adcd527f099a76feea3fa8d33": {
+			"2024-10-14T00:00:00.000Z": {
 				"name": "Future BCH 973,000",
 				"description": "A fungible token redeemable for Bitcoin Cash after block 973,000",
 				"token": {
-					"category": "9115cb1fb6179c0f24cdea13a5247a7a28af8dc02b0d925cf3a8359af2d94cd9",
+					"category": "39432b4d6c8de11b808dc2874510e09777ae823adcd527f099a76feea3fa8d33",
 					"decimals": 8,
 					"symbol": "FBCH-0973000"
 				},
@@ -2356,12 +2356,12 @@
 				}
 			}
 		},
-		"f0140bab509625f7a718eb34411849dbee8105dfedd4e3c2f5baf912632776bb": {
-			"2026-05-07T00:00:00.000Z": {
+		"9115cb1fb6179c0f24cdea13a5247a7a28af8dc02b0d925cf3a8359af2d94cd9": {
+			"2024-10-14T00:00:00.000Z": {
 				"name": "Future BCH 974,000",
 				"description": "A fungible token redeemable for Bitcoin Cash after block 974,000",
 				"token": {
-					"category": "f0140bab509625f7a718eb34411849dbee8105dfedd4e3c2f5baf912632776bb",
+					"category": "9115cb1fb6179c0f24cdea13a5247a7a28af8dc02b0d925cf3a8359af2d94cd9",
 					"decimals": 8,
 					"symbol": "FBCH-0974000"
 				},
@@ -2371,12 +2371,12 @@
 				}
 			}
 		},
-		"f5bfb4840731ee3aaea3f8b991671ffe590b8b1ead7957e078dde792fbf039e8": {
-			"2026-05-07T00:00:00.000Z": {
+		"f0140bab509625f7a718eb34411849dbee8105dfedd4e3c2f5baf912632776bb": {
+			"2024-10-14T00:00:00.000Z": {
 				"name": "Future BCH 975,000",
 				"description": "A fungible token redeemable for Bitcoin Cash after block 975,000",
 				"token": {
-					"category": "f5bfb4840731ee3aaea3f8b991671ffe590b8b1ead7957e078dde792fbf039e8",
+					"category": "f0140bab509625f7a718eb34411849dbee8105dfedd4e3c2f5baf912632776bb",
 					"decimals": 8,
 					"symbol": "FBCH-0975000"
 				},
@@ -2386,12 +2386,12 @@
 				}
 			}
 		},
-		"85e276e6c3a23d6160fba8883d7d799f735d6dac48b995339e5f36a043eb8e25": {
-			"2026-05-07T00:00:00.000Z": {
+		"f5bfb4840731ee3aaea3f8b991671ffe590b8b1ead7957e078dde792fbf039e8": {
+			"2024-10-14T00:00:00.000Z": {
 				"name": "Future BCH 976,000",
 				"description": "A fungible token redeemable for Bitcoin Cash after block 976,000",
 				"token": {
-					"category": "85e276e6c3a23d6160fba8883d7d799f735d6dac48b995339e5f36a043eb8e25",
+					"category": "f5bfb4840731ee3aaea3f8b991671ffe590b8b1ead7957e078dde792fbf039e8",
 					"decimals": 8,
 					"symbol": "FBCH-0976000"
 				},
@@ -2401,12 +2401,12 @@
 				}
 			}
 		},
-		"6e7ade73ce1a78c04153f372ad88721aff7a6e803428c6253807e01d58eb3946": {
-			"2026-05-07T00:00:00.000Z": {
+		"85e276e6c3a23d6160fba8883d7d799f735d6dac48b995339e5f36a043eb8e25": {
+			"2024-10-14T00:00:00.000Z": {
 				"name": "Future BCH 977,000",
 				"description": "A fungible token redeemable for Bitcoin Cash after block 977,000",
 				"token": {
-					"category": "6e7ade73ce1a78c04153f372ad88721aff7a6e803428c6253807e01d58eb3946",
+					"category": "85e276e6c3a23d6160fba8883d7d799f735d6dac48b995339e5f36a043eb8e25",
 					"decimals": 8,
 					"symbol": "FBCH-0977000"
 				},
@@ -2416,12 +2416,12 @@
 				}
 			}
 		},
-		"4d0b13702f578a2d689ebc126d5b4ca65e8b82f551c2bc41407f26426970016e": {
-			"2026-05-07T00:00:00.000Z": {
+		"6e7ade73ce1a78c04153f372ad88721aff7a6e803428c6253807e01d58eb3946": {
+			"2024-10-14T00:00:00.000Z": {
 				"name": "Future BCH 978,000",
 				"description": "A fungible token redeemable for Bitcoin Cash after block 978,000",
 				"token": {
-					"category": "4d0b13702f578a2d689ebc126d5b4ca65e8b82f551c2bc41407f26426970016e",
+					"category": "6e7ade73ce1a78c04153f372ad88721aff7a6e803428c6253807e01d58eb3946",
 					"decimals": 8,
 					"symbol": "FBCH-0978000"
 				},
@@ -2431,12 +2431,12 @@
 				}
 			}
 		},
-		"e89e68db7e7f5383600ed909f5a3c08733793dcdf29103604f679c517543f81f": {
-			"2026-05-07T00:00:00.000Z": {
+		"4d0b13702f578a2d689ebc126d5b4ca65e8b82f551c2bc41407f26426970016e": {
+			"2024-10-14T00:00:00.000Z": {
 				"name": "Future BCH 979,000",
 				"description": "A fungible token redeemable for Bitcoin Cash after block 979,000",
 				"token": {
-					"category": "e89e68db7e7f5383600ed909f5a3c08733793dcdf29103604f679c517543f81f",
+					"category": "4d0b13702f578a2d689ebc126d5b4ca65e8b82f551c2bc41407f26426970016e",
 					"decimals": 8,
 					"symbol": "FBCH-0979000"
 				},
@@ -2446,12 +2446,12 @@
 				}
 			}
 		},
-		"004d7a2f2d048f9ea15b45a011a3651e0505f1ce2e8c2d14c3a4bbb18bc216aa": {
-			"2026-05-07T00:00:00.000Z": {
+		"3758868562a4534ae79f9477fdac6f4a28be66f8b503892fe7e05f5e65fa92c5": {
+			"2024-10-14T00:00:00.000Z": {
 				"name": "Future BCH 981,000",
 				"description": "A fungible token redeemable for Bitcoin Cash after block 981,000",
 				"token": {
-					"category": "004d7a2f2d048f9ea15b45a011a3651e0505f1ce2e8c2d14c3a4bbb18bc216aa",
+					"category": "3758868562a4534ae79f9477fdac6f4a28be66f8b503892fe7e05f5e65fa92c5",
 					"decimals": 8,
 					"symbol": "FBCH-0981000"
 				},
@@ -2461,12 +2461,12 @@
 				}
 			}
 		},
-		"8a4a99882901841d8f26d279b1da5bb936bf461f6bc6d719778a352c38c9fca1": {
-			"2026-05-07T00:00:00.000Z": {
+		"004d7a2f2d048f9ea15b45a011a3651e0505f1ce2e8c2d14c3a4bbb18bc216aa": {
+			"2024-10-14T00:00:00.000Z": {
 				"name": "Future BCH 982,000",
 				"description": "A fungible token redeemable for Bitcoin Cash after block 982,000",
 				"token": {
-					"category": "8a4a99882901841d8f26d279b1da5bb936bf461f6bc6d719778a352c38c9fca1",
+					"category": "004d7a2f2d048f9ea15b45a011a3651e0505f1ce2e8c2d14c3a4bbb18bc216aa",
 					"decimals": 8,
 					"symbol": "FBCH-0982000"
 				},
@@ -2476,12 +2476,12 @@
 				}
 			}
 		},
-		"2cad46f461a9ceef143117c8e28735212a0c72520242ba3e310368dc3ce1b382": {
-			"2026-05-07T00:00:00.000Z": {
+		"8a4a99882901841d8f26d279b1da5bb936bf461f6bc6d719778a352c38c9fca1": {
+			"2024-10-14T00:00:00.000Z": {
 				"name": "Future BCH 983,000",
 				"description": "A fungible token redeemable for Bitcoin Cash after block 983,000",
 				"token": {
-					"category": "2cad46f461a9ceef143117c8e28735212a0c72520242ba3e310368dc3ce1b382",
+					"category": "8a4a99882901841d8f26d279b1da5bb936bf461f6bc6d719778a352c38c9fca1",
 					"decimals": 8,
 					"symbol": "FBCH-0983000"
 				},
@@ -2491,12 +2491,12 @@
 				}
 			}
 		},
-		"a15a667464534dbc423845cdac27e8b3240f3e0f25fd69669980e2a920b4c7ec": {
-			"2026-05-07T00:00:00.000Z": {
+		"2cad46f461a9ceef143117c8e28735212a0c72520242ba3e310368dc3ce1b382": {
+			"2024-10-14T00:00:00.000Z": {
 				"name": "Future BCH 984,000",
 				"description": "A fungible token redeemable for Bitcoin Cash after block 984,000",
 				"token": {
-					"category": "a15a667464534dbc423845cdac27e8b3240f3e0f25fd69669980e2a920b4c7ec",
+					"category": "2cad46f461a9ceef143117c8e28735212a0c72520242ba3e310368dc3ce1b382",
 					"decimals": 8,
 					"symbol": "FBCH-0984000"
 				},
@@ -2506,12 +2506,12 @@
 				}
 			}
 		},
-		"e2fa07bd2d52d5b8fb04b51b275a2db56d76caf2660a7cc1bfe05aa371f4d01d": {
-			"2026-05-07T00:00:00.000Z": {
+		"a15a667464534dbc423845cdac27e8b3240f3e0f25fd69669980e2a920b4c7ec": {
+			"2024-10-14T00:00:00.000Z": {
 				"name": "Future BCH 985,000",
 				"description": "A fungible token redeemable for Bitcoin Cash after block 985,000",
 				"token": {
-					"category": "e2fa07bd2d52d5b8fb04b51b275a2db56d76caf2660a7cc1bfe05aa371f4d01d",
+					"category": "a15a667464534dbc423845cdac27e8b3240f3e0f25fd69669980e2a920b4c7ec",
 					"decimals": 8,
 					"symbol": "FBCH-0985000"
 				},
@@ -2521,12 +2521,12 @@
 				}
 			}
 		},
-		"bbe19cef4af5c911a5072847566422f3f628e4e4fb6715aa7dd1de2b43d6532a": {
-			"2026-05-07T00:00:00.000Z": {
+		"e2fa07bd2d52d5b8fb04b51b275a2db56d76caf2660a7cc1bfe05aa371f4d01d": {
+			"2024-10-14T00:00:00.000Z": {
 				"name": "Future BCH 986,000",
 				"description": "A fungible token redeemable for Bitcoin Cash after block 986,000",
 				"token": {
-					"category": "bbe19cef4af5c911a5072847566422f3f628e4e4fb6715aa7dd1de2b43d6532a",
+					"category": "e2fa07bd2d52d5b8fb04b51b275a2db56d76caf2660a7cc1bfe05aa371f4d01d",
 					"decimals": 8,
 					"symbol": "FBCH-0986000"
 				},
@@ -2536,12 +2536,12 @@
 				}
 			}
 		},
-		"d4a1d534c581589ab8a958fec60cdf0e270ec5d0969a35625a242682bdd23391": {
-			"2026-05-07T00:00:00.000Z": {
+		"bbe19cef4af5c911a5072847566422f3f628e4e4fb6715aa7dd1de2b43d6532a": {
+			"2024-10-14T00:00:00.000Z": {
 				"name": "Future BCH 987,000",
 				"description": "A fungible token redeemable for Bitcoin Cash after block 987,000",
 				"token": {
-					"category": "d4a1d534c581589ab8a958fec60cdf0e270ec5d0969a35625a242682bdd23391",
+					"category": "bbe19cef4af5c911a5072847566422f3f628e4e4fb6715aa7dd1de2b43d6532a",
 					"decimals": 8,
 					"symbol": "FBCH-0987000"
 				},
@@ -2551,12 +2551,12 @@
 				}
 			}
 		},
-		"74a4a58e25261e2e4d5d9b8ee57308fe94a4dd8f1ce2a02dd432d258a4f1d85a": {
-			"2026-05-07T00:00:00.000Z": {
+		"d4a1d534c581589ab8a958fec60cdf0e270ec5d0969a35625a242682bdd23391": {
+			"2024-10-14T00:00:00.000Z": {
 				"name": "Future BCH 988,000",
 				"description": "A fungible token redeemable for Bitcoin Cash after block 988,000",
 				"token": {
-					"category": "74a4a58e25261e2e4d5d9b8ee57308fe94a4dd8f1ce2a02dd432d258a4f1d85a",
+					"category": "d4a1d534c581589ab8a958fec60cdf0e270ec5d0969a35625a242682bdd23391",
 					"decimals": 8,
 					"symbol": "FBCH-0988000"
 				},
@@ -2566,12 +2566,12 @@
 				}
 			}
 		},
-		"70870f50af5db5ec79e17ce50fa17f6629720d90026ea8ade065c04851318651": {
-			"2026-05-07T00:00:00.000Z": {
+		"74a4a58e25261e2e4d5d9b8ee57308fe94a4dd8f1ce2a02dd432d258a4f1d85a": {
+			"2024-10-14T00:00:00.000Z": {
 				"name": "Future BCH 989,000",
 				"description": "A fungible token redeemable for Bitcoin Cash after block 989,000",
 				"token": {
-					"category": "70870f50af5db5ec79e17ce50fa17f6629720d90026ea8ade065c04851318651",
+					"category": "74a4a58e25261e2e4d5d9b8ee57308fe94a4dd8f1ce2a02dd432d258a4f1d85a",
 					"decimals": 8,
 					"symbol": "FBCH-0989000"
 				},
@@ -2581,12 +2581,12 @@
 				}
 			}
 		},
-		"fcb902debe4ffd41db968b92cc57c2cad91da6b5f39d15d4da09156f6d82d0c0": {
-			"2026-05-07T00:00:00.000Z": {
+		"7709922c59f0ebb9547ed8c0680c86c16269c5109b033a4d8b93a0d70f619a7f": {
+			"2024-10-14T00:00:00.000Z": {
 				"name": "Future BCH 991,000",
 				"description": "A fungible token redeemable for Bitcoin Cash after block 991,000",
 				"token": {
-					"category": "fcb902debe4ffd41db968b92cc57c2cad91da6b5f39d15d4da09156f6d82d0c0",
+					"category": "7709922c59f0ebb9547ed8c0680c86c16269c5109b033a4d8b93a0d70f619a7f",
 					"decimals": 8,
 					"symbol": "FBCH-0991000"
 				},
@@ -2596,12 +2596,12 @@
 				}
 			}
 		},
-		"0b89d44e548d7881e7b55774d16ed6394f93866ff97592129d1a9a5782033586": {
-			"2026-05-07T00:00:00.000Z": {
+		"bf8735861d75812cf5be1ccaffda80b4f993e00a932dcc11ad7a7a9203b8631d": {
+			"2024-10-14T00:00:00.000Z": {
 				"name": "Future BCH 993,000",
 				"description": "A fungible token redeemable for Bitcoin Cash after block 993,000",
 				"token": {
-					"category": "0b89d44e548d7881e7b55774d16ed6394f93866ff97592129d1a9a5782033586",
+					"category": "bf8735861d75812cf5be1ccaffda80b4f993e00a932dcc11ad7a7a9203b8631d",
 					"decimals": 8,
 					"symbol": "FBCH-0993000"
 				},
@@ -2611,12 +2611,12 @@
 				}
 			}
 		},
-		"938582571ae5aed3bad0f1bf3362e639778b95f5cd520c4236bf3ffcb3754505": {
-			"2026-05-07T00:00:00.000Z": {
+		"0b89d44e548d7881e7b55774d16ed6394f93866ff97592129d1a9a5782033586": {
+			"2024-10-14T00:00:00.000Z": {
 				"name": "Future BCH 994,000",
 				"description": "A fungible token redeemable for Bitcoin Cash after block 994,000",
 				"token": {
-					"category": "938582571ae5aed3bad0f1bf3362e639778b95f5cd520c4236bf3ffcb3754505",
+					"category": "0b89d44e548d7881e7b55774d16ed6394f93866ff97592129d1a9a5782033586",
 					"decimals": 8,
 					"symbol": "FBCH-0994000"
 				},
@@ -2626,12 +2626,12 @@
 				}
 			}
 		},
-		"43337628a84d8e1ac2990446309c26fb6d5e1b62961f972142f98253bd201b64": {
-			"2026-05-07T00:00:00.000Z": {
+		"938582571ae5aed3bad0f1bf3362e639778b95f5cd520c4236bf3ffcb3754505": {
+			"2024-10-14T00:00:00.000Z": {
 				"name": "Future BCH 995,000",
 				"description": "A fungible token redeemable for Bitcoin Cash after block 995,000",
 				"token": {
-					"category": "43337628a84d8e1ac2990446309c26fb6d5e1b62961f972142f98253bd201b64",
+					"category": "938582571ae5aed3bad0f1bf3362e639778b95f5cd520c4236bf3ffcb3754505",
 					"decimals": 8,
 					"symbol": "FBCH-0995000"
 				},
@@ -2641,12 +2641,12 @@
 				}
 			}
 		},
-		"d44e8ff2e5cc50223185c8e89404463e4a57b1d0f07bdd709ee98d074271d166": {
-			"2026-05-07T00:00:00.000Z": {
+		"43337628a84d8e1ac2990446309c26fb6d5e1b62961f972142f98253bd201b64": {
+			"2024-10-14T00:00:00.000Z": {
 				"name": "Future BCH 996,000",
 				"description": "A fungible token redeemable for Bitcoin Cash after block 996,000",
 				"token": {
-					"category": "d44e8ff2e5cc50223185c8e89404463e4a57b1d0f07bdd709ee98d074271d166",
+					"category": "43337628a84d8e1ac2990446309c26fb6d5e1b62961f972142f98253bd201b64",
 					"decimals": 8,
 					"symbol": "FBCH-0996000"
 				},
@@ -2656,12 +2656,12 @@
 				}
 			}
 		},
-		"ad1ae7c10bc7c9adf8e7c73638a0fb4b5ba98827fa4819ba460cd5f178de5495": {
-			"2026-05-07T00:00:00.000Z": {
+		"d44e8ff2e5cc50223185c8e89404463e4a57b1d0f07bdd709ee98d074271d166": {
+			"2024-10-14T00:00:00.000Z": {
 				"name": "Future BCH 997,000",
 				"description": "A fungible token redeemable for Bitcoin Cash after block 997,000",
 				"token": {
-					"category": "ad1ae7c10bc7c9adf8e7c73638a0fb4b5ba98827fa4819ba460cd5f178de5495",
+					"category": "d44e8ff2e5cc50223185c8e89404463e4a57b1d0f07bdd709ee98d074271d166",
 					"decimals": 8,
 					"symbol": "FBCH-0997000"
 				},
@@ -2671,12 +2671,12 @@
 				}
 			}
 		},
-		"077da7b4eb6cfa86092cebb2fed8e208c3e35e87c0ffbd8aa2a8ba269250d172": {
-			"2026-05-07T00:00:00.000Z": {
+		"ad1ae7c10bc7c9adf8e7c73638a0fb4b5ba98827fa4819ba460cd5f178de5495": {
+			"2024-10-14T00:00:00.000Z": {
 				"name": "Future BCH 998,000",
 				"description": "A fungible token redeemable for Bitcoin Cash after block 998,000",
 				"token": {
-					"category": "077da7b4eb6cfa86092cebb2fed8e208c3e35e87c0ffbd8aa2a8ba269250d172",
+					"category": "ad1ae7c10bc7c9adf8e7c73638a0fb4b5ba98827fa4819ba460cd5f178de5495",
 					"decimals": 8,
 					"symbol": "FBCH-0998000"
 				},
@@ -2686,12 +2686,12 @@
 				}
 			}
 		},
-		"cb6fdcc967f3af717cdfd4537cf06439a41ecdb87aa2a170ae034293be732bc9": {
-			"2026-05-07T00:00:00.000Z": {
+		"077da7b4eb6cfa86092cebb2fed8e208c3e35e87c0ffbd8aa2a8ba269250d172": {
+			"2024-10-14T00:00:00.000Z": {
 				"name": "Future BCH 999,000",
 				"description": "A fungible token redeemable for Bitcoin Cash after block 999,000",
 				"token": {
-					"category": "cb6fdcc967f3af717cdfd4537cf06439a41ecdb87aa2a170ae034293be732bc9",
+					"category": "077da7b4eb6cfa86092cebb2fed8e208c3e35e87c0ffbd8aa2a8ba269250d172",
 					"decimals": 8,
 					"symbol": "FBCH-0999000"
 				},
@@ -2701,12 +2701,12 @@
 				}
 			}
 		},
-		"7fce9c1ce200a547bb7eef3893a2052a49e56550653526d98bdf9dd327d03044": {
-			"2026-05-07T00:00:00.000Z": {
+		"fe481d5beb195c091b20b37fb719c758f3574d0f20f488d27e90a938f34931fb": {
+			"2024-10-14T00:00:00.000Z": {
 				"name": "Future BCH 1,001,000",
 				"description": "A fungible token redeemable for Bitcoin Cash after block 1,001,000",
 				"token": {
-					"category": "7fce9c1ce200a547bb7eef3893a2052a49e56550653526d98bdf9dd327d03044",
+					"category": "fe481d5beb195c091b20b37fb719c758f3574d0f20f488d27e90a938f34931fb",
 					"decimals": 8,
 					"symbol": "FBCH-1001000"
 				},
@@ -2716,12 +2716,12 @@
 				}
 			}
 		},
-		"f7fe5a2bc40d6984e97563d80a285925441fa9608e2c79a1fc8c6cd122ba7445": {
-			"2026-05-07T00:00:00.000Z": {
+		"7fce9c1ce200a547bb7eef3893a2052a49e56550653526d98bdf9dd327d03044": {
+			"2024-10-14T00:00:00.000Z": {
 				"name": "Future BCH 1,002,000",
 				"description": "A fungible token redeemable for Bitcoin Cash after block 1,002,000",
 				"token": {
-					"category": "f7fe5a2bc40d6984e97563d80a285925441fa9608e2c79a1fc8c6cd122ba7445",
+					"category": "7fce9c1ce200a547bb7eef3893a2052a49e56550653526d98bdf9dd327d03044",
 					"decimals": 8,
 					"symbol": "FBCH-1002000"
 				},
@@ -2731,12 +2731,12 @@
 				}
 			}
 		},
-		"0cac4ab96d26d389c042cbfc578d467ee311c0ba776f0943f85c45cf90ccd79c": {
-			"2026-05-07T00:00:00.000Z": {
+		"f7fe5a2bc40d6984e97563d80a285925441fa9608e2c79a1fc8c6cd122ba7445": {
+			"2024-10-14T00:00:00.000Z": {
 				"name": "Future BCH 1,003,000",
 				"description": "A fungible token redeemable for Bitcoin Cash after block 1,003,000",
 				"token": {
-					"category": "0cac4ab96d26d389c042cbfc578d467ee311c0ba776f0943f85c45cf90ccd79c",
+					"category": "f7fe5a2bc40d6984e97563d80a285925441fa9608e2c79a1fc8c6cd122ba7445",
 					"decimals": 8,
 					"symbol": "FBCH-1003000"
 				},
@@ -2746,12 +2746,12 @@
 				}
 			}
 		},
-		"a20bdb5f73a7fce0d00b5fc4c7cacaf49384b059c7fdafec971d0d395fc79042": {
-			"2026-05-07T00:00:00.000Z": {
+		"0cac4ab96d26d389c042cbfc578d467ee311c0ba776f0943f85c45cf90ccd79c": {
+			"2024-10-14T00:00:00.000Z": {
 				"name": "Future BCH 1,004,000",
 				"description": "A fungible token redeemable for Bitcoin Cash after block 1,004,000",
 				"token": {
-					"category": "a20bdb5f73a7fce0d00b5fc4c7cacaf49384b059c7fdafec971d0d395fc79042",
+					"category": "0cac4ab96d26d389c042cbfc578d467ee311c0ba776f0943f85c45cf90ccd79c",
 					"decimals": 8,
 					"symbol": "FBCH-1004000"
 				},
@@ -2761,12 +2761,12 @@
 				}
 			}
 		},
-		"915117f43ab6fe40de91abad22a836d9628fb8e7caf697350df0e4d3029ba5b2": {
-			"2026-05-07T00:00:00.000Z": {
+		"a20bdb5f73a7fce0d00b5fc4c7cacaf49384b059c7fdafec971d0d395fc79042": {
+			"2024-10-14T00:00:00.000Z": {
 				"name": "Future BCH 1,005,000",
 				"description": "A fungible token redeemable for Bitcoin Cash after block 1,005,000",
 				"token": {
-					"category": "915117f43ab6fe40de91abad22a836d9628fb8e7caf697350df0e4d3029ba5b2",
+					"category": "a20bdb5f73a7fce0d00b5fc4c7cacaf49384b059c7fdafec971d0d395fc79042",
 					"decimals": 8,
 					"symbol": "FBCH-1005000"
 				},
@@ -2776,12 +2776,12 @@
 				}
 			}
 		},
-		"dd44d94f4c5e2cf1818d09097e3b603d98021d13819bdc700cdb4f5d7bcc8178": {
-			"2026-05-07T00:00:00.000Z": {
+		"915117f43ab6fe40de91abad22a836d9628fb8e7caf697350df0e4d3029ba5b2": {
+			"2024-10-14T00:00:00.000Z": {
 				"name": "Future BCH 1,006,000",
 				"description": "A fungible token redeemable for Bitcoin Cash after block 1,006,000",
 				"token": {
-					"category": "dd44d94f4c5e2cf1818d09097e3b603d98021d13819bdc700cdb4f5d7bcc8178",
+					"category": "915117f43ab6fe40de91abad22a836d9628fb8e7caf697350df0e4d3029ba5b2",
 					"decimals": 8,
 					"symbol": "FBCH-1006000"
 				},
@@ -2791,12 +2791,12 @@
 				}
 			}
 		},
-		"13592777d6c71c51d78ecb058a7b68e66bfe2600f2f36b3ef4ab2f6e32437e3b": {
-			"2026-05-07T00:00:00.000Z": {
+		"dd44d94f4c5e2cf1818d09097e3b603d98021d13819bdc700cdb4f5d7bcc8178": {
+			"2024-10-14T00:00:00.000Z": {
 				"name": "Future BCH 1,007,000",
 				"description": "A fungible token redeemable for Bitcoin Cash after block 1,007,000",
 				"token": {
-					"category": "13592777d6c71c51d78ecb058a7b68e66bfe2600f2f36b3ef4ab2f6e32437e3b",
+					"category": "dd44d94f4c5e2cf1818d09097e3b603d98021d13819bdc700cdb4f5d7bcc8178",
 					"decimals": 8,
 					"symbol": "FBCH-1007000"
 				},
@@ -2806,12 +2806,12 @@
 				}
 			}
 		},
-		"1e7580e423d52461e78d0ab1e92faa234853e18ab3d23368b6fc8a8d88fd35ea": {
-			"2026-05-07T00:00:00.000Z": {
+		"13592777d6c71c51d78ecb058a7b68e66bfe2600f2f36b3ef4ab2f6e32437e3b": {
+			"2024-10-14T00:00:00.000Z": {
 				"name": "Future BCH 1,008,000",
 				"description": "A fungible token redeemable for Bitcoin Cash after block 1,008,000",
 				"token": {
-					"category": "1e7580e423d52461e78d0ab1e92faa234853e18ab3d23368b6fc8a8d88fd35ea",
+					"category": "13592777d6c71c51d78ecb058a7b68e66bfe2600f2f36b3ef4ab2f6e32437e3b",
 					"decimals": 8,
 					"symbol": "FBCH-1008000"
 				},
@@ -2821,12 +2821,12 @@
 				}
 			}
 		},
-		"ba6ef23873f6586316bbbf058f9fbe25f42988c9e5ed527e48d8e679f494d037": {
-			"2026-05-07T00:00:00.000Z": {
+		"1e7580e423d52461e78d0ab1e92faa234853e18ab3d23368b6fc8a8d88fd35ea": {
+			"2024-10-14T00:00:00.000Z": {
 				"name": "Future BCH 1,009,000",
 				"description": "A fungible token redeemable for Bitcoin Cash after block 1,009,000",
 				"token": {
-					"category": "ba6ef23873f6586316bbbf058f9fbe25f42988c9e5ed527e48d8e679f494d037",
+					"category": "1e7580e423d52461e78d0ab1e92faa234853e18ab3d23368b6fc8a8d88fd35ea",
 					"decimals": 8,
 					"symbol": "FBCH-1009000"
 				},
@@ -2836,12 +2836,12 @@
 				}
 			}
 		},
-		"fdc687b458b3df9e19adc8744e6721e76c0d12102da22fbbd8cb5b8e782491da": {
-			"2026-05-07T00:00:00.000Z": {
+		"0f5ff98c29d1c7d41e834c7688db5bf27ad4126d2dc5bf4ba5390f90bce9e79c": {
+			"2024-10-14T00:00:00.000Z": {
 				"name": "Future BCH 1,011,000",
 				"description": "A fungible token redeemable for Bitcoin Cash after block 1,011,000",
 				"token": {
-					"category": "fdc687b458b3df9e19adc8744e6721e76c0d12102da22fbbd8cb5b8e782491da",
+					"category": "0f5ff98c29d1c7d41e834c7688db5bf27ad4126d2dc5bf4ba5390f90bce9e79c",
 					"decimals": 8,
 					"symbol": "FBCH-1011000"
 				},
@@ -2851,12 +2851,12 @@
 				}
 			}
 		},
-		"3e0b4b74dee89ac128db3e78c34cc513412a7ed257f66598305dcd55fec0cc8d": {
-			"2026-05-07T00:00:00.000Z": {
+		"fdc687b458b3df9e19adc8744e6721e76c0d12102da22fbbd8cb5b8e782491da": {
+			"2024-10-14T00:00:00.000Z": {
 				"name": "Future BCH 1,012,000",
 				"description": "A fungible token redeemable for Bitcoin Cash after block 1,012,000",
 				"token": {
-					"category": "3e0b4b74dee89ac128db3e78c34cc513412a7ed257f66598305dcd55fec0cc8d",
+					"category": "fdc687b458b3df9e19adc8744e6721e76c0d12102da22fbbd8cb5b8e782491da",
 					"decimals": 8,
 					"symbol": "FBCH-1012000"
 				},
@@ -2866,12 +2866,12 @@
 				}
 			}
 		},
-		"9ee817fda6ca74d4617dd3ae14f891091da6d36140be3519b7375b5bfe4b80be": {
-			"2026-05-07T00:00:00.000Z": {
+		"3e0b4b74dee89ac128db3e78c34cc513412a7ed257f66598305dcd55fec0cc8d": {
+			"2024-10-14T00:00:00.000Z": {
 				"name": "Future BCH 1,013,000",
 				"description": "A fungible token redeemable for Bitcoin Cash after block 1,013,000",
 				"token": {
-					"category": "9ee817fda6ca74d4617dd3ae14f891091da6d36140be3519b7375b5bfe4b80be",
+					"category": "3e0b4b74dee89ac128db3e78c34cc513412a7ed257f66598305dcd55fec0cc8d",
 					"decimals": 8,
 					"symbol": "FBCH-1013000"
 				},
@@ -2881,12 +2881,12 @@
 				}
 			}
 		},
-		"b0b12e8146cdc2575ff2e792f6bf9e9359db02fe87e46f0f6e55db42dd11c148": {
-			"2026-05-07T00:00:00.000Z": {
+		"9ee817fda6ca74d4617dd3ae14f891091da6d36140be3519b7375b5bfe4b80be": {
+			"2024-10-14T00:00:00.000Z": {
 				"name": "Future BCH 1,014,000",
 				"description": "A fungible token redeemable for Bitcoin Cash after block 1,014,000",
 				"token": {
-					"category": "b0b12e8146cdc2575ff2e792f6bf9e9359db02fe87e46f0f6e55db42dd11c148",
+					"category": "9ee817fda6ca74d4617dd3ae14f891091da6d36140be3519b7375b5bfe4b80be",
 					"decimals": 8,
 					"symbol": "FBCH-1014000"
 				},
@@ -2896,12 +2896,12 @@
 				}
 			}
 		},
-		"1caf1957e800ff1dfd561f27976ce53abcf4ec5d4bc5835407e34fbbf12aea63": {
-			"2026-05-07T00:00:00.000Z": {
+		"b0b12e8146cdc2575ff2e792f6bf9e9359db02fe87e46f0f6e55db42dd11c148": {
+			"2024-10-14T00:00:00.000Z": {
 				"name": "Future BCH 1,015,000",
 				"description": "A fungible token redeemable for Bitcoin Cash after block 1,015,000",
 				"token": {
-					"category": "1caf1957e800ff1dfd561f27976ce53abcf4ec5d4bc5835407e34fbbf12aea63",
+					"category": "b0b12e8146cdc2575ff2e792f6bf9e9359db02fe87e46f0f6e55db42dd11c148",
 					"decimals": 8,
 					"symbol": "FBCH-1015000"
 				},
@@ -2911,12 +2911,12 @@
 				}
 			}
 		},
-		"88d5b25bc7a0ce73b17a1c589e7b298f1ab65ceb2f1f29f0d70d09a9b56f955d": {
-			"2026-05-07T00:00:00.000Z": {
+		"1caf1957e800ff1dfd561f27976ce53abcf4ec5d4bc5835407e34fbbf12aea63": {
+			"2024-10-14T00:00:00.000Z": {
 				"name": "Future BCH 1,016,000",
 				"description": "A fungible token redeemable for Bitcoin Cash after block 1,016,000",
 				"token": {
-					"category": "88d5b25bc7a0ce73b17a1c589e7b298f1ab65ceb2f1f29f0d70d09a9b56f955d",
+					"category": "1caf1957e800ff1dfd561f27976ce53abcf4ec5d4bc5835407e34fbbf12aea63",
 					"decimals": 8,
 					"symbol": "FBCH-1016000"
 				},
@@ -2926,12 +2926,12 @@
 				}
 			}
 		},
-		"2f048c2337a2b78ebe453978a7367ac5504b571b1661a27194e1ee5b3282ca32": {
-			"2026-05-07T00:00:00.000Z": {
+		"88d5b25bc7a0ce73b17a1c589e7b298f1ab65ceb2f1f29f0d70d09a9b56f955d": {
+			"2024-10-14T00:00:00.000Z": {
 				"name": "Future BCH 1,017,000",
 				"description": "A fungible token redeemable for Bitcoin Cash after block 1,017,000",
 				"token": {
-					"category": "2f048c2337a2b78ebe453978a7367ac5504b571b1661a27194e1ee5b3282ca32",
+					"category": "88d5b25bc7a0ce73b17a1c589e7b298f1ab65ceb2f1f29f0d70d09a9b56f955d",
 					"decimals": 8,
 					"symbol": "FBCH-1017000"
 				},
@@ -2941,12 +2941,12 @@
 				}
 			}
 		},
-		"30d2254241e4b7e5aa049818558e9e874172c3032a83627e74a02ae8aa1ea936": {
-			"2026-05-07T00:00:00.000Z": {
+		"2f048c2337a2b78ebe453978a7367ac5504b571b1661a27194e1ee5b3282ca32": {
+			"2024-10-14T00:00:00.000Z": {
 				"name": "Future BCH 1,018,000",
 				"description": "A fungible token redeemable for Bitcoin Cash after block 1,018,000",
 				"token": {
-					"category": "30d2254241e4b7e5aa049818558e9e874172c3032a83627e74a02ae8aa1ea936",
+					"category": "2f048c2337a2b78ebe453978a7367ac5504b571b1661a27194e1ee5b3282ca32",
 					"decimals": 8,
 					"symbol": "FBCH-1018000"
 				},
@@ -2956,12 +2956,12 @@
 				}
 			}
 		},
-		"582dc8ef214c036ddb850d282ad0fc7a1213156f5e3f5b6472c33f9e396edfc1": {
-			"2026-05-07T00:00:00.000Z": {
+		"30d2254241e4b7e5aa049818558e9e874172c3032a83627e74a02ae8aa1ea936": {
+			"2024-10-14T00:00:00.000Z": {
 				"name": "Future BCH 1,019,000",
 				"description": "A fungible token redeemable for Bitcoin Cash after block 1,019,000",
 				"token": {
-					"category": "582dc8ef214c036ddb850d282ad0fc7a1213156f5e3f5b6472c33f9e396edfc1",
+					"category": "30d2254241e4b7e5aa049818558e9e874172c3032a83627e74a02ae8aa1ea936",
 					"decimals": 8,
 					"symbol": "FBCH-1019000"
 				},
@@ -2971,12 +2971,12 @@
 				}
 			}
 		},
-		"f63518befcbeec376229839d305d9405fe2add219d9a4a43493f6adee2edf2ca": {
-			"2026-05-07T00:00:00.000Z": {
+		"2d374ccca088b7369688c0df4099c0b9b8b31a3e06e560826630573919355f73": {
+			"2024-10-14T00:00:00.000Z": {
 				"name": "Future BCH 1,021,000",
 				"description": "A fungible token redeemable for Bitcoin Cash after block 1,021,000",
 				"token": {
-					"category": "f63518befcbeec376229839d305d9405fe2add219d9a4a43493f6adee2edf2ca",
+					"category": "2d374ccca088b7369688c0df4099c0b9b8b31a3e06e560826630573919355f73",
 					"decimals": 8,
 					"symbol": "FBCH-1021000"
 				},
@@ -2986,12 +2986,12 @@
 				}
 			}
 		},
-		"3cbcbe4e67f75f8e9d5917aa6f643e66e01182b1aa23e25b7593a76cf06d31c8": {
-			"2026-05-07T00:00:00.000Z": {
+		"f63518befcbeec376229839d305d9405fe2add219d9a4a43493f6adee2edf2ca": {
+			"2024-10-14T00:00:00.000Z": {
 				"name": "Future BCH 1,022,000",
 				"description": "A fungible token redeemable for Bitcoin Cash after block 1,022,000",
 				"token": {
-					"category": "3cbcbe4e67f75f8e9d5917aa6f643e66e01182b1aa23e25b7593a76cf06d31c8",
+					"category": "f63518befcbeec376229839d305d9405fe2add219d9a4a43493f6adee2edf2ca",
 					"decimals": 8,
 					"symbol": "FBCH-1022000"
 				},
@@ -3001,12 +3001,12 @@
 				}
 			}
 		},
-		"667f12d5fb74ecd71fe1a4cad2aa3675989d5a81e59f4bb0005c3dc8646b1129": {
-			"2026-05-07T00:00:00.000Z": {
+		"3cbcbe4e67f75f8e9d5917aa6f643e66e01182b1aa23e25b7593a76cf06d31c8": {
+			"2024-10-14T00:00:00.000Z": {
 				"name": "Future BCH 1,023,000",
 				"description": "A fungible token redeemable for Bitcoin Cash after block 1,023,000",
 				"token": {
-					"category": "667f12d5fb74ecd71fe1a4cad2aa3675989d5a81e59f4bb0005c3dc8646b1129",
+					"category": "3cbcbe4e67f75f8e9d5917aa6f643e66e01182b1aa23e25b7593a76cf06d31c8",
 					"decimals": 8,
 					"symbol": "FBCH-1023000"
 				},
@@ -3016,12 +3016,12 @@
 				}
 			}
 		},
-		"b115dc93aeb57a344cc1a97f28bdca4ecd0859230f85dcbf829194cb0baf9014": {
-			"2026-05-07T00:00:00.000Z": {
+		"667f12d5fb74ecd71fe1a4cad2aa3675989d5a81e59f4bb0005c3dc8646b1129": {
+			"2024-10-14T00:00:00.000Z": {
 				"name": "Future BCH 1,024,000",
 				"description": "A fungible token redeemable for Bitcoin Cash after block 1,024,000",
 				"token": {
-					"category": "b115dc93aeb57a344cc1a97f28bdca4ecd0859230f85dcbf829194cb0baf9014",
+					"category": "667f12d5fb74ecd71fe1a4cad2aa3675989d5a81e59f4bb0005c3dc8646b1129",
 					"decimals": 8,
 					"symbol": "FBCH-1024000"
 				},
@@ -3031,12 +3031,12 @@
 				}
 			}
 		},
-		"7aec3b9361eb163179a86eb820df3d63b80a0312b239bf1f3bb2275a59e423cd": {
-			"2026-05-07T00:00:00.000Z": {
+		"b115dc93aeb57a344cc1a97f28bdca4ecd0859230f85dcbf829194cb0baf9014": {
+			"2024-10-14T00:00:00.000Z": {
 				"name": "Future BCH 1,025,000",
 				"description": "A fungible token redeemable for Bitcoin Cash after block 1,025,000",
 				"token": {
-					"category": "7aec3b9361eb163179a86eb820df3d63b80a0312b239bf1f3bb2275a59e423cd",
+					"category": "b115dc93aeb57a344cc1a97f28bdca4ecd0859230f85dcbf829194cb0baf9014",
 					"decimals": 8,
 					"symbol": "FBCH-1025000"
 				},
@@ -3046,12 +3046,12 @@
 				}
 			}
 		},
-		"215f9708c12acf164771c84bbad7cd7b855b4c18cf696bb8f30f496a7e3ff6e8": {
-			"2026-05-07T00:00:00.000Z": {
+		"7aec3b9361eb163179a86eb820df3d63b80a0312b239bf1f3bb2275a59e423cd": {
+			"2024-10-14T00:00:00.000Z": {
 				"name": "Future BCH 1,026,000",
 				"description": "A fungible token redeemable for Bitcoin Cash after block 1,026,000",
 				"token": {
-					"category": "215f9708c12acf164771c84bbad7cd7b855b4c18cf696bb8f30f496a7e3ff6e8",
+					"category": "7aec3b9361eb163179a86eb820df3d63b80a0312b239bf1f3bb2275a59e423cd",
 					"decimals": 8,
 					"symbol": "FBCH-1026000"
 				},
@@ -3061,12 +3061,12 @@
 				}
 			}
 		},
-		"b6fd767398d680bce3c7d17c0d766ac4b458e4b91697953b5426dd861bec466c": {
-			"2026-05-07T00:00:00.000Z": {
+		"215f9708c12acf164771c84bbad7cd7b855b4c18cf696bb8f30f496a7e3ff6e8": {
+			"2024-10-14T00:00:00.000Z": {
 				"name": "Future BCH 1,027,000",
 				"description": "A fungible token redeemable for Bitcoin Cash after block 1,027,000",
 				"token": {
-					"category": "b6fd767398d680bce3c7d17c0d766ac4b458e4b91697953b5426dd861bec466c",
+					"category": "215f9708c12acf164771c84bbad7cd7b855b4c18cf696bb8f30f496a7e3ff6e8",
 					"decimals": 8,
 					"symbol": "FBCH-1027000"
 				},
@@ -3076,12 +3076,12 @@
 				}
 			}
 		},
-		"bbf52d56205746828b6ce70a01538127098668b5718675d0c9ee9e83454b73cf": {
-			"2026-05-07T00:00:00.000Z": {
+		"b6fd767398d680bce3c7d17c0d766ac4b458e4b91697953b5426dd861bec466c": {
+			"2024-10-14T00:00:00.000Z": {
 				"name": "Future BCH 1,028,000",
 				"description": "A fungible token redeemable for Bitcoin Cash after block 1,028,000",
 				"token": {
-					"category": "bbf52d56205746828b6ce70a01538127098668b5718675d0c9ee9e83454b73cf",
+					"category": "b6fd767398d680bce3c7d17c0d766ac4b458e4b91697953b5426dd861bec466c",
 					"decimals": 8,
 					"symbol": "FBCH-1028000"
 				},
@@ -3091,12 +3091,12 @@
 				}
 			}
 		},
-		"b7c356d123e6322eea107875b9a313d50461d606fe03257014f1793828c5602e": {
-			"2026-05-07T00:00:00.000Z": {
+		"bbf52d56205746828b6ce70a01538127098668b5718675d0c9ee9e83454b73cf": {
+			"2024-10-14T00:00:00.000Z": {
 				"name": "Future BCH 1,029,000",
 				"description": "A fungible token redeemable for Bitcoin Cash after block 1,029,000",
 				"token": {
-					"category": "b7c356d123e6322eea107875b9a313d50461d606fe03257014f1793828c5602e",
+					"category": "bbf52d56205746828b6ce70a01538127098668b5718675d0c9ee9e83454b73cf",
 					"decimals": 8,
 					"symbol": "FBCH-1029000"
 				},
@@ -3106,12 +3106,12 @@
 				}
 			}
 		},
-		"f505ccd5d5200ccc882cef42138e89c19ba88f66077afbd4ebd9b12425364e86": {
-			"2026-05-07T00:00:00.000Z": {
+		"7399e5e1dbfecc71c7d29a8b8423e1552e9470fe4bc9427c9a987f17b4f0fae3": {
+			"2024-10-14T00:00:00.000Z": {
 				"name": "Future BCH 1,031,000",
 				"description": "A fungible token redeemable for Bitcoin Cash after block 1,031,000",
 				"token": {
-					"category": "f505ccd5d5200ccc882cef42138e89c19ba88f66077afbd4ebd9b12425364e86",
+					"category": "7399e5e1dbfecc71c7d29a8b8423e1552e9470fe4bc9427c9a987f17b4f0fae3",
 					"decimals": 8,
 					"symbol": "FBCH-1031000"
 				},
@@ -3121,12 +3121,12 @@
 				}
 			}
 		},
-		"3993ba48c27ed1937cc9d9891438b2558f8beb11e6febedd6666af1b2ff66836": {
-			"2026-05-07T00:00:00.000Z": {
+		"f505ccd5d5200ccc882cef42138e89c19ba88f66077afbd4ebd9b12425364e86": {
+			"2024-10-14T00:00:00.000Z": {
 				"name": "Future BCH 1,032,000",
 				"description": "A fungible token redeemable for Bitcoin Cash after block 1,032,000",
 				"token": {
-					"category": "3993ba48c27ed1937cc9d9891438b2558f8beb11e6febedd6666af1b2ff66836",
+					"category": "f505ccd5d5200ccc882cef42138e89c19ba88f66077afbd4ebd9b12425364e86",
 					"decimals": 8,
 					"symbol": "FBCH-1032000"
 				},
@@ -3136,12 +3136,12 @@
 				}
 			}
 		},
-		"c561334b851ffc49ba7ae4a13ceaa7eee0977f92c0e5b2c35e1ee309abdc7364": {
-			"2026-05-07T00:00:00.000Z": {
+		"3993ba48c27ed1937cc9d9891438b2558f8beb11e6febedd6666af1b2ff66836": {
+			"2024-10-14T00:00:00.000Z": {
 				"name": "Future BCH 1,033,000",
 				"description": "A fungible token redeemable for Bitcoin Cash after block 1,033,000",
 				"token": {
-					"category": "c561334b851ffc49ba7ae4a13ceaa7eee0977f92c0e5b2c35e1ee309abdc7364",
+					"category": "3993ba48c27ed1937cc9d9891438b2558f8beb11e6febedd6666af1b2ff66836",
 					"decimals": 8,
 					"symbol": "FBCH-1033000"
 				},
@@ -3151,12 +3151,12 @@
 				}
 			}
 		},
-		"03c73103e39ec1145685c3cb3ecfe16791cb16fa47e11111a1e9e8ef58dd1029": {
-			"2026-05-07T00:00:00.000Z": {
+		"c561334b851ffc49ba7ae4a13ceaa7eee0977f92c0e5b2c35e1ee309abdc7364": {
+			"2024-10-14T00:00:00.000Z": {
 				"name": "Future BCH 1,034,000",
 				"description": "A fungible token redeemable for Bitcoin Cash after block 1,034,000",
 				"token": {
-					"category": "03c73103e39ec1145685c3cb3ecfe16791cb16fa47e11111a1e9e8ef58dd1029",
+					"category": "c561334b851ffc49ba7ae4a13ceaa7eee0977f92c0e5b2c35e1ee309abdc7364",
 					"decimals": 8,
 					"symbol": "FBCH-1034000"
 				},
@@ -3166,12 +3166,12 @@
 				}
 			}
 		},
-		"e314da715ef9ae6e628b10d995fd23a1f13e2e21bad9721e5ea54992313e27d6": {
-			"2026-05-07T00:00:00.000Z": {
+		"03c73103e39ec1145685c3cb3ecfe16791cb16fa47e11111a1e9e8ef58dd1029": {
+			"2024-10-14T00:00:00.000Z": {
 				"name": "Future BCH 1,035,000",
 				"description": "A fungible token redeemable for Bitcoin Cash after block 1,035,000",
 				"token": {
-					"category": "e314da715ef9ae6e628b10d995fd23a1f13e2e21bad9721e5ea54992313e27d6",
+					"category": "03c73103e39ec1145685c3cb3ecfe16791cb16fa47e11111a1e9e8ef58dd1029",
 					"decimals": 8,
 					"symbol": "FBCH-1035000"
 				},
@@ -3181,12 +3181,12 @@
 				}
 			}
 		},
-		"b01cf6eefa1d1330adec92fa3414a5533c7eed458ea43408ed25587b6c59694c": {
-			"2026-05-07T00:00:00.000Z": {
+		"e314da715ef9ae6e628b10d995fd23a1f13e2e21bad9721e5ea54992313e27d6": {
+			"2024-10-14T00:00:00.000Z": {
 				"name": "Future BCH 1,036,000",
 				"description": "A fungible token redeemable for Bitcoin Cash after block 1,036,000",
 				"token": {
-					"category": "b01cf6eefa1d1330adec92fa3414a5533c7eed458ea43408ed25587b6c59694c",
+					"category": "e314da715ef9ae6e628b10d995fd23a1f13e2e21bad9721e5ea54992313e27d6",
 					"decimals": 8,
 					"symbol": "FBCH-1036000"
 				},
@@ -3196,12 +3196,12 @@
 				}
 			}
 		},
-		"0f70cbc1b1c163a35d0872336fcb59299d678e4c93cacf3302f3d6f54b310815": {
-			"2026-05-07T00:00:00.000Z": {
+		"b01cf6eefa1d1330adec92fa3414a5533c7eed458ea43408ed25587b6c59694c": {
+			"2024-10-14T00:00:00.000Z": {
 				"name": "Future BCH 1,037,000",
 				"description": "A fungible token redeemable for Bitcoin Cash after block 1,037,000",
 				"token": {
-					"category": "0f70cbc1b1c163a35d0872336fcb59299d678e4c93cacf3302f3d6f54b310815",
+					"category": "b01cf6eefa1d1330adec92fa3414a5533c7eed458ea43408ed25587b6c59694c",
 					"decimals": 8,
 					"symbol": "FBCH-1037000"
 				},
@@ -3211,12 +3211,12 @@
 				}
 			}
 		},
-		"d6d5d06eed867ee3543131a98b8b96abb9a94e8635c98a88e194415d4cd3a571": {
-			"2026-05-07T00:00:00.000Z": {
+		"0f70cbc1b1c163a35d0872336fcb59299d678e4c93cacf3302f3d6f54b310815": {
+			"2024-10-14T00:00:00.000Z": {
 				"name": "Future BCH 1,038,000",
 				"description": "A fungible token redeemable for Bitcoin Cash after block 1,038,000",
 				"token": {
-					"category": "d6d5d06eed867ee3543131a98b8b96abb9a94e8635c98a88e194415d4cd3a571",
+					"category": "0f70cbc1b1c163a35d0872336fcb59299d678e4c93cacf3302f3d6f54b310815",
 					"decimals": 8,
 					"symbol": "FBCH-1038000"
 				},
@@ -3226,12 +3226,12 @@
 				}
 			}
 		},
-		"358519c2fed5482f317bf3cb8a80079b27a078337c15e5a700fd98beb166e76a": {
-			"2026-05-07T00:00:00.000Z": {
+		"d6d5d06eed867ee3543131a98b8b96abb9a94e8635c98a88e194415d4cd3a571": {
+			"2024-10-14T00:00:00.000Z": {
 				"name": "Future BCH 1,039,000",
 				"description": "A fungible token redeemable for Bitcoin Cash after block 1,039,000",
 				"token": {
-					"category": "358519c2fed5482f317bf3cb8a80079b27a078337c15e5a700fd98beb166e76a",
+					"category": "d6d5d06eed867ee3543131a98b8b96abb9a94e8635c98a88e194415d4cd3a571",
 					"decimals": 8,
 					"symbol": "FBCH-1039000"
 				},
@@ -3241,12 +3241,12 @@
 				}
 			}
 		},
-		"9b409d38d3475a9cfdd6f2cead85602897e78e123e98188f08afac7e72adbc69": {
-			"2026-05-07T00:00:00.000Z": {
+		"3e2da08356143aeb14a8a831d9e388f2fcd63d68e768c831084f9c779bbd7648": {
+			"2024-10-14T00:00:00.000Z": {
 				"name": "Future BCH 1,041,000",
 				"description": "A fungible token redeemable for Bitcoin Cash after block 1,041,000",
 				"token": {
-					"category": "9b409d38d3475a9cfdd6f2cead85602897e78e123e98188f08afac7e72adbc69",
+					"category": "3e2da08356143aeb14a8a831d9e388f2fcd63d68e768c831084f9c779bbd7648",
 					"decimals": 8,
 					"symbol": "FBCH-1041000"
 				},
@@ -3256,12 +3256,12 @@
 				}
 			}
 		},
-		"65ccf719d12e17be303602ea4942cea198875ced43fc63d08381fd8713576462": {
-			"2026-05-07T00:00:00.000Z": {
+		"9b409d38d3475a9cfdd6f2cead85602897e78e123e98188f08afac7e72adbc69": {
+			"2024-10-14T00:00:00.000Z": {
 				"name": "Future BCH 1,042,000",
 				"description": "A fungible token redeemable for Bitcoin Cash after block 1,042,000",
 				"token": {
-					"category": "65ccf719d12e17be303602ea4942cea198875ced43fc63d08381fd8713576462",
+					"category": "9b409d38d3475a9cfdd6f2cead85602897e78e123e98188f08afac7e72adbc69",
 					"decimals": 8,
 					"symbol": "FBCH-1042000"
 				},
@@ -3271,12 +3271,12 @@
 				}
 			}
 		},
-		"c4414e2b764c5039b94eaab8e1b86f02d2dccbf28ef6b64dbe478ef56197e9d7": {
-			"2026-05-07T00:00:00.000Z": {
+		"65ccf719d12e17be303602ea4942cea198875ced43fc63d08381fd8713576462": {
+			"2024-10-14T00:00:00.000Z": {
 				"name": "Future BCH 1,043,000",
 				"description": "A fungible token redeemable for Bitcoin Cash after block 1,043,000",
 				"token": {
-					"category": "c4414e2b764c5039b94eaab8e1b86f02d2dccbf28ef6b64dbe478ef56197e9d7",
+					"category": "65ccf719d12e17be303602ea4942cea198875ced43fc63d08381fd8713576462",
 					"decimals": 8,
 					"symbol": "FBCH-1043000"
 				},
@@ -3286,12 +3286,12 @@
 				}
 			}
 		},
-		"1fee90ca88e65e5fe13c55c75e8d6380d623685a0b45f9058ea44958d78352bf": {
-			"2026-05-07T00:00:00.000Z": {
+		"c4414e2b764c5039b94eaab8e1b86f02d2dccbf28ef6b64dbe478ef56197e9d7": {
+			"2024-10-14T00:00:00.000Z": {
 				"name": "Future BCH 1,044,000",
 				"description": "A fungible token redeemable for Bitcoin Cash after block 1,044,000",
 				"token": {
-					"category": "1fee90ca88e65e5fe13c55c75e8d6380d623685a0b45f9058ea44958d78352bf",
+					"category": "c4414e2b764c5039b94eaab8e1b86f02d2dccbf28ef6b64dbe478ef56197e9d7",
 					"decimals": 8,
 					"symbol": "FBCH-1044000"
 				},
@@ -3301,12 +3301,12 @@
 				}
 			}
 		},
-		"a25daa9ea3c35b731cffc79612737fae1fd27b78d7933bbcff8e21498fc84b0c": {
-			"2026-05-07T00:00:00.000Z": {
+		"1fee90ca88e65e5fe13c55c75e8d6380d623685a0b45f9058ea44958d78352bf": {
+			"2024-10-14T00:00:00.000Z": {
 				"name": "Future BCH 1,045,000",
 				"description": "A fungible token redeemable for Bitcoin Cash after block 1,045,000",
 				"token": {
-					"category": "a25daa9ea3c35b731cffc79612737fae1fd27b78d7933bbcff8e21498fc84b0c",
+					"category": "1fee90ca88e65e5fe13c55c75e8d6380d623685a0b45f9058ea44958d78352bf",
 					"decimals": 8,
 					"symbol": "FBCH-1045000"
 				},
@@ -3316,12 +3316,12 @@
 				}
 			}
 		},
-		"763fac5a9944b6c5286d874069904298bf2e56b78d89122049fc3ebd569830be": {
-			"2026-05-07T00:00:00.000Z": {
+		"a25daa9ea3c35b731cffc79612737fae1fd27b78d7933bbcff8e21498fc84b0c": {
+			"2024-10-14T00:00:00.000Z": {
 				"name": "Future BCH 1,046,000",
 				"description": "A fungible token redeemable for Bitcoin Cash after block 1,046,000",
 				"token": {
-					"category": "763fac5a9944b6c5286d874069904298bf2e56b78d89122049fc3ebd569830be",
+					"category": "a25daa9ea3c35b731cffc79612737fae1fd27b78d7933bbcff8e21498fc84b0c",
 					"decimals": 8,
 					"symbol": "FBCH-1046000"
 				},
@@ -3331,12 +3331,12 @@
 				}
 			}
 		},
-		"267c87390831119677f1f8e56bc0970a5e1f4fd6276c7a12c8f05a23d8444c54": {
-			"2026-05-07T00:00:00.000Z": {
+		"763fac5a9944b6c5286d874069904298bf2e56b78d89122049fc3ebd569830be": {
+			"2024-10-14T00:00:00.000Z": {
 				"name": "Future BCH 1,047,000",
 				"description": "A fungible token redeemable for Bitcoin Cash after block 1,047,000",
 				"token": {
-					"category": "267c87390831119677f1f8e56bc0970a5e1f4fd6276c7a12c8f05a23d8444c54",
+					"category": "763fac5a9944b6c5286d874069904298bf2e56b78d89122049fc3ebd569830be",
 					"decimals": 8,
 					"symbol": "FBCH-1047000"
 				},
@@ -3346,12 +3346,12 @@
 				}
 			}
 		},
-		"c5f293ebe82582c05b01bf927831768248d325a63b6fb9aaafc393c9c8dba350": {
-			"2026-05-07T00:00:00.000Z": {
+		"267c87390831119677f1f8e56bc0970a5e1f4fd6276c7a12c8f05a23d8444c54": {
+			"2024-10-14T00:00:00.000Z": {
 				"name": "Future BCH 1,048,000",
 				"description": "A fungible token redeemable for Bitcoin Cash after block 1,048,000",
 				"token": {
-					"category": "c5f293ebe82582c05b01bf927831768248d325a63b6fb9aaafc393c9c8dba350",
+					"category": "267c87390831119677f1f8e56bc0970a5e1f4fd6276c7a12c8f05a23d8444c54",
 					"decimals": 8,
 					"symbol": "FBCH-1048000"
 				},
@@ -3361,12 +3361,12 @@
 				}
 			}
 		},
-		"f4503a2f7bfaa5407aae02bab0a4f60b831dd890f1f726b333cca27a5fb043d5": {
-			"2026-05-07T00:00:00.000Z": {
+		"c5f293ebe82582c05b01bf927831768248d325a63b6fb9aaafc393c9c8dba350": {
+			"2024-10-14T00:00:00.000Z": {
 				"name": "Future BCH 1,049,000",
 				"description": "A fungible token redeemable for Bitcoin Cash after block 1,049,000",
 				"token": {
-					"category": "f4503a2f7bfaa5407aae02bab0a4f60b831dd890f1f726b333cca27a5fb043d5",
+					"category": "c5f293ebe82582c05b01bf927831768248d325a63b6fb9aaafc393c9c8dba350",
 					"decimals": 8,
 					"symbol": "FBCH-1049000"
 				},
@@ -3376,12 +3376,12 @@
 				}
 			}
 		},
-		"88668765c58d458f9da4efeec7fdd1cfbe90d4f40f81c20dff0c500e948dae9d": {
-			"2026-05-07T00:00:00.000Z": {
+		"34c2bfc57a29a772ddf3895d4ba467e7713cb6994b84f6ac0adfef61387c38d3": {
+			"2024-10-14T00:00:00.000Z": {
 				"name": "Future BCH 1,051,000",
 				"description": "A fungible token redeemable for Bitcoin Cash after block 1,051,000",
 				"token": {
-					"category": "88668765c58d458f9da4efeec7fdd1cfbe90d4f40f81c20dff0c500e948dae9d",
+					"category": "34c2bfc57a29a772ddf3895d4ba467e7713cb6994b84f6ac0adfef61387c38d3",
 					"decimals": 8,
 					"symbol": "FBCH-1051000"
 				},
@@ -3391,12 +3391,12 @@
 				}
 			}
 		},
-		"56963c05ce618bb3601f54332250379e197d06d19ab1a9297363e6743ce01270": {
-			"2026-05-07T00:00:00.000Z": {
+		"88668765c58d458f9da4efeec7fdd1cfbe90d4f40f81c20dff0c500e948dae9d": {
+			"2024-10-14T00:00:00.000Z": {
 				"name": "Future BCH 1,052,000",
 				"description": "A fungible token redeemable for Bitcoin Cash after block 1,052,000",
 				"token": {
-					"category": "56963c05ce618bb3601f54332250379e197d06d19ab1a9297363e6743ce01270",
+					"category": "88668765c58d458f9da4efeec7fdd1cfbe90d4f40f81c20dff0c500e948dae9d",
 					"decimals": 8,
 					"symbol": "FBCH-1052000"
 				},
@@ -3406,12 +3406,12 @@
 				}
 			}
 		},
-		"7f36ae2ca272e16c6f8f84e253e5dd07ae2197d7a21d0433c4802438ab8d2126": {
-			"2026-05-07T00:00:00.000Z": {
+		"56963c05ce618bb3601f54332250379e197d06d19ab1a9297363e6743ce01270": {
+			"2024-10-14T00:00:00.000Z": {
 				"name": "Future BCH 1,053,000",
 				"description": "A fungible token redeemable for Bitcoin Cash after block 1,053,000",
 				"token": {
-					"category": "7f36ae2ca272e16c6f8f84e253e5dd07ae2197d7a21d0433c4802438ab8d2126",
+					"category": "56963c05ce618bb3601f54332250379e197d06d19ab1a9297363e6743ce01270",
 					"decimals": 8,
 					"symbol": "FBCH-1053000"
 				},
@@ -3421,12 +3421,12 @@
 				}
 			}
 		},
-		"b67a700ef6652baea19d2cf39a34976562eae57990a3ace898da3dfdd5e0b51d": {
-			"2026-05-07T00:00:00.000Z": {
+		"7f36ae2ca272e16c6f8f84e253e5dd07ae2197d7a21d0433c4802438ab8d2126": {
+			"2024-10-14T00:00:00.000Z": {
 				"name": "Future BCH 1,054,000",
 				"description": "A fungible token redeemable for Bitcoin Cash after block 1,054,000",
 				"token": {
-					"category": "b67a700ef6652baea19d2cf39a34976562eae57990a3ace898da3dfdd5e0b51d",
+					"category": "7f36ae2ca272e16c6f8f84e253e5dd07ae2197d7a21d0433c4802438ab8d2126",
 					"decimals": 8,
 					"symbol": "FBCH-1054000"
 				},
@@ -3436,12 +3436,12 @@
 				}
 			}
 		},
-		"c3d19ab2bd16eb7318930b172139acf9eb712e1edc375eb7158ed55be31da1e1": {
-			"2026-05-07T00:00:00.000Z": {
+		"b67a700ef6652baea19d2cf39a34976562eae57990a3ace898da3dfdd5e0b51d": {
+			"2024-10-14T00:00:00.000Z": {
 				"name": "Future BCH 1,055,000",
 				"description": "A fungible token redeemable for Bitcoin Cash after block 1,055,000",
 				"token": {
-					"category": "c3d19ab2bd16eb7318930b172139acf9eb712e1edc375eb7158ed55be31da1e1",
+					"category": "b67a700ef6652baea19d2cf39a34976562eae57990a3ace898da3dfdd5e0b51d",
 					"decimals": 8,
 					"symbol": "FBCH-1055000"
 				},
@@ -3451,12 +3451,12 @@
 				}
 			}
 		},
-		"9c20ea491357cb328267650d5980214d7e04ca6d2434be6a4e2c546c34f20c03": {
-			"2026-05-07T00:00:00.000Z": {
+		"4725ada0b8a27f5b8f8b7851a321e9e57797a126ad01c48425d5b9cf77eaf50e": {
+			"2024-10-14T00:00:00.000Z": {
 				"name": "Future BCH 1,057,000",
 				"description": "A fungible token redeemable for Bitcoin Cash after block 1,057,000",
 				"token": {
-					"category": "9c20ea491357cb328267650d5980214d7e04ca6d2434be6a4e2c546c34f20c03",
+					"category": "4725ada0b8a27f5b8f8b7851a321e9e57797a126ad01c48425d5b9cf77eaf50e",
 					"decimals": 8,
 					"symbol": "FBCH-1057000"
 				},
@@ -3466,12 +3466,12 @@
 				}
 			}
 		},
-		"81ccd15cb07f087e8531ddb60b4b8b998f26238e91f4bfc71a7d6746d228058e": {
-			"2026-05-07T00:00:00.000Z": {
+		"9c20ea491357cb328267650d5980214d7e04ca6d2434be6a4e2c546c34f20c03": {
+			"2024-10-14T00:00:00.000Z": {
 				"name": "Future BCH 1,058,000",
 				"description": "A fungible token redeemable for Bitcoin Cash after block 1,058,000",
 				"token": {
-					"category": "81ccd15cb07f087e8531ddb60b4b8b998f26238e91f4bfc71a7d6746d228058e",
+					"category": "9c20ea491357cb328267650d5980214d7e04ca6d2434be6a4e2c546c34f20c03",
 					"decimals": 8,
 					"symbol": "FBCH-1058000"
 				},
@@ -3481,12 +3481,12 @@
 				}
 			}
 		},
-		"d33dad23f53e308ebf388808883019e0e67b0653abfd43fb9504b2f89d3e6fd4": {
-			"2026-05-07T00:00:00.000Z": {
+		"81ccd15cb07f087e8531ddb60b4b8b998f26238e91f4bfc71a7d6746d228058e": {
+			"2024-10-14T00:00:00.000Z": {
 				"name": "Future BCH 1,059,000",
 				"description": "A fungible token redeemable for Bitcoin Cash after block 1,059,000",
 				"token": {
-					"category": "d33dad23f53e308ebf388808883019e0e67b0653abfd43fb9504b2f89d3e6fd4",
+					"category": "81ccd15cb07f087e8531ddb60b4b8b998f26238e91f4bfc71a7d6746d228058e",
 					"decimals": 8,
 					"symbol": "FBCH-1059000"
 				},
@@ -3496,12 +3496,12 @@
 				}
 			}
 		},
-		"e92b1b380f0723546d476e0a4e232bdc9dfd2f88774da43e188ced660a3db72c": {
-			"2026-05-07T00:00:00.000Z": {
+		"ec22146f89e7c6edce93ca51f88fc4ce91dcbb7f47468cb1acf92acfed08ab39": {
+			"2024-10-14T00:00:00.000Z": {
 				"name": "Future BCH 1,061,000",
 				"description": "A fungible token redeemable for Bitcoin Cash after block 1,061,000",
 				"token": {
-					"category": "e92b1b380f0723546d476e0a4e232bdc9dfd2f88774da43e188ced660a3db72c",
+					"category": "ec22146f89e7c6edce93ca51f88fc4ce91dcbb7f47468cb1acf92acfed08ab39",
 					"decimals": 8,
 					"symbol": "FBCH-1061000"
 				},
@@ -3511,12 +3511,12 @@
 				}
 			}
 		},
-		"05ca4604bfe7dedcd994461f51de2ba1f850e341a6a8424fc40aaac8ebad80a2": {
-			"2026-05-07T00:00:00.000Z": {
+		"e92b1b380f0723546d476e0a4e232bdc9dfd2f88774da43e188ced660a3db72c": {
+			"2024-10-14T00:00:00.000Z": {
 				"name": "Future BCH 1,062,000",
 				"description": "A fungible token redeemable for Bitcoin Cash after block 1,062,000",
 				"token": {
-					"category": "05ca4604bfe7dedcd994461f51de2ba1f850e341a6a8424fc40aaac8ebad80a2",
+					"category": "e92b1b380f0723546d476e0a4e232bdc9dfd2f88774da43e188ced660a3db72c",
 					"decimals": 8,
 					"symbol": "FBCH-1062000"
 				},
@@ -3526,12 +3526,12 @@
 				}
 			}
 		},
-		"807915074669a8f8c7aa66bc51f923d2cc38a2b4a52faa5ffbb0b5484d17f0be": {
-			"2026-05-07T00:00:00.000Z": {
+		"05ca4604bfe7dedcd994461f51de2ba1f850e341a6a8424fc40aaac8ebad80a2": {
+			"2024-10-14T00:00:00.000Z": {
 				"name": "Future BCH 1,063,000",
 				"description": "A fungible token redeemable for Bitcoin Cash after block 1,063,000",
 				"token": {
-					"category": "807915074669a8f8c7aa66bc51f923d2cc38a2b4a52faa5ffbb0b5484d17f0be",
+					"category": "05ca4604bfe7dedcd994461f51de2ba1f850e341a6a8424fc40aaac8ebad80a2",
 					"decimals": 8,
 					"symbol": "FBCH-1063000"
 				},
@@ -3541,12 +3541,12 @@
 				}
 			}
 		},
-		"691bca5103c5cd307cc81977b89b56de8cf4ae250c58e14af58db6b98b578291": {
-			"2026-05-07T00:00:00.000Z": {
+		"807915074669a8f8c7aa66bc51f923d2cc38a2b4a52faa5ffbb0b5484d17f0be": {
+			"2024-10-14T00:00:00.000Z": {
 				"name": "Future BCH 1,064,000",
 				"description": "A fungible token redeemable for Bitcoin Cash after block 1,064,000",
 				"token": {
-					"category": "691bca5103c5cd307cc81977b89b56de8cf4ae250c58e14af58db6b98b578291",
+					"category": "807915074669a8f8c7aa66bc51f923d2cc38a2b4a52faa5ffbb0b5484d17f0be",
 					"decimals": 8,
 					"symbol": "FBCH-1064000"
 				},
@@ -3556,12 +3556,12 @@
 				}
 			}
 		},
-		"87be09a87d30bf84deaeccc8d4605ccafd853aae42aa2996f26177fc435906dd": {
-			"2026-05-07T00:00:00.000Z": {
+		"691bca5103c5cd307cc81977b89b56de8cf4ae250c58e14af58db6b98b578291": {
+			"2024-10-14T00:00:00.000Z": {
 				"name": "Future BCH 1,065,000",
 				"description": "A fungible token redeemable for Bitcoin Cash after block 1,065,000",
 				"token": {
-					"category": "87be09a87d30bf84deaeccc8d4605ccafd853aae42aa2996f26177fc435906dd",
+					"category": "691bca5103c5cd307cc81977b89b56de8cf4ae250c58e14af58db6b98b578291",
 					"decimals": 8,
 					"symbol": "FBCH-1065000"
 				},
@@ -3571,12 +3571,12 @@
 				}
 			}
 		},
-		"ef9453263a19270819b40b64654ecdb55db08afc30b638170eb360b32036db91": {
-			"2026-05-07T00:00:00.000Z": {
+		"87be09a87d30bf84deaeccc8d4605ccafd853aae42aa2996f26177fc435906dd": {
+			"2024-10-14T00:00:00.000Z": {
 				"name": "Future BCH 1,066,000",
 				"description": "A fungible token redeemable for Bitcoin Cash after block 1,066,000",
 				"token": {
-					"category": "ef9453263a19270819b40b64654ecdb55db08afc30b638170eb360b32036db91",
+					"category": "87be09a87d30bf84deaeccc8d4605ccafd853aae42aa2996f26177fc435906dd",
 					"decimals": 8,
 					"symbol": "FBCH-1066000"
 				},
@@ -3586,12 +3586,12 @@
 				}
 			}
 		},
-		"504c2efb24ca091d480db74d3fedd5c17d0e02964f0014c4bc25e5a2d0af365c": {
-			"2026-05-07T00:00:00.000Z": {
+		"ef9453263a19270819b40b64654ecdb55db08afc30b638170eb360b32036db91": {
+			"2024-10-14T00:00:00.000Z": {
 				"name": "Future BCH 1,067,000",
 				"description": "A fungible token redeemable for Bitcoin Cash after block 1,067,000",
 				"token": {
-					"category": "504c2efb24ca091d480db74d3fedd5c17d0e02964f0014c4bc25e5a2d0af365c",
+					"category": "ef9453263a19270819b40b64654ecdb55db08afc30b638170eb360b32036db91",
 					"decimals": 8,
 					"symbol": "FBCH-1067000"
 				},
@@ -3601,12 +3601,12 @@
 				}
 			}
 		},
-		"d24fad888dd72976a2c1ca9cdc18b59e606a3a5648941ebcaf02543a339d6580": {
-			"2026-05-07T00:00:00.000Z": {
+		"504c2efb24ca091d480db74d3fedd5c17d0e02964f0014c4bc25e5a2d0af365c": {
+			"2024-10-14T00:00:00.000Z": {
 				"name": "Future BCH 1,068,000",
 				"description": "A fungible token redeemable for Bitcoin Cash after block 1,068,000",
 				"token": {
-					"category": "d24fad888dd72976a2c1ca9cdc18b59e606a3a5648941ebcaf02543a339d6580",
+					"category": "504c2efb24ca091d480db74d3fedd5c17d0e02964f0014c4bc25e5a2d0af365c",
 					"decimals": 8,
 					"symbol": "FBCH-1068000"
 				},
@@ -3616,12 +3616,12 @@
 				}
 			}
 		},
-		"299ec70139b41fad5df08b84baef3f69d44384f015d62429cdec2621387cc6e2": {
-			"2026-05-07T00:00:00.000Z": {
+		"d24fad888dd72976a2c1ca9cdc18b59e606a3a5648941ebcaf02543a339d6580": {
+			"2024-10-14T00:00:00.000Z": {
 				"name": "Future BCH 1,069,000",
 				"description": "A fungible token redeemable for Bitcoin Cash after block 1,069,000",
 				"token": {
-					"category": "299ec70139b41fad5df08b84baef3f69d44384f015d62429cdec2621387cc6e2",
+					"category": "d24fad888dd72976a2c1ca9cdc18b59e606a3a5648941ebcaf02543a339d6580",
 					"decimals": 8,
 					"symbol": "FBCH-1069000"
 				},
@@ -3631,12 +3631,12 @@
 				}
 			}
 		},
-		"d7886046cf2a491f24fc220b63126707ea5ae224c35f1053988218c5787b7309": {
-			"2026-05-07T00:00:00.000Z": {
+		"719ad2e737733e972134b074eb57ec665ba7196d8795a4d7fe17e41cd597e985": {
+			"2024-10-14T00:00:00.000Z": {
 				"name": "Future BCH 1,071,000",
 				"description": "A fungible token redeemable for Bitcoin Cash after block 1,071,000",
 				"token": {
-					"category": "d7886046cf2a491f24fc220b63126707ea5ae224c35f1053988218c5787b7309",
+					"category": "719ad2e737733e972134b074eb57ec665ba7196d8795a4d7fe17e41cd597e985",
 					"decimals": 8,
 					"symbol": "FBCH-1071000"
 				},
@@ -3646,12 +3646,12 @@
 				}
 			}
 		},
-		"7b8e4da71250abc35800a3a4a57883112dfcdce19e1c7575007043c68764090b": {
-			"2026-05-07T00:00:00.000Z": {
+		"d7886046cf2a491f24fc220b63126707ea5ae224c35f1053988218c5787b7309": {
+			"2024-10-14T00:00:00.000Z": {
 				"name": "Future BCH 1,072,000",
 				"description": "A fungible token redeemable for Bitcoin Cash after block 1,072,000",
 				"token": {
-					"category": "7b8e4da71250abc35800a3a4a57883112dfcdce19e1c7575007043c68764090b",
+					"category": "d7886046cf2a491f24fc220b63126707ea5ae224c35f1053988218c5787b7309",
 					"decimals": 8,
 					"symbol": "FBCH-1072000"
 				},
@@ -3661,12 +3661,12 @@
 				}
 			}
 		},
-		"04d350f63e7ad85495c3f877953bfea22b3456f6aba174982ebfb4f456780b36": {
-			"2026-05-07T00:00:00.000Z": {
+		"7b8e4da71250abc35800a3a4a57883112dfcdce19e1c7575007043c68764090b": {
+			"2024-10-14T00:00:00.000Z": {
 				"name": "Future BCH 1,073,000",
 				"description": "A fungible token redeemable for Bitcoin Cash after block 1,073,000",
 				"token": {
-					"category": "04d350f63e7ad85495c3f877953bfea22b3456f6aba174982ebfb4f456780b36",
+					"category": "7b8e4da71250abc35800a3a4a57883112dfcdce19e1c7575007043c68764090b",
 					"decimals": 8,
 					"symbol": "FBCH-1073000"
 				},
