@@ -158,7 +158,7 @@ export class Vault {
     // TODO fix-me
     static getAllCouponSeries(startTime: number, seriesTimes?): Map<string, CouponDataI> {
 
-        if(!seriesTimes) seriesTimes = VAULT_SERIES.map(e => this.getSeriesTimes(startTime-1000, e, e == 6 ? 4 : undefined)).flat()
+        if(!seriesTimes) seriesTimes = VAULT_SERIES.map(e => this.getSeriesTimes(startTime-1000, e, e == 6 ? 5 : undefined)).flat()
         seriesTimes = [...new Set(seriesTimes)]
         let amounts = COUPON_SERIES.map(c => Math.pow(10, c) * 1e8)
         let coupons = amounts.map(amount =>
