@@ -23,7 +23,7 @@
 			<div>
 				V<sub>{e}</sub> Series<br />
 				<div>
-					{#each Vault.getSeriesTimes(heightValue, e, e == 6 ? 4 : undefined) as time}
+					{#each Vault.getSeriesTimes(heightValue, e, e == 6 ? 5 : undefined) as time}
 						<div class="vaultPreview">
 							<a href="/v?block={time}">
 								<SeriesIcon {time} size="80" />
